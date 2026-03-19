@@ -98,6 +98,28 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-
 .price-tag{display:inline-flex;padding:.375rem .875rem;border-radius:8px;background:var(--green-50);color:var(--green-600);font-size:.8rem;font-weight:600}
 .price-card.featured .price-tag{background:var(--green-600);color:#fff}
 
+/* ─── HOW IT WORKS ─── */
+.how-it-works{padding:6rem 2rem;max-width:1200px;margin:0 auto}
+.steps-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.step-item{text-align:center;padding:1.5rem 1rem;position:relative}
+.step-item::after{content:'\2192';position:absolute;right:-8px;top:2.2rem;color:var(--green-200);font-size:1.25rem;font-weight:600}
+.step-item:last-child::after{display:none}
+.step-icon{width:48px;height:48px;border-radius:12px;background:var(--green-50);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;color:var(--green-600);font-size:1.25rem}
+.step-item h3{font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:.375rem}
+.step-item p{font-size:.85rem;color:var(--text-mid);line-height:1.55}
+
+/* ─── FAQ ─── */
+.faq{padding:6rem 2rem;max-width:1200px;margin:0 auto}
+.faq-list{max-width:720px}
+.faq-item{border-bottom:1px solid var(--green-50);overflow:hidden}
+.faq-item:first-child{border-top:1px solid var(--green-50)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 0;cursor:pointer;gap:1rem}
+.faq-q h3{font-size:1rem;font-weight:600;color:var(--navy);margin:0}
+.faq-q .faq-toggle{color:var(--green-200);font-size:1.5rem;font-weight:300;flex-shrink:0;transition:transform .3s ease;line-height:1}
+.faq-q.open .faq-toggle{transform:rotate(45deg)}
+.faq-a{font-size:.9rem;color:var(--text-mid);line-height:1.7;padding:0 0 1.25rem;display:none}
+.faq-a.open{display:block}
+
 /* ─── CTA ─── */
 .cta{padding:6rem 2rem;max-width:1200px;margin:0 auto}
 .cta-box{background:var(--navy);border-radius:24px;padding:4rem;display:flex;align-items:center;justify-content:space-between;gap:3rem;position:relative;overflow:hidden}
@@ -126,6 +148,8 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 @media(max-width:900px){
   .nav-links a:not(.btn){display:none}
   .hero{padding-top:7rem}
+  .steps-row{grid-template-columns:repeat(2,1fr)}
+  .step-item:nth-child(2)::after{display:none}
   .results-grid{grid-template-columns:repeat(2,1fr)}
   .about-grid{grid-template-columns:1fr}
   .pricing-grid{grid-template-columns:1fr}
@@ -134,6 +158,8 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   .footer-inner{flex-direction:column;gap:1rem;text-align:center}
 }
 @media(max-width:600px){
+  .steps-row{grid-template-columns:1fr}
+  .step-item::after{display:none}
   .results-grid{grid-template-columns:1fr 1fr}
 }
 </style>
@@ -208,6 +234,43 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       </div>
       <h3>QA strategy & process</h3>
       <p>Test planning, defect triage, release readiness, UAT coordination, and CI/CD quality gates — everything between code and production.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works fade-in" id="process">
+  <div class="section-label">How it works</div>
+  <div class="section-title">From first call to first sprint in days</div>
+  <div class="section-desc">No long onboarding. No ramp-up period. We move fast so you can too.</div>
+  <div class="steps-row">
+    <div class="step-item">
+      <div class="step-icon">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      </div>
+      <h3>Discovery call</h3>
+      <p>15 minutes to understand your product, team, and QA needs</p>
+    </div>
+    <div class="step-item">
+      <div class="step-icon">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      </div>
+      <h3>QA plan</h3>
+      <p>Scoped proposal delivered within 48 hours</p>
+    </div>
+    <div class="step-item">
+      <div class="step-icon">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <h3>Sprint integration</h3>
+      <p>We join your tools and start testing immediately</p>
+    </div>
+    <div class="step-item">
+      <div class="step-icon">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </div>
+      <h3>Ship confidently</h3>
+      <p>Clean releases with full coverage every sprint</p>
     </div>
   </div>
 </section>
@@ -293,6 +356,70 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <p>Defined scope, timeline, and deliverables. Ideal for launches, migrations, major releases, or building out your initial test suite.</p>
         <div class="price-tag">Best for: Launches & one-time needs</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq fade-in" id="faq">
+  <div class="section-label">FAQ</div>
+  <div class="section-title">Common questions</div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+        <h3>How fast can you start QA testing services?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">Most of our QA testing engagements kick off within a week of signing. Unlike hiring a full-time QA engineer, there's no lengthy recruiting or onboarding process. We're experienced contract QA engineers who have worked across dozens of tech stacks, so we plug into your software testing workflow and start contributing from day one. Whether you need manual testing services, API testing, or test automation, we ramp up fast.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+        <h3>Should I outsource QA testing or hire in-house?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">If you're a startup or mid-size company that needs quality assurance but can't justify a full-time hire, outsourcing QA is the smarter move. With a QA outsourcing partner like goGreenlit, you get senior-level software testing services without the overhead of salaries, benefits, and management. Many of our clients start by outsourcing QA testing to us while they search for a permanent hire, and some keep us on long-term because the flexibility works better for their team.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+        <h3>What QA testing tools and frameworks do you use?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">We work with the tools your engineering team already uses. For test management, that includes JIRA, TestRail, and Zephyr. For API testing, we use Postman and Swagger. For test automation, we build frameworks with Selenium WebDriver and Playwright. We also work with Jenkins, GitHub Actions, and other CI/CD tools to integrate software testing into your deployment pipeline. No tool migration required — we adapt to your stack.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+        <h3>Do I need QA testing for my startup?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">If your startup is shipping software to real users, you need quality assurance. Most early-stage startups rely on developers to do their own testing, which works until a critical bug hits production before a demo or funding round. Our QA consulting services are built for startups that need professional software testing without committing to a full-time QA team. We offer flexible, contract-based QA testing services that scale with your growth — from a few hours a week to full sprint coverage.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+        <h3>How much does it cost to outsource QA testing?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">The cost of outsourced QA testing depends on the scope of work and engagement model. Our weekly retainers start at 20 hours per week with competitive rates for senior-level QA engineers. For project-based software testing services, we scope the work upfront and give you a fixed quote. On-demand QA is available at an hourly rate. Compared to hiring a full-time quality assurance engineer (average $85K+ salary plus benefits), outsourcing QA testing services typically saves 40-60% while giving you access to more experienced testers. Book a call and we'll give you a clear quote within 48 hours.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+        <h3>Can you work within our Agile development process?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">Agile is how we prefer to work. We've spent over a decade embedded in Agile and Scrum teams, participating in sprint planning, daily standups, and retrospectives. Our QA consulting approach is designed to integrate seamlessly into your software development lifecycle. We deliver test results within your sprint cadence, provide release readiness sign-off, and continuously improve test coverage with each iteration. Whether you run two-week sprints or continuous delivery, our software testing services adapt to your process.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+        <h3>What types of software testing services do you offer?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">We provide comprehensive QA testing services including manual testing (functional, regression, smoke, sanity, exploratory, and end-to-end testing), API testing and data validation, test automation using Selenium and Playwright, and QA strategy consulting. Our software testing covers web applications, mobile apps, REST APIs, and database-level quality assurance. Whether you need a full QA team or a single contract QA engineer to supplement your existing staff, we tailor our services to fit.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+        <h3>Do you replace our QA team or supplement it?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">Both. Some clients outsource their entire QA function to us — we become their dedicated software testing team. Others hire us as contract QA engineers to augment their existing quality assurance team during peak releases, product launches, or while they're recruiting a full-time hire. We also work with dev agencies who need to offer QA testing services to their clients but don't have in-house testers. We adapt to whatever model works best for your team.</div>
     </div>
   </div>
 </section>
