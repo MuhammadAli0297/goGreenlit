@@ -37,8 +37,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-
 .btn-white:hover{background:var(--green-50);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.15)}
 
 /* ─── HERO ─── */
-.hero-wrap{background:linear-gradient(to right,#FAFCFB 0%,#E1F5EE 100%)}
-.hero{padding:10rem 2rem 6rem;max-width:1200px;margin:0 auto;position:relative}
+.hero-wrap{background:linear-gradient(to right,#FAFCFB 0%,#E1F5EE 100%);position:relative;overflow:hidden}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(40px);opacity:0;animation:orbFade 2s ease forwards}
+.hero-orb-1{width:350px;height:350px;background:rgba(159,225,203,.45);top:5%;right:5%;animation:orbFade 2s ease .5s forwards,orbFloat1 20s ease-in-out infinite 2.5s}
+.hero-orb-2{width:250px;height:250px;background:rgba(93,202,165,.35);bottom:10%;right:20%;animation:orbFade 2s ease 1s forwards,orbFloat2 25s ease-in-out infinite 3s}
+.hero-orb-3{width:300px;height:300px;background:rgba(29,158,117,.15);top:25%;right:25%;animation:orbFade 2s ease 1.5s forwards,orbFloat3 22s ease-in-out infinite 3.5s}
+.hero{padding:10rem 2rem 6rem;max-width:1200px;margin:0 auto;position:relative;z-index:1}
 .hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.375rem 1rem;border-radius:100px;background:var(--green-50);color:var(--green-600);font-size:.8rem;font-weight:600;margin-bottom:1.5rem;letter-spacing:.02em;animation:fadeUp .8s ease both}
 .hero-badge span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green-400);animation:pulse 2s ease infinite}
 .hero h1{font-family:var(--font-display);font-size:clamp(2.75rem,6vw,4.5rem);line-height:1.08;color:var(--navy);margin-bottom:1.5rem;font-weight:400;max-width:800px;animation:fadeUp .8s ease .1s both}
@@ -162,6 +166,10 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 /* ─── ANIMATIONS ─── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes orbFade{from{opacity:0}to{opacity:1}}
+@keyframes orbFloat1{0%,100%{transform:translate(0,0)}25%{transform:translate(-30px,20px)}50%{transform:translate(-15px,-25px)}75%{transform:translate(20px,15px)}}
+@keyframes orbFloat2{0%,100%{transform:translate(0,0)}25%{transform:translate(20px,-15px)}50%{transform:translate(-25px,-20px)}75%{transform:translate(-10px,25px)}}
+@keyframes orbFloat3{0%,100%{transform:translate(0,0)}25%{transform:translate(-20px,-20px)}50%{transform:translate(25px,15px)}75%{transform:translate(15px,-25px)}}
 .fade-in{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
 .fade-in.visible{opacity:1;transform:translateY(0)}
 
@@ -169,6 +177,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 @media(max-width:900px){
   .nav-links a:not(.btn){display:none}
   .hero{padding-top:7rem}
+  .hero-orb{display:none}
   .steps-row{grid-template-columns:repeat(2,1fr)}
   .step-item:nth-child(2)::after{display:none}
   .results-grid{grid-template-columns:repeat(2,1fr)}
@@ -213,6 +222,9 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 
 <!-- HERO -->
 <div class="hero-wrap">
+<div class="hero-orb hero-orb-1"></div>
+<div class="hero-orb hero-orb-2"></div>
+<div class="hero-orb hero-orb-3"></div>
 <section class="hero">
   <div class="hero-badge"><span></span> Now accepting new clients</div>
   <h1>Ship software with <em>confidence,</em> not crossed fingers</h1>
@@ -309,7 +321,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
     <div class="section-title">Numbers that speak for themselves</div>
     <div class="results-grid">
       <div class="result-item">
-        <div class="result-num">18+</div>
+        <div class="result-num" data-count="18" data-suffix="+">0</div>
         <div class="result-label">Combined years of QA experience across enterprise and startup platforms</div>
       </div>
       <div class="result-item">
@@ -317,11 +329,11 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <div class="result-label">Revenue supported by products we tested before launch</div>
       </div>
       <div class="result-item">
-        <div class="result-num">45%</div>
+        <div class="result-num" data-count="45" data-suffix="%">0</div>
         <div class="result-label">Reduction in escaped defects through tighter coverage and process</div>
       </div>
       <div class="result-item">
-        <div class="result-num">95%</div>
+        <div class="result-num" data-count="95" data-suffix="%">0</div>
         <div class="result-label">Release coverage achieved across critical workflows</div>
       </div>
     </div>
@@ -495,10 +507,35 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 </footer>
 
 <script>
+/* Fade-in on scroll */
 const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
 }, { threshold: 0.1 });
 document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+/* Counter animation */
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      const target = parseInt(el.dataset.count);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const duration = 2000;
+      const start = performance.now();
+      const step = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(eased * target);
+        el.textContent = prefix + current + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+      counterObs.unobserve(el);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.result-num[data-count]').forEach(el => counterObs.observe(el));
 </script>
 
 </body>
