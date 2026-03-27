@@ -206,7 +206,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a href="#" class="nav-logo">
+    <a href="/" class="nav-logo">
       <svg viewBox="0 0 210 32" height="28">
         <rect x="2" y="4" width="24" height="24" rx="6" fill="#0F6E56"/>
         <path d="M10 11L20 16L10 21Z" fill="#E1F5EE"/>
@@ -216,11 +216,12 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       </svg>
     </a>
     <div class="nav-links">
-      <a href="#services">Services</a>
+      <a href="/software-testing-services/">Services</a>
+      <a href="/qa-consulting/">QA Consulting</a>
       <a href="#results">Results</a>
       <a href="#about">About</a>
       <a href="#pricing">Pricing</a>
-      <a href="mailto:gogreenlit@gmail.com" class="btn btn-primary">Book a call</a>
+      <a href="/cdn-cgi/l/email-protection#84e3ebe3f6e1e1eae8edf0c4e3e9e5ede8aae7ebe9" class="btn btn-primary">Book a call</a>
     </div>
   </div>
 </nav>
@@ -235,7 +236,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   <h1>Ship software with <em>confidence,</em> not crossed fingers</h1>
   <p>goGreenlit is a QA consultancy built by two senior engineers with 18+ years of combined experience. We plug into your sprint cycle and own quality — so your team can focus on building.</p>
   <div class="hero-actions">
-    <a href="mailto:gogreenlit@gmail.com" class="btn btn-primary">Book a discovery call →</a>
+    <a href="/cdn-cgi/l/email-protection#bcdbd3dbced9d9d2d0d5c8fcdbd1ddd5d092dfd3d1" class="btn btn-primary">Book a discovery call →</a>
     <a href="#services" class="btn btn-outline">See our services</a>
   </div>
 </section>
@@ -277,6 +278,10 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       <p>Test planning, defect triage, release readiness, UAT coordination, and CI/CD quality gates — everything between code and production.</p>
     </div>
   </div>
+  <div style="margin-top:2.5rem">
+    <a href="/software-testing-services/" class="btn btn-primary">See all software testing services →</a>
+    <a href="/qa-consulting/" class="btn btn-outline" style="margin-left:1rem">QA Consulting →</a>
+  </div>
 </section>
 </div>
 
@@ -315,6 +320,9 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       <h3>Ship confidently</h3>
       <p>Clean releases with full coverage every sprint</p>
     </div>
+  </div>
+  <div style="margin-top:3rem;text-align:center">
+    <a href="/software-testing-services/" class="btn btn-primary">See how we test your product →</a>
   </div>
 </section>
 </div>
@@ -481,8 +489,8 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       <p>Let's talk about how goGreenlit can support your next release. No pressure — just a 15-minute conversation to see if there's a fit.</p>
     </div>
     <div class="cta-actions">
-      <a href="mailto:gogreenlit@gmail.com" class="btn btn-white">Book a discovery call →</a>
-      <a href="mailto:gogreenlit@gmail.com" class="btn btn-outline" style="border-color:rgba(255,255,255,.2);color:#fff">gogreenlit@gmail.com</a>
+      <a href="/cdn-cgi/l/email-protection#c1a6aea6b3a4a4afada8b581a6aca0a8adefa2aeac" class="btn btn-white">Book a discovery call →</a>
+      <a href="/cdn-cgi/l/email-protection#fa9d959d889f9f9496938eba9d979b9396d4999597" class="btn btn-outline" style="border-color:rgba(255,255,255,.2);color:#fff"><span class="__cf_email__" data-cfemail="82e5ede5f0e7e7eceeebf6c2e5efe3ebeeace1edef">[email&#160;protected]</span></a>
     </div>
   </div>
 </section>
@@ -501,7 +509,8 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       </svg>
     </div>
     <div class="footer-links">
-      <a href="#services">Services</a>
+      <a href="/software-testing-services/">Software Testing</a>
+      <a href="/qa-consulting/">QA Consulting</a>
       <a href="#results">Results</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
@@ -510,38 +519,44 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
     <div class="footer-copy">© 2026 goGreenlit LLC. Chicago, IL.</div>
   </div>
 </footer>
-
 <script>
-/* Fade-in on scroll */
+/* Fade-in on scroll — excludes .how-it-works so its step delays are preserved */
 const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); }});
-}, { threshold: 0.1 });
-document.querySelectorAll('.fade-in,.how-it-works').forEach(el => obs.observe(el));
+}, { threshold: 0, rootMargin: "0px 0px -50px 0px" });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 
-/* Counter animation */
+/* How it works — separate observer so step stagger delays work on scroll */
+const howObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); howObs.unobserve(e.target); }});
+}, { threshold: 0.15 });
+document.querySelectorAll('.how-it-works').forEach(el => howObs.observe(el));
+
+/* Fallback: show fade-in sections after 300ms (not .how-it-works — let that scroll-trigger) */
+setTimeout(() => { document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible')); }, 300);
+
+/* Counter animation for Proven Results */
 const counterObs = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       const el = e.target;
       const target = parseInt(el.dataset.count);
-      const prefix = el.dataset.prefix || '';
       const suffix = el.dataset.suffix || '';
       const duration = 2000;
       const start = performance.now();
       const step = (now) => {
         const progress = Math.min((now - start) / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
-        const current = Math.floor(eased * target);
-        el.textContent = prefix + current + suffix;
+        const current = Math.round(eased * target);
+        el.textContent = current + suffix;
         if (progress < 1) requestAnimationFrame(step);
       };
       requestAnimationFrame(step);
       counterObs.unobserve(el);
     }
   });
-}, { threshold: 0.3 });
-document.querySelectorAll('.result-num[data-count]').forEach(el => counterObs.observe(el));
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach(el => counterObs.observe(el));
 </script>
-
 </body>
 </html>
