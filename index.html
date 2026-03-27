@@ -120,7 +120,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-
 .how-it-works-wrap::after{content:'';position:absolute;top:-80px;left:-80px;width:300px;height:300px;border-radius:50%;background:rgba(29,158,117,.06);pointer-events:none}
 .how-it-works{padding:6rem 2rem;max-width:1200px;margin:0 auto;position:relative;z-index:1}
 .steps-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
-.step-item{text-align:center;padding:1.5rem 1rem;position:relative}
+.step-item{text-align:center;padding:1.5rem 1rem;position:relative;opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.how-it-works.visible .step-item{opacity:1;transform:translateY(0)}
+.how-it-works.visible .step-item:nth-child(1){transition-delay:0s}
+.how-it-works.visible .step-item:nth-child(2){transition-delay:.3s}
+.how-it-works.visible .step-item:nth-child(3){transition-delay:.6s}
+.how-it-works.visible .step-item:nth-child(4){transition-delay:.9s}
 .step-item::after{content:'\2192';position:absolute;right:-8px;top:2.2rem;color:var(--green-200);font-size:1.25rem;font-weight:600}
 .step-item:last-child::after{display:none}
 .step-icon{width:48px;height:48px;border-radius:12px;background:#fff;border:1px solid rgba(15,110,86,.08);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;color:var(--green-600);font-size:1.25rem;transition:all .3s ease}
@@ -277,7 +282,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 
 <!-- HOW IT WORKS -->
 <div class="how-it-works-wrap">
-<section class="how-it-works fade-in" id="process">
+<section class="how-it-works" id="process">
   <div class="section-label">How it works</div>
   <div class="section-title">From first call to first sprint in days</div>
   <div class="section-desc">No long onboarding. No ramp-up period. We move fast so you can too.</div>
@@ -509,9 +514,9 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 <script>
 /* Fade-in on scroll */
 const obs = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); }});
 }, { threshold: 0.1 });
-document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+document.querySelectorAll('.fade-in,.how-it-works').forEach(el => obs.observe(el));
 
 /* Counter animation */
 const counterObs = new IntersectionObserver((entries) => {
