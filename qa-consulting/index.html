@@ -159,11 +159,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-
 .btn-white:hover{background:var(--green-50);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.15)}
 
 /* ─── BREADCRUMB ─── */
-.breadcrumb-wrap{background:var(--bg);border-bottom:1px solid rgba(15,110,86,.06);margin-top:65px!important}
-.breadcrumb{max-width:1200px;margin:0 auto;padding:.75rem 2rem;display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--text-light)}
+.breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--text-light)}
 .breadcrumb a{color:var(--text-light);text-decoration:none;transition:color .2s}
 .breadcrumb a:hover{color:var(--green-600)}
-.breadcrumb span{color:var(--text-light)}
 .breadcrumb .current{color:var(--text-mid);font-weight:500}
 
 /* ─── HERO ─── */
@@ -172,7 +170,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-
 .hero-orb-1{width:350px;height:350px;background:rgba(159,225,203,.45);top:5%;right:5%;animation:orbFade 2s ease .5s forwards,orbFloat1 20s ease-in-out infinite 2.5s}
 .hero-orb-2{width:250px;height:250px;background:rgba(93,202,165,.35);bottom:10%;right:20%;animation:orbFade 2s ease 1s forwards,orbFloat2 25s ease-in-out infinite 3s}
 .hero-orb-3{width:300px;height:300px;background:rgba(29,158,117,.15);top:25%;right:25%;animation:orbFade 2s ease 1.5s forwards,orbFloat3 22s ease-in-out infinite 3.5s}
-.hero{padding:5rem 2rem 6rem;max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.hero{padding:8rem 2rem 6rem;max-width:1200px;margin:0 auto;position:relative;z-index:1}
 .hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.375rem 1rem;border-radius:100px;background:var(--green-50);color:var(--green-600);font-size:.8rem;font-weight:600;margin-bottom:1.5rem;letter-spacing:.02em;animation:fadeUp .8s ease both}
 .hero-badge span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green-400);animation:pulse 2s ease infinite}
 .hero h1{font-family:var(--font-display);font-size:clamp(2.5rem,5.5vw,4rem);line-height:1.1;color:var(--navy);margin-bottom:1.5rem;font-weight:400;max-width:780px;animation:fadeUp .8s ease .1s both}
@@ -380,21 +378,17 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   </div>
 </nav>
 
-<!-- BREADCRUMB -->
-<div class="breadcrumb-wrap">
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="/">Home</a>
-    <span aria-hidden="true">›</span>
-    <span class="current">QA Consulting</span>
-  </nav>
-</div>
-
 <!-- HERO -->
 <div class="hero-wrap">
   <div class="hero-orb hero-orb-1"></div>
   <div class="hero-orb hero-orb-2"></div>
   <div class="hero-orb hero-orb-3"></div>
   <section class="hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb" style="margin-bottom:1.5rem">
+      <a href="/">Home</a>
+      <span aria-hidden="true" style="margin:0 .4rem">›</span>
+      <span class="current">QA Consulting</span>
+    </nav>
     <div class="hero-badge"><span></span> US-based · Chicago, IL</div>
     <!-- H1: primary keyword target -->
     <h1>QA Consulting Services That Build <em>Quality Into</em> Your Engineering Process</h1>
