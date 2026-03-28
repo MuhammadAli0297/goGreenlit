@@ -205,12 +205,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-
 
 /* ─── FOOTER ─── */
 footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
-.footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:1.25rem}
+.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
 .footer-logo svg{height:22px;width:auto;opacity:.6}
-.footer-links{display:flex;gap:2rem}
+.footer-links{display:flex;gap:2rem;flex-wrap:wrap}
 .footer-links a{font-size:.8rem;color:var(--text-light);text-decoration:none;transition:color .2s}
 .footer-links a:hover{color:var(--green-600)}
 .footer-copy{font-size:.8rem;color:var(--text-light)}
+.footer-tagline{font-size:.72rem;color:var(--text-light);opacity:.7;padding-top:.75rem;border-top:1px solid rgba(15,110,86,.06)}
 
 .section-orb{position:absolute;border-radius:50%;filter:blur(40px);pointer-events:none}
 .section-orb-a{width:320px;height:320px;background:rgba(93,202,165,.07)}
@@ -241,7 +243,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   .pricing-grid{grid-template-columns:1fr}
   .cta-box{flex-direction:column;text-align:center;padding:3rem 2rem}
   .cta-actions{align-items:center}
-  .footer-inner{flex-direction:column;gap:1rem;text-align:center}
+  .footer-top{flex-direction:column;gap:1rem;text-align:center}
 }
 @media(max-width:600px){
   .steps-row{grid-template-columns:1fr}
@@ -382,7 +384,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   <div class="hero-badge"><span></span> Now accepting new clients</div>
   <h1>Ship software with <em>confidence,</em> not crossed fingers</h1>
   <p class="hero-sub">Outsourced software testing services and QA consulting for startups, SaaS teams and scaling engineering orgs.</p>
-  <p>goGreenlit is a QA consultancy built by two senior contract QA engineers with 18+ years of combined experience. We plug into your sprint cycle and own quality, so your team can stay focused on building.</p>
+  <p>goGreenlit is a Chicago-based outsourced QA company built by two senior contract QA engineers with 18+ years of combined experience. We plug into your sprint cycle and own quality, so your team can stay focused on building.</p>
   <div class="hero-actions">
     <a href="mailto:gogreenlit@gmail.com" class="btn btn-primary">Book a discovery call →</a>
     <a href="#services" class="btn btn-outline">See our services</a>
@@ -396,7 +398,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 <section class="services fade-in" id="services">
   <div class="section-label">What we do</div>
   <h2 class="section-title">End-to-end QA, on demand</h2>
-  <div class="section-desc">We don't just find bugs. We own quality across your entire release process, from test strategy to production sign-off.</div>
+  <div class="section-desc">We don't just find bugs. As a US-based outsourced QA company, we own quality across your entire release process, from test strategy to production sign-off.</div>
   <div class="services-grid">
     <div class="service-card">
       <div class="service-icon">
@@ -440,7 +442,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 <section class="who fade-in" id="who-we-work-with">
   <div class="section-label">Who we work with</div>
   <h2 class="section-title">Built for teams at every stage of growth</h2>
-  <p class="section-desc" style="margin-bottom:0">Every team we work with ships real software to real users. Here is who gets the most out of our outsourced QA and software testing services.</p>
+  <p class="section-desc" style="margin-bottom:0">Every team we work with ships real software to real users. Here is who gets the most out of our Chicago outsourced QA and software testing services.</p>
   <div class="who-grid">
 
     <div class="who-card">
@@ -588,12 +590,12 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
     <div class="about-text">
       <div class="section-label">Who we are</div>
       <h2 class="section-title">Built on a decade of QA leadership</h2>
-      <div class="section-desc">goGreenlit was founded by two senior QA engineers who spent years leading quality across enterprise platforms, healthcare applications, and distribution systems. We bring the rigor of in-house QA leadership to your team, on demand and without the overhead.</div>
-      <div class="section-desc">We integrate directly into your Agile workflow, attending standups, using your tools (JIRA, Slack, TestRail), and delivering within your sprint cadence.</div>
+      <div class="section-desc">goGreenlit is a Chicago, IL QA consulting firm founded by two senior QA engineers who spent years leading quality across enterprise platforms, healthcare applications, and distribution systems. We bring the rigor of enterprise QA consulting to your team, on demand and without the overhead.</div>
+      <div class="section-desc">As your outsourced QA team, we integrate directly into your Agile workflow, attending standups, using your tools (JIRA, Slack, TestRail), and delivering within your sprint cadence.</div>
     </div>
     <div class="founders">
       <div class="founder-card">
-        <div class="founder-avatar"><img src="/khan-headshot.jpg" alt="Mohammad Khan" loading="lazy"></div>
+        <div class="founder-avatar"><img src="/khan-headshot.jpg" alt="Mohammad Khan" loading="lazy" width="72" height="72"></div>
         <div class="founder-info">
           <h3>Mohammad Khan</h3>
           <div class="role">Co-Founder & Lead Automation QA Engineer</div>
@@ -601,7 +603,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         </div>
       </div>
       <div class="founder-card">
-        <div class="founder-avatar"><img src="/ali-headshot.jpg" alt="Muhammad Ali" loading="lazy"></div>
+        <div class="founder-avatar"><img src="/ali-headshot.jpg" alt="Muhammad Ali" loading="lazy" width="72" height="72"></div>
         <div class="founder-info">
           <h3>Muhammad Ali</h3>
           <div class="role">Co-Founder & QA Manager</div>
@@ -697,7 +699,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <h3>What types of software testing services do you offer?</h3>
         <span class="faq-toggle">+</span>
       </div>
-      <div class="faq-a">We provide comprehensive QA testing services including manual testing (functional, regression, smoke, sanity, exploratory, and end-to-end testing), API testing and data validation, test automation using Selenium and Playwright, and QA strategy consulting. Our software testing covers web applications, mobile apps, REST APIs, and database-level quality assurance. Whether you need a full QA team or a single contract QA engineer to supplement your existing staff, we tailor our services to fit.</div>
+      <div class="faq-a">We provide comprehensive QA testing services including manual testing (functional, regression, smoke, sanity, exploratory, and end-to-end testing), API testing and data validation, test automation using Selenium and Playwright, and QA strategy consulting. Our software testing covers web applications, mobile apps, REST APIs, and database-level quality assurance. As a full-service QA company, whether you need a full QA team or a single contract QA engineer to supplement your existing staff, we tailor our services to fit.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
@@ -716,7 +718,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   <div class="cta-box">
     <div class="cta-content">
       <h2>Ready to ship with confidence?</h2>
-      <p>Let's talk about how goGreenlit can support your next release. No sales pitch, just a 15-minute conversation to see if there's a fit.</p>
+      <p>Let's talk about how goGreenlit, Chicago's outsourced QA consulting partner, can support your next release. No sales pitch, just a 15-minute conversation to see if there's a fit.</p>
     </div>
     <div class="cta-actions">
       <a href="mailto:gogreenlit@gmail.com" class="btn btn-white">Book a discovery call →</a>
@@ -729,24 +731,27 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <div class="footer-logo">
-      <svg viewBox="0 0 210 32" height="22" style="opacity:.5">
-        <rect x="2" y="4" width="24" height="24" rx="6" fill="#0F6E56"/>
-        <path d="M10 11L20 16L10 21Z" fill="#E1F5EE"/>
-        <text x="34" y="23" font-family="'DM Sans','Helvetica Neue',sans-serif" font-size="20" letter-spacing="-0.3">
-          <tspan fill="#5DCAA5" font-weight="300">go</tspan><tspan fill="#0F6E56" font-weight="600">Greenlit</tspan>
-        </text>
-      </svg>
+    <div class="footer-top">
+      <div class="footer-logo">
+        <svg viewBox="0 0 210 32" height="22" style="opacity:.5">
+          <rect x="2" y="4" width="24" height="24" rx="6" fill="#0F6E56"/>
+          <path d="M10 11L20 16L10 21Z" fill="#E1F5EE"/>
+          <text x="34" y="23" font-family="'DM Sans','Helvetica Neue',sans-serif" font-size="20" letter-spacing="-0.3">
+            <tspan fill="#5DCAA5" font-weight="300">go</tspan><tspan fill="#0F6E56" font-weight="600">Greenlit</tspan>
+          </text>
+        </svg>
+      </div>
+      <div class="footer-links">
+        <a href="/software-testing-services/">Software Testing</a>
+        <a href="/qa-consulting/">QA Consulting</a>
+        <a href="#results">Results</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="https://www.linkedin.com/company/gogreenlit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+      <div class="footer-copy">© 2026 goGreenlit LLC. Chicago, IL.</div>
     </div>
-    <div class="footer-links">
-      <a href="/software-testing-services/">Software Testing</a>
-      <a href="/qa-consulting/">QA Consulting</a>
-      <a href="#results">Results</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-      <a href="https://www.linkedin.com/company/gogreenlit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-    </div>
-    <div class="footer-copy">© 2026 goGreenlit LLC. Chicago, IL.</div>
+    <div class="footer-tagline">goGreenlit is a Chicago, IL QA company offering outsourced QA consulting services for engineering teams.</div>
   </div>
 </footer>
 <script>
