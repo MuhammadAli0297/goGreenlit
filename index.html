@@ -104,6 +104,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-
 /* ─── ABOUT / FOUNDERS ─── */
 .about-wrap{position:relative;overflow:hidden;background:linear-gradient(135deg,#FAFCFB 0%,#F3FBF7 100%)}
 .about-wrap::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,transparent,transparent 40px,rgba(15,110,86,.02) 40px,rgba(15,110,86,.02) 41px);pointer-events:none}
+.about-wrap::after{content:'';position:absolute;bottom:-100px;right:-80px;width:360px;height:360px;border-radius:50%;background:rgba(93,202,165,.05);filter:blur(40px);pointer-events:none}
 .about{padding:6rem 2rem;max-width:1200px;margin:0 auto;position:relative;z-index:1}
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
 .about-text{position:relative;padding-left:1.5rem;border-left:3px solid var(--green-200)}
@@ -120,6 +121,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-
 /* ─── ENGAGEMENT MODELS ─── */
 .pricing{padding:6rem 2rem;background:var(--green-50);position:relative;overflow:hidden}
 .pricing::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(15,110,86,.04) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+.pricing::after{content:'';position:absolute;bottom:-100px;left:-80px;width:350px;height:350px;border-radius:50%;background:rgba(29,158,117,.05);filter:blur(40px);pointer-events:none}
 .pricing-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1}
 .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
 .price-card{background:var(--card);border:1px solid rgba(15,110,86,.08);border-radius:16px;padding:2.5rem 2rem;position:relative;transition:all .3s ease}
@@ -136,6 +138,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-
 /* ─── WHO WE WORK WITH ─── */
 .who-wrap{background:var(--bg);position:relative;overflow:hidden}
 .who-wrap::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(15,110,86,.03) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+.who-wrap::after{content:'';position:absolute;bottom:-100px;right:-80px;width:340px;height:340px;border-radius:50%;background:rgba(29,158,117,.04);filter:blur(40px);pointer-events:none}
 .who{padding:6rem 2rem;max-width:1200px;margin:0 auto;position:relative;z-index:1}
 .who-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:3rem}
 .who-card{
@@ -209,6 +212,11 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 .footer-links a:hover{color:var(--green-600)}
 .footer-copy{font-size:.8rem;color:var(--text-light)}
 
+.section-orb{position:absolute;border-radius:50%;filter:blur(40px);pointer-events:none}
+.section-orb-a{width:320px;height:320px;background:rgba(93,202,165,.07)}
+.section-orb-b{width:260px;height:260px;background:rgba(29,158,117,.05)}
+.section-orb-c{width:280px;height:280px;background:rgba(93,202,165,.06)}
+.section-orb-d{width:240px;height:240px;background:rgba(29,158,117,.06)}
 /* ─── ANIMATIONS ─── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
@@ -363,6 +371,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 
 <!-- SERVICES -->
 <div class="services-wrap">
+<div class="section-orb section-orb-b" style="top:-80px;left:-60px"></div>
 <section class="services fade-in" id="services">
   <div class="section-label">What we do</div>
   <h2 class="section-title">End-to-end QA, on demand</h2>
@@ -406,6 +415,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 
 <!-- WHO WE WORK WITH -->
 <div class="who-wrap">
+<div class="section-orb section-orb-c" style="top:-70px;left:-60px"></div>
 <section class="who fade-in" id="who-we-work-with">
   <div class="section-label">Who we work with</div>
   <h2 class="section-title">Built for teams at every stage of growth</h2>
@@ -482,6 +492,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 
 <!-- HOW IT WORKS -->
 <div class="how-it-works-wrap">
+<div class="section-orb section-orb-a" style="bottom:-100px;right:-80px"></div>
 <section class="how-it-works" id="process">
   <div class="section-label">How it works</div>
   <h2 class="section-title">From first call to first sprint in days</h2>
@@ -550,6 +561,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 
 <!-- ABOUT -->
 <div class="about-wrap">
+<div class="section-orb section-orb-d" style="top:-80px;left:-60px"></div>
 <section class="about fade-in" id="about">
   <div class="about-grid">
     <div class="about-text">
@@ -582,6 +594,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 
 <!-- PRICING -->
 <section class="pricing fade-in" id="pricing">
+  <div class="section-orb section-orb-b" style="top:-80px;right:-60px"></div>
   <div class="pricing-inner">
     <div class="section-label">Engagement models</div>
     <h2 class="section-title">Flexible options to fit your needs</h2>
@@ -611,6 +624,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 
 <!-- FAQ -->
 <div class="faq-wrap">
+<div class="section-orb section-orb-a" style="bottom:-100px;right:-70px"></div>
 <section class="faq fade-in" id="faq">
   <div class="section-label">FAQ</div>
   <h2 class="section-title">Common questions</h2>
