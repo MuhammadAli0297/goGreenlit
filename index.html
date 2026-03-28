@@ -132,6 +132,29 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-
 .price-tag{display:inline-flex;padding:.375rem .875rem;border-radius:8px;background:var(--green-50);color:var(--green-600);font-size:.8rem;font-weight:600}
 .price-card.featured .price-tag{background:var(--green-600);color:#fff}
 
+
+/* ─── WHO WE WORK WITH ─── */
+.who-wrap{background:var(--bg);position:relative;overflow:hidden}
+.who-wrap::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(15,110,86,.03) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+.who{padding:6rem 2rem;max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.who-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:3rem}
+.who-card{
+  background:var(--green-50);
+  background-image:radial-gradient(circle,rgba(15,110,86,.06) 1px,transparent 1px);
+  background-size:22px 22px;
+  border:1px solid rgba(15,110,86,.14);
+  border-radius:16px;padding:2rem;transition:all .35s ease;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:1rem}
+.who-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green-200),var(--green-600));transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+.who-card:hover{transform:translateY(-4px);box-shadow:0 14px 44px rgba(15,110,86,.1);border-color:var(--green-400);background-color:#cde9d9}
+.who-card:hover::before{transform:scaleX(1)}
+.who-card-header{display:flex;align-items:center;gap:1rem}
+.who-icon{width:48px;height:48px;border-radius:12px;background:#fff;box-shadow:0 2px 8px rgba(15,110,86,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--green-600)}
+.who-icon svg{display:block;width:22px;height:22px;flex-shrink:0}
+.who-card h3{font-size:1.1rem;font-weight:600;color:var(--navy);margin:0;line-height:1.3}
+.who-card p{font-size:.9rem;color:var(--text-mid);line-height:1.65;margin:0}
+.who-tag{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:600;color:var(--green-600);background:#fff;padding:.3rem .75rem;border-radius:100px;width:fit-content;border:1px solid rgba(15,110,86,.15)}
+.who-tag svg{display:block;width:11px;height:11px;flex-shrink:0}
+@media(max-width:900px){.who-grid{grid-template-columns:1fr}}
 /* ─── HOW IT WORKS ─── */
 .how-it-works-wrap{background:var(--green-50);position:relative;overflow:hidden}
 .how-it-works-wrap::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(15,110,86,.06) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
@@ -377,6 +400,82 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   <div style="margin-top:2.5rem">
     <a href="/software-testing-services/" class="btn btn-primary">See all software testing services →</a>
     <a href="/qa-consulting/" class="btn btn-outline" style="margin-left:1rem">QA Consulting →</a>
+  </div>
+</section>
+</div>
+
+<!-- WHO WE WORK WITH -->
+<div class="who-wrap">
+<section class="who fade-in" id="who-we-work-with">
+  <div class="section-label">Who we work with</div>
+  <h2 class="section-title">Built for teams at every stage of growth</h2>
+  <p class="section-desc" style="margin-bottom:0">Every team we work with ships real software to real users. Here is who gets the most out of our outsourced QA and software testing services.</p>
+  <div class="who-grid">
+
+    <div class="who-card">
+      <div class="who-card-header">
+        <div class="who-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+        </div>
+        <h3>Early-stage startups</h3>
+      </div>
+      <p>You are moving fast and your developers are testing their own code. That works until it doesn't. A critical bug before a demo or a broken payment flow on launch day can derail months of work. We give pre-Series A teams access to senior software quality assurance coverage without the full-time headcount cost. Most QA testing engagements start within a week and run on-demand, so you pay only for what you need.</p>
+      <span class="who-tag">
+        <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        On-demand outsourced QA from $100/hr
+      </span>
+    </div>
+
+    <div class="who-card">
+      <div class="who-card-header">
+        <div class="who-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+        </div>
+        <h3>Series A and B companies</h3>
+      </div>
+      <p>You have found product-market fit and your engineering team is scaling. Release frequency is up, the product surface area is growing, and your QA coverage has not kept pace. We embed in your sprint cycle as a senior QA layer, writing test strategy, building Playwright and Selenium automation, and owning release readiness so your team keeps shipping without software quality slipping.</p>
+      <span class="who-tag">
+        <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Weekly QA retainer from $85/hr
+      </span>
+    </div>
+
+    <div class="who-card">
+      <div class="who-card-header">
+        <div class="who-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <h3>SaaS companies</h3>
+      </div>
+      <p>SaaS products live and die by reliability. A regression in your billing flow or a broken API integration can trigger churn before your support team even knows it happened. We bring API testing, automated regression suites, and structured release sign-off to SaaS teams that need consistent software testing services across every sprint, not just before major launches.</p>
+      <span class="who-tag">
+        <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Regression testing and test automation coverage
+      </span>
+    </div>
+
+    <div class="who-card">
+      <div class="who-card-header">
+        <div class="who-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3>Development agencies</h3>
+      </div>
+      <p>You build products for clients and QA is handled ad-hoc by your developers or shipped as a gap. We work as a white-label QA consulting partner for agencies, joining client projects directly, integrating with your existing Agile workflow, and providing the kind of structured software quality assurance that turns one-off engagements into long-term client relationships.</p>
+      <span class="who-tag">
+        <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Project-based and retainer QA options
+      </span>
+    </div>
+
   </div>
 </section>
 </div>
