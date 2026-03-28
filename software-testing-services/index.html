@@ -9,6 +9,7 @@
 <meta name="description" content="Senior-only software testing services embedded directly in your sprint cycle. Manual testing, test automation, API validation & QA strategy — US-based team, Chicago. Engagements start in days, not weeks.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.gogreenlit.com/software-testing-services/">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
 
 <!-- ═══ SEO: OPEN GRAPH ═══ -->
 <meta property="og:type" content="website">
@@ -16,11 +17,13 @@
 <meta property="og:title" content="Software Testing Services | goGreenlit — US-Based QA Consultancy">
 <meta property="og:description" content="Senior-only software testing services embedded directly in your sprint cycle. Manual testing, test automation, API validation & QA strategy. Starts in days.">
 <meta property="og:site_name" content="goGreenlit">
+<meta property="og:image" content="https://www.gogreenlit.com/og-image.jpg">
 
 <!-- ═══ SEO: TWITTER CARD ═══ -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Software Testing Services | goGreenlit">
 <meta name="twitter:description" content="Senior-only software testing services embedded in your sprint cycle. US-based. Starts in days.">
+<meta name="twitter:image" content="https://www.gogreenlit.com/og-image.jpg">
 
 <!-- ═══ SEO: SCHEMA MARKUP ═══ -->
 <script type="application/ld+json">
@@ -47,6 +50,8 @@
         "@type": "Country",
         "name": "United States"
       },
+      "datePublished": "2026-01-01",
+      "dateModified": "2026-03-27",
       "serviceType": ["Manual Testing", "Test Automation", "API Testing", "QA Strategy", "Regression Testing", "Software QA"],
       "offers": [
         {
@@ -68,6 +73,41 @@
         {"@type": "ListItem", "position": 2, "name": "Software Testing Services", "item": "https://www.gogreenlit.com/software-testing-services/"}
       ]
     },
+    ,
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://www.gogreenlit.com/#business",
+      "name": "goGreenlit",
+      "url": "https://www.gogreenlit.com",
+      "logo": "https://www.gogreenlit.com/gogreenlit-icon-green.png",
+      "description": "goGreenlit is a Chicago, IL QA company offering outsourced software testing services and QA consulting for startups and scaling engineering teams.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Chicago",
+        "addressRegion": "IL",
+        "addressCountry": "US"
+      },
+      "areaServed": { "@type": "Country", "name": "United States" },
+      "priceRange": "$85/hr",
+      "sameAs": ["https://www.linkedin.com/company/gogreenlit/"]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.gogreenlit.com/#mohammad-khan",
+      "name": "Mohammad Khan",
+      "jobTitle": "Co-Founder & Lead Automation QA Engineer",
+      "worksFor": { "@id": "https://www.gogreenlit.com/#business" },
+      "knowsAbout": ["Test Automation", "Playwright", "Selenium", "CI/CD", "JMeter", "Software Testing"]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.gogreenlit.com/#muhammad-ali",
+      "name": "Muhammad Ali",
+      "jobTitle": "Co-Founder & QA Manager",
+      "worksFor": { "@id": "https://www.gogreenlit.com/#business" },
+      "knowsAbout": ["QA Management", "API Testing", "Manual Testing", "QA Strategy", "Regression Testing"]
+    }
+    ,
     {
       "@type": "FAQPage",
       "mainEntity": [
@@ -108,12 +148,12 @@
           "name": "How quickly can outsourced software testing services get started?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Most goGreenlit software testing engagements kick off within 5–7 business days of signing. We require access to your test environment, your project management tool, and a 30-minute onboarding call — then we join your next sprint and start contributing immediately. No lengthy procurement or onboarding process."
+            "text": "Most goGreenlit software testing engagements kick off within 5–7 business days of signing. We require access to your test environment, your project management tool, and a 30-minute onboarding call. Then we join your next sprint and start contributing immediately. No lengthy procurement or onboarding process."
           }
         },
         {
           "@type": "Question",
-          "name": "Do your software testing services include test automation setup — or just execution?",
+          "name": "Do your software testing services include test automation setup, or just execution?",
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Both. goGreenlit builds and maintains automation frameworks using Playwright and Selenium WebDriver, integrated into your CI/CD pipeline via GitHub Actions or Jenkins. We design the architecture, write the test scripts, and deliver a maintainable suite — typically reducing manual testing effort by up to 45% within the first 4–6 weeks."
@@ -128,6 +168,8 @@
 <link rel="icon" type="image/png" href="/gogreenlit-icon-green.png">
 <link rel="apple-touch-icon" href="/gogreenlit-icon-green.png">
 <link rel="shortcut icon" href="/gogreenlit-icon-green.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
 <style>
@@ -298,7 +340,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-
 
 /* ─── FOOTER ─── */
 footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
-.footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:1.25rem}
+.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-tagline{font-size:.72rem;color:var(--text-light);opacity:.7;padding-top:.75rem;border-top:1px solid rgba(15,110,86,.06)}
 .footer-links{display:flex;gap:2rem}
 .footer-links a{font-size:.8rem;color:var(--text-light);text-decoration:none;transition:color .2s}
 .footer-links a:hover{color:var(--green-600)}
@@ -361,7 +405,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       <a href="/#results">Results</a>
       <a href="/#about">About</a>
       <a href="/#pricing">Pricing</a>
-      <a href="/cdn-cgi/l/email-protection#deb9b1b9acbbbbb0b2b7aa9eb9b3bfb7b2f0bdb1b3" class="btn btn-primary">Book a call</a>
+      <a href="mailto:gogreenlit@gmail.com" class="btn btn-primary">Book a call</a>
     </div>
   </div>
 </nav>
@@ -380,26 +424,26 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
     <div class="hero-badge"><span></span> US-based · Chicago, IL</div>
     <!-- H1: primary keyword target -->
     <h1>Software Testing Services for <em>Engineering Teams</em> That Ship Fast</h1>
-    <p class="hero-lead">goGreenlit delivers senior-only software testing services embedded directly in your sprint cycle. We own quality end-to-end — from test strategy to production sign-off — so your engineers can stay focused on building.</p>
+    <p class="hero-lead">goGreenlit delivers senior-only software testing services covering manual testing, test automation, and regression testing, embedded directly in your sprint cycle. We own quality end-to-end, from test strategy to production sign-off, so your engineers can stay focused on building.</p>
     <div class="hero-actions">
-      <a href="/cdn-cgi/l/email-protection#5a3d353d283f3f3436332e1a3d373b333674393537" class="btn btn-primary">Book a free discovery call →</a>
+      <a href="mailto:gogreenlit@gmail.com" class="btn btn-primary">Book a free discovery call →</a>
       <a href="#services-detail" class="btn btn-outline">See what we test</a>
     </div>
     <div class="hero-trust">
       <div class="trust-item">
-        <img src="/gogreenlit-icon-green.png" alt="" aria-hidden="true">
-        Senior engineers only — no juniors
+        <img src="/gogreenlit-icon-green.png" alt="" aria-hidden="true" width="18" height="18">
+        Senior engineers only. No juniors.
       </div>
       <div class="trust-item">
-        <img src="/gogreenlit-icon-green.png" alt="" aria-hidden="true">
+        <img src="/gogreenlit-icon-green.png" alt="" aria-hidden="true" width="18" height="18">
         Agile & sprint-embedded
       </div>
       <div class="trust-item">
-        <img src="/gogreenlit-icon-green.png" alt="" aria-hidden="true">
+        <img src="/gogreenlit-icon-green.png" alt="" aria-hidden="true" width="18" height="18">
         Start in days, not weeks
       </div>
       <div class="trust-item">
-        <img src="/gogreenlit-icon-green.png" alt="" aria-hidden="true">
+        <img src="/gogreenlit-icon-green.png" alt="" aria-hidden="true" width="18" height="18">
         No long-term lock-in
       </div>
     </div>
@@ -412,14 +456,14 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   <div class="section-label">What we test</div>
   <!-- H2: secondary keyword coverage -->
   <h2 class="section-title">Comprehensive software testing services, built for your stack</h2>
-  <p class="section-desc">We cover every layer of your application — from UI to API to database — using the tools your team already uses. No context-switching, no ramp-up lag.</p>
+  <p class="section-desc">We cover every layer of your application: functional testing, regression testing, and automated checks from UI to API to database, using the tools your team already uses. We serve engineering teams across the US, including Chicago and beyond. No context-switching, no ramp-up lag.</p>
   <div class="services-grid">
     <div class="service-card">
       <div class="service-icon">
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
       </div>
       <h3>Manual Testing Services</h3>
-      <p>Human-driven testing that catches what automation misses — edge cases, UX issues, and context-sensitive bugs that only an experienced eye can find.</p>
+      <p>Human-driven functional testing that catches what automation misses: edge cases, UX issues, and context-sensitive bugs that only an experienced eye can find.</p>
       <ul>
         <li>Functional & regression testing</li>
         <li>Smoke & sanity testing</li>
@@ -432,7 +476,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
       </div>
       <h3>Test Automation</h3>
-      <p>We build scalable, maintainable automation frameworks using Playwright and Selenium — integrated directly into your CI/CD pipeline so every deploy is verified.</p>
+      <p>We build scalable, maintainable automation frameworks using Playwright and Selenium, integrated directly into your CI/CD pipeline so every deploy is verified.</p>
       <ul>
         <li>Playwright & Selenium framework builds</li>
         <li>CI/CD integration (GitHub Actions, Jenkins)</li>
@@ -458,7 +502,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
       </div>
       <h3>QA Strategy & Process</h3>
-      <p>We don't just run tests — we architect your entire quality process. From test planning to release readiness, we build a QA function your team will actually follow.</p>
+      <p>We don't just run tests. We architect your entire quality process. From test planning to release readiness, we build a QA function your team will actually follow.</p>
       <ul>
         <li>Test planning & strategy docs</li>
         <li>Defect triage & root cause analysis</li>
@@ -471,7 +515,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
       </div>
       <h3>Website Testing Services</h3>
-      <p>Cross-browser and cross-device testing to ensure your web application works flawlessly for every user, on every platform — before they file a bug report.</p>
+      <p>Cross-browser, mobile testing, and cross-device testing to ensure your web application works flawlessly for every user, on every platform, before they file a bug report.</p>
       <ul>
         <li>Cross-browser compatibility testing</li>
         <li>Responsive & mobile testing</li>
@@ -494,7 +538,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
     </div>
   </div>
   <p style="font-size:.95rem;color:var(--text-mid);line-height:1.7;max-width:640px">
-    Not sure which services you need? <a href="/cdn-cgi/l/email-protection#01666e667364646f6d687541666c60686d2f626e6c" style="color:var(--green-600);font-weight:600;text-decoration:none">Book a 15-minute discovery call</a> — we'll assess your setup and recommend the right coverage for your team and release cadence.
+    Not sure which services you need? <a href="mailto:gogreenlit@gmail.com" style="color:var(--green-600);font-weight:600;text-decoration:none">Book a 15-minute discovery call</a> and we'll assess your setup and recommend the right coverage for your team and release cadence.
   </p>
 </section>
 </div>
@@ -525,7 +569,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
       </div>
       <h3>Sprint integration</h3>
-      <p>We join your tools — JIRA, Slack, TestRail — and start testing in your active sprint</p>
+      <p>We join your tools (JIRA, Slack, TestRail) and start testing in your active sprint</p>
     </div>
     <div class="process-step">
       <div class="step-icon">
@@ -544,8 +588,8 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   <div class="why-grid">
     <div class="why-text">
       <div class="section-label">Why goGreenlit</div>
-      <h2 class="section-title">Senior-only software testing services — not a staffing agency</h2>
-      <p class="section-desc">Most outsourced QA companies hand you junior testers with a senior account manager you never talk to. At goGreenlit, you work directly with Mohammad and Muhammad — the two founders — who each bring 9+ years of QA leadership across enterprise, healthcare, and SaaS platforms.</p>
+      <h2 class="section-title">Senior-only software testing services. Not a staffing agency.</h2>
+      <p class="section-desc">Most outsourced QA companies hand you junior testers for regression testing and test automation with a senior account manager you never talk to. At goGreenlit, you work directly with Mohammad and Muhammad, the two founders, who each bring 9+ years of QA leadership across enterprise, healthcare, and SaaS platforms.</p>
       <p class="section-desc" style="margin-bottom:0">We're a Chicago-based US team. No timezone lag, no miscommunication, no handoff delays. We attend your standups, use your tools, and treat your product like it's ours.</p>
     </div>
     <div class="why-points">
@@ -554,7 +598,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
           <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
         </div>
         <div>
-          <h4>You work with the founders</h4>
+          <h3>You work with the founders</h3>
           <p>No account manager layer. Mohammad and Muhammad are on your account, attending your standups, reviewing your releases.</p>
         </div>
       </div>
@@ -563,8 +607,8 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
           <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </div>
         <div>
-          <h4>Agile-native from day one</h4>
-          <p>We've spent a decade embedded in Agile and Scrum teams. We adapt to your sprint cadence — two-week sprints, continuous delivery, or anywhere in between.</p>
+          <h3>Agile-native from day one</h3>
+          <p>We've spent a decade embedded in Agile and Scrum teams. We adapt to your sprint cadence: two-week sprints, continuous delivery, or anywhere in between.</p>
         </div>
       </div>
       <div class="why-point">
@@ -572,7 +616,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
           <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
         <div>
-          <h4>US-based, Chicago team</h4>
+          <h3>US-based, Chicago team</h3>
           <p>No offshore hand-offs. We work in your timezone, communicate clearly, and integrate with your team the way an in-house engineer would.</p>
         </div>
       </div>
@@ -581,7 +625,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
           <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
         </div>
         <div>
-          <h4>Save 40–60% vs. in-house hire</h4>
+          <h3>Save 40–60% vs. in-house hire</h3>
           <p>A full-time senior QA engineer costs $85K+ in salary alone. Our retainer model gives you the same caliber without the overhead.</p>
         </div>
       </div>
@@ -620,7 +664,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   <div class="pricing-inner">
     <div class="section-label">Engagement models</div>
     <h2 class="section-title">Flexible software testing services pricing</h2>
-    <p class="section-desc">No long-term contracts. No bloated retainers. Start with the model that fits, and scale as your team grows.</p>
+    <p class="section-desc">No long-term contracts. From functional testing and mobile testing to full test automation, our Chicago-based team has a model to fit your stage and budget.</p>
     <div class="pricing-grid">
       <div class="price-card">
         <h3>On-demand</h3>
@@ -636,7 +680,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       </div>
       <div class="price-card">
         <h3>Project-based</h3>
-        <div class="price-rate">Tailored — book a call</div>
+        <div class="price-rate">Tailored pricing. Book a call.</div>
         <p>Defined scope, timeline, and deliverables. Ideal for product launches, major migrations, or building out your initial software testing infrastructure from scratch.</p>
         <div class="price-tag">Best for: Launches & one-time needs</div>
       </div>
@@ -648,7 +692,8 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 <div class="faq-wrap">
 <section class="faq fade-in">
   <div class="section-label">FAQ</div>
-  <h2 class="section-title">Software testing services — your questions answered</h2>
+  <h2 class="section-title">Software testing services: your questions answered</h2>
+  <p style="font-size:.8rem;color:var(--green-600);font-weight:600;margin-bottom:1.5rem;letter-spacing:.01em">Expert answers by Mohammad Khan &amp; Muhammad Ali, co-founders of goGreenlit with 18+ years of combined QA experience.</p>
   <div class="faq-list">
 
     <div class="faq-item">
@@ -657,8 +702,8 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <span class="faq-toggle">+</span>
       </div>
       <div class="faq-a">
-        <p>Manual testing uses experienced human testers to explore the application, catch UX issues, and find context-sensitive bugs that scripts can't anticipate. Automated testing uses frameworks like Playwright or Selenium to run predefined test cases repeatedly at speed — ideal for regression suites and CI/CD pipelines.</p>
-        <p style="margin-top:.75rem">Most engineering teams need both. We recommend manual testing for exploratory coverage and release validation, and automation for repetitive regression cycles that would otherwise consume your sprint capacity. At goGreenlit, we offer both as part of the same engagement — our senior engineers handle test design and execution across both disciplines.</p>
+        <p>Manual testing uses experienced human testers to explore the application, catch UX issues, and find context-sensitive bugs that scripts can't anticipate. Automated testing uses frameworks like Playwright or Selenium to run predefined test cases repeatedly at speed, ideal for regression suites and CI/CD pipelines.</p>
+        <p style="margin-top:.75rem">Most engineering teams need both. We recommend manual testing for exploratory coverage and release validation, and automation for repetitive regression cycles that would otherwise consume your sprint capacity. At goGreenlit, we offer both as part of the same engagement. Our senior engineers handle test design and execution across both disciplines.</p>
       </div>
     </div>
 
@@ -668,8 +713,8 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <span class="faq-toggle">+</span>
       </div>
       <div class="faq-a">
-        <p>goGreenlit's software testing services start at <strong>$85/hr on a weekly retainer</strong> (20 hr/week minimum) and <strong>$100/hr on-demand</strong>. Project-based engagements are scoped per deliverable. For context, the average US salary for a senior QA engineer is $85,000–$110,000 per year — plus benefits, recruiting costs, and management overhead.</p>
-        <p style="margin-top:.75rem">Outsourcing your software testing to goGreenlit typically costs 40–60% less than an equivalent in-house hire, while giving you two senior engineers instead of one. We provide a clear quote within 48 hours of a discovery call — no hidden fees, no minimum commitments on on-demand work.</p>
+        <p>goGreenlit's software testing services start at <strong>$85/hr on a weekly retainer</strong> (20 hr/week minimum) and <strong>$100/hr on-demand</strong>. Project-based engagements are scoped per deliverable. For context, the average US salary for a senior QA engineer is $85,000–$110,000 per year, plus benefits, recruiting costs, and management overhead.</p>
+        <p style="margin-top:.75rem">Outsourcing your software testing to goGreenlit typically costs 40–60% less than an equivalent in-house hire, while giving you two senior engineers instead of one. We provide a clear quote within 48 hours of a discovery call. No hidden fees, no minimum commitments on on-demand work.</p>
       </div>
     </div>
 
@@ -680,7 +725,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       </div>
       <div class="faq-a">
         <p>Our software testing services cover the full QA spectrum: <strong>functional testing</strong> (verifying features work as specified), <strong>regression testing</strong> (ensuring new changes don't break existing functionality), <strong>smoke and sanity testing</strong> (quick pre-release health checks), <strong>exploratory testing</strong> (unscripted investigation of edge cases), <strong>API and data testing</strong> (REST endpoint validation, payload integrity, SQL checks), <strong>test automation</strong> (Playwright and Selenium framework builds), <strong>website testing</strong> (cross-browser, cross-device compatibility), and <strong>performance testing</strong> (load and stress testing with JMeter).</p>
-        <p style="margin-top:.75rem">We tailor the testing mix to your product type, release cadence, and budget — not every team needs every service from day one.</p>
+        <p style="margin-top:.75rem">We tailor the testing mix to your product type, release cadence, and budget. Not every team needs every service from day one.</p>
       </div>
     </div>
 
@@ -691,7 +736,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       </div>
       <div class="faq-a">
         <p>It depends on your stage. Outsourcing software testing makes more sense when: your release cadence is irregular, you're pre-Series A and can't justify a $100K+ headcount, you need specialized automation skills you can't easily hire for, or you want coverage to start immediately without a 4–8 week recruiting cycle.</p>
-        <p style="margin-top:.75rem">Hiring in-house makes more sense when: your team ships daily, your product is highly complex and requires deep institutional knowledge, and you have a budget for a senior hire plus benefits. Many of our clients start by outsourcing to goGreenlit while searching for a permanent hire — and a significant number stay with us long-term because the flexibility outperforms a single in-house headcount.</p>
+        <p style="margin-top:.75rem">Hiring in-house makes more sense when: your team ships daily, your product is highly complex and requires deep institutional knowledge, and you have a budget for a senior hire plus benefits. Many of our clients start by outsourcing to goGreenlit while searching for a permanent hire, and a significant number stay with us long-term because the flexibility outperforms a single in-house headcount.</p>
       </div>
     </div>
 
@@ -701,19 +746,19 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <span class="faq-toggle">+</span>
       </div>
       <div class="faq-a">
-        <p>Most goGreenlit software testing engagements kick off within <strong>5–7 business days</strong> of signing. There is no lengthy onboarding or procurement process. We ask for access to your test environment, your project management tool (JIRA, Linear, or similar), and a 30-minute onboarding call — then we join your next sprint and start contributing immediately.</p>
-        <p style="margin-top:.75rem">This speed is possible because our senior engineers have worked across healthcare, SaaS, e-commerce, and enterprise distribution platforms. We learn your stack fast because we've seen most of it before.</p>
+        <p>Most goGreenlit software testing engagements kick off within <strong>5–7 business days</strong> of signing. There is no lengthy onboarding or procurement process. We ask for access to your test environment, your project management tool (JIRA, Linear, or similar), and a 30-minute onboarding call. Then we join your next sprint and start contributing immediately.</p>
+        <p style="margin-top:.75rem">This speed is possible because our Chicago-based senior engineers have worked across healthcare, SaaS, e-commerce, and enterprise distribution platforms. We learn your stack fast because we've seen most of it before.</p>
       </div>
     </div>
 
     <div class="faq-item">
       <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-        <h3>Do your software testing services include test automation setup — or just execution?</h3>
+        <h3>Do your software testing services include test automation setup, or just execution?</h3>
         <span class="faq-toggle">+</span>
       </div>
       <div class="faq-a">
-        <p>Both — and this is a key differentiator from most software testing companies that only offer execution. goGreenlit builds and maintains automation frameworks using <strong>Playwright</strong> and <strong>Selenium WebDriver</strong>, integrated into your CI/CD pipeline via GitHub Actions or Jenkins. We design the architecture, write the test scripts, and hand you a maintainable suite — not a pile of brittle scripts that break on every deploy.</p>
-        <p style="margin-top:.75rem">On a retainer, automation build-out typically runs in parallel with manual sprint testing during the first 4–6 weeks. By the end, your regression suite runs automatically on every pull request — reducing manual testing effort by up to 45%.</p>
+        <p>Both. This is a key differentiator from most software testing companies that only offer execution. goGreenlit builds and maintains automation frameworks using <strong>Playwright</strong> and <strong>Selenium WebDriver</strong>, integrated into your CI/CD pipeline via GitHub Actions or Jenkins. We design the architecture, write the test scripts, and hand you a maintainable suite, not a pile of brittle scripts that break on every deploy.</p>
+        <p style="margin-top:.75rem">On a retainer, automation build-out typically runs in parallel with manual sprint testing during the first 4–6 weeks. By the end, your regression suite runs automatically on every pull request, reducing manual testing effort by up to 45%.</p>
       </div>
     </div>
 
@@ -730,7 +775,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       <a href="/qa-consulting/" style="display:block;background:var(--card);border:1px solid rgba(15,110,86,.08);border-radius:14px;padding:1.75rem;text-decoration:none;transition:all .3s ease" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--green-200)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(15,110,86,.08)'">
         <div style="font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-400);margin-bottom:.5rem">Service</div>
         <div style="font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:.5rem">QA Consulting</div>
-        <div style="font-size:.875rem;color:var(--text-mid);line-height:1.6">Strategic QA guidance — test strategy, process design, and quality program setup for growing engineering teams.</div>
+        <div style="font-size:.875rem;color:var(--text-mid);line-height:1.6">Strategic QA guidance covering test strategy, process design, and quality program setup for growing engineering teams.</div>
       </a>
       <a href="/" style="display:block;background:var(--card);border:1px solid rgba(15,110,86,.08);border-radius:14px;padding:1.75rem;text-decoration:none;transition:all .3s ease" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--green-200)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(15,110,86,.08)'">
         <div style="font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-400);margin-bottom:.5rem">Home</div>
@@ -747,11 +792,11 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   <div class="cta-box">
     <div class="cta-content">
       <h2>Ready for software testing services that actually work?</h2>
-      <p>No pressure — just a 15-minute call to see if we're the right fit. We'll tell you exactly what coverage your team needs and how fast we can start.</p>
+      <p>No pressure, just a 15-minute call to see if we're the right fit. We'll tell you exactly what coverage your team needs and how fast we can start.</p>
     </div>
     <div class="cta-actions">
-      <a href="/cdn-cgi/l/email-protection#41262e263324242f2d283501262c20282d6f222e2c" class="btn btn-white">Book a discovery call →</a>
-      <a href="/cdn-cgi/l/email-protection#8cebe3ebfee9e9e2e0e5f8ccebe1ede5e0a2efe3e1" class="btn btn-outline" style="border-color:rgba(255,255,255,.2);color:#fff"><span class="__cf_email__" data-cfemail="a8cfc7cfdacdcdc6c4c1dce8cfc5c9c1c486cbc7c5">[email&#160;protected]</span></a>
+      <a href="mailto:gogreenlit@gmail.com" class="btn btn-white">Book a discovery call →</a>
+      <a href="mailto:gogreenlit@gmail.com" class="btn btn-outline" style="border-color:rgba(255,255,255,.2);color:#fff">gogreenlit@gmail.com</a>
     </div>
   </div>
 </section>
@@ -760,32 +805,35 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <div class="footer-logo">
-      <svg viewBox="0 0 210 32" height="22" style="opacity:.5">
-        <rect x="2" y="4" width="24" height="24" rx="6" fill="#0F6E56"/>
-        <path d="M10 11L20 16L10 21Z" fill="#E1F5EE"/>
-        <text x="34" y="23" font-family="'DM Sans','Helvetica Neue',sans-serif" font-size="20" letter-spacing="-0.3">
-          <tspan fill="#5DCAA5" font-weight="300">go</tspan><tspan fill="#0F6E56" font-weight="600">Greenlit</tspan>
-        </text>
-      </svg>
+    <div class="footer-top">
+      <div class="footer-logo">
+        <svg viewBox="0 0 210 32" height="22" style="opacity:.5">
+          <rect x="2" y="4" width="24" height="24" rx="6" fill="#0F6E56"/>
+          <path d="M10 11L20 16L10 21Z" fill="#E1F5EE"/>
+          <text x="34" y="23" font-family="'DM Sans','Helvetica Neue',sans-serif" font-size="20" letter-spacing="-0.3">
+            <tspan fill="#5DCAA5" font-weight="300">go</tspan><tspan fill="#0F6E56" font-weight="600">Greenlit</tspan>
+          </text>
+        </svg>
+      </div>
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/software-testing-services/">Software Testing</a>
+        <a href="/qa-consulting/">QA Consulting</a>
+        <a href="/#results">Results</a>
+        <a href="/#about">About</a>
+        <a href="https://www.linkedin.com/company/gogreenlit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+      <div class="footer-copy">© 2026 goGreenlit LLC. Chicago, IL.</div>
     </div>
-    <div class="footer-links">
-      <a href="/">Home</a>
-      <a href="/software-testing-services/">Software Testing</a>
-      <a href="/qa-consulting/">QA Consulting</a>
-      <a href="/#results">Results</a>
-      <a href="/#about">About</a>
-      <a href="https://www.linkedin.com/company/gogreenlit/" target="_blank" rel="noopener">LinkedIn</a>
-    </div>
-    <div class="footer-copy">© 2026 goGreenlit LLC. Chicago, IL.</div>
+    <div class="footer-tagline">goGreenlit provides professional software testing services including manual testing, test automation, regression testing, and functional testing for engineering teams across the US. Chicago, IL.</div>
   </div>
 </footer>
 <script>
 const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); }});
 }, { threshold: 0, rootMargin: "0px 0px -50px 0px" });
-document.querySelectorAll('.fade-in,.how-it-works,.process-wrap').forEach(el => obs.observe(el));
-setTimeout(() => { document.querySelectorAll('.fade-in,.how-it-works,.process-wrap').forEach(el => el.classList.add('visible')); }, 300);
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+setTimeout(() => { document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible')); }, 300);
 </script>
 </body>
 </html>
