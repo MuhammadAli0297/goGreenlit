@@ -5,22 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ═══ SEO: PRIMARY META ═══ -->
-<title>QA Consulting Services | goGreenlit — Expert QA for Engineering Teams</title>
-<meta name="description" content="Strategic QA consulting from senior engineers who've led quality at scale. Test strategy, process design, CI/CD quality gates & release readiness — embedded in your team. US-based, Chicago.">
+<title>QA Consulting Services for Engineering Teams | goGreenlit</title>
+<meta name="description" content="Strategic QA consulting from senior engineers who've led quality at scale. Test strategy, process design, CI/CD quality gates and release readiness, embedded in your team. US-based, Chicago.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.gogreenlit.com/qa-consulting/">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
 
 <!-- ═══ SEO: OPEN GRAPH ═══ -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.gogreenlit.com/qa-consulting/">
-<meta property="og:title" content="QA Consulting Services | goGreenlit — Expert QA for Engineering Teams">
+<meta property="og:title" content="QA Consulting Services for Engineering Teams | goGreenlit">
 <meta property="og:description" content="Strategic QA consulting from senior engineers. Test strategy, process design, CI/CD quality gates & release readiness. US-based team, Chicago. Starts in days.">
 <meta property="og:site_name" content="goGreenlit">
+<meta property="og:image" content="https://www.gogreenlit.com/og-image.jpg">
 
 <!-- ═══ SEO: TWITTER CARD ═══ -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="QA Consulting Services | goGreenlit">
 <meta name="twitter:description" content="Strategic QA consulting from senior engineers. Test strategy, process design & release readiness. US-based.">
+<meta name="twitter:image" content="https://www.gogreenlit.com/og-image.jpg">
 
 <!-- ═══ SEO: SCHEMA MARKUP ═══ -->
 <script type="application/ld+json">
@@ -47,7 +50,9 @@
         "@type": "Country",
         "name": "United States"
       },
-      "serviceType": ["QA Consulting", "QA Strategy", "Test Planning", "Quality Assurance Consulting", "QA Process Design", "CI/CD Quality Gates"],
+      "datePublished": "2026-01-01",
+      "dateModified": "2026-03-28",
+      "serviceType": ["QA Consulting", "QA Strategy", "Test Planning", "Quality Assurance Consulting", "QA Process Design", "CI/CD Quality Gates", "Security Testing Review", "QA Maturity Assessment"],
       "offers": [
         {
           "@type": "Offer",
@@ -60,6 +65,34 @@
           "description": "One-time QA audit and strategy buildout — scoped per engagement"
         }
       ]
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://www.gogreenlit.com/#business",
+      "name": "goGreenlit",
+      "url": "https://www.gogreenlit.com",
+      "logo": "https://www.gogreenlit.com/gogreenlit-icon-green.png",
+      "description": "goGreenlit is a Chicago, IL QA consulting firm providing outsourced QA consulting services, test strategy, and quality assurance leadership for engineering teams.",
+      "address": { "@type": "PostalAddress", "addressLocality": "Chicago", "addressRegion": "IL", "addressCountry": "US" },
+      "areaServed": { "@type": "Country", "name": "United States" },
+      "priceRange": "$85/hr",
+      "sameAs": ["https://www.linkedin.com/company/gogreenlit/"]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.gogreenlit.com/#mohammad-khan",
+      "name": "Mohammad Khan",
+      "jobTitle": "Co-Founder & Lead Automation QA Consultant",
+      "worksFor": { "@id": "https://www.gogreenlit.com/#business" },
+      "knowsAbout": ["QA Strategy", "Test Automation", "Playwright", "Selenium", "CI/CD Quality Gates", "Security Testing", "QA Consulting"]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.gogreenlit.com/#muhammad-ali",
+      "name": "Muhammad Ali",
+      "jobTitle": "Co-Founder & QA Process Consultant",
+      "worksFor": { "@id": "https://www.gogreenlit.com/#business" },
+      "knowsAbout": ["QA Process Design", "Test Strategy Consulting", "QA Maturity", "Release Readiness", "Quality Assurance", "API Testing"]
     },
     {
       "@type": "BreadcrumbList",
@@ -128,6 +161,8 @@
 <link rel="icon" type="image/png" href="/gogreenlit-icon-green.png">
 <link rel="apple-touch-icon" href="/gogreenlit-icon-green.png">
 <link rel="shortcut icon" href="/gogreenlit-icon-green.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
 <style>
@@ -312,7 +347,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-
 
 /* ─── FOOTER ─── */
 footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
-.footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:1.25rem}
+.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-tagline{font-size:.72rem;color:var(--text-light);opacity:.7;padding-top:.75rem;border-top:1px solid rgba(15,110,86,.06)}
 .footer-links{display:flex;gap:2rem}
 .footer-links a{font-size:.8rem;color:var(--text-light);text-decoration:none;transition:color .2s}
 .footer-links a:hover{color:var(--green-600)}
@@ -344,7 +381,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   .pricing-grid{grid-template-columns:1fr}
   .cta-box{flex-direction:column;text-align:center;padding:3rem 2rem}
   .cta-actions{align-items:center}
-  .footer-inner{flex-direction:column;gap:1rem;text-align:center}
+  .footer-top{flex-direction:column;gap:1rem;text-align:center}
   .footer-links{flex-wrap:wrap;justify-content:center}
 }
 @media(max-width:600px){
@@ -375,7 +412,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       <a href="/#results">Results</a>
       <a href="/#about">About</a>
       <a href="/#pricing">Pricing</a>
-      <a href="/cdn-cgi/l/email-protection#a3c4ccc4d1c6c6cdcfcad7e3c4cec2cacf8dc0ccce" class="btn btn-primary">Book a call</a>
+      <a href="mailto:gogreenlit@gmail.com" class="btn btn-primary">Book a call</a>
     </div>
   </div>
 </nav>
@@ -394,26 +431,26 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
     <div class="hero-badge"><span></span> US-based · Chicago, IL</div>
     <!-- H1: primary keyword target -->
     <h1>QA Consulting Services That Build <em>Quality Into</em> Your Engineering Process</h1>
-    <p class="hero-lead">goGreenlit provides strategic QA consulting for engineering teams that want more than just test execution. We assess your quality gaps, design a process your team will actually follow, and embed in your sprints to make sure it sticks.</p>
+    <p class="hero-lead">goGreenlit provides strategic quality assurance consulting for engineering teams that want more than just test execution. We assess your quality gaps, design a process your team will actually follow, and embed in your sprints to make sure it sticks.</p>
     <div class="hero-actions">
-      <a href="/cdn-cgi/l/email-protection#05626a627760606b696c71456268646c692b666a68" class="btn btn-primary">Book a free discovery call →</a>
+      <a href="mailto:gogreenlit@gmail.com" class="btn btn-primary">Book a free discovery call →</a>
       <a href="#consulting-services" class="btn btn-outline">See what we cover</a>
     </div>
     <div class="hero-trust">
       <div class="trust-item">
-        <img src="/gogreenlit-icon-green.png" alt="" aria-hidden="true">
-        Strategy + execution — not just advice
+        <img src="/gogreenlit-icon-green.png" alt="" aria-hidden="true" width="18" height="18">
+        Strategy + execution, not just advice
       </div>
       <div class="trust-item">
-        <img src="/gogreenlit-icon-green.png" alt="" aria-hidden="true">
+        <img src="/gogreenlit-icon-green.png" alt="" aria-hidden="true" width="18" height="18">
         Agile & sprint-embedded
       </div>
       <div class="trust-item">
-        <img src="/gogreenlit-icon-green.png" alt="" aria-hidden="true">
+        <img src="/gogreenlit-icon-green.png" alt="" aria-hidden="true" width="18" height="18">
         9+ years QA leadership each
       </div>
       <div class="trust-item">
-        <img src="/gogreenlit-icon-green.png" alt="" aria-hidden="true">
+        <img src="/gogreenlit-icon-green.png" alt="" aria-hidden="true" width="18" height="18">
         No long-term lock-in
       </div>
     </div>
@@ -425,14 +462,14 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 <section class="services fade-in" id="consulting-services">
   <div class="section-label">What we cover</div>
   <h2 class="section-title">QA consulting services across every layer of your quality program</h2>
-  <p class="section-desc">We don't hand you a report and disappear. We implement the strategy alongside you — building the processes, documentation, and automation infrastructure your team needs to maintain quality at scale.</p>
+  <p class="section-desc">We don't hand you a report and disappear. We implement the QA strategy alongside you, building the processes, documentation, and automation infrastructure your team needs to maintain quality at scale.</p>
   <div class="services-grid">
     <div class="service-card">
       <div class="service-icon">
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
       </div>
-      <h3>Test Strategy & Planning</h3>
-      <p>We design a test strategy tailored to your product, team size, and release cadence — not a generic template. You get a living document your team can actually act on.</p>
+      <h3>Test Strategy Consulting & Planning</h3>
+      <p>We design a QA strategy and test plan tailored to your product, team size, and release cadence, not a generic template. You get a living document your team can actually act on.</p>
       <ul>
         <li>Test strategy document creation</li>
         <li>Coverage gap assessment</li>
@@ -445,7 +482,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 105.93 19.07M22 2L11.5 12.5"/></svg>
       </div>
       <h3>QA Process Design</h3>
-      <p>We audit your existing QA process, identify bottlenecks and blind spots, and rebuild the workflow from the ground up — with clear ownership, tooling, and repeatable steps.</p>
+      <p>We audit your existing QA process, identify bottlenecks, and drive QA process improvement from the ground up with clear ownership, tooling, and repeatable steps.</p>
       <ul>
         <li>End-to-end QA workflow design</li>
         <li>Defect lifecycle & triage process</li>
@@ -471,7 +508,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
       </div>
       <h3>Release Readiness</h3>
-      <p>We run structured pre-release validation cycles and provide formal go/no-go sign-off for every major release — so your team ships with confidence instead of crossed fingers.</p>
+      <p>We run structured pre-release validation cycles and provide formal go/no-go sign-off for every major release, so your team ships with confidence instead of crossed fingers.</p>
       <ul>
         <li>Pre-release testing checklists</li>
         <li>Formal release sign-off process</li>
@@ -484,10 +521,12 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
       </div>
       <h3>QA Audit & Assessment</h3>
-      <p>Not sure where your quality gaps are? We run a structured assessment of your current testing process and deliver a prioritized action plan within one week.</p>
+      <p>Not sure where your quality gaps are? Our QA consulting services include a structured assessment covering functional coverage, security testing posture, and tooling, delivering a prioritized action plan within one week.</p>
       <ul>
+        <li>QA maturity assessment and scoring</li>
         <li>End-to-end QA process audit</li>
         <li>Coverage gap & risk analysis</li>
+        <li>Security testing coverage review</li>
         <li>Tool stack review</li>
         <li>Prioritized improvement roadmap</li>
       </ul>
@@ -516,7 +555,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   <h2 class="section-title">Is goGreenlit the right QA consulting partner for you?</h2>
   <div class="for-grid">
     <div>
-      <p class="for-desc">Our QA consulting services work best for engineering teams that are moving fast and starting to feel the consequences of ad-hoc quality processes — too many bugs in production, no clear release criteria, and developers testing their own code.</p>
+      <p class="for-desc">Our QA consulting and quality assurance services work best for engineering teams that are moving fast and starting to feel the consequences of ad-hoc quality processes: too many bugs in production, no clear release criteria, and developers testing their own code.</p>
       <p class="for-desc" style="margin-bottom:0">If any of the scenarios below sound familiar, we should talk.</p>
     </div>
     <div class="for-list">
@@ -566,7 +605,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 <section class="process">
   <div class="section-label">Our approach</div>
   <h2 class="section-title">How our QA consulting engagement works</h2>
-  <p class="section-desc">We run a structured onboarding in the first week, then embed into your sprint cycle. Strategy and execution happen in parallel — not sequentially.</p>
+  <p class="section-desc">We run a structured onboarding in the first week, then embed into your sprint cycle. Strategy and execution happen in parallel, not sequentially.</p>
   <div class="process-row">
     <div class="process-step">
       <div class="step-icon">
@@ -594,7 +633,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
       </div>
       <h3>Quality ownership</h3>
-      <p>We own quality outcomes — attending retrospectives, refining the process, and reporting metrics each sprint</p>
+      <p>We own quality outcomes, attending retrospectives, refining the process, and reporting metrics each sprint</p>
     </div>
   </div>
 </section>
@@ -607,24 +646,24 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
     <div class="about-text">
       <div class="section-label">Meet your QA consultants</div>
       <h2 class="section-title">QA consulting from engineers who've done it at scale</h2>
-      <p class="section-desc">You won't be handed off to a junior consultant. Mohammad and Muhammad — the two co-founders — will be your QA consultants for every engagement. They've each spent 9+ years leading quality programs across healthcare, enterprise distribution, and SaaS platforms.</p>
-      <p class="section-desc" style="margin-bottom:0">They don't just advise — they roll up their sleeves and implement alongside you. That's the difference between a QA consulting firm and a QA consultancy that actually cares about your outcome.</p>
+      <p class="section-desc">You won't be handed off to a junior consultant. Mohammad and Muhammad, the two co-founders, will be your QA consultants for every engagement. They've each spent 9+ years leading quality assurance programs across healthcare, enterprise distribution, and SaaS platforms.</p>
+      <p class="section-desc" style="margin-bottom:0">They don't just advise. They roll up their sleeves and implement alongside you. That's the difference between a QA consulting firm and a QA consultancy built to improve your QA maturity and actually care about your outcome.</p>
     </div>
     <div class="founders">
       <div class="founder-card">
-        <div class="founder-avatar"><img src="/khan-headshot.jpg" alt="Mohammad Khan, QA Consultant" loading="lazy"></div>
+        <div class="founder-avatar"><img src="/khan-headshot.jpg" alt="Mohammad Khan, QA Consultant" loading="lazy" width="72" height="72"></div>
         <div class="founder-info">
-          <h4>Mohammad Khan</h4>
+          <h3>Mohammad Khan</h3>
           <div class="role">Co-Founder & Lead Automation QA Consultant</div>
-          <p>Mohammad specializes in automation strategy and CI/CD quality integration. With 9+ years across healthcare, distribution, and enterprise platforms, he's built test frameworks that have supported over $1B in product launches. His toolkit: Playwright, Selenium, AWS, and JMeter.</p>
+          <p>Mohammad specializes in test strategy consulting, automation design, and CI/CD quality integration. With 9+ years across healthcare, distribution, and enterprise platforms, he's built test frameworks that have supported over $1B in product launches. His toolkit: Playwright, Selenium, AWS, and JMeter.</p>
         </div>
       </div>
       <div class="founder-card">
-        <div class="founder-avatar"><img src="/ali-headshot.jpg" alt="Muhammad Ali, QA Consultant" loading="lazy"></div>
+        <div class="founder-avatar"><img src="/ali-headshot.jpg" alt="Muhammad Ali, QA Consultant" loading="lazy" width="72" height="72"></div>
         <div class="founder-info">
-          <h4>Muhammad Ali</h4>
+          <h3>Muhammad Ali</h3>
           <div class="role">Co-Founder & QA Process Consultant</div>
-          <p>Muhammad specializes in QA process design and release readiness. Over 9 years of QA leadership across enterprise distribution and SaaS platforms, he's reduced escaped defects by 45% by building testing processes teams actually follow. His focus: API validation, data integrity, and structured release management.</p>
+          <p>Muhammad specializes in QA strategy, QA process design, and release readiness. Over 9 years of QA leadership across enterprise distribution and SaaS platforms, he's reduced escaped defects by 45% by building testing processes teams actually follow. His focus: API validation, data integrity, and structured release management.</p>
         </div>
       </div>
     </div>
@@ -662,24 +701,24 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   <div class="pricing-inner">
     <div class="section-label">Engagement models</div>
     <h2 class="section-title">QA consulting that fits your stage and budget</h2>
-    <p class="section-desc">No retainer bloat. No 12-month contracts. Pick the model that makes sense for where you are today.</p>
+    <p class="section-desc">No retainer bloat. No 12-month contracts. Our Chicago-based QA consultants work with teams across the US. Pick the model that makes sense for where you are today.</p>
     <div class="pricing-grid">
       <div class="price-card">
         <h3>QA Audit</h3>
-        <div class="price-rate">Project-based — book a call</div>
-        <p>A structured one-week assessment of your current QA process, coverage, and tooling — delivered as a prioritized action plan. Perfect for teams who need clarity before committing to a retainer.</p>
+        <div class="price-rate">Project-based. Book a call.</div>
+        <p>A structured one-week assessment of your current QA process, coverage, and tooling, delivered as a prioritized action plan. Perfect for teams who need clarity before committing to a retainer.</p>
         <div class="price-tag">Best for: Getting started</div>
       </div>
       <div class="price-card featured">
         <h3>Embedded QA Consulting</h3>
         <div class="price-rate">Starting at $85/hr</div>
-        <p>Ongoing QA consulting embedded in your sprint cycle. We own strategy and execution together — attending standups, running tests, refining process, and providing release sign-off. 20 hr/week minimum.</p>
+        <p>Ongoing QA consulting embedded in your sprint cycle. We own strategy and execution together, attending standups, running tests, refining process, and providing release sign-off. 20 hr/week minimum.</p>
         <div class="price-tag">Best for: Ongoing development</div>
       </div>
       <div class="price-card">
         <h3>On-demand Consulting</h3>
         <div class="price-rate">Starting at $100/hr</div>
-        <p>Flexible QA consulting support for specific needs — pre-launch strategy sprints, test automation setup, or covering a gap while you hire in-house. No minimum commitment.</p>
+        <p>Flexible QA consulting support covering pre-launch strategy sprints, test automation setup, or covering a gap while you hire in-house. No minimum commitment.</p>
         <div class="price-tag">Best for: Specific engagements</div>
       </div>
     </div>
@@ -690,7 +729,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 <div class="faq-wrap">
 <section class="faq fade-in">
   <div class="section-label">FAQ</div>
-  <h2 class="section-title">QA consulting — your questions answered</h2>
+  <h2 class="section-title">QA consulting: your questions answered</h2>
   <div class="faq-list">
 
     <div class="faq-item">
@@ -699,8 +738,8 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <span class="faq-toggle">+</span>
       </div>
       <div class="faq-a">
-        <p>A QA consultant's day-to-day work depends on the phase of the engagement. In the first week, they audit your existing testing process — reviewing test coverage, tooling, defect history, and release procedures to identify the highest-risk gaps. From week two onwards, they shift into embedded mode: attending sprint standups, writing and executing test cases, triaging defects, setting up CI/CD quality gates, and producing release readiness sign-offs.</p>
-        <p style="margin-top:.75rem">Unlike a testing-only contractor, a QA consultant also works on the process layer — designing workflows, writing test strategy documents, coaching developers on testability, and reporting quality metrics to engineering leadership. At goGreenlit, our consultants do all of this from day one, not in a phased "consulting then implementation" model.</p>
+        <p>A QA consultant's day-to-day work depends on the phase of the engagement. In the first week, they audit your existing testing process, reviewing test coverage, tooling, defect history, and release procedures to identify the highest-risk gaps. From week two onwards, they shift into embedded mode: attending sprint standups, writing and executing test cases, triaging defects, setting up CI/CD quality gates, and producing release readiness sign-offs.</p>
+        <p style="margin-top:.75rem">Unlike a testing-only contractor, a QA consultant also works on the process layer, designing workflows, writing test strategy documents, coaching developers on testability, and reporting quality metrics to engineering leadership. At goGreenlit, our quality assurance consultants do all of this from day one, not in a phased "consulting then implementation" model.</p>
       </div>
     </div>
 
@@ -711,7 +750,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       </div>
       <div class="faq-a">
         <p>The clearest signals that you need a QA consultant are: bugs reaching production on a regular basis, no consistent release checklist or sign-off process, developers testing their own code with no independent verification, and test coverage that hasn't kept pace with product growth.</p>
-        <p style="margin-top:.75rem">You also likely need a QA consultant if: your CI/CD pipeline has no automated quality gates, your team has no documented test strategy, releases feel stressful and unpredictable, or you're preparing for a major launch or enterprise client and need to demonstrate quality rigor quickly. If two or more of these apply, it's worth a conversation — most teams we work with have been living with these problems for months before reaching out.</p>
+        <p style="margin-top:.75rem">You also likely need a QA consultant if: your CI/CD pipeline has no automated quality gates, your team has no documented test strategy, there is no security testing process in place, releases feel stressful and unpredictable, or you're preparing for a major launch or enterprise client and need to demonstrate quality rigor quickly. If two or more of these apply, it's worth a conversation. Most teams we work with have been living with these problems for months before reaching out.</p>
       </div>
     </div>
 
@@ -721,8 +760,8 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <span class="faq-toggle">+</span>
       </div>
       <div class="faq-a">
-        <p>goGreenlit's embedded QA consulting retainer starts at <strong>$85/hr</strong> with a 20-hour per week minimum. On-demand consulting starts at <strong>$100/hr</strong> with no minimum commitment. Project-based engagements — such as a QA audit or a one-time test strategy buildout — are scoped and quoted per project, typically delivered within one to two weeks.</p>
-        <p style="margin-top:.75rem">For context, a full-time QA lead in the US earns $90,000–$130,000 per year in salary alone — before benefits, payroll taxes, and recruiting costs. Our consulting model delivers senior-level QA leadership at roughly 50–65% of that cost, with the added flexibility to scale up or down as your needs change. We provide a clear written quote within 48 hours of a discovery call.</p>
+        <p>goGreenlit's embedded QA consulting retainer starts at <strong>$85/hr</strong> with a 20-hour per week minimum. On-demand consulting starts at <strong>$100/hr</strong> with no minimum commitment. Project-based engagements (such as a QA audit or a one-time test strategy buildout) are scoped and quoted per project, typically delivered within one to two weeks.</p>
+        <p style="margin-top:.75rem">For context, a full-time QA lead in the US earns $90,000–$130,000 per year in salary alone, before benefits, payroll taxes, and recruiting costs. Our consulting model delivers senior-level QA leadership at roughly 50–65% of that cost, with the added flexibility to scale up or down as your needs change. We provide a clear written quote within 48 hours of a discovery call.</p>
       </div>
     </div>
 
@@ -732,8 +771,8 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <span class="faq-toggle">+</span>
       </div>
       <div class="faq-a">
-        <p>A QA tester executes test cases — they find bugs, report them, and verify fixes. A QA consultant does that <em>and</em> designs the system around it: the test strategy, the defect lifecycle, the release criteria, the CI/CD quality gates, and the metrics that tell engineering leadership whether quality is improving or degrading over time.</p>
-        <p style="margin-top:.75rem">Think of it this way: a tester runs the plays, a QA consultant designs the playbook. Most early-stage and scaling engineering teams are missing the playbook — they have testers (often developers) executing ad-hoc checks, but no governing quality framework. That's the gap goGreenlit fills. And unlike traditional consulting firms that write strategy documents and leave, we stay in the room and implement alongside your team every sprint.</p>
+        <p>A QA tester executes test cases: they find bugs, report them, and verify fixes. A QA consultant does that <em>and</em> designs the system around it: the test strategy, the defect lifecycle, the release criteria, the CI/CD quality gates, and the metrics that tell engineering leadership whether quality is improving or degrading over time.</p>
+        <p style="margin-top:.75rem">Think of it this way: a tester runs the plays, a QA consultant designs the playbook. Most early-stage and scaling engineering teams are missing the playbook. They have testers (often developers) executing ad-hoc checks, but no governing quality framework. That's the QA process improvement gap goGreenlit fills. And unlike traditional consulting firms that write strategy documents and leave, we stay in the room and implement alongside your team every sprint.</p>
       </div>
     </div>
 
@@ -743,7 +782,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <span class="faq-toggle">+</span>
       </div>
       <div class="faq-a">
-        <p>goGreenlit QA consulting engagements typically start within <strong>5–7 business days</strong> of a signed agreement. We run a structured one-week audit in parallel with your active sprint — observing your standup cadence, reviewing your current test coverage and defect history, and mapping your release workflow — then deliver our findings and proposed approach by the end of week one.</p>
+        <p>goGreenlit QA consulting engagements typically start within <strong>5–7 business days</strong> of a signed agreement. We run a structured one-week audit in parallel with your active sprint, observing your standup cadence, reviewing your current test coverage and defect history, and mapping your release workflow. We deliver our findings and proposed approach by the end of week one.</p>
         <p style="margin-top:.75rem">From week two onward, we're fully embedded. No extended onboarding, no lengthy "discovery phase" that delays value. We've worked across healthcare, SaaS, e-commerce, and enterprise distribution systems, so we learn your stack quickly and focus on improving it immediately.</p>
       </div>
     </div>
@@ -754,8 +793,8 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <span class="faq-toggle">+</span>
       </div>
       <div class="faq-a">
-        <p>Yes — and this is a non-negotiable for us. We don't ask you to change tools or workflows to accommodate us. goGreenlit consultants work inside your existing JIRA, Linear, TestRail, Zephyr, Slack, GitHub, or GitLab setup from day one. We attend your sprint planning, daily standups, and retrospectives on whatever cadence your team runs — two-week sprints, continuous delivery, or something in between.</p>
-        <p style="margin-top:.75rem">Where we introduce new process elements — like a structured release checklist or CI/CD quality gates — we do it incrementally, one sprint at a time, so improvements feel like a natural evolution of how you already work rather than a disruptive overhaul imposed by an outside consultant.</p>
+        <p>Yes, and this is a non-negotiable for us. We don't ask you to change tools or workflows to accommodate us. goGreenlit consultants work inside your existing JIRA, Linear, TestRail, Zephyr, Slack, GitHub, or GitLab setup from day one. We attend your sprint planning, daily standups, and retrospectives on whatever cadence your team runs: two-week sprints, continuous delivery, or something in between.</p>
+        <p style="margin-top:.75rem">Where we introduce new process elements like a structured release checklist or CI/CD quality gates, we do it incrementally, one sprint at a time, so improvements feel like a natural evolution rather than a disruptive overhaul. That is what embedded QA consulting services look like in practice.</p>
       </div>
     </div>
 
@@ -772,7 +811,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       <a href="/software-testing-services/" style="display:block;background:var(--card);border:1px solid rgba(15,110,86,.08);border-radius:14px;padding:1.75rem;text-decoration:none;transition:all .3s ease" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--green-200)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(15,110,86,.08)'">
         <div style="font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-400);margin-bottom:.5rem">Service</div>
         <div style="font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:.5rem">Software Testing Services</div>
-        <div style="font-size:.875rem;color:var(--text-mid);line-height:1.6">Hands-on software testing embedded in your sprint — manual, automation, API, regression, and more.</div>
+        <div style="font-size:.875rem;color:var(--text-mid);line-height:1.6">Hands-on software testing embedded in your sprint: manual, automation, API, regression, and more.</div>
       </a>
       <a href="/" style="display:block;background:var(--card);border:1px solid rgba(15,110,86,.08);border-radius:14px;padding:1.75rem;text-decoration:none;transition:all .3s ease" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--green-200)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(15,110,86,.08)'">
         <div style="font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-400);margin-bottom:.5rem">Home</div>
@@ -789,11 +828,11 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   <div class="cta-box">
     <div class="cta-content">
       <h2>Ready to build quality into your process?</h2>
-      <p>Let's start with a free 15-minute call. We'll assess your biggest QA gaps and tell you exactly how we'd approach them — no commitment required.</p>
+      <p>Let's start with a free 15-minute call. We'll assess your biggest QA gaps and tell you exactly how we'd approach them, no commitment required.</p>
     </div>
     <div class="cta-actions">
-      <a href="/cdn-cgi/l/email-protection#fc9b939b8e999992909588bc9b919d9590d29f9391" class="btn btn-white">Book a discovery call →</a>
-      <a href="/cdn-cgi/l/email-protection#7f1810180d1a1a1113160b3f18121e1613511c1012" class="btn btn-outline" style="border-color:rgba(255,255,255,.2);color:#fff"><span class="__cf_email__" data-cfemail="6c0b030b1e0909020005182c0b010d0500420f0301">[email&#160;protected]</span></a>
+      <a href="mailto:gogreenlit@gmail.com" class="btn btn-white">Book a discovery call →</a>
+      <a href="mailto:gogreenlit@gmail.com" class="btn btn-outline" style="border-color:rgba(255,255,255,.2);color:#fff">gogreenlit@gmail.com</a>
     </div>
   </div>
 </section>
@@ -802,6 +841,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
+    <div class="footer-top">
     <div class="footer-logo">
       <svg viewBox="0 0 210 32" height="22" style="opacity:.5">
         <rect x="2" y="4" width="24" height="24" rx="6" fill="#0F6E56"/>
@@ -817,9 +857,11 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       <a href="/qa-consulting/">QA Consulting</a>
       <a href="/#results">Results</a>
       <a href="/#about">About</a>
-      <a href="https://www.linkedin.com/company/gogreenlit/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.linkedin.com/company/gogreenlit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     </div>
     <div class="footer-copy">© 2026 goGreenlit LLC. Chicago, IL.</div>
+    </div>
+    <div class="footer-tagline">goGreenlit is a Chicago, IL QA consulting firm providing quality assurance consulting, test strategy consulting, and QA process improvement for engineering teams across the US.</div>
   </div>
 </footer>
 <script>
