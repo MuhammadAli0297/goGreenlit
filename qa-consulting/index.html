@@ -193,7 +193,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-
 .nav-links{display:flex;align-items:center;gap:2rem}
 .nav-links a{font-size:.875rem;color:var(--text-mid);text-decoration:none;font-weight:500;transition:color .2s}
 .nav-links a:hover{color:var(--green-600)}
-.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.625rem 1.5rem;border-radius:8px;font-size:.875rem;font-weight:600;text-decoration:none;transition:all .25s ease}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.625rem 1.5rem;border-radius:8px;font-size:.875rem;font-weight:600;text-decoration:none;transition:all .25s ease}
 .btn-primary,.nav-links a.btn-primary{background:var(--green-600);color:#fff}
 .btn-primary:hover,.nav-links a.btn-primary:hover{background:var(--green-800);color:#fff;transform:translateY(-1px);box-shadow:0 4px 16px rgba(15,110,86,.25)}
 .btn-outline{border:1.5px solid var(--green-200);color:var(--green-600);background:transparent}
@@ -461,7 +461,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       <a href="/#results">Results</a>
       <a href="/#about">About</a>
       <a href="/#pricing">Pricing</a>
-      <a href="mailto:gogreenlit@gmail.com" class="btn btn-primary">Book a call</a>
+      <a href="https://calendly.com/gogreenlit/30min" class="btn btn-primary">Book a call</a>
     </div>
     <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -485,7 +485,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
     <h1>QA Consulting Services That Build <em>Quality Into</em> Your Engineering Process</h1>
     <p class="hero-lead">goGreenlit provides strategic quality assurance consulting for engineering teams that want more than just test execution. We assess your quality gaps, design a process your team will actually follow, and embed in your sprints to make sure it sticks.</p>
     <div class="hero-actions">
-      <a href="mailto:gogreenlit@gmail.com" class="btn btn-primary">Book a free discovery call →</a>
+      <a href="https://calendly.com/gogreenlit/30min" class="btn btn-primary">Book a free discovery call →</a>
       <a href="#consulting-services" class="btn btn-outline">See what we cover</a>
     </div>
     <div class="hero-trust">
@@ -883,8 +883,8 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       <p>Let's start with a free 15-minute call. We'll assess your biggest QA gaps and tell you exactly how we'd approach them, no commitment required.</p>
     </div>
     <div class="cta-actions">
-      <a href="mailto:gogreenlit@gmail.com" class="btn btn-white">Book a discovery call →</a>
-      <a href="mailto:gogreenlit@gmail.com" class="btn btn-outline" style="border-color:rgba(255,255,255,.2);color:#fff">gogreenlit@gmail.com</a>
+      <a href="https://calendly.com/gogreenlit/30min" class="btn btn-white">Book a discovery call →</a>
+      <a href="mailto:gogreenlit@gmail.com" class="btn btn-outline" style="border-color:rgba(255,255,255,.2);color:#fff">Email us</a>
     </div>
   </div>
 </section>
@@ -917,14 +917,12 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   </div>
 </footer>
 <script>
-/* Fade-in on scroll */
 const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); }});
 }, { threshold: 0, rootMargin: "0px 0px -50px 0px" });
-document.querySelectorAll('.fade-in,.how-it-works,.process-wrap').forEach(el => obs.observe(el));
-setTimeout(() => { document.querySelectorAll('.fade-in,.how-it-works,.process-wrap').forEach(el => el.classList.add('visible')); }, 300);
+document.querySelectorAll('.fade-in,.process-wrap').forEach(el => obs.observe(el));
+setTimeout(() => { document.querySelectorAll('.fade-in,.process-wrap').forEach(el => el.classList.add('visible')); }, 300);
 
-/* Mobile hamburger menu */
 (function(){
   var btn = document.getElementById('nav-hamburger');
   var links = document.querySelector('.nav-links');
@@ -939,7 +937,7 @@ setTimeout(() => { document.querySelectorAll('.fade-in,.how-it-works,.process-wr
     a.addEventListener('click', function(){
       links.classList.remove('open');
       btn.classList.remove('open');
-      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-expanded','false');
       document.body.style.overflow = '';
     });
   });
@@ -947,7 +945,7 @@ setTimeout(() => { document.querySelectorAll('.fade-in,.how-it-works,.process-wr
     if (!btn.contains(e.target) && !links.contains(e.target)) {
       links.classList.remove('open');
       btn.classList.remove('open');
-      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-expanded','false');
       document.body.style.overflow = '';
     }
   });
