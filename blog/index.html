@@ -292,17 +292,70 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       </div>
     </a>
 
+    <!-- POST 3 -->
+    <a href="/blog/in-house-vs-outsourced-qa/" class="post-card">
+      <div class="post-card-thumb">
+        <div class="thumb-icon">
+          <svg width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <div class="post-meta">
+          <span class="post-tag">QA Strategy</span>
+          <span class="post-date">April 2026</span>
+          <span class="post-read-time">9 min read</span>
+        </div>
+        <h2>In-house vs outsourced QA: how to make the right call for your team</h2>
+        <p>Neither model wins universally. After 9+ years embedded in both, here's the honest framework engineering leaders actually need to make this decision — including the hybrid model most mature teams end up at.</p>
+        <div class="post-card-footer">
+          <div class="post-author">
+            <div class="author-avatar">MA</div>
+            <span class="author-name">Muhammad Ali</span>
+          </div>
+          <span class="post-arrow">Read article <span>→</span></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- POST 4 -->
+    <a href="/blog/playwright-cicd-integration/" class="post-card">
+      <div class="post-card-thumb">
+        <div class="thumb-icon">
+          <svg width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14"/><path d="M4.93 4.93a10 10 0 000 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07"/><path d="M8.46 8.46a5 5 0 000 7.07"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <div class="post-meta">
+          <span class="post-tag">Test Automation</span>
+          <span class="post-date">April 2026</span>
+          <span class="post-read-time">10 min read</span>
+        </div>
+        <h2>Playwright CI/CD integration: a practical setup guide for 2026</h2>
+        <p>Getting Playwright running locally is easy. Getting it running reliably inside a CI/CD pipeline is a different problem. Here's the full GitHub Actions setup, including sharding, caching, and the five things that trip up CI runs every time.</p>
+        <div class="post-card-footer">
+          <div class="post-author">
+            <div class="author-avatar">MK</div>
+            <span class="author-name">Mohammad Khan</span>
+          </div>
+          <span class="post-arrow">Read article <span>→</span></span>
+        </div>
+      </div>
+    </a>
+
     <!-- COMING SOON -->
     <div class="coming-soon-card">
       <h3>More articles on the way</h3>
       <p>We publish practical QA content roughly twice a month. Topics coming up next:</p>
       <div class="coming-soon-topics">
-        <span class="coming-soon-topic">In-house vs outsourced QA</span>
         <span class="coming-soon-topic">Agile QA in sprint cycles</span>
-        <span class="coming-soon-topic">Playwright CI/CD setup</span>
         <span class="coming-soon-topic">QA maturity model</span>
         <span class="coming-soon-topic">Test automation ROI</span>
         <span class="coming-soon-topic">API testing with Postman</span>
+        <span class="coming-soon-topic">Shift-left testing strategies</span>
       </div>
     </div>
 
@@ -334,6 +387,16 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <div class="related-card-label">Blog post</div>
         <div class="related-card-title">How we cut escaped defects by 45%</div>
         <div class="related-card-desc">The process change that drove the biggest quality improvement — no new tools required.</div>
+      </a>
+      <a href="/blog/in-house-vs-outsourced-qa/" class="related-card">
+        <div class="related-card-label">Blog post</div>
+        <div class="related-card-title">In-house vs outsourced QA</div>
+        <div class="related-card-desc">The honest framework for deciding which model fits your team's stage, budget, and quality goals.</div>
+      </a>
+      <a href="/blog/playwright-cicd-integration/" class="related-card">
+        <div class="related-card-label">Blog post</div>
+        <div class="related-card-title">Playwright CI/CD integration guide</div>
+        <div class="related-card-desc">Full GitHub Actions setup for Playwright — sharding, caching, reporting, and the pitfalls to avoid.</div>
       </a>
       <a href="/#about" class="related-card">
         <div class="related-card-label">About</div>
@@ -392,7 +455,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
 }, { threshold: 0, rootMargin: '0px 0px -50px 0px' });
@@ -419,8 +482,8 @@ setTimeout(() => { document.querySelectorAll('.fade-in').forEach(el => el.classL
   });
   document.addEventListener('click', function(e){
     if (!btn.contains(e.target) && !links.contains(e.target)) {
-
-    btn.classList.remove('open');
+      links.classList.remove('open');
+      btn.classList.remove('open');
       btn.setAttribute('aria-expanded','false');
       document.body.style.overflow = '';
     }
