@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agile QA in Sprint Cycles: How to Embed Quality Without Slowing Down | goGreenlit</title>
+<meta name="description" content="QA doesn't have to lag behind development. Learn how to embed QA into Agile sprint cycles so testing keeps pace with code — without adding overhead or creating bottlenecks.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.gogreenlit.com/blog/agile-qa-sprint-cycles/">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.gogreenlit.com/blog/agile-qa-sprint-cycles/">
+<meta property="og:site_name" content="goGreenlit">
+<meta property="og:title" content="Agile QA in Sprint Cycles: How to Embed Quality Without Slowing Down">
+<meta property="og:description" content="QA doesn't have to lag behind development. Learn how to embed QA into Agile sprint cycles so testing keeps pace with code, without adding overhead or creating bottlenecks.">
+<meta property="og:image" content="https://www.gogreenlit.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Agile QA in Sprint Cycles: How to Embed Quality Without Slowing Down">
+<meta name="twitter:description" content="QA doesn't have to lag behind development. Learn how to embed QA into Agile sprint cycles so testing keeps pace with code.">
+<meta name="twitter:image" content="https://www.gogreenlit.com/og-image.jpg">
+<link rel="icon" type="image/png" href="/gogreenlit-icon-green.png">
+<link rel="apple-touch-icon" href="/gogreenlit-icon-green.png">
+<link rel="shortcut icon" href="/gogreenlit-icon-green.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green-50:#E1F5EE;--green-100:#9FE1CB;--green-200:#5DCAA5;
+  --green-400:#1D9E75;--green-600:#0F6E56;--green-800:#085041;
+  --navy:#0B1D33;--navy-light:#1A2D47;
+  --text:#1E293B;--text-mid:#475569;--text-light:#94A3B8;
+  --bg:#FAFCFB;--card:#FFFFFF;
+  --font-body:'DM Sans',system-ui,sans-serif;
+  --font-display:'Instrument Serif',Georgia,serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+.nav-hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;padding:6px 4px;border:none;background:none;margin-left:.5rem;flex-shrink:0}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:transform .3s ease,opacity .3s ease}
+.nav-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(250,252,251,.85);border-bottom:1px solid rgba(15,110,86,.08)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo svg{height:28px;width:auto}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{font-size:.875rem;color:var(--text-mid);text-decoration:none;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--green-600)}
+.nav-links a.nav-active{color:var(--green-600)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.625rem 1.5rem;border-radius:8px;font-size:.875rem;font-weight:600;text-decoration:none;transition:all .25s ease}
+.btn-primary,.nav-links a.btn-primary{background:var(--green-600);color:#fff}
+.btn-primary:hover,.nav-links a.btn-primary:hover{background:var(--green-800);color:#fff;transform:translateY(-1px);box-shadow:0 4px 16px rgba(15,110,86,.25)}
+.btn-outline{border:1.5px solid var(--green-200);color:var(--green-600);background:transparent}
+.btn-outline:hover{background:var(--green-50);border-color:var(--green-400)}
+.btn-white{background:#fff;color:var(--green-600);border:none}
+.btn-white:hover{background:var(--green-50);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.15)}
+
+/* POST HERO */
+.post-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 60%,#1B3A52 100%);padding:8rem 2rem 5rem;position:relative;overflow:hidden}
+.post-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(93,202,165,.06) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none}
+.hero-orb-1{width:400px;height:400px;background:rgba(93,202,165,.12);top:-100px;right:-80px}
+.hero-orb-2{width:280px;height:280px;background:rgba(29,158,117,.1);bottom:-60px;left:10%}
+.post-hero-inner{max-width:760px;margin:0 auto;position:relative;z-index:1}
+nav .breadcrumb{display:none}
+.breadcrumb{display:flex;align-items:center;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.breadcrumb a{font-size:.8rem;color:var(--green-100);text-decoration:none;opacity:.8;transition:opacity .2s}
+.breadcrumb a:hover{opacity:1}
+.breadcrumb-sep{font-size:.8rem;color:rgba(255,255,255,.3)}
+.breadcrumb-current{font-size:.8rem;color:rgba(255,255,255,.5)}
+.post-hero-tags{display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.post-hero-tag{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);background:var(--green-100);padding:.3rem .8rem;border-radius:100px}
+.post-hero-meta{font-size:.8rem;color:rgba(255,255,255,.5)}
+.post-hero h1{font-family:var(--font-display);font-size:clamp(2rem,4.5vw,3.25rem);line-height:1.15;color:#fff;font-weight:400;margin-bottom:1.25rem}
+.post-hero h1 em{font-style:italic;color:var(--green-100)}
+.post-hero-lead{font-size:1.1rem;color:rgba(255,255,255,.75);line-height:1.75;max-width:680px}
+.post-hero-author{display:flex;align-items:center;gap:.875rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.1)}
+.author-avatar-lg{width:44px;height:44px;border-radius:50%;background:var(--green-600);border:2px solid rgba(93,202,165,.4);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff;flex-shrink:0}
+.author-info-name{font-size:.9rem;font-weight:600;color:#fff}
+.author-info-role{font-size:.78rem;color:rgba(255,255,255,.5)}
+
+/* ARTICLE BODY */
+.article-wrap{max-width:760px;margin:0 auto;padding:4rem 2rem 5rem}
+.article-body{font-size:1.05rem;line-height:1.8;color:var(--text)}
+.article-body h2{font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.1rem);color:var(--navy);font-weight:400;margin:3rem 0 1.25rem;line-height:1.25}
+.article-body h3{font-size:1.15rem;font-weight:600;color:var(--navy);margin:2rem 0 .75rem}
+.article-body p{margin-bottom:1.5rem}
+.article-body ul,.article-body ol{margin:1.25rem 0 1.75rem 1.5rem}
+.article-body li{margin-bottom:.6rem;line-height:1.7}
+.article-body strong{color:var(--navy);font-weight:600}
+.article-body a{color:var(--green-600);text-decoration:underline;text-decoration-color:rgba(15,110,86,.3);transition:text-decoration-color .2s}
+.article-body a:hover{text-decoration-color:var(--green-600)}
+
+/* CALLOUT BOX */
+.callout{background:var(--green-50);border-left:3px solid var(--green-400);border-radius:0 12px 12px 0;padding:1.5rem 1.75rem;margin:2.5rem 0}
+.callout p{margin:0;font-size:.95rem;color:var(--text-mid);line-height:1.7}
+.callout strong{color:var(--green-800)}
+
+/* STAT STRIP */
+.stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:16px;padding:2.5rem;margin:3rem 0}
+.stat-item{text-align:center}
+.stat-number{font-family:var(--font-display);font-size:2.25rem;color:var(--green-100);font-weight:400;display:block;line-height:1}
+.stat-label{font-size:.8rem;color:rgba(255,255,255,.55);margin-top:.5rem;display:block;line-height:1.4}
+
+/* SPRINT TABLE */
+.sprint-table{width:100%;border-collapse:collapse;margin:2rem 0;font-size:.9rem}
+.sprint-table th{background:var(--navy);color:rgba(255,255,255,.85);font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.875rem 1rem;text-align:left}
+.sprint-table th:first-child{border-radius:8px 0 0 0}
+.sprint-table th:last-child{border-radius:0 8px 0 0}
+.sprint-table td{padding:.875rem 1rem;border-bottom:1px solid rgba(15,110,86,.07);vertical-align:top;line-height:1.55}
+.sprint-table tr:last-child td{border-bottom:none}
+.sprint-table tr:nth-child(even) td{background:rgba(15,110,86,.02)}
+.sprint-table .phase-label{font-weight:600;color:var(--navy);white-space:nowrap}
+.sprint-table .qa-action{color:var(--green-600);font-weight:500}
+.table-wrap{overflow-x:auto;border-radius:12px;border:1px solid rgba(15,110,86,.1);margin:2.5rem 0}
+
+/* NUMBERED STEPS */
+.step-list{list-style:none;margin:2rem 0;padding:0}
+.step-item{display:flex;gap:1.25rem;margin-bottom:2rem;align-items:flex-start}
+.step-num{width:36px;height:36px;border-radius:50%;background:var(--green-600);color:#fff;font-size:.85rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.2rem}
+.step-content h3{font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:.4rem}
+.step-content p{font-size:.95rem;color:var(--text-mid);line-height:1.65;margin:0}
+
+/* INLINE CTA */
+.inline-cta{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:16px;padding:2.5rem;margin:3.5rem 0;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+.inline-cta-text h3{font-family:var(--font-display);font-size:1.5rem;color:#fff;font-weight:400;margin-bottom:.5rem}
+.inline-cta-text p{font-size:.9rem;color:rgba(255,255,255,.6);max-width:400px;line-height:1.6;margin:0}
+
+/* AUTHOR BIO */
+.author-bio{background:var(--card);border:1px solid rgba(15,110,86,.1);border-radius:16px;padding:2rem;margin-top:4rem;display:flex;gap:1.5rem;align-items:flex-start}
+.bio-avatar{width:56px;height:56px;border-radius:50%;background:var(--green-600);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;color:#fff;flex-shrink:0}
+.bio-name{font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:.25rem}
+.bio-role{font-size:.8rem;color:var(--green-600);font-weight:600;margin-bottom:.6rem}
+.bio-text{font-size:.875rem;color:var(--text-mid);line-height:1.65;margin:0}
+
+/* RELATED SECTION */
+.related-wrap{background:var(--green-50);padding:4rem 2rem;position:relative;overflow:hidden}
+.related-wrap::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(15,110,86,.04) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
+.related-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green-400);margin-bottom:2rem}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-top:2rem}
+.related-card{display:block;background:var(--card);border:1px solid rgba(15,110,86,.08);border-radius:14px;padding:1.75rem;text-decoration:none;transition:all .3s ease}
+.related-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(15,110,86,.08);border-color:var(--green-200)}
+.related-card-label{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-400);margin-bottom:.5rem}
+.related-card-title{font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:.5rem}
+.related-card-desc{font-size:.875rem;color:var(--text-mid);line-height:1.6}
+
+/* CTA */
+.cta-wrap{background:linear-gradient(180deg,#FAFCFB 0%,#F0FAF5 100%)}
+.cta{padding:6rem 2rem;max-width:1200px;margin:0 auto}
+.cta-box{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);border-radius:24px;padding:4rem;display:flex;align-items:center;justify-content:space-between;gap:3rem;position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;bottom:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(93,202,165,.08);pointer-events:none}
+.cta-content h2{font-family:var(--font-display);font-size:2.5rem;color:#fff;margin-bottom:1rem;font-weight:400}
+.cta-content p{font-size:1.05rem;color:var(--text-light);max-width:460px;line-height:1.7}
+.cta-actions{display:flex;flex-direction:column;gap:.75rem;flex-shrink:0}
+
+/* FOOTER */
+footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:1.25rem}
+.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-links{display:flex;gap:2rem;flex-wrap:wrap}
+.footer-links a{font-size:.8rem;color:var(--text-light);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--green-600)}
+.footer-copy{font-size:.8rem;color:var(--text-light)}
+.footer-tagline{font-size:.72rem;color:var(--text-light);opacity:.7;padding-top:.75rem;border-top:1px solid rgba(15,110,86,.06)}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .nav-links a:not(.btn){display:none}
+  .nav-hamburger{display:flex}
+  .nav-links{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(250,252,251,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(15,110,86,.12);flex-direction:column;padding:1.25rem 2rem 1.5rem;gap:0;z-index:99;box-shadow:0 8px 32px rgba(15,110,86,.08)}
+  .nav-links.open{display:flex}
+  .nav-links a:not(.btn){display:block !important;padding:.75rem 0;border-bottom:1px solid rgba(15,110,86,.06);font-size:.95rem;color:var(--text-mid)}
+  .nav-links a:not(.btn):last-of-type{border-bottom:none}
+  .nav-links .btn{margin-top:.75rem;align-self:flex-start;display:inline-flex !important}
+  .stat-strip{grid-template-columns:1fr;gap:1rem;padding:2rem}
+  .inline-cta{flex-direction:column}
+  .cta-box{flex-direction:column;text-align:center;padding:3rem 2rem}
+  .cta-actions{align-items:center}
+  .author-bio{flex-direction:column}
+  .footer-top{flex-direction:column;gap:1rem;text-align:center}
+}
+@media(max-width:600px){
+  .article-wrap{padding:3rem 1.25rem 4rem}
+  .sprint-table{font-size:.8rem}
+  .footer-links{flex-wrap:wrap;gap:1rem;justify-content:center}
+  .cta-box{padding:2.5rem 1.5rem}
+  .cta-actions .btn{width:100%;justify-content:center}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Agile QA in Sprint Cycles: How to Embed Quality Without Slowing Down",
+  "description": "QA doesn't have to lag behind development. Learn how to embed QA into Agile sprint cycles so testing keeps pace with code, without adding overhead or creating bottlenecks.",
+  "url": "https://www.gogreenlit.com/blog/agile-qa-sprint-cycles/",
+  "datePublished": "2026-04-08",
+  "dateModified": "2026-04-08",
+  "author": {
+    "@type": "Person",
+    "name": "Muhammad Ali",
+    "jobTitle": "QA Manager",
+    "worksFor": {"@type": "Organization", "name": "goGreenlit"}
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "goGreenlit",
+    "url": "https://www.gogreenlit.com",
+    "logo": "https://www.gogreenlit.com/gogreenlit-icon-green.png"
+  },
+  "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.gogreenlit.com/blog/agile-qa-sprint-cycles/"}
+}
+</script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <svg viewBox="0 0 210 32" height="28">
+        <rect x="2" y="4" width="24" height="24" rx="6" fill="#0F6E56"/>
+        <path d="M10 11L20 16L10 21Z" fill="#E1F5EE"/>
+        <text x="34" y="23" font-family="'DM Sans','Helvetica Neue',Helvetica,sans-serif" font-size="20" letter-spacing="-0.3">
+          <tspan fill="#5DCAA5" font-weight="300">go</tspan><tspan fill="#0F6E56" font-weight="600">Greenlit</tspan>
+        </text>
+      </svg>
+    </a>
+    <div class="nav-links">
+      <a href="/software-testing-services/">Services</a>
+      <a href="/qa-consulting/">QA Consulting</a>
+      <a href="/#results">Results</a>
+      <a href="/about/">About Us</a>
+      <a href="/blog/" class="nav-active">Blog</a>
+      <a href="https://calendly.com/gogreenlit/30min" class="btn btn-primary">Book a call</a>
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- POST HERO -->
+<div class="post-hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="post-hero-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="/blog/">Blog</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Agile QA in sprint cycles</span>
+    </nav>
+    <div class="post-hero-tags">
+      <span class="post-hero-tag">QA Strategy</span>
+      <span class="post-hero-meta">April 2026 · 8 min read</span>
+    </div>
+    <h1>Agile QA in sprint cycles: how to embed <em>quality</em> without slowing down</h1>
+    <p class="post-hero-lead">Most QA problems in Agile teams aren't testing problems. They're timing problems. Testing that happens after the sprint ends is not Agile QA, it's just delayed waterfall with a better name. Here's how to actually fix the handoff.</p>
+    <div class="post-hero-author">
+      <div class="author-avatar-lg">MA</div>
+      <div>
+        <div class="author-info-name">Muhammad Ali</div>
+        <div class="author-info-role">QA Manager, goGreenlit · 9+ years in QA</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ARTICLE -->
+<div class="article-wrap">
+  <article class="article-body fade-in">
+
+    <p>I've worked with engineering teams that run two-week sprints and still have QA review happening in week three. The sprint ceremony looks Agile. The calendar says Agile. But the actual flow of work is sequential: dev finishes, hands off to QA, QA finds things, dev fixes, QA re-tests. That's a waterfall loop inside an Agile container.</p>
+
+    <p>It's one of the most common QA problems I see at startups and mid-size product companies. And the reason it persists isn't laziness or bad intentions. It's that nobody has drawn out exactly where QA fits inside a sprint, day by day. So teams default to "QA tests at the end" because that's the only model they've seen work.</p>
+
+    <p>This article is the playbook I use when we embed goGreenlit into a client's sprint. It covers where testing actually slots in, what QA is doing during development (not after), and how to run regression without burning the last two days of every sprint doing it manually.</p>
+
+    <div class="stat-strip">
+      <div class="stat-item">
+        <span class="stat-number">73%</span>
+        <span class="stat-label">of Agile teams report QA as the most common sprint bottleneck</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">45%</span>
+        <span class="stat-label">reduction in escaped defects when QA is embedded from sprint day one</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">2x</span>
+        <span class="stat-label">faster defect resolution when bugs are caught within the same sprint</span>
+      </div>
+    </div>
+
+    <h2>Why "QA at the end of the sprint" keeps breaking</h2>
+
+    <p>When QA sits at the tail end of a sprint, a few things predictably go wrong. First, there's no buffer. If dev runs a day long (which happens in every sprint), QA gets compressed. A three-day testing window becomes one and a half days. Something gets cut. That something is usually the edge cases and regression coverage that actually catch production bugs.</p>
+
+    <p>Second, context is lost. Developers have moved on mentally. They're in sprint planning for the next cycle. When a bug comes back, they have to context-switch, re-read the ticket, and remember what they built two weeks ago. That adds friction and slows fixes.</p>
+
+    <p>Third, and most importantly, QA has no influence over quality during the sprint. By the time a tester touches the feature, all the architectural decisions, edge case assumptions, and data flow choices are already baked in. Catching a fundamental logic problem in testing is expensive. Catching it in the ticket review on day one is free.</p>
+
+    <div class="callout">
+      <p><strong>The real shift in Agile QA:</strong> Move QA from a verification activity at the end of the sprint to a prevention activity throughout the sprint. The tools are different, the timing is different, and the conversations are different. But it's not more work. It's earlier work, which is cheaper work.</p>
+    </div>
+
+    <h2>What Agile QA actually looks like, day by day</h2>
+
+    <p>Here's the sprint structure I run with clients. It's based on a two-week sprint, but the pattern scales to one-week and three-week cycles with minor adjustments.</p>
+
+    <div class="table-wrap">
+      <table class="sprint-table">
+        <thead>
+          <tr>
+            <th>Sprint phase</th>
+            <th>Dev activity</th>
+            <th>QA activity</th>
+            <th>Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="phase-label">Sprint planning (Day 1)</td>
+            <td>Story breakdown, task estimation</td>
+            <td class="qa-action">Review acceptance criteria, flag missing test conditions, size testing effort</td>
+            <td>QA-annotated stories, risk flags added to tickets</td>
+          </tr>
+          <tr>
+            <td class="phase-label">Early dev (Days 2-4)</td>
+            <td>Feature development begins, unit tests written</td>
+            <td class="qa-action">Write test plans for in-progress stories, set up test data, prepare automation scripts for happy-path flows</td>
+            <td>Test plans linked to tickets, test data ready in staging</td>
+          </tr>
+          <tr>
+            <td class="phase-label">Mid-sprint (Days 5-7)</td>
+            <td>Features reaching completion, PR review</td>
+            <td class="qa-action">Begin functional testing on completed stories, log defects same-day, validate against acceptance criteria</td>
+            <td>Bugs filed with reproduction steps, same-sprint fix cycle begins</td>
+          </tr>
+          <tr>
+            <td class="phase-label">Late sprint (Days 8-9)</td>
+            <td>Bug fixes, code freeze</td>
+            <td class="qa-action">Regression run on impacted areas, automation suite execution, retest of fixed defects</td>
+            <td>Regression results, go/no-go signal for release</td>
+          </tr>
+          <tr>
+            <td class="phase-label">Sprint close (Day 10)</td>
+            <td>Sprint review, retrospective</td>
+            <td class="qa-action">Document test coverage, flag automation gaps, carry test debt into next sprint planning</td>
+            <td>Test coverage report, automation backlog updated</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The thing to notice is that testing in this model starts on day one, not day eight. QA is reading tickets during sprint planning not to sit in on meetings but to do work: reviewing acceptance criteria, identifying missing edge cases, flagging stories that don't have enough definition to test reliably.</p>
+
+    <h2>The three conversations QA needs to have earlier</h2>
+
+    <p>Most of the value in Agile QA comes from shifting three specific conversations earlier in the sprint cycle. These aren't formal ceremonies. They're short, informal exchanges that happen at the right moment instead of the wrong one.</p>
+
+    <ol class="step-list">
+      <li class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Acceptance criteria review before the sprint starts</h3>
+          <p>QA should be in backlog refinement, not as an observer but as a participant asking testability questions. "How do we know this is done?" and "What happens when the user does X instead of Y?" are testing questions. Asking them before the sprint starts costs nothing. Discovering the answer in testing costs a defect, a re-test, and a context switch.</p>
+        </div>
+      </li>
+      <li class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Test condition alignment during dev</h3>
+          <p>When a developer is midway through building a feature, a 10-minute conversation with QA about how the feature will be tested often surfaces assumptions the developer didn't know they were making. Not architectural changes, just clarifications. "The test is going to call this endpoint with an empty array, how should that behave?" That question, answered during development, prevents a defect from ever being written.</p>
+        </div>
+      </li>
+      <li class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Defect triage the same day bugs are logged</h3>
+          <p>Same-day defect triage is one of the highest-leverage habits in Agile QA. When a bug is logged at 10am and triaged at 10:30am, the developer still has the context to fix it quickly. When it sits in a backlog until the next standup, it gets prioritized against other work, sometimes deprioritized entirely, and the fix happens under sprint-close pressure. Same-sprint bugs are cheap. Next-sprint bugs are expensive. Escaped bugs are very expensive.</p>
+        </div>
+      </li>
+    </ol>
+
+    <h2>Handling regression without burning the sprint</h2>
+
+    <p>Regression is where Agile QA teams most often break down. The logic seems simple: before releasing, run regression. But in a two-week sprint with a one-person QA function, a full manual regression run can take two or three days. That's 20 to 30 percent of your sprint dedicated to re-testing things that probably haven't changed.</p>
+
+    <p>The solution isn't to skip regression. It's to be honest about what "regression" actually means in each sprint.</p>
+
+    <p>In practice, we use a three-tier regression model that keeps coverage high without burning the sprint clock:</p>
+
+    <ul>
+      <li><strong>Automated smoke suite (always runs):</strong> A Playwright suite covering the 15 to 20 most critical user journeys. Runs in CI on every merge to main. Takes about eight minutes. If this breaks, you know immediately and the fix is usually targeted.</li>
+      <li><strong>Impact-based functional regression (runs on changed areas):</strong> Manual testing focused on the specific features that changed this sprint plus anything that shares data or state with those features. Not the whole app, just the blast radius. This is where test plans from sprint planning pay off — you already know what's connected.</li>
+      <li><strong>Full regression (runs quarterly or before major releases):</strong> A complete end-to-end walkthrough of the application. Not every sprint. You build toward this incrementally by expanding your automation suite so the "full regression" is increasingly automated over time.</li>
+    </ul>
+
+    <p>Teams that try to run full regression every sprint will eventually skip it entirely because it's not sustainable. Tiered regression is sustainable, and it keeps your 95% release coverage goal within reach on a realistic timeline.</p>
+
+    <div class="callout">
+      <p><strong>A note on test automation in Agile:</strong> Automation doesn't replace sprint testing, it protects it. The value of a Playwright smoke suite isn't catching new bugs. It's giving you confidence that the existing functionality hasn't broken so your manual testing time can focus on the new stuff. That shift in how you use automation changes what you build and when you build it.</p>
+    </div>
+
+    <h2>What "QA embedded in the sprint" looks like from the outside</h2>
+
+    <p>When a team gets this right, the sprint dynamic shifts in a way that's immediately visible. Bugs get logged earlier. Defect density in the last three days of the sprint drops noticeably. Sprint reviews have fewer "still in QA" stories because testing finished before the sprint ended, not after.</p>
+
+    <p>The other thing that changes is the conversation in sprint retrospectives. Instead of "QA needs more time" as a recurring theme, the team starts talking about test coverage, automation debt, and which acceptance criteria patterns tend to create ambiguity. Those are better conversations. They improve quality at the source instead of compensating for it at the end.</p>
+
+    <p>We've run this model across teams of five and teams of forty. The ceremonies look different, the tooling looks different, and the sprint length varies. But the underlying principle stays the same: quality is embedded into the build process, not appended to it.</p>
+
+    <h2>How outsourced QA fits into an Agile sprint</h2>
+
+    <p>One question I get often is whether an external QA partner can actually integrate into a sprint cycle or whether they'll always be one step removed from the team. The honest answer is that it depends entirely on how the engagement is structured.</p>
+
+    <p>At goGreenlit, we build our engagements around sprint participation, not deliverables. We're in your sprint planning. We're reviewing tickets during refinement. We're in your Slack channels logging same-day bugs. We're not sending you a test report at the end of the month and calling it QA coverage.</p>
+
+    <p>The difference between outsourced QA that works and outsourced QA that feels like a drag on velocity is almost entirely a function of whether the QA team is embedded in the sprint or orbiting it. When you're embedded, the timing problem that creates most Agile QA debt disappears. You're not doing QA at the end of the sprint because you were never waiting to start.</p>
+
+    <!-- INLINE CTA -->
+    <div class="inline-cta">
+      <div class="inline-cta-text">
+        <h3>Want QA that runs inside your sprint, not after it?</h3>
+        <p>We embed directly into client sprint cycles. No handoff delays, no end-of-sprint crunch. Let's talk about your current setup.</p>
+      </div>
+      <a href="https://calendly.com/gogreenlit/30min" class="btn btn-white">Book a 30-minute call</a>
+    </div>
+
+    <h2>Where to start if your team is still doing QA at the end</h2>
+
+    <p>If your team currently runs QA after development completes, shifting to embedded QA doesn't require a full process overhaul. It requires three changes done in order:</p>
+
+    <p><strong>First:</strong> Get QA into sprint planning and backlog refinement. Not to review every ticket in depth, just to flag the ones with unclear acceptance criteria or testing ambiguity. This alone shifts a meaningful number of defects earlier.</p>
+
+    <p><strong>Second:</strong> Start logging bugs during the sprint, not after it. Even if dev review still happens at the end, logging bugs as they're found (rather than batching them into a report) creates a different urgency and shortens the fix cycle.</p>
+
+    <p><strong>Third:</strong> Build a small automated smoke suite. Ten to fifteen tests covering your highest-traffic user journeys. Run it in CI on every merge. This gives you the safety net to do impact-based regression instead of full regression, which is where most of your sprint testing time gets reclaimed.</p>
+
+    <p>Those three changes alone will improve your sprint QA posture significantly. Everything else, tiered regression, test plan templates, defect triage cadences, layers on top of that foundation.</p>
+
+    <!-- AUTHOR BIO -->
+    <div class="author-bio">
+      <div class="bio-avatar">MA</div>
+      <div>
+        <div class="bio-name">Muhammad Ali</div>
+        <div class="bio-role">QA Manager, goGreenlit</div>
+        <p class="bio-text">Muhammad is co-founder and QA Manager at goGreenlit, a Chicago-based QA consultancy. With 9+ years in software quality, he has embedded QA into sprint cycles across startups, SaaS platforms, and mid-size engineering teams. He and Mohammad Khan previously worked together at KeHE Distributors before founding goGreenlit.</p>
+      </div>
+    </div>
+
+  </article>
+</div>
+
+<!-- RELATED LINKS -->
+<div class="related-wrap">
+  <div class="related-inner fade-in">
+    <div class="section-label">Explore more</div>
+    <h2 style="font-family:var(--font-display);font-size:clamp(1.75rem,3vw,2.25rem);color:var(--navy);font-weight:400;margin-bottom:0">Related pages</h2>
+    <div class="related-grid">
+      <a href="/software-testing-services/" class="related-card">
+        <div class="related-card-label">Service</div>
+        <div class="related-card-title">Software Testing Services</div>
+        <div class="related-card-desc">Manual testing, Playwright automation, Selenium, API testing, and regression — embedded in your sprint.</div>
+      </a>
+      <a href="/qa-consulting/" class="related-card">
+        <div class="related-card-label">Service</div>
+        <div class="related-card-title">QA Consulting</div>
+        <div class="related-card-desc">Strategic QA guidance covering test strategy, process design, and quality program setup for growing teams.</div>
+      </a>
+      <a href="/blog/how-we-reduced-escaped-defects/" class="related-card">
+        <div class="related-card-label">Blog post</div>
+        <div class="related-card-title">How we cut escaped defects by 45%</div>
+        <div class="related-card-desc">The process change that drove the biggest quality improvement, and why it had nothing to do with new tooling.</div>
+      </a>
+      <a href="/blog/in-house-vs-outsourced-qa/" class="related-card">
+        <div class="related-card-label">Blog post</div>
+        <div class="related-card-title">In-house vs outsourced QA</div>
+        <div class="related-card-desc">The honest framework for deciding which model fits your team's stage, budget, and quality goals.</div>
+      </a>
+      <a href="/blog/playwright-vs-selenium-2026/" class="related-card">
+        <div class="related-card-label">Blog post</div>
+        <div class="related-card-title">Playwright vs Selenium in 2026</div>
+        <div class="related-card-desc">A side-by-side breakdown of both frameworks to help your team pick the right tool for your stack.</div>
+      </a>
+      <a href="/blog/api-testing-best-practices/" class="related-card">
+        <div class="related-card-label">Blog post</div>
+        <div class="related-card-title">API testing best practices</div>
+        <div class="related-card-desc">A practical guide to building reliable API test coverage, from contract testing to performance benchmarks.</div>
+      </a>
+      <a href="/about/" class="related-card">
+        <div class="related-card-label">About</div>
+        <div class="related-card-title">About goGreenlit</div>
+        <div class="related-card-desc">Two senior QA engineers who built a consultancy that plugs directly into your sprint cycle.</div>
+      </a>
+      <a href="https://calendly.com/gogreenlit/30min" class="related-card">
+        <div class="related-card-label">Get started</div>
+        <div class="related-card-title">Book a discovery call</div>
+        <div class="related-card-desc">30 minutes, no pressure. We'll tell you exactly what coverage your team needs and how fast we can start.</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-wrap">
+  <section class="cta fade-in">
+    <div class="cta-box">
+      <div class="cta-content">
+        <h2>Ready to talk about your QA setup?</h2>
+        <p>We're a two-founder QA consultancy based in Chicago. If you're tired of bugs slipping to production, let's have a 30-minute conversation about what's actually going wrong.</p>
+      </div>
+      <div class="cta-actions">
+        <a href="https://calendly.com/gogreenlit/30min" class="btn btn-white">Book a discovery call →</a>
+        <a href="mailto:gogreenlit@gmail.com" class="btn btn-outline" style="border-color:rgba(255,255,255,.2);color:#fff">Email us</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-logo">
+        <svg viewBox="0 0 210 32" height="22" style="opacity:.5">
+          <rect x="2" y="4" width="24" height="24" rx="6" fill="#0F6E56"/>
+          <path d="M10 11L20 16L10 21Z" fill="#E1F5EE"/>
+          <text x="34" y="23" font-family="'DM Sans','Helvetica Neue',sans-serif" font-size="20" letter-spacing="-0.3">
+            <tspan fill="#5DCAA5" font-weight="300">go</tspan><tspan fill="#0F6E56" font-weight="600">Greenlit</tspan>
+          </text>
+        </svg>
+      </div>
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/software-testing-services/">Software Testing</a>
+        <a href="/qa-consulting/">QA Consulting</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About Us</a>
+        <a href="https://www.linkedin.com/company/gogreenlit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+      <div class="footer-copy">© 2026 goGreenlit LLC. Chicago, IL.</div>
+    </div>
+    <div class="footer-tagline">goGreenlit is a Chicago, IL QA company offering outsourced QA consulting services and software testing for engineering teams.</div>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+}, { threshold: 0, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+setTimeout(() => { document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible')); }, 300);
+
+(function(){
+  var btn = document.getElementById('nav-hamburger');
+  var links = document.querySelector('.nav-links');
+  if (!btn || !links) return;
+  btn.addEventListener('click', function(){
+    var open = links.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  links.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      links.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+      document.body.style.overflow = '';
+    });
+  });
+  document.addEventListener('click', function(e){
+    if (!btn.contains(e.target) && !links.contains(e.target)) {
+      links.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+      document.body.style.overflow = '';
+    }
+  });
+})();
+</script>
+</body>
+</html>
