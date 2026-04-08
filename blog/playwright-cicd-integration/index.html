@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playwright CI/CD Integration: A Practical Setup Guide for 2026 | goGreenlit Blog</title>
+<meta name="description" content="A step-by-step guide to wiring Playwright into your CI/CD pipeline using GitHub Actions. Covers parallelization, test reporting, flaky test handling, and the mistakes most teams make on the first try.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.gogreenlit.com/blog/playwright-cicd-integration/">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.gogreenlit.com/blog/playwright-cicd-integration/">
+<meta property="og:site_name" content="goGreenlit">
+<meta property="og:title" content="Playwright CI/CD Integration: A Practical Setup Guide for 2026">
+<meta property="og:description" content="Step-by-step Playwright CI/CD integration using GitHub Actions. Parallelization, reporting, flaky test handling, and the mistakes most teams make first.">
+<meta property="og:image" content="https://www.gogreenlit.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Playwright CI/CD Integration: A Practical Setup Guide for 2026">
+<meta name="twitter:description" content="How to wire Playwright into GitHub Actions properly. Covers sharding, HTML reports, retry logic, and the config settings that actually matter in CI.">
+<meta name="twitter:image" content="https://www.gogreenlit.com/og-image.jpg">
+<link rel="icon" type="image/png" href="/gogreenlit-icon-green.png">
+<link rel="apple-touch-icon" href="/gogreenlit-icon-green.png">
+<link rel="shortcut icon" href="/gogreenlit-icon-green.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green-50:#E1F5EE;--green-100:#9FE1CB;--green-200:#5DCAA5;
+  --green-400:#1D9E75;--green-600:#0F6E56;--green-800:#085041;
+  --navy:#0B1D33;--navy-light:#1A2D47;
+  --text:#1E293B;--text-mid:#475569;--text-light:#94A3B8;
+  --bg:#FAFCFB;--card:#FFFFFF;
+  --font-body:'DM Sans',system-ui,sans-serif;
+  --font-display:'Instrument Serif',Georgia,serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+.nav-hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;padding:6px 4px;border:none;background:none;margin-left:.5rem;flex-shrink:0}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:transform .3s ease,opacity .3s ease}
+.nav-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(250,252,251,.85);border-bottom:1px solid rgba(15,110,86,.08)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo svg{height:28px;width:auto}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{font-size:.875rem;color:var(--text-mid);text-decoration:none;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--green-600)}
+.nav-links a.nav-active{color:var(--green-600)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.625rem 1.5rem;border-radius:8px;font-size:.875rem;font-weight:600;text-decoration:none;transition:all .25s ease}
+.btn-primary,.nav-links a.btn-primary{background:var(--green-600);color:#fff}
+.btn-primary:hover,.nav-links a.btn-primary:hover{background:var(--green-800);color:#fff;transform:translateY(-1px);box-shadow:0 4px 16px rgba(15,110,86,.25)}
+.btn-outline{border:1.5px solid var(--green-200);color:var(--green-600);background:transparent}
+.btn-outline:hover{background:var(--green-50);border-color:var(--green-400)}
+.btn-white{background:#fff;color:var(--green-600);border:none}
+.btn-white:hover{background:var(--green-50);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.15)}
+
+/* BREADCRUMB */
+.breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--text-light);margin-bottom:1.5rem;flex-wrap:wrap}
+.breadcrumb a{color:var(--text-light);text-decoration:none;transition:color .2s}
+.breadcrumb a:hover{color:var(--green-200)}
+.breadcrumb .sep{color:rgba(255,255,255,.3);margin:0 .1rem}
+.breadcrumb .crumb-tag{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green-600);background:var(--green-50);padding:.2rem .65rem;border-radius:100px;border:1px solid rgba(15,110,86,.2)}
+
+/* POST HERO */
+.post-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);padding:9rem 2rem 5rem;position:relative;overflow:hidden}
+.post-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 75% 35%,rgba(93,202,165,.12),transparent 55%)}
+.post-hero::after{content:'';position:absolute;bottom:-80px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(93,202,165,.08);pointer-events:none}
+.post-hero-inner{max-width:800px;margin:0 auto;position:relative;z-index:1}
+.post-hero h1{font-family:var(--font-display);font-size:clamp(2rem,5vw,3.25rem);color:#fff;font-weight:400;line-height:1.15;margin-bottom:1.5rem}
+.post-hero h1 em{font-style:italic;color:var(--green-200)}
+.post-meta-row{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.post-author-row{display:flex;align-items:center;gap:.75rem}
+.author-avatar-lg{width:40px;height:40px;border-radius:50%;background:var(--green-600);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#fff;flex-shrink:0;border:2px solid rgba(93,202,165,.3)}
+.author-info .name{font-size:.9rem;font-weight:600;color:#fff}
+.author-info .role{font-size:.78rem;color:rgba(255,255,255,.5)}
+.post-meta-divider{width:1px;height:32px;background:rgba(255,255,255,.15)}
+.post-meta-item{font-size:.8rem;color:rgba(255,255,255,.5)}
+
+/* ARTICLE */
+.article-wrap{max-width:800px;margin:0 auto;padding:4rem 2rem 5rem}
+.back-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.875rem;font-weight:600;color:var(--green-600);text-decoration:none;margin-bottom:2.5rem;transition:gap .2s}
+.back-link:hover{gap:.7rem}
+.article-body{font-size:1.05rem;line-height:1.8;color:var(--text)}
+.article-body p{margin-bottom:1.5rem}
+.article-body h2{font-family:var(--font-display);font-size:1.9rem;font-weight:400;color:var(--navy);margin:3rem 0 1.25rem;line-height:1.25}
+.article-body h2 em{font-style:italic;color:var(--green-600)}
+.article-body h3{font-size:1.2rem;font-weight:600;color:var(--navy);margin:2rem 0 .875rem}
+.article-body ul,.article-body ol{margin:0 0 1.5rem 1.5rem}
+.article-body li{margin-bottom:.5rem;color:var(--text-mid)}
+.article-body strong{font-weight:600;color:var(--text)}
+
+/* CALLOUTS */
+.callout{border-radius:12px;padding:1.5rem 1.75rem;margin:2rem 0}
+.callout-green{background:var(--green-50);border-left:4px solid var(--green-400)}
+.callout-navy{background:#F0F4F8;border-left:4px solid var(--navy)}
+.callout-title{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green-600);margin-bottom:.625rem}
+.callout-navy .callout-title{color:var(--navy)}
+.callout p{font-size:.95rem;line-height:1.7;color:var(--text-mid);margin:0}
+
+/* CODE BLOCKS */
+.code-block{background:#0F172A;border-radius:12px;padding:1.5rem 1.75rem;margin:2rem 0;overflow-x:auto;position:relative}
+.code-block-label{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green-200);margin-bottom:.875rem;opacity:.7}
+.code-block pre{margin:0;font-family:'Fira Code','Cascadia Code','Courier New',monospace;font-size:.875rem;line-height:1.7;color:#E2E8F0;white-space:pre;tab-size:2}
+.code-block .c-comment{color:#64748B}
+.code-block .c-key{color:#7DD3FC}
+.code-block .c-val{color:#86EFAC}
+.code-block .c-str{color:#FCA5A5}
+.code-block .c-num{color:#FCD34D}
+.code-block .c-kw{color:#C084FC}
+
+/* STEP LIST */
+.step-list{display:flex;flex-direction:column;gap:0;margin:2rem 0}
+.step-item{display:flex;gap:1.25rem;padding-bottom:2rem;position:relative}
+.step-item:last-child{padding-bottom:0}
+.step-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:40px}
+.step-dot{width:40px;height:40px;border-radius:50%;background:var(--green-600);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:700;flex-shrink:0;z-index:1}
+.step-line{width:2px;flex:1;background:rgba(15,110,86,.12);margin-top:4px}
+.step-item:last-child .step-line{display:none}
+.step-content{padding-top:.5rem;flex:1}
+.step-content h4{font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:.375rem}
+.step-content p{font-size:.9rem;color:var(--text-mid);line-height:1.65;margin:0 0 .75rem}
+
+/* ARTICLE CTA */
+.article-cta{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);border-radius:20px;padding:3rem;margin:3rem 0;text-align:center;position:relative;overflow:hidden}
+.article-cta::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(93,202,165,.08)}
+.article-cta h3{font-family:var(--font-display);font-size:1.75rem;color:#fff;font-weight:400;margin-bottom:.75rem}
+.article-cta p{font-size:.95rem;color:var(--text-light);margin-bottom:1.75rem;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.7}
+.article-cta-actions{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+
+/* AUTHOR BIO */
+.article-footer{border-top:1px solid rgba(15,110,86,.1);padding-top:2.5rem;margin-top:3rem}
+.author-bio{display:flex;gap:1.5rem;align-items:flex-start;background:var(--green-50);border-radius:16px;padding:1.75rem}
+.author-bio-avatar{width:64px;height:64px;border-radius:50%;background:var(--green-600);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:#fff;flex-shrink:0}
+.author-bio-text h4{font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:.25rem}
+.author-bio-role{font-size:.8rem;color:var(--green-600);font-weight:600;margin-bottom:.5rem}
+.author-bio-text p{font-size:.875rem;color:var(--text-mid);line-height:1.6;margin:0}
+
+/* RELATED LINKS */
+.related-wrap{background:var(--green-50);padding:4rem 2rem;position:relative;overflow:hidden}
+.related-wrap::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(15,110,86,.04) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
+.related-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green-400);margin-bottom:.75rem}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-top:2rem}
+.related-card{display:block;background:var(--card);border:1px solid rgba(15,110,86,.08);border-radius:14px;padding:1.75rem;text-decoration:none;transition:all .3s ease}
+.related-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(15,110,86,.08);border-color:var(--green-200)}
+.related-card-label{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-400);margin-bottom:.5rem}
+.related-card-title{font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:.5rem}
+.related-card-desc{font-size:.875rem;color:var(--text-mid);line-height:1.6}
+
+/* CTA */
+.cta-wrap{background:linear-gradient(180deg,#FAFCFB 0%,#F0FAF5 100%)}
+.cta{padding:6rem 2rem;max-width:1200px;margin:0 auto}
+.cta-box{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);border-radius:24px;padding:4rem;display:flex;align-items:center;justify-content:space-between;gap:3rem;position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;bottom:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(93,202,165,.08);pointer-events:none}
+.cta-box::after{content:'';position:absolute;top:-40px;left:-40px;width:200px;height:200px;border-radius:50%;background:rgba(93,202,165,.04);pointer-events:none}
+.cta-content{position:relative;z-index:1}
+.cta-content h2{font-family:var(--font-display);font-size:2.5rem;color:#fff;margin-bottom:1rem;font-weight:400}
+.cta-content p{font-size:1.05rem;color:var(--text-light);max-width:460px;line-height:1.7}
+.cta-actions{display:flex;flex-direction:column;gap:.75rem;flex-shrink:0;position:relative;z-index:1}
+
+/* FOOTER */
+footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:1.25rem}
+.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-logo svg{height:22px;width:auto;opacity:.6}
+.footer-links{display:flex;gap:2rem;flex-wrap:wrap}
+.footer-links a{font-size:.8rem;color:var(--text-light);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--green-600)}
+.footer-copy{font-size:.8rem;color:var(--text-light)}
+.footer-tagline{font-size:.72rem;color:var(--text-light);opacity:.7;padding-top:.75rem;border-top:1px solid rgba(15,110,86,.06)}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .nav-links a:not(.btn){display:none}
+  .nav-hamburger{display:flex}
+  .nav-links{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(250,252,251,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(15,110,86,.12);flex-direction:column;padding:1.25rem 2rem 1.5rem;gap:0;z-index:99;box-shadow:0 8px 32px rgba(15,110,86,.08)}
+  .nav-links.open{display:flex}
+  .nav-links a:not(.btn){display:block !important;padding:.75rem 0;border-bottom:1px solid rgba(15,110,86,.06);font-size:.95rem;color:var(--text-mid)}
+  .nav-links a:not(.btn):last-of-type{border-bottom:none}
+  .nav-links .btn{margin-top:.75rem;align-self:flex-start;display:inline-flex !important}
+  .cta-box{flex-direction:column;text-align:center;padding:3rem 2rem}
+  .cta-actions{align-items:center}
+  .footer-top{flex-direction:column;gap:1rem;text-align:center}
+  .author-bio{flex-direction:column}
+}
+@media(max-width:600px){
+  .article-wrap{padding:3rem 1.25rem 5rem}
+  .post-hero{padding:8rem 1.25rem 4rem}
+  .article-cta{padding:2rem 1.5rem}
+  .code-block{padding:1.25rem}
+  .footer-links{flex-wrap:wrap;gap:1rem;justify-content:center}
+  .cta-box{flex-direction:column;text-align:center;padding:2.5rem 1.5rem}
+  .cta-actions{align-items:center;width:100%}
+  .cta-actions .btn{width:100%;justify-content:center}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Playwright CI/CD Integration: A Practical Setup Guide for 2026",
+  "description": "A step-by-step guide to wiring Playwright into your CI/CD pipeline using GitHub Actions. Parallelization, reporting, flaky test handling, and the mistakes most teams make first.",
+  "url": "https://www.gogreenlit.com/blog/playwright-cicd-integration/",
+  "datePublished": "2026-04-07",
+  "dateModified": "2026-04-07",
+  "author": {
+    "@type": "Person",
+    "name": "Mohammad Khan",
+    "jobTitle": "Co-Founder, QA Manager",
+    "worksFor": {"@type": "Organization", "name": "goGreenlit"}
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "goGreenlit",
+    "logo": "https://www.gogreenlit.com/gogreenlit-icon-green.png"
+  },
+  "mainEntityOfPage": "https://www.gogreenlit.com/blog/playwright-cicd-integration/"
+}
+</script>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <svg viewBox="0 0 210 32" height="28">
+        <rect x="2" y="4" width="24" height="24" rx="6" fill="#0F6E56"/>
+        <path d="M10 11L20 16L10 21Z" fill="#E1F5EE"/>
+        <text x="34" y="23" font-family="'DM Sans','Helvetica Neue',Helvetica,sans-serif" font-size="20" letter-spacing="-0.3">
+          <tspan fill="#5DCAA5" font-weight="300">go</tspan><tspan fill="#0F6E56" font-weight="600">Greenlit</tspan>
+        </text>
+      </svg>
+    </a>
+    <div class="nav-links">
+      <a href="/software-testing-services/">Services</a>
+      <a href="/qa-consulting/">QA Consulting</a>
+      <a href="/#results">Results</a>
+      <a href="/#about">About</a>
+      <a href="/blog/" class="nav-active">Blog</a>
+      <a href="https://calendly.com/gogreenlit/30min" class="btn btn-primary">Book a call</a>
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="post-hero">
+  <div class="post-hero-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="sep" aria-hidden="true">›</span>
+      <a href="/blog/">Blog</a>
+      <span class="sep" aria-hidden="true">›</span>
+      <span class="crumb-tag">Test Automation</span>
+    </nav>
+    <h1>Playwright CI/CD integration: a <em>practical setup guide</em> for 2026</h1>
+    <div class="post-meta-row">
+      <div class="post-author-row">
+        <div class="author-avatar-lg">MK</div>
+        <div class="author-info">
+          <div class="name">Mohammad Khan</div>
+          <div class="role">Co-Founder, QA Manager at goGreenlit</div>
+        </div>
+      </div>
+      <div class="post-meta-divider"></div>
+      <span class="post-meta-item">April 7, 2026</span>
+      <span class="post-meta-item">10 min read</span>
+    </div>
+  </div>
+</div>
+
+<div class="article-wrap fade-in">
+  <a href="/blog/" class="back-link">← Back to Blog</a>
+
+  <article class="article-body">
+
+    <p>Getting Playwright running locally takes about 20 minutes. Getting it running properly inside a CI/CD pipeline, in a way that's actually useful rather than just technically passing, is a different problem. I've helped a lot of teams set this up over the years, and the same issues come up every time: flaky tests that only fail in CI, pipelines that take forever, reports nobody looks at, and a configuration that made sense for one person's laptop but falls apart at scale.</p>
+
+    <p>This guide is the setup I'd walk a team through from scratch. It uses GitHub Actions because that's what most teams are running, but the same principles apply in GitLab CI, CircleCI, and the rest. The goal isn't just a working pipeline. It's a pipeline that gives your team reliable, actionable feedback on every push.</p>
+
+    <div class="callout callout-green">
+      <div class="callout-title">What this guide covers</div>
+      <p>Basic GitHub Actions workflow for Playwright, browser caching to keep runs fast, test sharding for parallel execution, HTML report artifacts, retry configuration, environment variables and secrets, and the most common reasons CI runs behave differently than local runs.</p>
+    </div>
+
+    <h2>Start with a clean <em>playwright.config.ts</em></h2>
+
+    <p>Before you touch any CI configuration, your Playwright config needs to be set up correctly for a CI environment. A lot of the frustration people have with Playwright in CI comes from config values that work fine on a developer's machine but cause problems in a headless, containerized environment.</p>
+
+    <p>Here's a config that handles the most common CI scenarios cleanly:</p>
+
+    <div class="code-block">
+      <div class="code-block-label">playwright.config.ts</div>
+      <pre><span class="c-kw">import</span> { defineConfig, devices } <span class="c-kw">from</span> <span class="c-str">'@playwright/test'</span>;
+
+<span class="c-kw">export default</span> defineConfig({
+  testDir: <span class="c-str">'./tests'</span>,
+  fullyParallel: <span class="c-val">true</span>,
+  forbidOnly: !!process.env.<span class="c-key">CI</span>,
+  retries: process.env.<span class="c-key">CI</span> ? <span class="c-num">2</span> : <span class="c-num">0</span>,
+  workers: process.env.<span class="c-key">CI</span> ? <span class="c-num">1</span> : <span class="c-kw">undefined</span>,
+  reporter: process.env.<span class="c-key">CI</span>
+    ? [[<span class="c-str">'html'</span>, { open: <span class="c-str">'never'</span> }], [<span class="c-str">'github'</span>]]
+    : <span class="c-str">'html'</span>,
+  use: {
+    baseURL: process.env.<span class="c-key">BASE_URL</span> || <span class="c-str">'http://localhost:3000'</span>,
+    trace: <span class="c-str">'on-first-retry'</span>,
+    screenshot: <span class="c-str">'only-on-failure'</span>,
+    video: <span class="c-str">'retain-on-failure'</span>,
+  },
+  projects: [
+    { name: <span class="c-str">'chromium'</span>, use: { ...devices[<span class="c-str">'Desktop Chrome'</span>] } },
+    { name: <span class="c-str">'firefox'</span>, use: { ...devices[<span class="c-str">'Desktop Firefox'</span>] } },
+    { name: <span class="c-str">'webkit'</span>, use: { ...devices[<span class="c-str">'Desktop Safari'</span>] } },
+  ],
+});</pre>
+    </div>
+
+    <p>A few things worth explaining here. The <code style="background:rgba(15,110,86,.08);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.9em">forbidOnly</code> flag prevents someone from accidentally committing a <code style="background:rgba(15,110,86,.08);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.9em">test.only</code> call that would silently skip all other tests in CI. It's caught us more than once. The <code style="background:rgba(15,110,86,.08);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.9em">workers: 1</code> in CI is intentional for the basic setup. CI runners, especially GitHub's free tier, don't have the memory headroom to run multiple browser contexts in parallel without instability. We'll handle actual parallelization through sharding instead, which is much more reliable.</p>
+
+    <h2>The basic GitHub Actions workflow</h2>
+
+    <p>Here's a working starting point that handles browser installation caching, runs tests across all three browsers, and uploads the HTML report as a downloadable artifact:</p>
+
+    <div class="code-block">
+      <div class="code-block-label">.github/workflows/playwright.yml</div>
+      <pre><span class="c-key">name</span>: <span class="c-val">Playwright Tests</span>
+
+<span class="c-key">on</span>:
+  <span class="c-key">push</span>:
+    <span class="c-key">branches</span>: [<span class="c-str">main</span>, <span class="c-str">develop</span>]
+  <span class="c-key">pull_request</span>:
+    <span class="c-key">branches</span>: [<span class="c-str">main</span>]
+
+<span class="c-key">jobs</span>:
+  <span class="c-key">test</span>:
+    <span class="c-key">timeout-minutes</span>: <span class="c-num">60</span>
+    <span class="c-key">runs-on</span>: <span class="c-val">ubuntu-latest</span>
+
+    <span class="c-key">steps</span>:
+      - <span class="c-key">uses</span>: <span class="c-val">actions/checkout@v4</span>
+
+      - <span class="c-key">name</span>: <span class="c-val">Set up Node.js</span>
+        <span class="c-key">uses</span>: <span class="c-val">actions/setup-node@v4</span>
+        <span class="c-key">with</span>:
+          <span class="c-key">node-version</span>: <span class="c-str">'20'</span>
+          <span class="c-key">cache</span>: <span class="c-str">'npm'</span>
+
+      - <span class="c-key">name</span>: <span class="c-val">Install dependencies</span>
+        <span class="c-key">run</span>: <span class="c-val">npm ci</span>
+
+      - <span class="c-key">name</span>: <span class="c-val">Cache Playwright browsers</span>
+        <span class="c-key">uses</span>: <span class="c-val">actions/cache@v4</span>
+        <span class="c-key">id</span>: <span class="c-val">playwright-cache</span>
+        <span class="c-key">with</span>:
+          <span class="c-key">path</span>: <span class="c-val">~/.cache/ms-playwright</span>
+          <span class="c-key">key</span>: <span class="c-val">playwright-${{ hashFiles('package-lock.json') }}</span>
+
+      - <span class="c-key">name</span>: <span class="c-val">Install Playwright browsers</span>
+        <span class="c-key">if</span>: <span class="c-val">steps.playwright-cache.outputs.cache-hit != 'true'</span>
+        <span class="c-key">run</span>: <span class="c-val">npx playwright install --with-deps</span>
+
+      - <span class="c-key">name</span>: <span class="c-val">Install browser system deps (cache hit)</span>
+        <span class="c-key">if</span>: <span class="c-val">steps.playwright-cache.outputs.cache-hit == 'true'</span>
+        <span class="c-key">run</span>: <span class="c-val">npx playwright install-deps</span>
+
+      - <span class="c-key">name</span>: <span class="c-val">Run Playwright tests</span>
+        <span class="c-key">run</span>: <span class="c-val">npx playwright test</span>
+        <span class="c-key">env</span>:
+          <span class="c-key">CI</span>: <span class="c-val">true</span>
+          <span class="c-key">BASE_URL</span>: <span class="c-val">${{ secrets.BASE_URL }}</span>
+
+      - <span class="c-key">name</span>: <span class="c-val">Upload test report</span>
+        <span class="c-key">uses</span>: <span class="c-val">actions/upload-artifact@v4</span>
+        <span class="c-key">if</span>: <span class="c-val">always()</span>
+        <span class="c-key">with</span>:
+          <span class="c-key">name</span>: <span class="c-val">playwright-report</span>
+          <span class="c-key">path</span>: <span class="c-val">playwright-report/</span>
+          <span class="c-key">retention-days</span>: <span class="c-num">14</span></pre>
+    </div>
+
+    <p>The browser caching step makes a real difference. Without it, every CI run downloads 300-400MB of browser binaries. With caching keyed to your <code style="background:rgba(15,110,86,.08);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.9em">package-lock.json</code>, those binaries are reused until your Playwright version changes. On a busy repo, this saves several minutes per run and reduces egress costs noticeably over time.</p>
+
+    <p>The <code style="background:rgba(15,110,86,.08);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.9em">if: always()</code> on the report upload is important. Without it, the artifact only uploads on a passing run, which means you lose the detailed failure report exactly when you need it most.</p>
+
+    <h2>Adding test sharding for <em>faster pipelines</em></h2>
+
+    <p>Once your test suite grows past around 50 tests, a single runner starts to feel slow. Playwright's built-in sharding splits your test suite across multiple parallel jobs, each running a different slice of the total tests. Here's how to add it:</p>
+
+    <div class="code-block">
+      <div class="code-block-label">.github/workflows/playwright.yml — sharded version</div>
+      <pre><span class="c-key">jobs</span>:
+  <span class="c-key">test</span>:
+    <span class="c-key">timeout-minutes</span>: <span class="c-num">60</span>
+    <span class="c-key">runs-on</span>: <span class="c-val">ubuntu-latest</span>
+    <span class="c-key">strategy</span>:
+      <span class="c-key">fail-fast</span>: <span class="c-val">false</span>
+      <span class="c-key">matrix</span>:
+        <span class="c-key">shardIndex</span>: [<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>, <span class="c-num">4</span>]
+        <span class="c-key">shardTotal</span>: [<span class="c-num">4</span>]
+
+    <span class="c-key">steps</span>:
+      <span class="c-comment"># ... checkout, node, npm ci, browser cache steps same as above ...</span>
+
+      - <span class="c-key">name</span>: <span class="c-val">Run Playwright tests (sharded)</span>
+        <span class="c-key">run</span>: <span class="c-val">npx playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}</span>
+        <span class="c-key">env</span>:
+          <span class="c-key">CI</span>: <span class="c-val">true</span>
+          <span class="c-key">BASE_URL</span>: <span class="c-val">${{ secrets.BASE_URL }}</span>
+
+      - <span class="c-key">name</span>: <span class="c-val">Upload blob report</span>
+        <span class="c-key">uses</span>: <span class="c-val">actions/upload-artifact@v4</span>
+        <span class="c-key">if</span>: <span class="c-val">always()</span>
+        <span class="c-key">with</span>:
+          <span class="c-key">name</span>: <span class="c-val">blob-report-${{ matrix.shardIndex }}</span>
+          <span class="c-key">path</span>: <span class="c-val">blob-report</span>
+          <span class="c-key">retention-days</span>: <span class="c-num">1</span>
+
+  <span class="c-key">merge-reports</span>:
+    <span class="c-key">if</span>: <span class="c-val">always()</span>
+    <span class="c-key">needs</span>: [<span class="c-val">test</span>]
+    <span class="c-key">runs-on</span>: <span class="c-val">ubuntu-latest</span>
+    <span class="c-key">steps</span>:
+      - <span class="c-key">uses</span>: <span class="c-val">actions/checkout@v4</span>
+      - <span class="c-key">uses</span>: <span class="c-val">actions/setup-node@v4</span>
+        <span class="c-key">with</span>:
+          <span class="c-key">node-version</span>: <span class="c-str">'20'</span>
+      - <span class="c-key">run</span>: <span class="c-val">npm ci</span>
+
+      - <span class="c-key">name</span>: <span class="c-val">Download blob reports</span>
+        <span class="c-key">uses</span>: <span class="c-val">actions/download-artifact@v4</span>
+        <span class="c-key">with</span>:
+          <span class="c-key">path</span>: <span class="c-val">all-blob-reports</span>
+          <span class="c-key">pattern</span>: <span class="c-val">blob-report-*</span>
+          <span class="c-key">merge-multiple</span>: <span class="c-val">true</span>
+
+      - <span class="c-key">name</span>: <span class="c-val">Merge into single HTML report</span>
+        <span class="c-key">run</span>: <span class="c-val">npx playwright merge-reports --reporter html ./all-blob-reports</span>
+
+      - <span class="c-key">name</span>: <span class="c-val">Upload merged report</span>
+        <span class="c-key">uses</span>: <span class="c-val">actions/upload-artifact@v4</span>
+        <span class="c-key">with</span>:
+          <span class="c-key">name</span>: <span class="c-val">playwright-report</span>
+          <span class="c-key">path</span>: <span class="c-val">playwright-report/</span>
+          <span class="c-key">retention-days</span>: <span class="c-num">14</span></pre>
+    </div>
+
+    <p>With 4 shards, a 200-test suite that previously took 18 minutes now runs in roughly 5. The shard count is something you tune based on your suite size. A good rule of thumb: aim for each shard to take no more than about 5 minutes. More than that and developers start skipping the CI check rather than waiting.</p>
+
+    <h2>The five things that trip up CI runs</h2>
+
+    <p>I want to spend some time on the failure patterns because this is where most teams lose hours. These aren't edge cases; they're the things I see go wrong consistently on the first few attempts.</p>
+
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-left">
+          <div class="step-dot">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <h4>Hardcoded localhost URLs</h4>
+          <p>The most common first mistake. Tests that point directly to <code style="background:rgba(15,110,86,.08);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.9em">localhost:3000</code> in test files will fail in CI because there's no running server at that address. Use the <code style="background:rgba(15,110,86,.08);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.9em">baseURL</code> config option and pass the target environment URL as a secret. If you need to test against a locally spun-up server, use Playwright's <code style="background:rgba(15,110,86,.08);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.9em">webServer</code> config option to start it automatically before the test run begins.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-left">
+          <div class="step-dot">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <h4>Missing system dependencies for browsers</h4>
+          <p>Playwright's browsers need OS-level libraries that aren't present on a fresh Ubuntu runner by default. The <code style="background:rgba(15,110,86,.08);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.9em">--with-deps</code> flag on the install command handles this on a clean install. But when the browser cache is hit and you skip the install step, those system deps don't get installed. That's why the workflow above has a separate <code style="background:rgba(15,110,86,.08);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.9em">install-deps</code> step for the cache-hit case.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-left">
+          <div class="step-dot">3</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <h4>Tests that rely on local state or fixtures</h4>
+          <p>Tests that pass locally because they depend on cookies, localStorage, or database state left over from a previous run will fail in CI every time, because each CI run starts fresh. Use Playwright's <code style="background:rgba(15,110,86,.08);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.9em">storageState</code> feature to capture and replay auth state, and make sure your test fixtures set up whatever state they need rather than assuming it already exists.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-left">
+          <div class="step-dot">4</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <h4>Timing assumptions that break under load</h4>
+          <p>CI runners are slower than developer laptops, and shared runners have variable performance depending on what else is running. Tests that work locally because the page loads in 200ms will intermittently fail in CI where it takes 800ms. The fix is proper use of Playwright's auto-wait and <code style="background:rgba(15,110,86,.08);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.9em">waitFor</code> assertions rather than arbitrary <code style="background:rgba(15,110,86,.08);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.9em">timeout</code> calls. If you're seeing flakiness specifically in CI, check for any <code style="background:rgba(15,110,86,.08);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.9em">page.waitForTimeout()</code> calls. Those are almost always the culprit.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-left">
+          <div class="step-dot">5</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <h4>Environment variables not passed through</h4>
+          <p>Any environment variable your tests or application needs has to be explicitly passed in the workflow's <code style="background:rgba(15,110,86,.08);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.9em">env</code> block. This includes things like API keys for staging environments, feature flags, and auth tokens. Store sensitive values as GitHub Actions secrets and reference them as <code style="background:rgba(15,110,86,.08);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.9em">${{ secrets.YOUR_SECRET_NAME }}</code> rather than hardcoding them anywhere.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2>Making the reports actually useful</h2>
+
+    <p>The HTML report Playwright generates is genuinely good, but only if people look at it. One pattern that helps is adding a summary comment to pull requests that links directly to the artifact. Here's a step you can add after the report upload:</p>
+
+    <div class="code-block">
+      <div class="code-block-label">Add to your workflow — PR comment with results summary</div>
+      <pre>      - <span class="c-key">name</span>: <span class="c-val">Comment test results on PR</span>
+        <span class="c-key">uses</span>: <span class="c-val">actions/github-script@v7</span>
+        <span class="c-key">if</span>: <span class="c-val">always() && github.event_name == 'pull_request'</span>
+        <span class="c-key">with</span>:
+          <span class="c-key">script</span>: |
+            <span class="c-val">const status = '${{ job.status }}';
+            const emoji = status === 'success' ? '✅' : '❌';
+            const body = `${emoji} **Playwright Tests ${status}**\n\n`
+              + `[View full HTML report](https://github.com/${{ github.repository }}`
+              + `/actions/runs/${{ github.run_id }})`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });</span></pre>
+    </div>
+
+    <p>Small thing, but it means developers see the test result and a direct link to the report right in the PR thread, without having to navigate to the Actions tab separately. When feedback is easier to access, it actually gets looked at.</p>
+
+    <h2>A few configuration settings worth knowing</h2>
+
+    <p>These are the config values that come up most often when we're setting this up for clients:</p>
+
+    <ul>
+      <li><strong>retries: 2 in CI</strong> is a good default for most suites. It handles genuine network or timing flakiness without masking real failures. If a test only passes on the third try, Playwright marks it as flaky in the report, which is a useful signal rather than a hidden problem.</li>
+      <li><strong>trace: 'on-first-retry'</strong> means you get a full trace file (network requests, DOM snapshots, timeline) on any test that needed a retry. This is usually enough detail to diagnose the problem. Using trace on every test adds overhead you probably don't need.</li>
+      <li><strong>video: 'retain-on-failure'</strong> keeps video recordings only for failing tests, which keeps artifact size manageable without losing the diagnostic value.</li>
+      <li><strong>timeout</strong> at the test level defaults to 30 seconds. For tests that involve complex UI flows, you may need to increase this selectively. Don't increase the global timeout to paper over slow tests; that just delays when you find out a test is hanging.</li>
+    </ul>
+
+    <div class="callout callout-navy">
+      <div class="callout-title">One more thing worth saying</div>
+      <p>A CI pipeline that takes 25 minutes to complete is almost as bad as no pipeline at all. Developers stop waiting for it, start merging without the green check, and the value drops to near zero. If your full Playwright suite takes more than about 10 minutes end-to-end, sharding is not optional. It's the thing that keeps the pipeline in the feedback loop rather than outside it.</p>
+    </div>
+
+    <h2>Where to go from here</h2>
+
+    <p>The setup described here will handle most teams well up to a few hundred tests. As your suite grows further, the next things to look at are test tagging to run targeted subsets on specific triggers, dedicated self-hosted runners if GitHub's shared runners are too slow or expensive, and integrating with a test management tool like TestRail or Allure for reporting that product and QA stakeholders can actually read without downloading a zip file.</p>
+
+    <p>If you're just starting out though, get the basics right first. A well-structured 50-test suite running reliably in CI is worth more than 500 tests that nobody trusts.</p>
+
+    <div class="article-cta">
+      <h3>Need help wiring Playwright into your pipeline?</h3>
+      <p>We set up and maintain Playwright automation for engineering teams as part of our QA consulting work. If your CI runs are unreliable or your suite is getting hard to manage, let's talk.</p>
+      <div class="article-cta-actions">
+        <a href="https://calendly.com/gogreenlit/30min" class="btn btn-white">Book a free 30-min call</a>
+        <a href="/software-testing-services/" class="btn btn-outline" style="border-color:rgba(93,202,165,.4);color:var(--green-100)">See our services</a>
+      </div>
+    </div>
+
+    <div class="article-footer">
+      <div class="author-bio">
+        <div class="author-bio-avatar">MK</div>
+        <div class="author-bio-text">
+          <h4>Mohammad Khan</h4>
+          <div class="author-bio-role">Co-Founder, QA Manager at goGreenlit</div>
+          <p>Mohammad has 9+ years of QA engineering experience building and maintaining automation frameworks across Agile and DevOps environments. He co-founded goGreenlit to bring senior-level QA strategy and execution to teams who need it without the cost of a full-time senior hire.</p>
+        </div>
+      </div>
+    </div>
+
+  </article>
+</div>
+
+<!-- RELATED LINKS -->
+<div class="related-wrap">
+  <div class="related-inner fade-in">
+    <div class="section-label">Explore more</div>
+    <h2 style="font-family:var(--font-display);font-size:clamp(1.75rem,3vw,2.25rem);color:var(--navy);font-weight:400;margin-bottom:0">Related pages</h2>
+    <div class="related-grid">
+      <a href="/blog/playwright-vs-selenium-2026/" class="related-card">
+        <div class="related-card-label">Blog post</div>
+        <div class="related-card-title">Playwright vs. Selenium in 2026</div>
+        <div class="related-card-desc">Not sure which framework to use? An honest breakdown of when each tool wins and when the choice barely matters.</div>
+      </a>
+      <a href="/blog/in-house-vs-outsourced-qa/" class="related-card">
+        <div class="related-card-label">Blog post</div>
+        <div class="related-card-title">In-house vs outsourced QA</div>
+        <div class="related-card-desc">How to make the right call for your team's stage, budget, and quality goals.</div>
+      </a>
+      <a href="/software-testing-services/" class="related-card">
+        <div class="related-card-label">Service</div>
+        <div class="related-card-title">Software Testing Services</div>
+        <div class="related-card-desc">Playwright automation, Selenium, API testing, and regression testing embedded directly in your sprint cycle.</div>
+      </a>
+      <a href="/blog/" class="related-card">
+        <div class="related-card-label">Blog</div>
+        <div class="related-card-title">Back to QA Insights</div>
+        <div class="related-card-desc">More articles on test automation, Agile QA, outsourcing, and building quality into your development process.</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-wrap">
+  <section class="cta fade-in">
+    <div class="cta-box">
+      <div class="cta-content">
+        <h2>Ready to talk about your QA setup?</h2>
+        <p>We're a two-founder QA consultancy based in Chicago. If you're tired of bugs slipping to production, let's have a 30-minute conversation about what's actually going wrong.</p>
+      </div>
+      <div class="cta-actions">
+        <a href="https://calendly.com/gogreenlit/30min" class="btn btn-white">Book a discovery call →</a>
+        <a href="mailto:gogreenlit@gmail.com" class="btn btn-outline" style="border-color:rgba(255,255,255,.2);color:#fff">Email us</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-logo">
+        <svg viewBox="0 0 210 32" height="22" style="opacity:.5">
+          <rect x="2" y="4" width="24" height="24" rx="6" fill="#0F6E56"/>
+          <path d="M10 11L20 16L10 21Z" fill="#E1F5EE"/>
+          <text x="34" y="23" font-family="'DM Sans','Helvetica Neue',sans-serif" font-size="20" letter-spacing="-0.3">
+            <tspan fill="#5DCAA5" font-weight="300">go</tspan><tspan fill="#0F6E56" font-weight="600">Greenlit</tspan>
+          </text>
+        </svg>
+      </div>
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/software-testing-services/">Software Testing</a>
+        <a href="/qa-consulting/">QA Consulting</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#about">About</a>
+        <a href="https://www.linkedin.com/company/gogreenlit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+      <div class="footer-copy">© 2026 goGreenlit LLC. Chicago, IL.</div>
+    </div>
+    <div class="footer-tagline">goGreenlit provides professional software testing services including manual testing, test automation services, regression testing, Playwright automation, and functional testing for engineering teams across the US. Chicago, IL.</div>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+}, { threshold: 0, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+setTimeout(() => { document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible')); }, 300);
+(function(){
+  var btn = document.getElementById('nav-hamburger');
+  var links = document.querySelector('.nav-links');
+  if (!btn || !links) return;
+  btn.addEventListener('click', function(){
+    var open = links.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  links.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      links.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+      document.body.style.overflow = '';
+    });
+  });
+  document.addEventListener('click', function(e){
+    if (!btn.contains(e.target) && !links.contains(e.target)) {
+      links.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+      document.body.style.overflow = '';
+    }
+  });
+})();
+</script>
+</body>
+</html>
