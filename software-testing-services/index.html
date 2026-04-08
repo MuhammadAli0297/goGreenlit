@@ -461,7 +461,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       <a href="/software-testing-services/" class="nav-active">Services</a>
       <a href="/qa-consulting/">QA Consulting</a>
       <a href="/#results">Results</a>
-      <a href="/#about">About</a>
+      <a href="/about/">About Us</a>
       <a href="/blog/" class="nav-active">Blog</a>
       <a href="https://calendly.com/gogreenlit/30min" class="btn btn-primary">Book a call</a>
     </div>
@@ -944,7 +944,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <a href="/software-testing-services/">Software Testing</a>
         <a href="/qa-consulting/">QA Consulting</a>
         <a href="/#results">Results</a>
-        <a href="/#about">About</a>
+        <a href="/about/">About Us</a>
         <a href="https://www.linkedin.com/company/gogreenlit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </div>
       <div class="footer-copy">© 2026 goGreenlit LLC. Chicago, IL.</div>
@@ -952,7 +952,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
     <div class="footer-tagline">goGreenlit provides professional software testing services including manual testing, test automation services, regression testing, Playwright automation, and functional testing for engineering teams across the US. Chicago, IL.</div>
   </div>
 </footer>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); }});
 }, { threshold: 0, rootMargin: "0px 0px -50px 0px" });
@@ -979,8 +979,8 @@ setTimeout(() => { document.querySelectorAll('.fade-in').forEach(el => el.classL
   });
   document.addEventListener('click', function(e){
     if (!btn.contains(e.target) && !links.contains(e.target)) {
-
-    btn.classList.remove('open');
+      links.classList.remove('open');
+      btn.classList.remove('open');
       btn.setAttribute('aria-expanded','false');
       document.body.style.overflow = '';
     }
