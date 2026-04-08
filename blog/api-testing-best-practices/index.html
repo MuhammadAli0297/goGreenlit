@@ -83,6 +83,10 @@ nav .breadcrumb{display:none}
 .author-info-name{font-size:.9rem;font-weight:600;color:#fff}
 .author-info-role{font-size:.78rem;color:rgba(255,255,255,.5)}
 
+/* BACK LINK */
+.back-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.875rem;font-weight:600;color:var(--green-600);text-decoration:none;margin-bottom:2.5rem;transition:gap .2s}
+.back-link:hover{gap:.7rem}
+
 /* ARTICLE BODY */
 .article-wrap{max-width:760px;margin:0 auto;padding:4rem 2rem 5rem}
 .article-body{font-size:1.05rem;line-height:1.8;color:var(--text)}
@@ -292,6 +296,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 
 <!-- ARTICLE -->
 <div class="article-wrap">
+  <a href="/blog/" class="back-link">← Back to Blog</a>
   <article class="article-body fade-in">
 
     <p>API testing has a visibility problem. When a UI test fails, it's obvious. A user clicks something and nothing happens, or the wrong thing happens. When an API contract breaks, the failure can be invisible for days. The frontend still renders. The response still returns a 200. But the data shape has changed, a field got renamed, a required parameter is now optional, and somewhere downstream a feature is silently broken.</p>
