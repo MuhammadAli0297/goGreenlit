@@ -457,12 +457,12 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         </text>
       </svg>
     </a>
-    <div class="nav-links">
-      <a href="/software-testing-services/">Services</a>
+        <div class="nav-links">
+      <a href="/software-testing-services/" class="nav-active">Services</a>
       <a href="/qa-consulting/">QA Consulting</a>
       <a href="/#results">Results</a>
       <a href="/#about">About</a>
-      <a href="/#pricing">Pricing</a>
+      <a href="/blog/" class="nav-active">Blog</a>
       <a href="https://calendly.com/gogreenlit/30min" class="btn btn-primary">Book a call</a>
     </div>
     <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
@@ -880,11 +880,11 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
 </section>
 </div>
 
-<!-- INTERNAL LINKS / RELATED SERVICES -->
+<!-- INTERNAL LINKS -->
 <div style="background:var(--green-50);padding:4rem 2rem">
   <div style="max-width:1200px;margin:0 auto">
     <div class="section-label">Explore more</div>
-    <h2 class="section-title" style="margin-bottom:2rem">Related QA services</h2>
+    <h2 class="section-title" style="margin-bottom:2rem">Explore more</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem">
       <a href="/qa-consulting/" style="display:block;background:var(--card);border:1px solid rgba(15,110,86,.08);border-radius:14px;padding:1.75rem;text-decoration:none;transition:all .3s ease" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--green-200)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(15,110,86,.08)'">
         <div style="font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-400);margin-bottom:.5rem">Service</div>
@@ -895,6 +895,16 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
         <div style="font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-400);margin-bottom:.5rem">Home</div>
         <div style="font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:.5rem">About goGreenlit</div>
         <div style="font-size:.875rem;color:var(--text-mid);line-height:1.6">Learn more about our team, our process, and how we work with engineering teams across the US.</div>
+      </a>
+      <a href="/blog/playwright-vs-selenium-2026/" style="display:block;background:var(--card);border:1px solid rgba(15,110,86,.08);border-radius:14px;padding:1.75rem;text-decoration:none;transition:all .3s ease" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--green-200)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(15,110,86,.08)'">
+        <div style="font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-400);margin-bottom:.5rem">Blog post</div>
+        <div style="font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:.5rem">Playwright vs Selenium in 2026</div>
+        <div style="font-size:.875rem;color:var(--text-mid);line-height:1.6">A side-by-side breakdown of both frameworks to help your team pick the right tool for your stack.</div>
+      </a>
+      <a href="/blog/how-we-reduced-escaped-defects/" style="display:block;background:var(--card);border:1px solid rgba(15,110,86,.08);border-radius:14px;padding:1.75rem;text-decoration:none;transition:all .3s ease" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--green-200)'" onmouseout="this.style.transform='';this.style.borderColor='rgba(15,110,86,.08)'">
+        <div style="font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-400);margin-bottom:.5rem">Blog post</div>
+        <div style="font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:.5rem">How we cut escaped defects by 45%</div>
+        <div style="font-size:.875rem;color:var(--text-mid);line-height:1.6">The process change that drove the biggest quality improvement — no new tools required.</div>
       </a>
     </div>
   </div>
@@ -942,7 +952,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
     <div class="footer-tagline">goGreenlit provides professional software testing services including manual testing, test automation services, regression testing, Playwright automation, and functional testing for engineering teams across the US. Chicago, IL.</div>
   </div>
 </footer>
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); }});
 }, { threshold: 0, rootMargin: "0px 0px -50px 0px" });
@@ -969,8 +979,8 @@ setTimeout(() => { document.querySelectorAll('.fade-in').forEach(el => el.classL
   });
   document.addEventListener('click', function(e){
     if (!btn.contains(e.target) && !links.contains(e.target)) {
-      links.classList.remove('open');
-      btn.classList.remove('open');
+
+    btn.classList.remove('open');
       btn.setAttribute('aria-expanded','false');
       document.body.style.overflow = '';
     }
