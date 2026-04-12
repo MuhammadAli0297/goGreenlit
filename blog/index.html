@@ -116,7 +116,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-
 .related-inner{position:relative;z-index:1}
 .related-header{max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1.25rem}
 .related-header h2{font-family:var(--font-display);font-size:clamp(1.25rem,2.5vw,1.6rem);color:var(--navy);font-weight:400}
-/* scroll track — bleeds to edges with padding so first/last card get fade */
 .related-scroll-outer{position:relative}
 .related-scroll-outer::before,.related-scroll-outer::after{content:'';position:absolute;top:0;bottom:0;width:3rem;z-index:2;pointer-events:none}
 .related-scroll-outer::before{left:0;background:linear-gradient(to right,var(--green-50),transparent)}
@@ -353,7 +352,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       </div>
     </a>
 
-    <!-- POST 5 — NEW -->
+    <!-- POST 5 -->
     <a href="/blog/agile-qa-sprint-cycles/" class="post-card">
       <div class="post-card-thumb">
         <div class="thumb-icon">
@@ -380,7 +379,7 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       </div>
     </a>
 
-    <!-- POST 6 — NEW -->
+    <!-- POST 6 -->
     <a href="/blog/api-testing-best-practices/" class="post-card">
       <div class="post-card-thumb">
         <div class="thumb-icon">
@@ -407,16 +406,70 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
       </div>
     </a>
 
+    <!-- POST 7 — NEW -->
+    <a href="/blog/qa-maturity-model/" class="post-card">
+      <div class="post-card-thumb">
+        <div class="thumb-icon">
+          <svg width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <div class="post-meta">
+          <span class="post-tag">QA Strategy</span>
+          <span class="post-date">April 2026</span>
+          <span class="post-read-time">9 min read</span>
+        </div>
+        <h2>QA maturity model: how to assess and level up your testing practice</h2>
+        <p>Most engineering teams think they have a QA problem when they actually have a QA maturity problem. This five-level, five-dimension scoring matrix tells you exactly where your testing practice stands and what to fix first to stop defects from reaching production.</p>
+        <div class="post-card-footer">
+          <div class="post-author">
+            <div class="author-avatar">MA</div>
+            <span class="author-name">Muhammad Ali</span>
+          </div>
+          <span class="post-arrow">Read article <span>→</span></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- POST 8 — NEW -->
+    <a href="/blog/test-automation-roi/" class="post-card">
+      <div class="post-card-thumb">
+        <div class="thumb-icon">
+          <svg width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <div class="post-meta">
+          <span class="post-tag">Test Automation</span>
+          <span class="post-date">April 2026</span>
+          <span class="post-read-time">10 min read</span>
+        </div>
+        <h2>Test automation ROI: how to measure and justify the investment</h2>
+        <p>Every CTO eventually asks whether their test automation is actually paying off. Most teams can't answer the question. Here's the formula, the benchmarks by automation stage, and the tracking script we use to give clients a real number rather than an estimate.</p>
+        <div class="post-card-footer">
+          <div class="post-author">
+            <div class="author-avatar">MK</div>
+            <span class="author-name">Mohammad Khan</span>
+          </div>
+          <span class="post-arrow">Read article <span>→</span></span>
+        </div>
+      </div>
+    </a>
+
     <!-- COMING SOON — UPDATED -->
     <div class="coming-soon-card">
       <h3>More articles on the way</h3>
       <p>We publish practical QA content roughly twice a month. Topics coming up next:</p>
       <div class="coming-soon-topics">
-        <span class="coming-soon-topic">QA maturity model</span>
-        <span class="coming-soon-topic">Test automation ROI</span>
         <span class="coming-soon-topic">Shift-left testing strategies</span>
         <span class="coming-soon-topic">Mobile app testing</span>
         <span class="coming-soon-topic">QA for SaaS startups</span>
+        <span class="coming-soon-topic">Visual regression testing</span>
+        <span class="coming-soon-topic">QA onboarding playbook</span>
       </div>
     </div>
 
@@ -465,6 +518,16 @@ footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
           <div class="related-card-label">Blog post</div>
           <div class="related-card-title">API testing best practices</div>
           <div class="related-card-desc">Contract testing, test design, performance benchmarks, and the mistakes that let bugs slip through.</div>
+        </a>
+        <a href="/blog/qa-maturity-model/" class="related-card">
+          <div class="related-card-label">Blog post</div>
+          <div class="related-card-title">QA maturity model</div>
+          <div class="related-card-desc">Score your team across five dimensions and get a roadmap for closing the gaps that matter most.</div>
+        </a>
+        <a href="/blog/test-automation-roi/" class="related-card">
+          <div class="related-card-label">Blog post</div>
+          <div class="related-card-title">Test automation ROI</div>
+          <div class="related-card-desc">The formula, the benchmarks by stage, and the tracking script for measuring what your automation is worth.</div>
         </a>
         <!-- SITE PAGES LAST -->
         <a href="/software-testing-services/" class="related-card">
