@@ -4,57 +4,83 @@
   <!-- Core pages -->
   <url>
     <loc>https://www.gogreenlit.com/</loc>
-    <lastmod>2026-04-07</lastmod>
+    <lastmod>2026-04-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.gogreenlit.com/software-testing-services/</loc>
-    <lastmod>2026-04-07</lastmod>
+    <lastmod>2026-04-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.gogreenlit.com/qa-consulting/</loc>
-    <lastmod>2026-04-07</lastmod>
+    <lastmod>2026-04-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.gogreenlit.com/about/</loc>
-    <lastmod>2026-04-07</lastmod>
+    <lastmod>2026-04-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Blog -->
+  <!-- Blog index -->
   <url>
     <loc>https://www.gogreenlit.com/blog/</loc>
-    <lastmod>2026-04-07</lastmod>
+    <lastmod>2026-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- Blog posts -->
   <url>
     <loc>https://www.gogreenlit.com/blog/playwright-vs-selenium-2026/</loc>
-    <lastmod>2026-04-07</lastmod>
+    <lastmod>2026-04-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.gogreenlit.com/blog/how-we-reduced-escaped-defects/</loc>
-    <lastmod>2026-04-07</lastmod>
+    <lastmod>2026-04-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.gogreenlit.com/blog/in-house-vs-outsourced-qa/</loc>
-    <lastmod>2026-04-07</lastmod>
+    <lastmod>2026-04-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.gogreenlit.com/blog/playwright-cicd-integration/</loc>
-    <lastmod>2026-04-07</lastmod>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.gogreenlit.com/blog/agile-qa-sprint-cycles/</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.gogreenlit.com/blog/api-testing-best-practices/</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.gogreenlit.com/blog/qa-maturity-model/</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.gogreenlit.com/blog/test-automation-roi/</loc>
+    <lastmod>2026-04-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
