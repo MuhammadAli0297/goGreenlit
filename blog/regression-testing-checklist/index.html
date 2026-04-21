@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regression Testing Checklist: What to Test Before Every Release | goGreenlit</title>
+<meta name="description" content="A practical regression testing checklist for engineering teams. Covers what to include, how to prioritise test cases, when to automate, and the release sign-off criteria that actually prevent bugs from reaching production.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.gogreenlit.com/blog/regression-testing-checklist/">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.gogreenlit.com/blog/regression-testing-checklist/">
+<meta property="og:title" content="Regression Testing Checklist: What to Test Before Every Release | goGreenlit">
+<meta property="og:description" content="A practical regression testing checklist covering what to include, how to prioritise, when to automate, and the release criteria that prevent production bugs.">
+<meta property="og:site_name" content="goGreenlit">
+<meta property="og:image" content="https://www.gogreenlit.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Regression Testing Checklist: What to Test Before Every Release | goGreenlit">
+<meta name="twitter:description" content="A practical regression testing checklist for engineering teams. What to include, how to prioritise, and the release criteria that prevent production bugs.">
+<meta name="twitter:image" content="https://www.gogreenlit.com/og-image.jpg">
+<link rel="icon" type="image/png" href="/gogreenlit-icon-green.png">
+<link rel="apple-touch-icon" href="/gogreenlit-icon-green.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Regression Testing Checklist: What to Test Before Every Release",
+  "description": "A practical regression testing checklist for engineering teams, covering what to include, how to prioritise test cases, when to automate, and the release sign-off criteria that actually prevent bugs from reaching production.",
+  "datePublished": "2026-04-20",
+  "dateModified": "2026-04-20",
+  "author": {
+    "@type": "Person",
+    "name": "Muhammad Ali",
+    "jobTitle": "Co-Founder & QA Manager",
+    "worksFor": { "@type": "Organization", "name": "goGreenlit", "url": "https://www.gogreenlit.com" }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "goGreenlit",
+    "url": "https://www.gogreenlit.com",
+    "logo": { "@type": "ImageObject", "url": "https://www.gogreenlit.com/gogreenlit-icon-green.png" }
+  },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://www.gogreenlit.com/blog/regression-testing-checklist/" }
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green-50:#E1F5EE;--green-100:#9FE1CB;--green-200:#5DCAA5;
+  --green-400:#1D9E75;--green-600:#0F6E56;--green-800:#085041;
+  --navy:#0B1D33;--navy-light:#1A2D47;--deep-navy:#042C53;
+  --text:#1E293B;--text-mid:#475569;--text-light:#94A3B8;
+  --bg:#FAFCFB;--card:#FFFFFF;
+  --font-body:'DM Sans',system-ui,sans-serif;
+  --font-display:'Instrument Serif',Georgia,serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.nav-hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;padding:6px 4px;border:none;background:none;margin-left:.5rem;flex-shrink:0}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:transform .3s ease,opacity .3s ease}
+.nav-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(250,252,251,.85);border-bottom:1px solid rgba(15,110,86,.08)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo svg{height:28px;width:auto}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{font-size:.875rem;color:var(--text-mid);text-decoration:none;font-weight:500;transition:color .2s}
+.nav-links a:hover,.nav-links a.nav-active{color:var(--green-600)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.625rem 1.5rem;border-radius:8px;font-size:.875rem;font-weight:600;text-decoration:none;transition:all .25s ease}
+.btn-primary,.nav-links a.btn-primary{background:var(--green-600);color:#fff}
+.btn-primary:hover,.nav-links a.btn-primary:hover{background:var(--green-800);color:#fff;transform:translateY(-1px);box-shadow:0 4px 16px rgba(15,110,86,.25)}
+.btn-white{background:#fff;color:var(--green-600);border:none}
+.btn-white:hover{background:var(--green-50);transform:translateY(-1px)}
+.btn-outline{border:1.5px solid var(--green-200);color:var(--green-600);background:transparent}
+.btn-outline:hover{background:var(--green-50);border-color:var(--green-400)}
+.post-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--deep-navy) 100%);padding:10rem 2rem 5rem;position:relative;overflow:hidden}
+.post-hero::before{content:'';position:absolute;bottom:-80px;right:-80px;width:400px;height:400px;border-radius:50%;background:rgba(29,158,117,.08);pointer-events:none}
+.post-hero-inner{max-width:760px;margin:0 auto;position:relative;z-index:1}
+.post-hero-meta{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.post-tag{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green-200);background:rgba(93,202,165,.12);padding:.3rem .8rem;border-radius:100px;border:1px solid rgba(93,202,165,.2)}
+.post-date,.post-read{font-size:.8rem;color:var(--text-light)}
+.post-hero h1{font-family:var(--font-display);font-size:clamp(2rem,4.5vw,3rem);line-height:1.1;color:#fff;font-weight:400;margin-bottom:1.5rem}
+.post-hero h1 em{font-style:italic;color:var(--green-200)}
+.post-hero-lead{font-size:1.05rem;line-height:1.75;color:rgba(255,255,255,.75);margin-bottom:2rem;max-width:680px}
+.post-hero-author{display:flex;align-items:center;gap:.875rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.1)}
+.author-avatar{width:44px;height:44px;border-radius:50%;background:var(--green-600);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#fff;flex-shrink:0}
+.author-details .name{font-size:.9rem;font-weight:600;color:#fff}
+.author-details .role{font-size:.78rem;color:var(--text-light)}
+.article-wrap{max-width:760px;margin:0 auto;padding:4rem 2rem 5rem}
+.back-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.875rem;font-weight:600;color:var(--green-600);text-decoration:none;margin-bottom:2.5rem;transition:gap .2s}
+.back-link:hover{gap:.7rem}
+.article-body{font-size:1rem;line-height:1.8;color:var(--text)}
+.article-body h2{font-family:var(--font-display);font-size:1.75rem;font-weight:400;color:var(--navy);margin:2.5rem 0 1rem;line-height:1.25}
+.article-body h3{font-size:1.1rem;font-weight:600;color:var(--navy);margin:2rem 0 .625rem}
+.article-body p{margin-bottom:1.25rem}
+.article-body ul,.article-body ol{padding-left:1.5rem;margin-bottom:1.25rem;display:flex;flex-direction:column;gap:.5rem}
+.article-body li{line-height:1.7}
+.article-body strong{font-weight:600;color:var(--navy)}
+.article-body a{color:var(--green-600);text-decoration:none;font-weight:500}
+.article-body a:hover{text-decoration:underline}
+.callout{border-left:4px solid var(--green-400);background:var(--green-50);padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0}
+.callout p{margin-bottom:.5rem;font-size:.95rem;line-height:1.7}
+.callout p:last-child{margin-bottom:0}
+.callout strong{color:var(--green-600)}
+.checklist-block{background:var(--bg);border:1px solid rgba(15,110,86,.12);border-radius:14px;padding:1.5rem;margin:1.5rem 0}
+.checklist-block h4{font-size:.85rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green-600);margin-bottom:1rem}
+.checklist-block ul{padding-left:0;list-style:none;gap:.5rem}
+.checklist-block ul li{display:flex;gap:.75rem;align-items:flex-start;font-size:.9rem;color:var(--text-mid);line-height:1.6;padding:.3rem 0;border-bottom:1px solid rgba(15,110,86,.05)}
+.checklist-block ul li:last-child{border-bottom:none}
+.checklist-block ul li::before{content:'';display:block;width:16px;height:16px;border:1.5px solid var(--green-400);border-radius:3px;flex-shrink:0;margin-top:.2rem}
+.stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;background:var(--navy);border-radius:16px;padding:2rem;margin:2.5rem 0}
+.stat-item{text-align:center}
+.stat-num{font-family:var(--font-display);font-size:2.25rem;color:var(--green-200);line-height:1;margin-bottom:.35rem}
+.stat-label{font-size:.78rem;color:var(--text-light);line-height:1.4}
+.cta-inline{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);border-radius:16px;padding:2rem;margin:2.5rem 0;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+.cta-inline p{color:rgba(255,255,255,.8);font-size:.95rem;margin:0;flex:1}
+.related-section{margin-top:3rem;padding-top:3rem;border-top:1px solid rgba(15,110,86,.08)}
+.related-section h3{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-mid);margin-bottom:1.25rem}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+.related-card{display:block;background:var(--card);border:1px solid rgba(15,110,86,.08);border-radius:14px;padding:1.5rem;text-decoration:none;transition:all .3s ease}
+.related-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(15,110,86,.08);border-color:var(--green-200)}
+.related-card-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-400);margin-bottom:.4rem}
+.related-card-title{font-size:.95rem;font-weight:600;color:var(--navy);margin-bottom:.35rem;line-height:1.35}
+.related-card-desc{font-size:.8rem;color:var(--text-mid);line-height:1.55}
+.author-bio{background:var(--green-50);border:1px solid rgba(15,110,86,.1);border-radius:16px;padding:2rem;margin-top:3rem;display:flex;gap:1.25rem;align-items:flex-start}
+.author-bio-avatar{width:60px;height:60px;border-radius:50%;background:var(--green-600);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#fff;flex-shrink:0}
+.author-bio-name{font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:.2rem}
+.author-bio-role{font-size:.78rem;color:var(--green-600);font-weight:600;margin-bottom:.5rem}
+.author-bio-text{font-size:.875rem;color:var(--text-mid);line-height:1.6}
+footer{padding:3rem 2rem;border-top:1px solid rgba(15,110,86,.08)}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:1.25rem}
+.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-links{display:flex;gap:2rem;flex-wrap:wrap}
+.footer-links a{font-size:.8rem;color:var(--text-light);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--green-600)}
+.footer-copy{font-size:.8rem;color:var(--text-light)}
+.footer-tagline{font-size:.72rem;color:var(--text-light);opacity:.7;padding-top:.75rem;border-top:1px solid rgba(15,110,86,.06)}
+@media(max-width:900px){
+  .nav-links a:not(.btn){display:none}
+  .nav-hamburger{display:flex}
+  .nav-links{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(250,252,251,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(15,110,86,.12);flex-direction:column;padding:1.25rem 2rem 1.5rem;gap:0;z-index:99;box-shadow:0 8px 32px rgba(15,110,86,.08)}
+  .nav-links.open{display:flex}
+  .nav-links a:not(.btn){display:block !important;padding:.75rem 0;border-bottom:1px solid rgba(15,110,86,.06);font-size:.95rem}
+  .nav-links a:not(.btn):last-of-type{border-bottom:none}
+  .nav-links .btn{margin-top:.75rem;align-self:flex-start;display:inline-flex !important}
+  .stat-strip{grid-template-columns:1fr;gap:1rem}
+  .cta-inline{flex-direction:column}
+  .author-bio{flex-direction:column}
+}
+@media(max-width:600px){
+  .article-wrap{padding:3rem 1.25rem 4rem}
+  .post-hero{padding:8rem 1.25rem 4rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <svg viewBox="0 0 210 32" height="28">
+        <rect x="2" y="4" width="24" height="24" rx="6" fill="#0F6E56"/>
+        <path d="M10 11L20 16L10 21Z" fill="#E1F5EE"/>
+        <text x="34" y="23" font-family="'DM Sans','Helvetica Neue',Helvetica,sans-serif" font-size="20" letter-spacing="-0.3">
+          <tspan fill="#5DCAA5" font-weight="300">go</tspan><tspan fill="#0F6E56" font-weight="600">Greenlit</tspan>
+        </text>
+      </svg>
+    </a>
+    <div class="nav-links">
+      <a href="/software-testing-services/">Services</a>
+      <a href="/qa-consulting/">QA Consulting</a>
+      <a href="/#results">Results</a>
+      <a href="/about/">About Us</a>
+      <a href="/blog/" class="nav-active">Blog</a>
+      <a href="https://calendly.com/gogreenlit/30min" class="btn btn-primary">Book a call</a>
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="post-hero">
+  <div class="post-hero-inner">
+    <div class="post-hero-meta">
+      <span class="post-tag">Regression Testing</span>
+      <span class="post-date">April 20, 2026</span>
+      <span class="post-read">10 min read</span>
+    </div>
+    <h1>Regression testing checklist: <em>what to test</em> before every release</h1>
+    <p class="post-hero-lead">Most regression testing checklists are too generic to be useful. This one is built from nine years of running regression cycles across SaaS, healthcare, and enterprise distribution products. It's specific, prioritised, and designed to fit inside a sprint rather than blow it up.</p>
+    <div class="post-hero-author">
+      <div class="author-avatar">MA</div>
+      <div class="author-details">
+        <div class="name">Muhammad Ali</div>
+        <div class="role">Co-Founder & QA Manager, goGreenlit</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="article-wrap">
+  <a href="/blog/" class="back-link">← Back to Blog</a>
+
+  <article class="article-body">
+
+    <p>Regression testing has a bad reputation in most engineering teams. It's the thing that happens at the end of the sprint when everyone's exhausted and the release window is closing. It's the manual grind that somebody has to do. It's the reason QA becomes a bottleneck.</p>
+
+    <p>That reputation is earned, but it's earned by doing regression testing badly. When it's done well, with a structured checklist, clear prioritisation, and the right mix of automated and manual coverage, it's the single most reliable way to prevent known functionality from breaking in production. The teams I've worked with who had real regression discipline had significantly lower escaped defect rates and significantly less stressful releases. The numbers backed it up consistently.</p>
+
+    <p>This checklist is what we use and refine at goGreenlit. It's designed to be adapted to your product, not followed blindly, but the structure and the prioritisation logic apply across most web applications and SaaS products.</p>
+
+    <h2>Why most regression testing fails</h2>
+
+    <p>Before the checklist, it's worth naming the failure modes so you know what you're designing around.</p>
+
+    <h3>Regression testing is crammed into the last two days of the sprint</h3>
+    <p>When regression testing is a phase rather than a continuous practice, it creates a predictable crisis at the end of every sprint. The checklist is too long to execute in the time available, triage decisions get made under pressure, and things slip through. The fix is to run partial regression checks continuously throughout the sprint, with the full regression suite reserved for pre-release validation.</p>
+
+    <h3>The regression suite tests the wrong things</h3>
+    <p>Many regression suites grow organically: a bug gets reported, a test case gets added, repeat. The result is a test suite that's dense around historically buggy areas and thin around business-critical flows. The highest-priority regression scenarios should map to the highest business risk, not the highest historical bug count.</p>
+
+    <h3>Manual regression scales poorly as the product grows</h3>
+    <p>A product with three major features can be regressed manually in a few hours. A product with 30 features and hundreds of integration points cannot. Without automation, regression testing either grows unsustainably or coverage quietly shrinks to fit the available time. The answer is not to automate everything it's to automate the scenarios that are stable, high-value, and repeatably executable.</p>
+
+    <div class="stat-strip">
+      <div class="stat-item">
+        <div class="stat-num">45%</div>
+        <div class="stat-label">Reduction in escaped defects with structured regression discipline</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">95%</div>
+        <div class="stat-label">Release coverage on critical workflows in our retainer engagements</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">18+</div>
+        <div class="stat-label">Years combined QA experience across the goGreenlit team</div>
+      </div>
+    </div>
+
+    <h2>The regression testing checklist</h2>
+
+    <p>This is organised into five tiers, ordered by priority. If you're under time pressure, Tier 1 is non-negotiable. Tiers 2 and 3 should be completed before every release. Tiers 4 and 5 are best handled through automation running continuously rather than manually before each release.</p>
+
+    <h3>Tier 1: Critical path always test these</h3>
+    <p>These are the scenarios where a failure causes immediate, visible damage to users or revenue. Every release, no exceptions.</p>
+
+    <div class="checklist-block">
+      <h4>Critical path checklist</h4>
+      <ul>
+        <li>Core user authentication: login, logout, session expiry, password reset flow</li>
+        <li>Primary revenue or conversion flow (checkout, subscription signup, onboarding)</li>
+        <li>Key API integrations your product depends on (payment processor, authentication provider, core third-party services)</li>
+        <li>Data persistence: create, read, update, delete on your primary data entities</li>
+        <li>Role-based access: verify users cannot access resources beyond their permission level</li>
+        <li>Error handling on critical paths: what happens when the payment API times out, when a required field is missing, when a session expires mid-flow</li>
+      </ul>
+    </div>
+
+    <h3>Tier 2: High-impact user flows test before every release</h3>
+    <p>These are the scenarios users encounter most frequently or that, if broken, would generate immediate support tickets and churn.</p>
+
+    <div class="checklist-block">
+      <h4>High-impact flows checklist</h4>
+      <ul>
+        <li>User profile management: edit, save, and display of user-controlled data</li>
+        <li>Search and filtering functionality on primary content types</li>
+        <li>Notification and email trigger flows (verify they fire and contain correct data)</li>
+        <li>File upload and download if your product involves user-generated content</li>
+        <li>Cross-browser smoke test on Chrome and Safari (the two browsers covering 80%+ of most user bases)</li>
+        <li>Mobile responsive check on key flows for any public-facing product</li>
+        <li>Pagination, infinite scroll, and list loading on high-traffic views</li>
+      </ul>
+    </div>
+
+    <h3>Tier 3: Integration and data integrity test before releases with backend changes</h3>
+    <p>These scenarios matter most when the release includes changes to APIs, data models, or third-party integrations. Skip them for pure frontend-only releases where no backend changes were made.</p>
+
+    <div class="checklist-block">
+      <h4>Integration and data checklist</h4>
+      <ul>
+        <li>REST API endpoint validation for any changed or adjacent endpoints (status codes, response schemas, error payloads)</li>
+        <li>Database query correctness on any queries touched by the release</li>
+        <li>Third-party webhook receipts and outbound webhook payloads</li>
+        <li>Data migration correctness if the release included a schema change</li>
+        <li>Background job and async task execution (verify jobs complete and data lands correctly)</li>
+        <li>Rate limiting and throttling behaviour under normal load</li>
+      </ul>
+    </div>
+
+    <h3>Tier 4: Edge cases and negative paths automate these</h3>
+    <p>These scenarios are important but slow and repetitive to test manually. They're best handled by an automated regression suite running on every pull request.</p>
+
+    <div class="checklist-block">
+      <h4>Automation targets checklist</h4>
+      <ul>
+        <li>Form validation: empty required fields, field length limits, invalid format inputs</li>
+        <li>Duplicate submission prevention (double-click on submit buttons, network delay scenarios)</li>
+        <li>Session and token expiry handling mid-flow</li>
+        <li>Concurrent user actions on shared resources</li>
+        <li>Character encoding edge cases (special characters, unicode, emoji in user inputs)</li>
+        <li>Large dataset handling (what happens at 10,000 records vs 10)</li>
+      </ul>
+    </div>
+
+    <h3>Tier 5: Performance and accessibility run periodically</h3>
+    <p>These don't need to block every release, but they should be verified on a defined cadence rather than ignored indefinitely.</p>
+
+    <div class="checklist-block">
+      <h4>Periodic checks</h4>
+      <ul>
+        <li>Page load time on primary views under realistic conditions (not localhost)</li>
+        <li>Core Web Vitals score (LCP, CLS, INP) via PageSpeed Insights</li>
+        <li>Accessibility: keyboard navigation, screen reader compatibility on primary flows</li>
+        <li>SSL certificate validity and HTTPS redirect behaviour</li>
+        <li>Broken link scan on publicly accessible pages</li>
+      </ul>
+    </div>
+
+    <div class="callout">
+      <p><strong>The prioritisation rule we use:</strong> For every test case on your regression checklist, ask two questions. First: if this breaks in production, what's the immediate business impact? Second: how often does this area change? High business impact plus frequent change equals Tier 1 or 2. Low business impact plus stable code equals Tier 4 or 5, and it should be automated.</p>
+    </div>
+
+    <h2>How to make this work inside a sprint without it eating the whole sprint</h2>
+
+    <p>The checklist above looks like a lot of work when you read it as a sequential to-do list. It doesn't feel that way when it's distributed across the sprint properly. Here's the distribution that works:</p>
+
+    <h3>Day 1 to 2: Impact analysis</h3>
+    <p>When sprint tickets are assigned, map which existing features could be affected by the changes in scope. This is a 30-minute conversation between QA and the lead developer, not a full analysis. The output is a list of additional regression scenarios to run this sprint beyond the standard checklist the areas that could have been touched indirectly.</p>
+
+    <h3>During the sprint: Continuous smoke testing</h3>
+    <p>As features complete development and move to staging, run Tier 1 and Tier 2 scenarios against them immediately. Don't wait for all features to be complete. This surfaces integration issues while the code changes are still fresh and cheap to fix.</p>
+
+    <h3>Day before release: Pre-release regression run</h3>
+    <p>Run the full Tier 1 and Tier 2 checklist on the release candidate build. Your automated regression suite should cover Tier 4 and be running in CI. Tier 3 gets spot-checked based on the impact analysis from day one. This whole session should take 2 to 4 hours, not 2 to 4 days. If it's taking longer, your checklist has grown beyond what can be sustainably executed manually and it's time to push more coverage into automation.</p>
+
+    <h3>Release sign-off criteria</h3>
+    <p>Define this before the sprint, not the morning of the release. Our standard criteria: all Tier 1 cases pass, all Tier 2 cases pass or have documented known issues with a severity below P1, automated regression suite is green, no P1 defects are open. If these conditions are met, the release goes. If they're not, the release waits. This isn't negotiable on a per-sprint basis, and having it documented means the pressure to ship doesn't override the quality bar.</p>
+
+    <div class="cta-inline">
+      <p>If your team's regression testing is a manual scramble at the end of every sprint, goGreenlit can help you restructure it. We embed in your sprint cycle, build the Playwright automation suite, and establish the regression process your product actually needs.</p>
+      <a href="https://calendly.com/gogreenlit/30min" class="btn btn-white">Book a free call →</a>
+    </div>
+
+    <h2>How much of this should be automated?</h2>
+
+    <p>The honest answer is: as much of Tier 1 through Tier 4 as is technically feasible and economically worthwhile. A Playwright automation suite covering the critical path and high-impact user flows takes 4 to 6 weeks to build properly on a typical SaaS product. Once it's in CI, those tests run on every pull request and every staging deploy, catching regressions in minutes rather than hours.</p>
+
+    <p>The scenarios worth automating are the ones that are stable (the UI doesn't change frequently), high-risk (if they break, users notice immediately), and repetitively tested (you run them every sprint). The scenarios worth keeping manual are the exploratory ones new features, edge cases you haven't thought of yet, UX judgment calls that no script can make.</p>
+
+    <p>The goal is a regression strategy where your automated suite handles the known risk and your manual testing time is freed up for the exploratory coverage that actually requires human judgment. That's the combination that drives a 45% reduction in escaped defects. Neither one alone gets you there.</p>
+
+    <div class="related-section">
+      <h3>Related reading</h3>
+      <div class="related-grid">
+        <a href="/blog/agile-qa-sprint-cycles/" class="related-card">
+          <div class="related-card-label">Blog post</div>
+          <div class="related-card-title">Agile QA in sprint cycles</div>
+          <div class="related-card-desc">How to embed QA so testing keeps pace with development without becoming a bottleneck.</div>
+        </a>
+        <a href="/blog/playwright-vs-selenium-2026/" class="related-card">
+          <div class="related-card-label">Blog post</div>
+          <div class="related-card-title">Playwright vs Selenium in 2026</div>
+          <div class="related-card-desc">An honest comparison of both frameworks to help you pick the right tool for your regression automation.</div>
+        </a>
+        <a href="/software-testing-services/" class="related-card">
+          <div class="related-card-label">Service</div>
+          <div class="related-card-title">Regression testing services</div>
+          <div class="related-card-desc">Sprint-by-sprint regression coverage, automated regression suites, and release sign-off for engineering teams.</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="author-bio">
+      <div class="author-bio-avatar">MA</div>
+      <div>
+        <div class="author-bio-name">Muhammad Ali</div>
+        <div class="author-bio-role">Co-Founder & QA Manager, goGreenlit</div>
+        <p class="author-bio-text">Muhammad has 9+ years of QA leadership across enterprise distribution, healthcare, and SaaS platforms. He co-founded goGreenlit to give startups and scaling engineering teams access to senior-level QA without the overhead of a full-time hire. His focus is on QA process design, regression testing strategy, and release readiness.</p>
+      </div>
+    </div>
+
+  </article>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-logo">
+        <svg viewBox="0 0 210 32" height="22" style="opacity:.5">
+          <rect x="2" y="4" width="24" height="24" rx="6" fill="#0F6E56"/>
+          <path d="M10 11L20 16L10 21Z" fill="#E1F5EE"/>
+          <text x="34" y="23" font-family="'DM Sans','Helvetica Neue',sans-serif" font-size="20" letter-spacing="-0.3">
+            <tspan fill="#5DCAA5" font-weight="300">go</tspan><tspan fill="#0F6E56" font-weight="600">Greenlit</tspan>
+          </text>
+        </svg>
+      </div>
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/software-testing-services/">Software Testing</a>
+        <a href="/qa-consulting/">QA Consulting</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About Us</a>
+        <a href="https://www.linkedin.com/company/gogreenlit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+      <div class="footer-copy">© 2026 goGreenlit LLC. Chicago, IL.</div>
+    </div>
+    <div class="footer-tagline">goGreenlit is a Chicago, IL QA consulting firm offering regression testing services, Playwright test automation consulting, and embedded QA team services for engineering teams across the US.</div>
+  </div>
+</footer>
+<script>
+(function(){
+  var btn = document.getElementById('nav-hamburger');
+  var links = document.querySelector('.nav-links');
+  if (!btn || !links) return;
+  btn.addEventListener('click', function(){
+    var open = links.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  links.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      links.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+      document.body.style.overflow = '';
+    });
+  });
+  document.addEventListener('click', function(e){
+    if (!btn.contains(e.target) && !links.contains(e.target)){
+      links.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+      document.body.style.overflow = '';
+    }
+  });
+})();
+</script>
+</body>
+</html>
