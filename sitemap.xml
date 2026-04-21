@@ -4,19 +4,19 @@
   <!-- Core pages -->
   <url>
     <loc>https://www.gogreenlit.com/</loc>
-    <lastmod>2026-04-17</lastmod>
+    <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.gogreenlit.com/software-testing-services/</loc>
-    <lastmod>2026-04-17</lastmod>
+    <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.gogreenlit.com/qa-consulting/</loc>
-    <lastmod>2026-04-17</lastmod>
+    <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -30,12 +30,12 @@
   <!-- Blog index -->
   <url>
     <loc>https://www.gogreenlit.com/blog/</loc>
-    <lastmod>2026-04-17</lastmod>
+    <lastmod>2026-04-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Blog posts -->
+  <!-- Blog posts — original 8 -->
   <url>
     <loc>https://www.gogreenlit.com/blog/playwright-vs-selenium-2026/</loc>
     <lastmod>2026-04-17</lastmod>
@@ -81,6 +81,32 @@
   <url>
     <loc>https://www.gogreenlit.com/blog/test-automation-roi/</loc>
     <lastmod>2026-04-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Blog posts — new 4 (April 20 2026) -->
+  <url>
+    <loc>https://www.gogreenlit.com/blog/how-to-outsource-qa-testing/</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.gogreenlit.com/blog/when-to-hire-qa-consultant/</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.gogreenlit.com/blog/regression-testing-checklist/</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.gogreenlit.com/blog/qa-process-setup-series-a-startups/</loc>
+    <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
