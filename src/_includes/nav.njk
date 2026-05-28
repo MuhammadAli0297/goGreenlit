@@ -1,21 +1,26 @@
 <nav aria-label="Main navigation">
   <div class="nav-inner">
     <a class="nav-logo" href="/" aria-label="goGreenlit home">
-      <svg viewBox="0 0 140 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <svg viewBox="0 0 160 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <text x="0" y="28" font-family="'DM Sans', sans-serif" font-weight="700" font-size="24" fill="#0F6E56">go</text>
         <text x="34" y="28" font-family="'Instrument Serif', serif" font-size="26" fill="#0B1D33">Greenlit</text>
       </svg>
     </a>
+
     <div class="nav-links" id="nav-links">
-      <a href="/" class="{% if page.url == '/' %}nav-active{% endif %}">Home</a>
-      <a href="/software-testing-services/" class="{% if '/software-testing-services' in page.url %}nav-active{% endif %}">Services</a>
-      <a href="/qa-consulting/" class="{% if '/qa-consulting' in page.url %}nav-active{% endif %}">QA Consulting</a>
-      <a href="/about/" class="{% if page.url == '/about/' %}nav-active{% endif %}">About</a>
-      <a href="/blog/" class="{% if '/blog' in page.url %}nav-active{% endif %}">Blog</a>
-      <a href="{{ site.calendly }}" class="btn btn-primary" target="_blank" rel="noopener">Book a Call</a>
+      <a href="/" class="{{ 'nav-active' if page.url == '/' }}">Home</a>
+      <a href="/software-testing-services/" class="{{ 'nav-active' if '/software-testing-services' in page.url }}">Services</a>
+      <a href="/qa-consulting/" class="{{ 'nav-active' if '/qa-consulting' in page.url }}">QA Consulting</a>
+      <a href="/about/" class="{{ 'nav-active' if page.url == '/about/' }}">About</a>
+      <a href="/blog/" class="{{ 'nav-active' if '/blog' in page.url }}">Blog</a>
+      <a href="https://calendly.com/gogreenlit/30min" class="btn btn-primary" target="_blank" rel="noopener">Book a Call</a>
     </div>
+
     <button class="nav-hamburger" aria-controls="nav-links" aria-expanded="false" aria-label="Toggle navigation">
-      <span></span><span></span><span></span>
+      <span></span>
+      <span></span>
+      <span></span>
     </button>
+
   </div>
 </nav>
