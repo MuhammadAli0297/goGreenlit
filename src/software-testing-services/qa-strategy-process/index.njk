@@ -1,0 +1,123 @@
+---
+layout: base.njk
+title: "QA Strategy and Process Services | goGreenlit"
+description: "QA strategy and process design for agile software teams. Build a testing pyramid that actually works, integrate quality into your sprint cycle, and stop catching bugs in production."
+type: service
+---
+<script type="application/ld+json">
+[{"@context":"https://schema.org","@type":"Service","serviceType":"QA Strategy Consulting","provider":{"@type":"Organization","name":"goGreenlit","url":"https://www.gogreenlit.com"},"areaServed":"United States","description":"QA strategy and process design services for agile software teams, including testing pyramid design, sprint integration, and risk-based testing approaches."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I know if my QA strategy is working?","acceptedAnswer":{"@type":"Answer","text":"The clearest signal is your escaped defect rate – how many bugs reach production despite having a QA process. Secondary signals: how long it takes to find out a release broke something, whether CI failures are treated as urgent or ignored, and whether your QA engineer spends more time writing test cases or chasing down flaky scripts."}},{"@type":"Question","name":"What should be in a test strategy document?","acceptedAnswer":{"@type":"Answer","text":"A test strategy document should cover scope (what you test and what you do not), risk model (what to prioritize), tooling decisions (which tools for which testing layers), environment strategy (what environments tests run against), metrics (how you measure coverage and quality), and ownership (who is responsible for each part of the testing process)."}},{"@type":"Question","name":"How do you integrate QA into agile sprints?","acceptedAnswer":{"@type":"Answer","text":"QA belongs in every phase of the sprint: in planning (writing test cases alongside stories), during development (testing features as they become available), in the sprint review (demonstrating tested functionality), and in retrospective (identifying quality process improvements). QA at the end of the sprint – after development is done – is too late to be effective."}},{"@type":"Question","name":"What is the testing pyramid?","acceptedAnswer":{"@type":"Answer","text":"The testing pyramid is a model for distributing test coverage across three layers: a large base of unit tests, a middle layer of integration and API tests, and a small top layer of end-to-end UI tests. Most teams have this inverted – too many slow UI tests, not enough fast unit and API tests. Fixing the inversion improves both coverage and CI speed."}},{"@type":"Question","name":"How often should we review our QA process?","acceptedAnswer":{"@type":"Answer","text":"A lightweight process review belongs in every retrospective. A deeper review – covering tooling, coverage trends, escaped defect analysis – is worth doing every quarter. Major process changes (new framework, new team structure) warrant a dedicated assessment."}}]}]
+</script>
+
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/software-testing-services/">Services</a>
+      <span>&#8250;</span>
+      <span>QA Strategy and Process</span>
+    </nav>
+    <h1>QA Strategy and Process Design for Agile Teams</h1>
+    <p class="page-hero-sub">Build a testing process that fits how you actually work – risk-based, sprint-integrated, and producing coverage metrics that mean something.</p>
+    <div class="page-hero-actions">
+      <a href="{{ site.calendly }}" class="btn btn-primary" target="_blank" rel="noopener">Book a Free Call</a>
+      <a href="/software-testing-services/" class="btn btn-outline" style="border-color: rgba(255,255,255,.3); color: #fff;">All Services</a>
+    </div>
+  </div>
+</div>
+
+<div class="service-body">
+
+  <h2>What a QA Strategy Actually Is (and What It Is Not)</h2>
+  <p>A QA strategy is not a list of test cases. It is not a test plan for a specific release. It is not a document that describes what a tester does each day. Those are outputs of a strategy – they are not the strategy itself.</p>
+  <p>A QA strategy is the set of decisions that govern how your team approaches quality: what you test, in what order, with which tools, in which environments, against which criteria, and with what level of confidence. It answers the question "how do we know when our software is good enough to ship" – and it answers it before each release, not after.</p>
+  <p>Most teams operate without a documented QA strategy and rely on the accumulated judgment of their QA engineer. That works until the QA engineer leaves, the team grows, or the codebase becomes complex enough that accumulated judgment is no longer sufficient. A written strategy transfers that judgment into something the whole team can use.</p>
+
+  <div class="stat-strip">
+    <div class="strip-stat">
+      <div class="strip-num">45%</div>
+      <div class="strip-label">Avg. Reduction in Escaped Defects</div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-num">95%</div>
+      <div class="strip-label">Release Coverage Achieved</div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-num">18+</div>
+      <div class="strip-label">Years Combined QA Experience</div>
+    </div>
+  </div>
+
+  <h2>The Testing Pyramid and Why Most Teams Have It Inverted</h2>
+  <p>The testing pyramid is a model for distributing test coverage across three layers. At the base: unit tests – fast, isolated, hundreds or thousands of them. In the middle: integration and API tests – moderate speed, covering service boundaries and data flows. At the top: end-to-end UI tests – slow, cross-stack, covering the most critical user flows only.</p>
+  <p>Most teams we work with have the pyramid inverted. They have many slow UI tests, few API tests, and almost no unit tests. The result is a test suite that takes 90 minutes to run, fails intermittently, and provides less confidence than it appears to.</p>
+  <p>Fixing the inversion is one of the highest-value changes you can make to your QA process. It means:</p>
+  <ul>
+    <li>Adding unit test coverage for business logic that currently has none – developers write these, QA reviews them</li>
+    <li>Building API test coverage for the service boundaries that UI tests currently validate indirectly and slowly</li>
+    <li>Reducing UI test coverage to the critical paths that genuinely require an end-to-end check</li>
+    <li>Running the resulting suite in under 10 minutes – which means it actually runs on every PR, not just on release</li>
+  </ul>
+
+  <div class="callout">
+    <p>A QA strategy that is never written down is not a strategy. It is a set of habits. Habits are personal. A written strategy is something the whole team can align to, debate, and improve together.</p>
+  </div>
+
+  <h2>Integrating QA Into Agile Ceremonies</h2>
+  <p>QA that happens after development is done is too late to be effective. By the time a feature is "complete" and handed off for testing, the developer has mentally moved on, the story has been closed, and the cost of changing anything has doubled. The fix is not to test faster at the end – it is to move QA earlier in the cycle.</p>
+  <p><strong>Definition of Done:</strong> QA sign-off belongs in the Definition of Done alongside code review and deployment to staging. A story is not done until a QA engineer has tested it. Writing this into the DoD enforces the expectation across the team.</p>
+  <p><strong>Test planning in sprint planning:</strong> Before a sprint starts, the QA engineer reviews each story and writes test cases. This catches ambiguous requirements while there is still time to clarify them, not after implementation.</p>
+  <p><strong>Defect triage in retrospective:</strong> Escaped defects – bugs that shipped to production – belong in the retrospective. Not to assign blame, but to understand why the test coverage missed them and what to change next sprint.</p>
+
+  <h2>Risk-Based Testing: Deciding What to Test First</h2>
+  <p>No QA team has infinite time. The question is not "should we test everything" – the answer is no. The question is "given limited time, which things are most important to test." Risk-based testing is a structured way to answer that question.</p>
+  <p>We assess risk on two dimensions: probability of failure (how likely is this to break?) and impact of failure (what happens when it breaks?). High-probability, high-impact areas get the most coverage. Low-probability, low-impact areas get minimal coverage or none at all.</p>
+  <p>In practice, this means: authentication, payments, data privacy, and critical user workflows get deep coverage. Administrative features used by two internal employees get smoke testing. The allocation is explicit and documented, not left to intuition.</p>
+
+  <div class="inline-cta">
+    <h3>Want a QA strategy built for your team?</h3>
+    <p>We can help you design a process that fits your sprint rhythm and actually gets followed. It starts with a conversation about where quality is currently breaking down.</p>
+    <a href="{{ site.calendly }}" class="btn btn-white" target="_blank" rel="noopener">Book a Free Call</a>
+  </div>
+
+  <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-question">How do I know if my QA strategy is working?</div>
+      <div class="faq-answer">The clearest signal is your escaped defect rate – how many bugs reach production despite having a QA process. Secondary signals: how long it takes to find out a release broke something, whether CI failures are treated as urgent or ignored, and whether your QA engineer spends more time writing test cases or chasing down flaky scripts.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">What should be in a test strategy document?</div>
+      <div class="faq-answer">A test strategy document should cover scope (what you test and what you do not), risk model (what to prioritize), tooling decisions, environment strategy, metrics, and ownership. It should be short enough that people actually read it – not a 40-page enterprise document.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">How do you integrate QA into agile sprints?</div>
+      <div class="faq-answer">QA belongs in every phase of the sprint: in planning (writing test cases alongside stories), during development (testing features as they become available), in the sprint review (demonstrating tested functionality), and in retrospective (identifying quality process improvements).</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">What is the testing pyramid?</div>
+      <div class="faq-answer">The testing pyramid is a model for distributing test coverage across three layers: a large base of unit tests, a middle layer of integration and API tests, and a small top layer of end-to-end UI tests. Most teams have this inverted – too many slow UI tests, not enough fast unit and API tests.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">How often should we review our QA process?</div>
+      <div class="faq-answer">A lightweight process review belongs in every retrospective. A deeper review – covering tooling, coverage trends, escaped defect analysis – is worth doing every quarter.</div>
+    </div>
+  </div>
+
+  <div class="related-section">
+    <h2>Related Services and Resources</h2>
+    <div class="related-grid">
+      <a href="/blog/qa-maturity-model/" class="related-card">
+        <div class="related-card-tag">Blog</div>
+        <h3>The QA Maturity Model: Where Does Your Team Sit?</h3>
+      </a>
+      <a href="/qa-consulting/test-strategy-consulting/" class="related-card">
+        <div class="related-card-tag">Consulting</div>
+        <h3>Test Strategy Consulting</h3>
+      </a>
+      <a href="/blog/agile-qa-sprint-cycles/" class="related-card">
+        <div class="related-card-tag">Blog</div>
+        <h3>How to Run QA Inside Agile Sprint Cycles Without Slowing Down</h3>
+      </a>
+    </div>
+  </div>
+</div>

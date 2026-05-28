@@ -1,0 +1,119 @@
+---
+layout: base.njk
+title: "How We Reduced Escaped Defects by 45% for a SaaS Client"
+description: "A case study in how goGreenlit reduced escaped defects by 45% for a growing SaaS company through sprint-embedded QA, a risk-based test coverage model, and targeted automation."
+type: post
+author: "Mohammad Khan"
+date: 2025-01-22
+excerpt: "Escaped defects were costing a SaaS client customer trust and developer time. Here is exactly what we changed to reduce them by 45% in three sprints."
+ogType: article
+---
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"How We Reduced Escaped Defects by 45% for a SaaS Client","description":"A case study in reducing escaped defects through sprint-embedded QA and risk-based test coverage.","datePublished":"2025-01-22","dateModified":"2025-01-22","author":{"@type":"Person","name":"Mohammad Khan","url":"https://www.gogreenlit.com/about/"},"publisher":{"@type":"Organization","name":"goGreenlit","url":"https://www.gogreenlit.com"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.gogreenlit.com/blog/how-we-reduced-escaped-defects/"}}
+</script>
+
+<div class="post-hero">
+  <div class="post-hero-inner">
+    <p class="post-hero-tag">QA Case Study</p>
+    <h1>How We Reduced Escaped Defects by 45% for a SaaS Client</h1>
+    <p class="post-hero-lead">Escaped defects were costing a SaaS client customer trust and developer time. Here is exactly what we changed in the first three sprints to reduce them by 45%.</p>
+    <div class="post-hero-author">
+      <div class="author-avatar">MK</div>
+      <div>
+        <div class="author-name">Mohammad Khan</div>
+        <div class="author-date">January 22, 2025 &middot; goGreenlit</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="article-wrap">
+  <a href="/blog/" class="back-link">&#8592; Back to Blog</a>
+  <article class="article-body">
+
+    <p>When we started working with this client, they had a QA process. It just was not working. They had one QA engineer running regression every sprint, filing defects, signing off on releases – and bugs were still reaching production at a rate that was affecting customer retention.</p>
+    <p>The CTO's framing: "We know we have a QA problem. We just don't know which part of the QA process is the problem." That is actually the right starting point. Most teams have a QA process problem, not a QA effort problem. More testing time applied to a broken process just produces more of the same results.</p>
+
+    <div class="stat-strip">
+      <div class="strip-stat">
+        <div class="strip-num">45%</div>
+        <div class="strip-label">Reduction in Escaped Defects</div>
+      </div>
+      <div class="strip-stat">
+        <div class="strip-num">3</div>
+        <div class="strip-label">Sprints to Achieve</div>
+      </div>
+      <div class="strip-stat">
+        <div class="strip-num">95%</div>
+        <div class="strip-label">Release Coverage Achieved</div>
+      </div>
+    </div>
+
+    <h2>What We Found in the First Two Weeks</h2>
+    <p>We spent the first two weeks doing nothing but observing. We sat in on sprint ceremonies, reviewed the last six months of defect history, looked at the test case library, and asked a lot of questions. We also ran our own QA audit against two in-progress features to establish a baseline.</p>
+    <p>The findings were clear:</p>
+    <p><strong>Testing was happening too late.</strong> QA execution was starting on day 12 of a 14-day sprint. That left two days for testing before the release. When defects were found (and they were found), there was not enough time to fix and retest before the release window. The result was a choice between delaying the release or shipping with known bugs. They were often choosing to ship.</p>
+    <p><strong>The test case library covered the wrong things.</strong> They had 280 test cases. About 60 of them were for a feature that had been substantially redesigned 18 months ago. The test cases still existed, were still being executed, and were passing – but they were testing behavior that no longer reflected the current application. This created a false confidence problem: 95% pass rate sounds good until you realize 20% of those tests are testing features that no longer exist.</p>
+    <p><strong>High-risk areas had insufficient coverage.</strong> The payment flow, the most business-critical feature, had six test cases – all happy-path. No negative testing, no boundary conditions, no edge cases for failed payment methods. Production bugs in the payment flow were among the most expensive they had experienced.</p>
+
+    <h2>What We Changed in Sprint One</h2>
+    <p>We focused sprint one on the highest-leverage change: moving testing earlier in the sprint. We introduced what we called "test-first sprint planning" – before development starts, the QA engineer reviews each story and writes test cases based on the acceptance criteria. These test cases become part of the story definition, and the story cannot be moved to "In Development" without them.</p>
+    <p>The immediate effect was not what most people expect. Developers pushed back. Writing test cases before development felt like overhead. The adjustment took about three days of working through the new process together and explaining the value: when you write the test cases before implementing the feature, you often find ambiguities in the acceptance criteria that would have become bugs. You are finding the defect in the requirements, not in the code – which is the cheapest possible point to find it.</p>
+    <p>By the end of sprint one, we had identified two requirements ambiguities in sprint planning that would have become production bugs in the previous workflow. That is the benefit made tangible.</p>
+
+    <div class="callout">
+      <p>Shifting QA left is not about doing more work earlier. It is about doing the work at the point in the cycle where it is cheapest. A clarifying question in sprint planning costs five minutes. The same question asked after implementation costs a day of rework.</p>
+    </div>
+
+    <h2>What We Changed in Sprint Two</h2>
+    <p>Sprint two focused on the test coverage problem. We did a coverage audit with a simple framework: for each feature area, what is the risk profile (likelihood of failure times impact of failure) and what is the current test case coverage? The resulting heat map was stark.</p>
+    <p>We retired 60 test cases for the redesigned feature and wrote 28 new ones that reflected the current behavior. We expanded the payment flow test suite from six cases to 34, specifically adding negative testing and boundary conditions for declined payments, insufficient funds, expired cards, and 3DS authentication flows.</p>
+    <p>This did not feel like improvement in the short term. We had removed test cases, which meant the coverage numbers looked worse before they looked better. The key insight is that test cases that test features which no longer exist are not coverage – they are noise that makes real coverage harder to see.</p>
+
+    <h2>What We Changed in Sprint Three</h2>
+    <p>Sprint three was about automation. We added Playwright end-to-end tests for the payment flow, covering the eight most critical paths including the failure scenarios we had added in sprint two. These tests ran in CI on every pull request, giving the development team immediate feedback on any regression to the payment flow before code was even merged.</p>
+    <p>The CI integration created a cultural shift. Before, bugs in the payment flow were found by QA during manual regression. Now, they were found by the developer whose PR broke the test, while they were still in context on that change. Fix time dropped significantly.</p>
+    <p>By the end of sprint three, the escaped defect rate had dropped 45% compared to the same period the previous quarter. Not because we were doing more testing – the total testing hours were similar. Because the testing was happening at the right time, covering the right things, and surfacing issues at the cheapest point in the cycle.</p>
+
+    <div class="inline-cta">
+      <h3>Is your team dealing with escaped defects?</h3>
+      <p>Most escaped defect problems are process problems, not effort problems. A 30-minute conversation is enough to figure out where your process is breaking down.</p>
+      <a href="{{ site.calendly }}" class="btn btn-white" target="_blank" rel="noopener">Book a Free Call</a>
+    </div>
+
+    <h2>What the Numbers Actually Mean</h2>
+    <p>A 45% reduction in escaped defects sounds like a specific, auditable metric. It is – but it is worth understanding what we are measuring and what we are not.</p>
+    <p>We define an escaped defect as a bug found in production that existed in a feature that had passed QA sign-off. It excludes infrastructure incidents, data issues from external systems, and bugs in features that were released without QA coverage (which is a separate problem category).</p>
+    <p>What the 45% reduction means in practice: the development team spends fewer hours on production hotfixes. Support volume from bug-related tickets is lower. Customer satisfaction scores for the affected feature areas improved. The CTO has more confidence in release decisions because the release readiness signal is more reliable.</p>
+    <p>What it does not mean: zero escaped defects. No QA process produces zero escaped defects. The goal is a rate that is low enough that production bugs are the exception, investigated, and learned from – not the norm that everyone has accepted as the cost of shipping software.</p>
+
+    <div class="author-bio">
+      <div class="author-bio-avatar">MK</div>
+      <div>
+        <div class="author-bio-name">Mohammad Khan</div>
+        <div class="author-bio-title">Co-Founder and Lead Automation QA Engineer, goGreenlit</div>
+        <p class="author-bio-text">Mohammad brings deep technical expertise in Playwright, Selenium, and API testing frameworks. He has architected automation suites that run inside CI/CD pipelines for companies supporting over a billion dollars in annual revenue.</p>
+      </div>
+    </div>
+
+    <div class="related-section">
+      <h2>Related</h2>
+      <div class="related-grid">
+        <a href="/qa-consulting/embedded-qa-team/" class="related-card">
+          <div class="related-card-tag">Consulting</div>
+          <h3>Embedded QA Team Services</h3>
+        </a>
+        <a href="/blog/agile-qa-sprint-cycles/" class="related-card">
+          <div class="related-card-tag">Blog</div>
+          <h3>How to Run QA Inside Agile Sprint Cycles Without Slowing Down</h3>
+        </a>
+        <a href="/software-testing-services/regression-testing/" class="related-card">
+          <div class="related-card-tag">Service</div>
+          <h3>Regression Testing Services</h3>
+        </a>
+      </div>
+    </div>
+
+  </article>
+</div>

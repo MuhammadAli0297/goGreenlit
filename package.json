@@ -1,0 +1,15 @@
+{
+  "name": "gogreenlit",
+  "version": "1.0.0",
+  "description": "goGreenlit QA Consulting Website",
+  "scripts": {
+    "build": "npx @11ty/eleventy",
+    "start": "npx @11ty/eleventy --serve"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy-navigation": "^1.0.5",
+    "luxon": "^3.7.2",
+    "markdown-it": "^14.2.0"
+  }
+}

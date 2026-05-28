@@ -1,0 +1,120 @@
+---
+layout: base.njk
+title: "How to Run QA Inside Agile Sprint Cycles Without Slowing Down"
+description: "A practical guide to integrating QA into agile sprint cycles – what to do in sprint planning, during development, at the sprint review, and in retrospective – without making QA the bottleneck."
+type: post
+author: "Muhammad Ali"
+date: 2025-03-04
+excerpt: "QA in agile works when it is embedded in the sprint from day one. QA at the end of the sprint is damage control. Here is the difference in practice."
+ogType: article
+---
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"How to Run QA Inside Agile Sprint Cycles Without Slowing Down","description":"A practical guide to integrating QA into agile sprint cycles without making QA the bottleneck.","datePublished":"2025-03-04","dateModified":"2025-03-04","author":{"@type":"Person","name":"Muhammad Ali","url":"https://www.gogreenlit.com/about/"},"publisher":{"@type":"Organization","name":"goGreenlit","url":"https://www.gogreenlit.com"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.gogreenlit.com/blog/agile-qa-sprint-cycles/"}}
+</script>
+
+<div class="post-hero">
+  <div class="post-hero-inner">
+    <p class="post-hero-tag">Agile QA</p>
+    <h1>How to Run QA Inside Agile Sprint Cycles Without Slowing Down</h1>
+    <p class="post-hero-lead">QA in agile works when it is embedded in the sprint from day one. QA at the end of the sprint is damage control with a name badge. Here is what the difference looks like in practice.</p>
+    <div class="post-hero-author">
+      <div class="author-avatar">MA</div>
+      <div>
+        <div class="author-name">Muhammad Ali</div>
+        <div class="author-date">March 4, 2025 &middot; goGreenlit</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="article-wrap">
+  <a href="/blog/" class="back-link">&#8592; Back to Blog</a>
+  <article class="article-body">
+
+    <p>The most common complaint about QA in agile teams: "QA slows us down." When I hear this, my first question is always: where in the sprint does QA happen? The answer is almost always the same. QA happens at the end. Development finishes on day 12. QA runs on day 13-14. Release is on day 15. And anything QA finds on day 13 creates a choice between delaying the release and shipping with known bugs.</p>
+    <p>That is not QA slowing you down. That is QA scheduled in a position where it cannot do anything useful without creating a problem. The fix is not faster QA. It is earlier QA.</p>
+
+    <div class="stat-strip">
+      <div class="strip-stat">
+        <div class="strip-num">10x</div>
+        <div class="strip-label">Cheaper to Fix in Planning</div>
+      </div>
+      <div class="strip-stat">
+        <div class="strip-num">45%</div>
+        <div class="strip-label">Avg. Reduction in Escaped Defects</div>
+      </div>
+      <div class="strip-stat">
+        <div class="strip-num">95%</div>
+        <div class="strip-label">Release Coverage Achieved</div>
+      </div>
+    </div>
+
+    <h2>Sprint Planning: The Most Valuable QA Activity Most Teams Skip</h2>
+    <p>Sprint planning without a QA engineer present is an opportunity cost that is almost never recognized as such. The stories are written, the acceptance criteria are defined, the estimates are set, and development starts – all without anyone asking the question that would prevent the most expensive kind of defect: "How do we know when this feature is working correctly?"</p>
+    <p>When a QA engineer participates in sprint planning, three things happen that would not happen otherwise:</p>
+    <p><strong>Acceptance criteria get tested:</strong> Writing test cases before implementation starts is a forcing function for clear acceptance criteria. If you cannot write a test case for an acceptance criterion, the criterion is ambiguous. Finding that ambiguity in planning costs 10 minutes. Finding it after implementation costs a full sprint.</p>
+    <p><strong>Edge cases surface early:</strong> QA engineers think in edge cases. When a developer writes a story about a file upload feature, they are thinking about the happy path. The QA engineer is thinking about what happens when the file is too large, when the file type is not supported, when the upload times out halfway, and when the user uploads the same file twice. These questions in planning prevent bugs in production.</p>
+    <p><strong>Definition of done is specific:</strong> A story with test cases in sprint planning has a clear, testable definition of done. There is no ambiguity about whether the feature is "done" – it is done when the test cases pass. This reduces the "is this done enough to release?" uncertainty at the end of the sprint.</p>
+
+    <div class="callout">
+      <p>The best investment in agile QA is not more testing at the end of the sprint. It is a QA engineer in sprint planning, writing test cases before development starts. This one change consistently produces the largest reduction in escaped defects in our client engagements.</p>
+    </div>
+
+    <h2>During the Sprint: Testing as Features Become Testable</h2>
+    <p>The second shift that makes QA work in agile: start testing as soon as a feature is testable, not when the sprint ends. A two-week sprint does not mean QA waits two weeks to start. It means QA runs continuously as work becomes available.</p>
+    <p>In practice, this means a developer signals when a feature is ready for testing – usually by moving the story to a "Ready for QA" column or notifying in Slack. The QA engineer picks it up within 24 hours. Defects found in the middle of the sprint are fixed while the developer is still in context on that code. Defects found on day 13 require the developer to context-switch back into code they mentally closed two days ago.</p>
+    <p>This requires that the testing environment stays stable during the sprint. If the staging environment is being continuously deployed to, features being tested may break mid-test because an unrelated change was deployed. For teams with frequent deployments, a dedicated QA environment that only receives changes when features are ready for testing is worth the infrastructure overhead.</p>
+
+    <h2>Sprint Review: What QA Should Demonstrate</h2>
+    <p>Sprint reviews show completed work. The QA perspective on "completed" is specific: a feature is not complete until it passes the test cases that were written in sprint planning. This should be visible in the sprint review – not as a separate QA report, but as a natural part of demonstrating the feature.</p>
+    <p>When a developer demonstrates a feature in the sprint review, they show the happy path. The QA engineer can add context: "We also tested the cases where X and Y happen, and here is what the behavior looks like." This is not a QA status report – it is shared ownership of the feature's completeness.</p>
+    <p>Features that did not pass their test cases do not get demonstrated as complete in the sprint review. They go back into the backlog as bugs, with the associated test cases marking exactly what needs to be fixed. This maintains the integrity of "done" as a meaningful term.</p>
+
+    <h2>Retrospective: Using Quality Data to Improve the Process</h2>
+    <p>QA brings data to retrospectives that most teams don't have without an embedded QA function: escaped defects from the previous sprint, coverage metrics, test execution results, and areas where the test cases were insufficient to catch the bugs that escaped.</p>
+    <p>An escaped defect retrospective is not about blame. It is about understanding why the process did not catch a specific bug and what change to the process would catch it in future sprints. The categories we typically analyze:</p>
+    <p>Was the defect in scope? If a bug escaped but was never in the test scope for that sprint, the question is whether the scope definition needs to change. If the payment flow changed but QA's scope only covered the new feature, not the regression to the payment flow, that is a scope definition problem.</p>
+    <p>Was the defect in scope but not caught? If a defect was within the test scope and the test cases existed but the bug was not found, the question is whether the test case was designed to catch it. A test case that verifies happy-path behavior will not catch an edge case bug even if both are in scope.</p>
+    <p>Was the defect not in scope for good reasons? Some bugs are not worth testing before they ship – the probability is low, the impact is low, and the testing cost is high. If a low-probability, low-impact bug escaped, that might be acceptable. The decision should be explicit, not accidental.</p>
+
+    <div class="inline-cta">
+      <h3>Want QA embedded in your sprint cycle?</h3>
+      <p>We join your Jira, your Slack, and your sprint ceremonies from week one. A 30-minute call is enough to scope an engagement.</p>
+      <a href="{{ site.calendly }}" class="btn btn-white" target="_blank" rel="noopener">Book a Free Call</a>
+    </div>
+
+    <h2>The Velocity Concern (and Why It Is Usually Wrong)</h2>
+    <p>Teams worry that adding QA to sprint planning and requiring sign-off before "done" will slow velocity. In the first sprint, it often does. The sprint planning takes 30 more minutes. Stories that get QA sign-off take an extra day. Velocity numbers look lower.</p>
+    <p>By sprint three or four, velocity stabilizes – usually at a level equal to or higher than before. The reason: features that are done are actually done. Less rework from production bugs. Fewer sprint carry-overs because "done" features need additional work. Less developer time spent on hotfixes. The time spent on QA in the sprint is recouped in the time not spent fixing production bugs.</p>
+    <p>The teams that report the best long-term velocity numbers are the ones with the most rigorous sprint-embedded QA processes. That is not a coincidence.</p>
+
+    <div class="author-bio">
+      <div class="author-bio-avatar">MA</div>
+      <div>
+        <div class="author-bio-name">Muhammad Ali</div>
+        <div class="author-bio-title">Co-Founder and QA Manager, goGreenlit</div>
+        <p class="author-bio-text">Muhammad has nine-plus years of experience in QA engineering and test strategy. He co-founded goGreenlit to give startups access to embedded, expert QA without the overhead of a full-time hire.</p>
+      </div>
+    </div>
+
+    <div class="related-section">
+      <h2>Related</h2>
+      <div class="related-grid">
+        <a href="/qa-consulting/embedded-qa-team/" class="related-card">
+          <div class="related-card-tag">Consulting</div>
+          <h3>Embedded QA Team Services</h3>
+        </a>
+        <a href="/qa-consulting/qa-process-design/" class="related-card">
+          <div class="related-card-tag">Consulting</div>
+          <h3>QA Process Design</h3>
+        </a>
+        <a href="/blog/how-we-reduced-escaped-defects/" class="related-card">
+          <div class="related-card-tag">Blog</div>
+          <h3>How We Reduced Escaped Defects by 45%</h3>
+        </a>
+      </div>
+    </div>
+
+  </article>
+</div>

@@ -1,0 +1,125 @@
+---
+layout: base.njk
+title: "Release Readiness Assessment | Go-Live QA | goGreenlit"
+description: "Release readiness consulting that tells you exactly when your software is ready to ship. Structured checklists, critical-path coverage, and smoke suites for every release."
+type: consulting
+---
+<script type="application/ld+json">
+[{"@context":"https://schema.org","@type":"Service","serviceType":"Release Readiness Assessment","provider":{"@type":"Organization","name":"goGreenlit","url":"https://www.gogreenlit.com"},"areaServed":"United States","description":"Release readiness consulting services that provide structured checklists, critical-path coverage, and smoke suites to confirm software is ready to ship to production."},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a release readiness assessment?","acceptedAnswer":{"@type":"Answer","text":"A release readiness assessment is a structured evaluation of whether a software release is ready to deploy to production. It covers test coverage completion, known issue review, rollback plan validation, monitoring and alerting setup, and stakeholder sign-off. It produces a clear yes/no decision with documented justification."}},{"@type":"Question","name":"What should be in a release checklist?","acceptedAnswer":{"@type":"Answer","text":"A release checklist should cover: regression test suite completion and results, critical path smoke test results, known issues list with documented acceptance decisions, database migration validation (if applicable), rollback plan confirmation, monitoring and alerting verification, and stakeholder sign-offs."}},{"@type":"Question","name":"How do you know a release is truly ready?","acceptedAnswer":{"@type":"Answer","text":"A release is ready when all items on the release checklist are completed, all blocking defects are resolved, all deferred defects are documented with stakeholder acceptance, the rollback plan has been tested, and the monitoring that will confirm successful deployment is in place and tested."}},{"@type":"Question","name":"What is a smoke test suite?","acceptedAnswer":{"@type":"Answer","text":"A smoke test suite is a focused set of tests – typically 15 to 30 tests – that validates the most critical paths in your application. The name comes from the hardware testing practice of powering on a new build and watching for smoke. A smoke suite should run in under 5 minutes and confirm that the application starts up and basic functionality works before investing time in full regression."}},{"@type":"Question","name":"How do you handle hotfixes and emergency releases?","acceptedAnswer":{"@type":"Answer","text":"Hotfixes require a compressed release process, not no process. A hotfix release checklist covers: the specific fix has been tested, the fix has not introduced regressions in the areas it touches (targeted regression, not full regression), a rollback plan exists, and someone with release authority has signed off. Speed is important, but so is not breaking something else while fixing the original issue."}}]}]
+</script>
+
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/qa-consulting/">QA Consulting</a>
+      <span>&#8250;</span>
+      <span>Release Readiness</span>
+    </nav>
+    <h1>Release Readiness: Know Your Software Is Ready to Ship</h1>
+    <p class="page-hero-sub">Structured checklists, critical-path coverage, smoke suites, and clear go/no-go criteria – so every release decision is based on evidence, not optimism.</p>
+    <div class="page-hero-actions">
+      <a href="{{ site.calendly }}" class="btn btn-primary" target="_blank" rel="noopener">Book a Free Call</a>
+      <a href="/qa-consulting/" class="btn btn-outline" style="border-color: rgba(255,255,255,.3); color: #fff;">All Consulting</a>
+    </div>
+  </div>
+</div>
+
+<div class="service-body">
+
+  <h2>What Release Readiness Actually Means (It's More Than Passing Regression)</h2>
+  <p>Many teams define "release ready" as "regression suite passed." That is necessary, but it is not sufficient. A regression suite validates that the features you tested in the way you expected to test them produce the results you expected. It does not validate that the deployment process itself is safe, that the rollback path works, that monitoring is configured, or that the support team knows what changed.</p>
+  <p>A complete release readiness framework covers all of this:</p>
+  <ul>
+    <li><strong>Coverage check:</strong> What percentage of the defined test scope was executed? What remains untested, and why? Is the untested scope low enough risk to accept?</li>
+    <li><strong>Critical path validation:</strong> The most important user flows – the ones where a bug causes direct business impact – have been verified manually and/or with smoke tests, regardless of what the regression suite says.</li>
+    <li><strong>Known issues list:</strong> Every open bug in the current release scope is reviewed. Blockers are resolved. Non-blockers are documented with a rationale for why they are acceptable to ship. This list exists so decisions are explicit, not implicit.</li>
+    <li><strong>Rollback plan:</strong> What do you do if the release causes an incident in the first hour after deployment? The rollback plan is documented and has been tested – not just written.</li>
+    <li><strong>Monitoring and alerting:</strong> The monitoring that will detect a problem with the new release is configured and tested before the release happens. Not configured after the incident that reveals the gap.</li>
+    <li><strong>Communication plan:</strong> Who gets notified when the release goes out? Are there customer-facing changes that require documentation or support team briefing?</li>
+  </ul>
+
+  <div class="stat-strip">
+    <div class="strip-stat">
+      <div class="strip-num">95%</div>
+      <div class="strip-label">Release Coverage Achieved</div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-num">45%</div>
+      <div class="strip-label">Avg. Reduction in Escaped Defects</div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-num">18+</div>
+      <div class="strip-label">Years Combined QA Experience</div>
+    </div>
+  </div>
+
+  <h2>The goGreenlit Release Readiness Framework</h2>
+  <p>We build release readiness frameworks that scale from a weekly release cycle to a quarterly major release. The framework is the same; the depth of each check varies with the scope and risk of the release.</p>
+  <p><strong>Coverage check:</strong> We maintain a release coverage tracker that maps each feature in the release scope to a set of test cases. Before the release, the tracker shows exactly what has been tested, what has not, and what the rationale is for any untested scope. "We tested 93% of the release scope; the remaining 7% is low-risk administrative features with no user-facing impact" is a release readiness statement you can stand behind.</p>
+  <p><strong>Critical path validation:</strong> For each release, we define the five to ten user flows where a bug would cause immediate business impact – losing a transaction, preventing user login, corrupting a user's data. These get validated manually and with targeted automated smoke tests immediately before the release window, regardless of what the regression suite results show.</p>
+  <p><strong>Rollback plan confirmation:</strong> We work with the engineering team to define and document the rollback procedure for each release. For releases with database migrations, the rollback plan must include the migration rollback procedure. We verify that the rollback procedure has been tested in a staging environment within the last 30 days.</p>
+  <p><strong>Smoke suite execution:</strong> A focused set of 15-30 automated tests runs against the production environment immediately after deployment – before traffic is routed to the new version (in a canary or blue-green deployment model) or immediately after in a standard deployment. These catch the deployment-level failures that staging testing cannot.</p>
+
+  <div class="callout">
+    <p>The most common release readiness failure we see is treating the regression suite pass as the final sign-off, without a documented known-issues list. Every release has known issues – the question is whether the decision to ship with them is explicit and accepted, or implicit and forgotten until a user reports a bug you already knew about.</p>
+  </div>
+
+  <h2>Building Release Checklists That the Whole Team Trusts</h2>
+  <p>A release checklist that nobody trusts is one that has been wrong before – either too strict (blocked releases for issues that didn't matter) or too loose (let through releases that caused incidents). Trust comes from a checklist that has the right items, calibrated to the actual risk of your releases.</p>
+  <p>We build release checklists collaboratively with the team. The engineering lead defines what "done" looks like from a deployment perspective. The QA lead defines what "tested" looks like from a coverage perspective. The product lead defines what "acceptable" looks like from a known-issues perspective. The checklist combines all three.</p>
+  <p>The checklist is also living documentation: after each release, we review it in retrospective. Items that were never a concern get removed. Items that were missed get added. After three to four release cycles, the checklist stabilizes into something the team genuinely relies on.</p>
+
+  <h2>Post-Release Monitoring and the Definition of Done for a Release</h2>
+  <p>A release is not done when code reaches production. A release is done when the monitoring confirms that the release is behaving as expected in production, and any issues that surfaced have been triaged.</p>
+  <p>We define a post-release monitoring window for each release: the first 30 minutes, the first two hours, and the first 24 hours. Each window has specific metrics to check and thresholds that would trigger a rollback decision. Error rates, latency percentiles, queue depths, and conversion rates for key flows – whatever the monitoring shows that a bad release would affect.</p>
+  <p>This monitoring window is part of the release process, not an afterthought. The person responsible for the release doesn't close the ticket and go to lunch – they stay available for the first 30-minute window, check in after two hours, and confirm clean metrics the next morning.</p>
+
+  <div class="inline-cta">
+    <h3>Want to know your releases are ready before you ship them?</h3>
+    <p>We build release readiness frameworks that give you real confidence, not just a checklist to sign off on. Let's talk about what your release process looks like today.</p>
+    <a href="{{ site.calendly }}" class="btn btn-white" target="_blank" rel="noopener">Book a Free Call</a>
+  </div>
+
+  <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-question">What is a release readiness assessment?</div>
+      <div class="faq-answer">A release readiness assessment is a structured evaluation of whether a software release is ready to deploy to production. It covers test coverage completion, known issue review, rollback plan validation, monitoring setup, and stakeholder sign-off – producing a clear go/no-go decision with documented justification.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">What should be in a release checklist?</div>
+      <div class="faq-answer">Regression test suite completion and results, critical path smoke test results, known issues list with documented acceptance decisions, database migration validation (if applicable), rollback plan confirmation, monitoring and alerting verification, and stakeholder sign-offs.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">How do you know a release is truly ready?</div>
+      <div class="faq-answer">A release is ready when all items on the release checklist are completed, all blocking defects are resolved, all deferred defects are documented with stakeholder acceptance, the rollback plan has been tested, and the monitoring that will confirm successful deployment is in place.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">What is a smoke test suite?</div>
+      <div class="faq-answer">A smoke test suite is a focused set of 15-30 tests that validates the most critical paths in your application. It should run in under 5 minutes and confirm that the application starts up and basic functionality works before investing time in full regression. Runs immediately after every deployment to staging and production.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">How do you handle hotfixes and emergency releases?</div>
+      <div class="faq-answer">Hotfixes require a compressed release process, not no process. A hotfix release checklist covers: the specific fix has been tested, the fix has not introduced regressions in the areas it touches, a rollback plan exists, and someone with release authority has signed off.</div>
+    </div>
+  </div>
+
+  <div class="related-section">
+    <h2>Related Services and Resources</h2>
+    <div class="related-grid">
+      <a href="/software-testing-services/regression-testing/" class="related-card">
+        <div class="related-card-tag">Service</div>
+        <h3>Regression Testing Services</h3>
+      </a>
+      <a href="/qa-consulting/cicd-quality-gates/" class="related-card">
+        <div class="related-card-tag">Consulting</div>
+        <h3>CI/CD Quality Gates</h3>
+      </a>
+      <a href="/qa-consulting/qa-audit-assessment/" class="related-card">
+        <div class="related-card-tag">Consulting</div>
+        <h3>QA Audit and Assessment</h3>
+      </a>
+    </div>
+  </div>
+</div>

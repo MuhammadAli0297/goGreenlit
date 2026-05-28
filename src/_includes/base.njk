@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}{% if title %} | {% endif %}goGreenlit</title>
+  <meta name="description" content="{{ description }}">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ title }} | goGreenlit">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:type" content="{{ ogType if ogType else 'website' }}">
+  <meta property="og:image" content="{{ site.url }}/assets/images/og-image.png">
+  <meta property="og:site_name" content="goGreenlit">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ title }} | goGreenlit">
+  <meta name="twitter:description" content="{{ description }}">
+  <meta name="twitter:image" content="{{ site.url }}/assets/images/og-image.png">
+  <!-- Fonts preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <!-- Schema markup -->
+  {% if schema %}
+  <script type="application/ld+json">{{ schema | safe }}</script>
+  {% endif %}
+</head>
+<body>
+  {% include "nav.njk" %}
+  {{ content | safe }}
+  {% include "footer.njk" %}
+  <script src="/assets/js/main.js" defer></script>
+</body>
+</html>

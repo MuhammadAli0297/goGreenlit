@@ -1,0 +1,128 @@
+---
+layout: base.njk
+title: "The QA Maturity Model: Where Does Your Team Sit?"
+description: "A practical QA maturity model for software teams – five levels from ad hoc testing to optimized quality engineering. Find out where your team is and what it takes to level up."
+type: post
+author: "Muhammad Ali"
+date: 2025-04-01
+excerpt: "Most teams overestimate their QA maturity. The five-level model is a useful mirror: it shows you where the gaps are before those gaps become production incidents."
+ogType: article
+---
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"The QA Maturity Model: Where Does Your Team Sit?","description":"A practical QA maturity model for software teams – five levels from ad hoc testing to optimized quality engineering.","datePublished":"2025-04-01","dateModified":"2025-04-01","author":{"@type":"Person","name":"Muhammad Ali","url":"https://www.gogreenlit.com/about/"},"publisher":{"@type":"Organization","name":"goGreenlit","url":"https://www.gogreenlit.com"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.gogreenlit.com/blog/qa-maturity-model/"}}
+</script>
+
+<div class="post-hero">
+  <div class="post-hero-inner">
+    <p class="post-hero-tag">QA Strategy</p>
+    <h1>The QA Maturity Model: Where Does Your Team Sit?</h1>
+    <p class="post-hero-lead">Most teams overestimate their QA maturity. The five-level model is a useful mirror: it shows you where the gaps are before those gaps become production incidents.</p>
+    <div class="post-hero-author">
+      <div class="author-avatar">MA</div>
+      <div>
+        <div class="author-name">Muhammad Ali</div>
+        <div class="author-date">April 1, 2025 &middot; goGreenlit</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="article-wrap">
+  <a href="/blog/" class="back-link">&#8592; Back to Blog</a>
+  <article class="article-body">
+
+    <p>When a prospective client tells me their QA is "pretty solid," I ask them three questions: What is your escaped defect rate last quarter? How long does a critical bug take to reach production from merge? What percentage of your regression suite is automated? If they can answer all three with specific numbers, QA is pretty solid. If the answer to any of them is "I'm not sure," it is not.</p>
+    <p>QA maturity is measurable. The model I use with clients has five levels, based loosely on the Capability Maturity Model Integration framework adapted specifically for software quality engineering. What follows is the model, the signals for each level, and the specific changes that move you from one level to the next.</p>
+
+    <div class="stat-strip">
+      <div class="strip-stat">
+        <div class="strip-num">5</div>
+        <div class="strip-label">Maturity Levels</div>
+      </div>
+      <div class="strip-stat">
+        <div class="strip-num">45%</div>
+        <div class="strip-label">Avg. Defect Reduction at Level 3</div>
+      </div>
+      <div class="strip-stat">
+        <div class="strip-num">95%</div>
+        <div class="strip-label">Release Coverage at Level 4+</div>
+      </div>
+    </div>
+
+    <h2>Level 1: Ad Hoc</h2>
+    <p>At Level 1, testing is informal and reactive. There is no dedicated QA function – developers test their own code before pushing, or testing happens in staging when someone notices something looks wrong. There is no defined testing process, no test case library, and no formal defect tracking. Quality is highly dependent on individual developer diligence, which means it is inconsistent.</p>
+    <p>The signals of Level 1: bugs are found by users before internal testing catches them. Production incidents are frequent and often surprising – the team did not know a bug was there until a customer reported it. There is no meaningful data on defect rates or test coverage.</p>
+    <p>Most early-stage startups (pre-Series A) sit at Level 1. That is not inherently wrong – at very early stages, the cost of building a mature QA function can outweigh the benefit. The risk is staying at Level 1 past the point where the team and product have grown beyond it. A 15-engineer team shipping to 5,000 customers cannot afford Level 1 QA.</p>
+
+    <h2>Level 2: Defined</h2>
+    <p>At Level 2, there is a recognized QA function – either a dedicated QA engineer or a developer who owns quality – and some documented process. Test cases exist, though they may not be comprehensive. Defects are tracked in a system. There is a concept of "done" that includes some form of testing sign-off before release.</p>
+    <p>The signals of Level 2: testing happens before release, but it is often rushed. The test case library exists but is not consistently maintained – it includes outdated cases for deprecated features and missing coverage for new ones. Test execution is manual and takes long enough that it creates release pressure. Automation exists but only covers a small percentage of the test suite, often in a state of partial maintenance.</p>
+    <p>Level 2 is the most common place I find clients when they first reach out. They have recognized the need for QA, built something, and hit the ceiling of what informal processes can support. The frequent symptom: QA is the bottleneck before every release.</p>
+
+    <div class="callout">
+      <p>The transition from Level 1 to Level 2 is about establishing a process. The transition from Level 2 to Level 3 is about making that process work consistently. Most teams can move from Level 1 to Level 2 on their own. The Level 2 to Level 3 jump is where outside expertise consistently accelerates the timeline.</p>
+    </div>
+
+    <h2>Level 3: Managed</h2>
+    <p>At Level 3, the QA process is defined, consistently followed, and producing measurable results. Test coverage is tracked. Defect rates are measured and trending. Automation covers the regression suite for critical paths. QA is embedded in the sprint – not a gate at the end. The development team has internalized quality as a shared responsibility, not a handoff to QA.</p>
+    <p>The signals of Level 3: the team can tell you their escaped defect rate and it is low enough to be meaningful. Releases happen on schedule because testing does not create last-minute surprises. The automation suite runs in CI on every PR. A new developer joining the team can understand the QA process from documentation, not just from asking someone.</p>
+    <p>Level 3 is where the 45% reduction in escaped defects becomes achievable. The key changes that get teams to Level 3: QA participation in sprint planning (not just sprint execution), a maintained test case library with clear coverage goals, and CI-integrated automation for the critical regression suite.</p>
+
+    <h2>Level 4: Quantitatively Managed</h2>
+    <p>At Level 4, quality decisions are driven by data. The team does not just track defect rates – they analyze them by feature area, sprint, and defect type. Test coverage is measured against risk (high-risk features have deeper coverage, low-risk features have lighter coverage), not just line count. Performance testing is integrated alongside functional testing. The test suite has explicit performance targets for execution time.</p>
+    <p>The signals of Level 4: the QA metrics inform sprint planning. If the payment flow has had three escaped defects in the last two quarters, that risk informs how much coverage the payment flow gets in the next sprint. If the automation suite is taking 45 minutes to run, the team has a specific plan to get it under 20. Quality is a data-driven discipline, not just a set of practices.</p>
+    <p>The specific capabilities that characterize Level 4: risk-based test prioritization (formal model, not intuition), quality metrics reviewed in sprint retrospectives as standard items, performance budgets for the test suite, and test coverage reports that map to business risk rather than just code paths.</p>
+
+    <h2>Level 5: Optimizing</h2>
+    <p>Level 5 is the aspirational state. The QA process continuously improves itself. Every production bug triggers a process review: why did this escape, what would have caught it, how do we add that to the process? Automation coverage grows sprint over sprint in a deliberate, measured way. The team experiments with new testing approaches (property-based testing, chaos engineering, contract testing) and integrates those that prove effective.</p>
+    <p>The signals of Level 5: the team learns from every escaped defect and the same class of defect rarely escapes twice. The test suite gets faster and more reliable over time, not slower and flakier. Quality engineering is a career path and a discipline, not a support function.</p>
+    <p>Very few teams reach Level 5, and that is fine. Level 4 is a sustainable, high-performance QA function for most software teams. Level 5 is more relevant for teams where quality is a core competitive advantage – fintech, medtech, infrastructure software.</p>
+
+    <div class="inline-cta">
+      <h3>Want to know where your team sits?</h3>
+      <p>We run QA maturity assessments as a standalone engagement. Two weeks, a written report, and a specific roadmap for moving to the next level. Tell us about your team and current process.</p>
+      <a href="{{ site.calendly }}" class="btn btn-white" target="_blank" rel="noopener">Book a Free Call</a>
+    </div>
+
+    <h2>How to Move From One Level to the Next</h2>
+    <p>The progression is not linear – you cannot skip levels. Level 3 requires the documentation and tooling of Level 2. Level 4 requires the consistent execution of Level 3. Attempts to jump levels usually fail because the prerequisites are missing.</p>
+    <p>The moves that reliably advance maturity:</p>
+    <p><strong>Level 1 to Level 2:</strong> Hire or designate a QA function. Define a testing process in writing. Implement defect tracking. These are cheap structural changes that provide the foundation for everything else.</p>
+    <p><strong>Level 2 to Level 3:</strong> Move QA into sprint planning. Build and maintain an automation suite for the critical regression path. Establish a coverage review cadence so the test case library stays current. This is where process discipline matters most.</p>
+    <p><strong>Level 3 to Level 4:</strong> Instrument the QA process with metrics. Add risk-based coverage planning. Build performance monitoring for the test suite. Integrate quality data into sprint retrospectives.</p>
+    <p><strong>Level 4 to Level 5:</strong> Establish a blameless post-mortem process for escaped defects. Build experimentation into the QA roadmap. Create career development paths for QA engineers that reward process improvement and innovation.</p>
+
+    <h2>Where Most Teams Should Focus</h2>
+    <p>The honest answer for most teams that contact us: the goal is Level 3, reached in six to twelve months, sustained consistently. Level 3 is where quality stops being a source of production surprises and starts being a competitive advantage. Level 4 is achievable and worth pursuing once Level 3 is stable. Level 5 is a longer-term ambition for teams where QA is truly strategic.</p>
+    <p>The most common mistake is treating maturity as binary – either you have QA or you do not. The five-level model is useful precisely because it shows the gradient: where you are, what the next level looks like, and what specifically gets you there.</p>
+
+    <div class="author-bio">
+      <div class="author-bio-avatar">MA</div>
+      <div>
+        <div class="author-bio-name">Muhammad Ali</div>
+        <div class="author-bio-title">Co-Founder and QA Manager, goGreenlit</div>
+        <p class="author-bio-text">Muhammad has nine-plus years of experience in QA engineering and test strategy. He co-founded goGreenlit to give startups access to embedded, expert QA without the overhead of a full-time hire.</p>
+      </div>
+    </div>
+
+    <div class="related-section">
+      <h2>Related</h2>
+      <div class="related-grid">
+        <a href="/qa-consulting/qa-audit-assessment/" class="related-card">
+          <div class="related-card-tag">Consulting</div>
+          <h3>QA Audit and Assessment</h3>
+        </a>
+        <a href="/qa-consulting/qa-process-design/" class="related-card">
+          <div class="related-card-tag">Consulting</div>
+          <h3>QA Process Design</h3>
+        </a>
+        <a href="/blog/agile-qa-sprint-cycles/" class="related-card">
+          <div class="related-card-tag">Blog</div>
+          <h3>How to Run QA Inside Agile Sprint Cycles Without Slowing Down</h3>
+        </a>
+      </div>
+    </div>
+
+  </article>
+</div>

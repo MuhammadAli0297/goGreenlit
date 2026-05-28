@@ -1,0 +1,222 @@
+---
+layout: base.njk
+title: "Integrating Playwright Into Your CI/CD Pipeline"
+description: "A practical guide to integrating Playwright tests into GitHub Actions, including PR gate setup, parallel execution, artifact capture, and handling flaky tests in CI."
+type: post
+author: "Mohammad Khan"
+date: 2025-02-19
+excerpt: "Getting Playwright running locally is easy. Getting it running reliably in CI, with parallel execution, artifact capture, and a maintainable configuration, is where most teams struggle."
+ogType: article
+---
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"Integrating Playwright Into Your CI/CD Pipeline","description":"A practical guide to integrating Playwright tests into GitHub Actions with parallel execution and artifact capture.","datePublished":"2025-02-19","dateModified":"2025-02-19","author":{"@type":"Person","name":"Mohammad Khan","url":"https://www.gogreenlit.com/about/"},"publisher":{"@type":"Organization","name":"goGreenlit","url":"https://www.gogreenlit.com"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.gogreenlit.com/blog/playwright-cicd-integration/"}}
+</script>
+
+<div class="post-hero">
+  <div class="post-hero-inner">
+    <p class="post-hero-tag">CI/CD and Automation</p>
+    <h1>Integrating Playwright Into Your CI/CD Pipeline</h1>
+    <p class="post-hero-lead">Getting Playwright running locally is easy. Getting it running reliably in CI, with parallel execution, artifact capture, and a maintainable configuration, is where most teams struggle. Here is the setup that works.</p>
+    <div class="post-hero-author">
+      <div class="author-avatar">MK</div>
+      <div>
+        <div class="author-name">Mohammad Khan</div>
+        <div class="author-date">February 19, 2025 &middot; goGreenlit</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="article-wrap">
+  <a href="/blog/" class="back-link">&#8592; Back to Blog</a>
+  <article class="article-body">
+
+    <p>I set up Playwright CI integrations frequently. What looks like a 20-minute task ("just add a GitHub Actions workflow") usually takes two to three hours when you account for dependency caching, parallel execution configuration, artifact upload, and the inevitable debugging of the first few CI failures that don't reproduce locally.</p>
+    <p>This post covers the setup I use for most engagements, with the decisions explained so you understand why, not just what to copy.</p>
+
+    <div class="stat-strip">
+      <div class="strip-stat">
+        <div class="strip-num">10</div>
+        <div class="strip-label">Min Target CI Runtime</div>
+      </div>
+      <div class="strip-stat">
+        <div class="strip-num">4x</div>
+        <div class="strip-label">Sharding Speedup</div>
+      </div>
+      <div class="strip-stat">
+        <div class="strip-num">0</div>
+        <div class="strip-label">Acceptable Flaky Test Rate</div>
+      </div>
+    </div>
+
+    <h2>The Basic GitHub Actions Workflow</h2>
+    <p>The minimum viable Playwright CI configuration looks like this:</p>
+    <pre><code>name: Playwright Tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npx playwright install --with-deps
+      - run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30</code></pre>
+    <p>This works, but it has two problems: Playwright browser installation is slow (~2 minutes), and it runs all tests sequentially. For a suite of any meaningful size, this is too slow for a PR gate.</p>
+
+    <h2>Caching Playwright Browsers</h2>
+    <p>Playwright downloads browser binaries on install. These binaries are large and slow to download. Caching them is essential for CI performance.</p>
+    {% raw %}<pre><code>- name: Cache Playwright browsers
+  uses: actions/cache@v4
+  id: playwright-cache
+  with:
+    path: ~/.cache/ms-playwright
+    key: playwright-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+- run: npx playwright install --with-deps
+  if: steps.playwright-cache.outputs.cache-hit != 'true'
+- run: npx playwright install-deps
+  if: steps.playwright-cache.outputs.cache-hit == 'true'</code></pre>{% endraw %}
+    <p>The cache key includes the package-lock.json hash, so the cache invalidates when Playwright is updated. The conditional install handles both cache hit (only install system dependencies, not browsers) and cache miss (install everything).</p>
+
+    <div class="callout">
+      <p>The <code>install-deps</code> command on cache hit is important and often overlooked. System dependencies (libglib, libnss, etc.) are not cached. If you skip them, Playwright will fail to launch the browser even when the binaries are cached.</p>
+    </div>
+
+    <h2>Parallel Execution with Sharding</h2>
+    <p>GitHub Actions matrix strategy lets you run test shards in parallel across multiple runners. For a suite of 100 tests, splitting into four shards runs in roughly one-quarter the time.</p>
+    {% raw %}<pre><code>jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3, 4]
+        shardTotal: [4]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+      - run: npx playwright install --with-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - run: npx playwright install-deps
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+      - run: npx playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-${{ matrix.shardIndex }}
+          path: playwright-report/
+          retention-days: 30</code></pre>{% endraw %}
+    <p>Note <code>fail-fast: false</code>. Without this, GitHub Actions cancels remaining shards when one fails. That means a failure in shard 1 prevents you from seeing failures in shard 3. In most cases, seeing all failures in a CI run is more useful than stopping early.</p>
+
+    <h2>Handling Flaky Tests in CI</h2>
+    <p>Flaky tests in CI are a tax on developer productivity. Every false positive erodes trust in the suite. Here is how I handle them.</p>
+    <p><strong>Retries for known intermittent infrastructure:</strong> Playwright has a built-in retry mechanism. For tests that interact with external services that have legitimate intermittent failures, retries are appropriate. In playwright.config.ts:</p>
+    <pre><code>export default defineConfig({
+  retries: process.env.CI ? 2 : 0,
+  // ...
+});</code></pre>
+    <p>This retries failed tests twice in CI and not at all locally. The local behavior matters – a test that passes on retry locally but fails consistently in a clean environment is a flakiness problem, not a legitimate retry scenario.</p>
+    <p><strong>Never retry instead of fix:</strong> Retries are a circuit breaker for infrastructure flakiness, not a solution for test design problems. If a test fails consistently enough that retries are the only thing keeping it green, it needs to be fixed or quarantined. Retries that mask systematic flakiness create false confidence.</p>
+    <p><strong>Quarantine process:</strong> When a test becomes reliably flaky and fixing it is not immediately possible, we quarantine it: tag it with @flaky, run it in a separate non-blocking job, and create a ticket to fix it. Quarantined tests are not ignored – they are tracked and scheduled for repair. A test that stays in quarantine for more than two sprints is a test that should probably be deleted.</p>
+
+    <h2>The PR Gate vs Full Suite Distinction</h2>
+    <p>Not all tests should run on every PR. The PR gate should be: fast (under 10 minutes), reliable (near-zero flakiness), and covering the critical paths that a PR could plausibly break.</p>
+    <p>In playwright.config.ts, use projects to separate the PR gate subset from the full suite:</p>
+    <pre><code>projects: [
+  {
+    name: 'pr-gate',
+    testMatch: '**/critical/**/*.spec.ts',
+    use: { ...devices['Desktop Chrome'] },
+  },
+  {
+    name: 'full-suite',
+    testMatch: '**/*.spec.ts',
+    use: { ...devices['Desktop Chrome'] },
+  },
+],</code></pre>
+    <p>The PR gate runs the <code>pr-gate</code> project. The full suite runs on a schedule against staging. This keeps PR feedback fast without sacrificing coverage.</p>
+
+    <div class="inline-cta">
+      <h3>Want Playwright built into your CI/CD pipeline?</h3>
+      <p>We set up Playwright CI integrations as part of our automation engagements. Tell us what you are working with and we will scope the right setup.</p>
+      <a href="{{ site.calendly }}" class="btn btn-white" target="_blank" rel="noopener">Book a Free Call</a>
+    </div>
+
+    <h2>Merging Shard Reports</h2>
+    <p>When using sharding, you get one report per shard. Playwright's blob reporter and merge-reports command let you combine them into a single HTML report. Add a merge job after the test matrix completes:</p>
+    <pre><code>merge-reports:
+  if: always()
+  needs: [test]
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+    - run: npm ci
+    - uses: actions/download-artifact@v4
+      with:
+        path: all-reports/
+        pattern: playwright-report-*
+    - run: npx playwright merge-reports --reporter html ./all-reports
+    - uses: actions/upload-artifact@v4
+      with:
+        name: playwright-merged-report
+        path: playwright-report/
+        retention-days: 30</code></pre>
+    <p>The merged report is the most useful artifact for debugging CI failures. A single report with all test results, grouped by test file, with screenshots and traces for failed tests, is worth the configuration overhead.</p>
+
+    <div class="author-bio">
+      <div class="author-bio-avatar">MK</div>
+      <div>
+        <div class="author-bio-name">Mohammad Khan</div>
+        <div class="author-bio-title">Co-Founder and Lead Automation QA Engineer, goGreenlit</div>
+        <p class="author-bio-text">Mohammad brings deep technical expertise in Playwright, Selenium, and API testing frameworks. He has architected automation suites that run inside CI/CD pipelines for companies supporting over a billion dollars in annual revenue.</p>
+      </div>
+    </div>
+
+    <div class="related-section">
+      <h2>Related</h2>
+      <div class="related-grid">
+        <a href="/software-testing-services/playwright-automation/" class="related-card">
+          <div class="related-card-tag">Service</div>
+          <h3>Playwright Automation Services</h3>
+        </a>
+        <a href="/qa-consulting/cicd-quality-gates/" class="related-card">
+          <div class="related-card-tag">Consulting</div>
+          <h3>CI/CD Quality Gates</h3>
+        </a>
+        <a href="/blog/playwright-vs-selenium-2026/" class="related-card">
+          <div class="related-card-tag">Blog</div>
+          <h3>Playwright vs Selenium in 2026</h3>
+        </a>
+      </div>
+    </div>
+
+  </article>
+</div>
