@@ -61,10 +61,19 @@
    FAQ ACCORDION
    ============================================================ */
 (function() {
-  document.querySelectorAll('.faq-question').forEach(function(q) {
-    q.addEventListener('click', function() {
-      var item = q.closest('.faq-item');
-      item.classList.toggle('open');
+  document.querySelectorAll('.faq-question').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('.faq-question').forEach(function(b) {
+        b.setAttribute('aria-expanded', 'false');
+        var a = b.nextElementSibling;
+        if (a) a.classList.remove('open');
+      });
+      if (!expanded) {
+        btn.setAttribute('aria-expanded', 'true');
+        var answer = btn.nextElementSibling;
+        if (answer) answer.classList.add('open');
+      }
     });
   });
 })();
