@@ -75,8 +75,9 @@ footer nav {
   flex-shrink: 0;
 }
 
-.nav-logo svg {
-  height: 28px;
+.nav-logo svg,
+.nav-logo img {
+  height: 32px;
   width: auto;
   display: block;
 }
@@ -104,6 +105,16 @@ footer nav {
 .nav-links a:hover,
 .nav-links a.nav-active {
   color: var(--green-600);
+}
+
+/* Book a Call btn-primary in nav: override the .nav-links a color rule
+   (specificity fix: .nav-links a is 0,1,1 which beats .btn-primary 0,1,0) */
+.nav-links a.btn-primary,
+.nav-links a.btn-primary:visited {
+  color: #ffffff;
+}
+.nav-links a.btn-primary:hover {
+  color: #ffffff;
 }
 
 /* ── Hamburger button — hidden on desktop ───────────────── */

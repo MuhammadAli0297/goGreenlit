@@ -3,6 +3,10 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(EleventyNavigationPlugin);
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy({ "src/robots.txt": "robots.txt" });
+  // Favicon files live in src/ root — explicitly copy them to _site/ root
+  eleventyConfig.addPassthroughCopy({ "src/favicon.svg": "favicon.svg" });
+  eleventyConfig.addPassthroughCopy({ "src/favicon-32.png": "favicon-32.png" });
+  eleventyConfig.addPassthroughCopy({ "src/apple-touch-icon.png": "apple-touch-icon.png" });
   eleventyConfig.addFilter("dateToISO", (date) => {
     return new Date(date).toISOString().split("T")[0];
   });
