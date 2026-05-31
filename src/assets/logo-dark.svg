@@ -1,0 +1,10 @@
+<svg viewBox="0 0 196 38" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="goGreenlit logo">
+  <title>goGreenlit</title>
+  <!-- Icon: lighter green square (more visible on dark bg) -->
+  <rect x="0" y="1" width="36" height="36" rx="9" fill="#1D9E75"/>
+  <!-- Play button triangle -->
+  <polygon points="13,11 27,19 13,27" fill="#E1F5EE"/>
+  <!-- Wordmark -->
+  <text x="46" y="27" font-family="'DM Sans',system-ui,sans-serif" font-size="21" font-weight="400" fill="#9FE1CB" letter-spacing="-0.3">go</text>
+  <text x="76" y="27" font-family="'DM Sans',system-ui,sans-serif" font-size="21" font-weight="700" fill="#E1F5EE" letter-spacing="-0.5">Greenlit</text>
+</svg>

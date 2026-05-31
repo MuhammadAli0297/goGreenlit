@@ -78,6 +78,36 @@
   });
 })();
 /* ============================================================
+   DROPDOWN — 120ms close delay so mouse can travel to panel
+   ============================================================ */
+(function(){
+  var dropdowns = document.querySelectorAll('.nav-dropdown');
+  dropdowns.forEach(function(dd) {
+    var timer = null;
+    var menu = dd.querySelector('.dropdown-menu');
+    if (!menu) return;
+    function openDrop() {
+      clearTimeout(timer);
+      menu.style.opacity = '1';
+      menu.style.visibility = 'visible';
+      menu.style.transform = 'translateX(-50%) translateY(0)';
+      menu.style.pointerEvents = 'auto';
+    }
+    function closeDrop() {
+      timer = setTimeout(function() {
+        menu.style.opacity = '';
+        menu.style.visibility = '';
+        menu.style.transform = '';
+        menu.style.pointerEvents = '';
+      }, 120);
+    }
+    dd.addEventListener('mouseenter', openDrop);
+    dd.addEventListener('mouseleave', closeDrop);
+    menu.addEventListener('mouseenter', function() { clearTimeout(timer); });
+    menu.addEventListener('mouseleave', closeDrop);
+  });
+})();
+/* ============================================================
    HAMBURGER MENU — mobile nav toggle
    ============================================================ */
 (function () {

@@ -211,7 +211,17 @@ footer nav {
 .nav-dropdown > a::after { content: ''; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid currentColor; opacity: .6; transition: transform .2s ease; margin-top: 1px; }
 .nav-dropdown:hover > a::after,
 .nav-dropdown:focus-within > a::after { transform: rotate(180deg); }
-.dropdown-menu { position: absolute; top: calc(100% + 10px); left: 50%; transform: translateX(-50%) translateY(-6px); min-width: 210px; background: rgba(250,252,251,.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(15,110,86,.1); border-radius: 12px; box-shadow: 0 8px 32px rgba(11,29,51,.12); padding: .5rem; opacity: 0; visibility: hidden; transition: opacity .2s ease, transform .2s ease, visibility .2s ease; z-index: 200; pointer-events: none; }
+/* Gap bridge: fills the invisible space between trigger link and panel
+   so hovering state never breaks as the mouse moves downward */
+.nav-dropdown::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: -12px;
+  right: -12px;
+  height: 16px;
+}
+.dropdown-menu { position: absolute; top: 100%; margin-top: 10px; left: 50%; transform: translateX(-50%) translateY(-6px); min-width: 210px; background: rgba(250,252,251,.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(15,110,86,.1); border-radius: 12px; box-shadow: 0 8px 32px rgba(11,29,51,.12); padding: .5rem; opacity: 0; visibility: hidden; transition: opacity .2s ease, transform .2s ease, visibility .2s ease; z-index: 200; pointer-events: none; }
 .nav-dropdown:hover .dropdown-menu,
 .nav-dropdown:focus-within .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); pointer-events: auto; }
 .dropdown-menu a { display: block; padding: .55rem 1rem; font-size: .8rem; font-weight: 500; color: var(--text-mid); text-decoration: none; border-radius: 8px; white-space: nowrap; transition: color .15s ease, background .15s ease; }
@@ -481,6 +491,7 @@ section { padding: 5rem 2rem; }
 }
 .blog-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(15,110,86,.12); }
 .blog-card-icon { height: 180px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--navy) 0%, var(--deep-navy) 100%); }
+.post-icon { width: 72px; height: 72px; flex-shrink: 0; display: block; }
 .blog-card-body { padding: 1.5rem; }
 .blog-card-meta { font-size: .8125rem; color: var(--text-light); margin-bottom: .5rem; }
 .blog-card h2 { font-size: 1.0625rem; font-weight: 600; color: var(--navy); line-height: 1.4; margin-bottom: .75rem; }
@@ -520,7 +531,8 @@ footer { background: var(--navy); color: var(--text-light); }
 .about-body p { color: var(--text-mid); line-height: 1.8; margin-bottom: 1.125rem; font-size: 1.0125rem; }
 .founders-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 2rem; margin: 3rem 0; }
 .founder-card { background: var(--card); border-radius: 16px; padding: 2rem; border: 1.5px solid rgba(15,110,86,.08); }
-.founder-avatar { width: 72px; height: 72px; border-radius: 50%; background: var(--green-600); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 1rem; }
+.founder-avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--green-600), var(--green-800)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 1rem; border: 3px solid var(--green-200); font-family: var(--font-display); letter-spacing: 1px; }
+.founder-photo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; object-position: center top; border: 3px solid var(--green-200); flex-shrink: 0; margin-bottom: 1rem; }
 .founder-name { font-size: 1.125rem; font-weight: 700; color: var(--navy); }
 .founder-title { font-size: .875rem; color: var(--green-600); margin-bottom: .75rem; }
 .founder-bio { font-size: .9375rem; color: var(--text-mid); line-height: 1.65; }
@@ -533,6 +545,50 @@ footer { background: var(--navy); color: var(--text-light); }
 .comparison-table tr:nth-child(even) td { background: var(--green-50); }
 .comparison-table .check { color: var(--green-600); font-weight: 700; }
 .comparison-table .cross { color: var(--text-light); }
+/* ============================================================
+   FOOTER LOGO
+   ============================================================ */
+.footer-logo { display: inline-block; text-decoration: none; }
+.footer-logo img { display: block; }
+/* ============================================================
+   TEXT LEGIBILITY ON DARK BACKGROUND SECTIONS
+   ============================================================ */
+/* Post hero (navy gradient) */
+.post-hero { color: #ffffff; }
+.post-hero h1 { color: #ffffff; }
+.post-hero h2, .post-hero h3 { color: #ffffff; }
+.post-hero p { color: rgba(255,255,255,.85); }
+.post-hero-lead { color: rgba(255,255,255,.85) !important; }
+.post-hero-tag { color: var(--green-200) !important; }
+.post-hero-author { border-top: 1px solid rgba(255,255,255,.12); padding-top: 1rem; margin-top: 1.5rem; }
+.author-name { color: #ffffff !important; }
+.author-date { color: var(--text-light) !important; }
+/* Stat strip inside article body (dark navy card) */
+.stat-strip { color: #ffffff; }
+.stat-strip * { color: inherit; }
+.strip-num { color: var(--green-200) !important; }
+.strip-label { color: var(--text-light) !important; }
+/* Inline CTA blocks (dark gradient) */
+.inline-cta { color: rgba(255,255,255,.9); }
+.inline-cta h3 { color: #ffffff !important; }
+.inline-cta p { color: rgba(255,255,255,.8) !important; }
+.inline-cta .btn-white { color: var(--green-600) !important; background: #ffffff !important; }
+.inline-cta .btn-primary { color: #ffffff !important; background: var(--green-600) !important; }
+.inline-cta .btn-outline { color: #ffffff !important; border-color: rgba(255,255,255,.5) !important; }
+/* CTA band (homepage / pages) */
+.cta-band { color: #ffffff; }
+.cta-band h2 { color: #ffffff; }
+.cta-band p { color: var(--text-light); }
+/* Page hero (services, consulting, blog index) */
+.page-hero { color: #ffffff; }
+.page-hero h1 { color: #ffffff; }
+.page-hero-sub { color: var(--text-light) !important; }
+/* Stats band (homepage) */
+.stats-band { color: #ffffff; }
+.stat-num { color: var(--green-200) !important; }
+.stat-label { color: var(--text-light) !important; }
+/* About hero */
+.about-hero { color: #ffffff; }
 /* ============================================================
    UTILITY CLASSES
    ============================================================ */
