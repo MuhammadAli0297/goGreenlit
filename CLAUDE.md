@@ -345,6 +345,46 @@ Live in `src/app/globals.css`.
     instead of dropping the URL. If a future GSC report flags another old
     URL, check it against the old site's file list the same way before
     guessing a target.
+11. **Contextual cross-links between the two subpage families are
+    curated, not derived.** Every Services and QA Consulting subpage
+    renders a `RelatedLinks` block (`src/components/marketing/related-links.tsx`)
+    between its FAQ section and `CtaSection`: every sibling subpage in its
+    own family, plus one cross-family link. Siblings come for free from
+    `siteConfig.nav`, no per-page list to maintain, but the cross-family
+    pairing (which QA Consulting subpage best matches which Services
+    subpage) is a hand-picked 1:1 map, `crossFamilyPairs` in
+    `src/lib/related-pages.ts`, since that relationship isn't derivable
+    from nav structure and needed real judgment (Regression Testing pairs
+    with Release Readiness because that page's own copy already says
+    "more than a passing regression run", not because they happen to sit
+    at the same index). `getRelatedLinkGroups()` checks the map in both
+    directions, so a pairing only needs to be added once. Added because
+    these pages previously had zero contextual in-content links to each
+    other, only the header dropdown and the footer's link columns (see
+    Repository structure below) connected them, and a contextual body
+    link with descriptive anchor text carries more topical-relevance
+    weight with search engines than the same URL repeated in nav/footer
+    chrome. A new subpage in either family gets its siblings automatically;
+    only add it to `crossFamilyPairs` if it has a genuine cross-family
+    counterpart worth pointing at.
+12. **Every non-home page carries `BreadcrumbList` JSON-LD, not just the
+    deep ones.** `src/lib/breadcrumbs.ts`'s `buildBreadcrumbSchema()`
+    takes an ordered `{ name, href }[]` and returns a schema.org
+    `BreadcrumbList` (absolute URLs via `siteConfig.url`, "Home" first).
+    Every route except `/` renders one via its own inline `<script>`, the
+    same per-page pattern already used for `FAQPage`/`BlogPosting`/`Blog`
+    JSON-LD (see gotcha #6 and the SEO section below), not a shared
+    rendering component, `buildBreadcrumbSchema` only builds the data.
+    Overview/index pages (`/software-testing-services`, `/qa-consulting`,
+    `/about`, `/blog`) get a 2-item trail (Home, self); the 12 family
+    subpages and every `/blog/[slug]` post get 3 (Home, family or Blog,
+    self). `blog/[slug]/page.tsx` builds its `breadcrumbSchema` inside the
+    async component body, not at module level, since the post title isn't
+    known until `getPostBySlug` runs; everywhere else it's a module-level
+    `const` reusing the page's own `title` string, so the breadcrumb label
+    can never drift from the page's actual `<title>`. A new page should
+    follow whichever of these two patterns matches its depth, this is the
+    standing convention now, not an exception to add case by case.
 
 ## Repository structure
 
@@ -361,34 +401,40 @@ src/app/                  Routes (App Router). Keep page files thin,
                           steps, CtaSection.
   software-testing-services/
     page.tsx              Services overview, added 2026-08-04. Own `<h1>`
-                           (via PageHero), metadata, and a page-scoped
-                           FAQPage JSON-LD block (separate from the
-                           sitewide ProfessionalService block in
-                           layout.tsx). Reuses PageHero/ServiceCard/
-                           CtaSection/Reveal/FaqAccordion rather than
-                           inventing new section components, the
-                           template every subpage below follows.
+                           (via PageHero), metadata, and page-scoped
+                           FAQPage and BreadcrumbList JSON-LD blocks
+                           (gotcha #12, separate from the sitewide
+                           ProfessionalService block in layout.tsx).
+                           Reuses PageHero/ServiceCard/CtaSection/Reveal/
+                           FaqAccordion rather than inventing new section
+                           components, the template every subpage below
+                           follows.
     manual-testing/page.tsx           Same template, all added 2026-08-04
     playwright-automation/page.tsx    with real content pulled from the
     selenium-testing/page.tsx         equivalent production page and
     api-data-testing/page.tsx         rewritten to this project's voice
     regression-testing/page.tsx       and SEO rules, each with its own
-    mobile-app-testing/page.tsx       FAQPage JSON-LD block
+    mobile-app-testing/page.tsx       FAQPage and BreadcrumbList JSON-LD
+                                       blocks, plus a RelatedLinks
+                                       cross-link section (gotchas #11-12)
   qa-consulting/
     page.tsx              QA consulting overview, added 2026-08-05. Own
-                           FAQPage JSON-LD block. Deliberately different
-                           "family" from software-testing-services (see
-                           gotcha #7): Muted Olive bold band via
-                           PhaseTimeline, subtle ServiceCard,
-                           CompareColumns, plus a StatBand and a dark
-                           inverted checklist section that are unique to
-                           this one page, not repeated on its subpages.
+                           FAQPage and BreadcrumbList JSON-LD blocks
+                           (gotcha #12). Deliberately different "family"
+                           from software-testing-services (see gotcha #7):
+                           Muted Olive bold band via PhaseTimeline, subtle
+                           ServiceCard, CompareColumns, plus a StatBand
+                           and a dark inverted checklist section that are
+                           unique to this one page, not repeated on its
+                           subpages.
     embedded-qa-team/page.tsx         Same QA Consulting family template,
     test-strategy-consulting/page.tsx all added 2026-08-05 with content
     qa-process-design/page.tsx        pulled from the equivalent prod
     cicd-quality-gates/page.tsx       page and rewritten to this
     qa-audit-assessment/page.tsx      project's voice, each with its own
-    release-readiness/page.tsx        FAQPage JSON-LD block
+    release-readiness/page.tsx        FAQPage and BreadcrumbList JSON-LD
+                                       blocks, plus a RelatedLinks
+                                       cross-link section (gotchas #11-12)
   about/
     page.tsx              Added 2026-08-05, explicitly asked to look
                            "super different" from every other page while
@@ -397,21 +443,28 @@ src/app/                  Routes (App Router). Keep page files thin,
                            cards (colored-initial avatars, on a Dark
                            Slate Grey bold section), an italic pull-quote,
                            and a typographic manifesto list instead of a
-                           card grid. No FAQ section, no FAQPage JSON-LD.
+                           card grid. No FAQ section, no FAQPage JSON-LD,
+                           but does carry a 2-item BreadcrumbList (gotcha
+                           #12), the only structured data it emits.
   blog/
     page.tsx               Blog index, added 2026-08-05. Its own BlogHero
                             (not PageHero, see gotcha #5), category filter
                             pills, a 6-per-page grid, and pagination, all
                             driven by `?category=`/`?page=` searchParams,
-                            no client state (see gotcha #9). A page-scoped
-                            Blog JSON-LD block.
+                            no client state (see gotcha #9). Page-scoped
+                            Blog and BreadcrumbList (2-item) JSON-LD
+                            blocks (gotcha #12).
     [slug]/page.tsx         Post template, `generateStaticParams` over all
                             slugs in blog-data.ts (12 posts at launch),
                             `notFound()` on an unknown slug. Uses
                             BlogPostHeader, not BlogHero/PageHero (gotcha
                             #9), plus ArticleBody, BlogRelatedPosts (same
-                            category, up to 3), and a page-scoped
-                            BlogPosting JSON-LD block per post.
+                            category, up to 3), and page-scoped
+                            BlogPosting and BreadcrumbList (3-item)
+                            JSON-LD blocks per post, the one place
+                            breadcrumbSchema is built inside the
+                            component body rather than at module level
+                            (gotcha #12).
   sitemap.ts, robots.ts   Generated SEO files, list every route, keep in
                           sync by hand when a route is added or removed
 
@@ -437,7 +490,11 @@ src/components/
                            dropdown via NavigationMenu for any navItems
                            entry with nested items, a plain Link
                            otherwise, and hand-squeezes both for mobile,
-                           see gotcha #8), footer, logo
+                           see gotcha #8), footer (site-footer.tsx renders
+                           link columns for every navItems entry that
+                           carries subpages, plus a Company column for
+                           About/Blog/Book a call, built from siteConfig.nav
+                           rather than a separate hardcoded list), logo
   marketing/              Reusable marketing sections (hero, CTA, stat
                            band, service cards, page-hero.tsx for a
                            secondary page's on-brand dark/aurora header),
@@ -467,7 +524,11 @@ src/components/
                            Links driven by searchParams, no client state),
                            blog-post-header.tsx (the calm per-post reading
                            header), article-body.tsx (renders a post's
-                           BlogContentBlock[]), and blog-related-posts.tsx
+                           BlogContentBlock[]), and blog-related-posts.tsx;
+                           and related-links.tsx, the Services/QA
+                           Consulting cross-link block (see gotcha #11),
+                           built on Reveal like everything else here, not
+                           a new animation pattern
 
 src/lib/
   site-config.ts          Single source of truth for site name, tagline,
@@ -490,6 +551,15 @@ src/lib/
                            filter/pagination helpers `getPostsByCategory`,
                            `getRelatedPosts`, `clampPage`, `paginatePosts`.
                            Add a new post here, not by hand-editing a page.
+  related-pages.ts        `getRelatedLinkGroups()` and the curated
+                           `crossFamilyPairs` map behind the RelatedLinks
+                           cross-link block (see gotcha #11). Add a pairing
+                           here when a subpage's genuine cross-family
+                           counterpart isn't obvious from nav structure.
+  breadcrumbs.ts          `buildBreadcrumbSchema()`, the shared
+                           BreadcrumbList JSON-LD builder every non-home
+                           page calls (see gotcha #12). Data-shaping only,
+                           each page still renders its own <script> tag.
   utils.ts                `cn()` class-merging helper
 
 e2e/                      Playwright specs
@@ -565,6 +635,16 @@ repo already handle well.
   JSON-LD block. If the list of services in `page.tsx` changes, update the
   `makesOffer` array in that structured data to match, they should never
   drift apart.
+- **Every non-home page also carries `BreadcrumbList` JSON-LD** via
+  `buildBreadcrumbSchema()` (see gotcha #12), additive to, not a
+  replacement for, the sitewide `ProfessionalService` block and any
+  page-scoped `FAQPage`/`BlogPosting`/`Blog` block already on that page.
+- **Services and QA Consulting subpages cross-link to their siblings and
+  to one paired subpage in the other family** via the `RelatedLinks`
+  block (see gotcha #11). Don't remove it as "redundant" with the header
+  dropdown or footer, a contextual in-content link with real anchor text
+  is a different, more valuable SEO signal than the same URL repeated in
+  nav or footer chrome.
 - **Don't add a meta keywords tag.** Search engines stopped using it years
   ago. Put effort into real headings and body copy instead, that's what
   actually gets indexed and ranked.
