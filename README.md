@@ -9,10 +9,12 @@ homepage, a `/software-testing-services` overview and six subpages
 regression testing, mobile testing) behind a `Services` dropdown, a
 `/qa-consulting` overview and six subpages (embedded QA team, test
 strategy, QA process design, CI/CD quality gates, QA audit, release
-readiness) behind a `QA Consulting` dropdown, and a standalone `/about`
-page. Each of these is its own deliberately distinct visual "family," not
-a reskin of the others, see [CLAUDE.md](./CLAUDE.md) for the history and
-the pattern to follow before adding another page.
+readiness) behind a `QA Consulting` dropdown, a standalone `/about` page,
+and a `/blog` index (category filters, pagination) plus 12
+`/blog/[slug]` posts behind a `Blog` dropdown. Each page family has its
+own deliberately distinct visual identity, not a reskin of the others,
+see [CLAUDE.md](./CLAUDE.md) for the history and the pattern to follow
+before adding another page.
 
 For architecture, conventions, coding standards, and SEO rules, see
 **[CLAUDE.md](./CLAUDE.md)**. For voice, tone, color, and design rules, see
@@ -59,9 +61,10 @@ npx playwright install chromium
 ```
 src/app/            Routes (App Router): home, software-testing-services/
                     and its six subpages, qa-consulting/ and its six
-                    subpages, and about/
+                    subpages, about/, and blog/ (index + [slug] posts)
 src/components/     ui/ (shadcn, generated) · layout/ · marketing/
-src/lib/            Site config, utilities
+src/lib/            Site config, blog content/data, utilities
+next.config.ts      Redirects for dead URLs from the pre-rebuild site
 e2e/                Playwright specs
 ```
 

@@ -326,6 +326,25 @@ Live in `src/app/globals.css`.
    hero repeated on all 12 posts would fight against actually reading
    them, so posts get a calm, light, `max-w-3xl` reading-width header
    instead (icon tile, category badge, `h1`, author/date/read-time line).
+10. **Dead URLs from the old pre-rebuild Eleventy site still get crawled
+    by Google and need a redirect, not a silent 404.** The previous site
+    (see `git show c60ec12 --stat` for its full file list) had pages at
+    slugs that don't exist in this rebuild, either because a page was
+    renamed/consolidated (`/software-testing-services/qa-strategy-process`
+    duplicated what is now `/qa-consulting/test-strategy-consulting`) or
+    dropped entirely (`/software-testing-services/website-testing`, whose
+    cross-browser/accessibility/UX content doesn't map to one current
+    subpage). Google Search Console's Page Indexing report surfaces these
+    as "Not found (404)" long after the rebuild, since it keeps re-crawling
+    URLs it already knew about. Fix by adding a permanent redirect in
+    `next.config.ts`'s `redirects()` array (source without the trailing
+    slash, this project's convention, see gotcha #9's cousin issue above)
+    pointing at the closest current equivalent, the overview page of that
+    family if nothing maps cleanly. Don't just let it 404, a redirect
+    preserves any inbound links/bookmarks and signals the move to Google
+    instead of dropping the URL. If a future GSC report flags another old
+    URL, check it against the old site's file list the same way before
+    guessing a target.
 
 ## Repository structure
 
@@ -395,6 +414,11 @@ src/app/                  Routes (App Router). Keep page files thin,
                             BlogPosting JSON-LD block per post.
   sitemap.ts, robots.ts   Generated SEO files, list every route, keep in
                           sync by hand when a route is added or removed
+
+next.config.ts            `redirects()` for dead URLs from the pre-rebuild
+                           Eleventy site that Google still crawls (see
+                           gotcha #10), add a new entry here rather than
+                           letting an old, still-indexed URL 404
 
 src/components/
   ui/                     shadcn/ui primitives, generated, don't hand-edit.
