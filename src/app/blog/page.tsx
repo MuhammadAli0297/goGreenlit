@@ -14,6 +14,7 @@ import {
   getTotalPages,
   paginatePosts,
 } from "@/lib/blog-data";
+import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -51,6 +52,11 @@ const blogStructuredData = {
   description,
 };
 
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: "Home", href: "/" },
+  { name: title, href: "/blog" },
+]);
+
 export default async function BlogPage({
   searchParams,
 }: {
@@ -65,6 +71,10 @@ export default async function BlogPage({
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogStructuredData) }}

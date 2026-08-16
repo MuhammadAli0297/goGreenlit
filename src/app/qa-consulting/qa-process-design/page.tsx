@@ -15,9 +15,12 @@ import { CtaSection } from "@/components/marketing/cta-section";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PhaseTimeline } from "@/components/marketing/phase-timeline";
+import { RelatedLinks } from "@/components/marketing/related-links";
 import { Reveal } from "@/components/marketing/reveal";
 import { ServiceCard } from "@/components/marketing/service-card";
 import { buttonVariants } from "@/components/ui/button";
+import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
+import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -155,6 +158,12 @@ const faqs = [
   },
 ];
 
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: "Home", href: "/" },
+  { name: "QA Consulting", href: "/qa-consulting" },
+  { name: title, href: "/qa-consulting/qa-process-design" },
+]);
+
 const faqStructuredData = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -171,6 +180,10 @@ const faqStructuredData = {
 export default function QaProcessDesignPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
@@ -306,6 +319,10 @@ export default function QaProcessDesignPage() {
           <FaqAccordion faqs={faqs} />
         </div>
       </section>
+
+      <RelatedLinks
+        groups={getRelatedLinkGroups("/qa-consulting/qa-process-design")}
+      />
 
       <CtaSection
         title="Ready for a QA process your team will actually follow?"

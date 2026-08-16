@@ -22,6 +22,7 @@ import { ServiceCard } from "@/components/marketing/service-card";
 import { Reveal } from "@/components/marketing/reveal";
 import { siteConfig } from "@/lib/site-config";
 import { buttonVariants } from "@/components/ui/button";
+import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { cn } from "@/lib/utils";
 
 const title = "Software Testing Services";
@@ -212,9 +213,18 @@ const faqStructuredData = {
   })),
 };
 
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: "Home", href: "/" },
+  { name: title, href: "/software-testing-services" },
+]);
+
 export default function SoftwareTestingServicesPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}

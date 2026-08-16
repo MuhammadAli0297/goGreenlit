@@ -17,9 +17,12 @@ import {
 import { CtaSection } from "@/components/marketing/cta-section";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { PageHero } from "@/components/marketing/page-hero";
+import { RelatedLinks } from "@/components/marketing/related-links";
 import { Reveal } from "@/components/marketing/reveal";
 import { ServiceCard } from "@/components/marketing/service-card";
 import { buttonVariants } from "@/components/ui/button";
+import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
+import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -151,6 +154,12 @@ const faqs = [
   },
 ];
 
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: "Home", href: "/" },
+  { name: "Software Testing Services", href: "/software-testing-services" },
+  { name: title, href: "/software-testing-services/mobile-app-testing" },
+]);
+
 const faqStructuredData = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -167,6 +176,10 @@ const faqStructuredData = {
 export default function MobileAppTestingPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
@@ -361,6 +374,12 @@ export default function MobileAppTestingPage() {
           <FaqAccordion faqs={faqs} />
         </div>
       </section>
+
+      <RelatedLinks
+        groups={getRelatedLinkGroups(
+          "/software-testing-services/mobile-app-testing",
+        )}
+      />
 
       <CtaSection
         title="Ready to test your app on more than a simulator?"

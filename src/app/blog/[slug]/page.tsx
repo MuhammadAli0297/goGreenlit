@@ -6,6 +6,7 @@ import { BlogPostHeader } from "@/components/marketing/blog-post-header";
 import { BlogRelatedPosts } from "@/components/marketing/blog-related-posts";
 import { CtaSection } from "@/components/marketing/cta-section";
 import { blogPosts, getPostBySlug, getRelatedPosts } from "@/lib/blog-data";
+import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { siteConfig } from "@/lib/site-config";
 
 export function generateStaticParams() {
@@ -76,8 +77,18 @@ export default async function BlogPostPage({
     mainEntityOfPage: `${siteConfig.url}/blog/${post.slug}`,
   };
 
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: "Home", href: "/" },
+    { name: "Blog", href: "/blog" },
+    { name: post.title, href: `/blog/${post.slug}` },
+  ]);
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(postStructuredData) }}

@@ -63,7 +63,8 @@ src/app/            Routes (App Router): home, software-testing-services/
                     and its six subpages, qa-consulting/ and its six
                     subpages, about/, and blog/ (index + [slug] posts)
 src/components/     ui/ (shadcn, generated) · layout/ · marketing/
-src/lib/            Site config, blog content/data, utilities
+src/lib/            Site config, blog content/data, cross-link and
+                    breadcrumb schema helpers, utilities
 next.config.ts      Redirects for dead URLs from the pre-rebuild site
 e2e/                Playwright specs
 ```
