@@ -125,7 +125,7 @@ export const siteConfig = {
   ogImage: "/og-image.png",
   email: "gogreenlit@gmail.com",
   links: {
-    calendar: "https://cal.com/gogreenlit/discovery-call",
+    calendar: "https://cal.com/muhammad-ali-wwvyks/15min",
   },
   nav: navItems,
 } as const;
