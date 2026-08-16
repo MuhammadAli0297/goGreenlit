@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         destination: "/qa-consulting/test-strategy-consulting",
         permanent: true,
       },
+      {
+        source: "/software-testing-services/website-testing",
+        destination: "/software-testing-services",
+        permanent: true,
+      },
     ];
   },
 };
