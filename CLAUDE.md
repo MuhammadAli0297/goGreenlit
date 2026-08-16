@@ -385,6 +385,27 @@ Live in `src/app/globals.css`.
     can never drift from the page's actual `<title>`. A new page should
     follow whichever of these two patterns matches its depth, this is the
     standing convention now, not an exception to add case by case.
+13. **`public/og-image.png` is generated, not designed in an external
+    tool.** It's a screenshot of real HTML/CSS styled to match the
+    homepage hero exactly (same `#354639` background, the same static
+    aurora blob composition, the real wordmark, the real `ship fast`
+    highlight chip, and the actual self-hosted Bespoke Serif variable
+    font inlined as a base64 `@font-face` data URI), rendered at exactly
+    1200x630 with a headless Playwright `chromium` page and
+    `page.screenshot()`, no image-generation service or stock asset,
+    consistent with `BRAND_GUIDELINES.md` §8's "text/UI-first, no
+    photography system" rule. If the tagline, palette, or wordmark ever
+    changes, regenerate it the same way: a throwaway HTML file inlining
+    the font (read the woff2, base64-encode it, string-replace it into
+    the HTML, entirely outside any chat context since the encoded string
+    alone is tens of thousands of characters) and a short Playwright
+    script that navigates to it and screenshots at a 1200x630 viewport
+    with `deviceScaleFactor: 1`, don't hand-design a new one from
+    scratch. Lay out the card content as a flex column with
+    `justify-content: space-between` (logo top, heading/subline middle,
+    footer row bottom), not absolute positioning for the footer, that's
+    what caused a real overlap bug on the first render when the heading
+    wrapped to more lines than expected.
 
 ## Repository structure
 
@@ -564,6 +585,12 @@ src/lib/
 
 e2e/                      Playwright specs
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
+
+public/                   Static assets served as-is. og-image.png (1200x630,
+                           the sitewide OG/Twitter card image referenced by
+                           siteConfig.ogImage) is generated, not hand-designed,
+                           see gotcha #13 before touching it. favicon.ico is
+                           still the only other file here, no PNG icon set yet.
 ```
 
 ## Coding standards
