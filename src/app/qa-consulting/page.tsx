@@ -19,6 +19,7 @@ import { Reveal } from "@/components/marketing/reveal";
 import { ServiceCard } from "@/components/marketing/service-card";
 import { StatBand } from "@/components/marketing/stat-band";
 import { buttonVariants } from "@/components/ui/button";
+import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -176,9 +177,18 @@ const faqStructuredData = {
   })),
 };
 
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: "Home", href: "/" },
+  { name: title, href: "/qa-consulting" },
+]);
+
 export default function QaConsultingPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}

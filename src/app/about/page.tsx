@@ -6,6 +6,7 @@ import { PageHero } from "@/components/marketing/page-hero";
 import { Reveal } from "@/components/marketing/reveal";
 import { StatBand } from "@/components/marketing/stat-band";
 import { buttonVariants } from "@/components/ui/button";
+import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -59,9 +60,19 @@ const manifesto = [
   "We're staying small on purpose. Every engagement still has a founder's attention on it.",
 ];
 
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: "Home", href: "/" },
+  { name: title, href: "/about" },
+]);
+
 export default function AboutPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
       <PageHero
         badge="Chicago-based, remote-first, founder-led"
         description="GoGreenlit started as a conversation between two QA engineers who'd each spent nearly a decade watching the same problem play out: startups either bolt testing onto the end of a sprint, or pay enterprise prices for QA maturity they don't need yet. We started GoGreenlit to be the option in between."
