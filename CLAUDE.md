@@ -345,6 +345,23 @@ Live in `src/app/globals.css`.
     instead of dropping the URL. If a future GSC report flags another old
     URL, check it against the old site's file list the same way before
     guessing a target.
+
+    **The other 25 of the old site's 27 pages need no redirect entry at
+    all**, because their slug is unchanged, only the old site's Eleventy
+    trailing-slash convention (`/about/`, `/qa-consulting/embedded-qa-team/`)
+    differs from this rebuild's no-trailing-slash one. Next.js's own
+    default behavior already 308s `/about/` to `/about` with zero config,
+    no `trailingSlash` setting or explicit redirect needed, confirmed
+    live. If Google Search Console's Page Indexing count looks inflated
+    well past the real route count (`sitemap.xml` is always the ground
+    truth, verify with `curl .../sitemap.xml | grep -c '<loc>'` rather
+    than trusting a remembered number), that's very likely these same 25
+    old trailing-slash URLs still sitting in Google's index from before
+    the rebuild, still correctly redirecting, just not yet recrawled and
+    consolidated by Google. That's expected lag, not a bug, and not
+    something to add a redirect for, don't add explicit trailing-slash
+    redirect entries to `next.config.ts`, Next already handles it.
+
 11. **Contextual cross-links between the two subpage families are
     curated, not derived.** Every Services and QA Consulting subpage
     renders a `RelatedLinks` block (`src/components/marketing/related-links.tsx`)
@@ -407,15 +424,70 @@ Live in `src/app/globals.css`.
     what caused a real overlap bug on the first render when the heading
     wrapped to more lines than expected.
 
+14. **The favicon/app icon set was regenerated 2026-08-16 after a routine
+    SEO audit found it was actively off-brand, not just incomplete.** The
+    site's only icon asset until then, `favicon.ico`, was a leftover
+    pre-rebrand black-circle-white-triangle mark (predates the current
+    hot-sauce palette, violates the "no pure white/black anywhere" rule in
+    `BRAND_GUIDELINES.md` §4, and has no relation to the current wordmark).
+    Fixed by reusing the header logo's own dot-and-halo device (see
+    `BRAND_GUIDELINES.md` §3) scaled up: a Dark Slate Grey (`#354639`)
+    square with a Sandy Brown (`#ee9e58`) circle and a soft
+    Navajo-White-tinted halo, generated as code, not exported from a
+    design tool, consistent with gotcha #13's `og-image.png` approach.
+    Two different generation techniques were used for a reason: `icon.tsx`
+    and `apple-icon.tsx` use Next's native icon file convention (a
+    `next/og` `ImageResponse` Server Component, see
+    `node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/01-metadata/app-icons.md`),
+    which auto-injects the correct `<link>` tags and is the framework's
+    own recommended path for exactly this. `favicon.ico` can't use that
+    convention (Next only allows a static `.ico` file for the root
+    favicon, `ImageResponse` can't produce one), so it was hand-assembled
+    instead: render the same design at 16x16 and 32x32 via a headless
+    Playwright screenshot, then pack both PNGs into a valid `.ico`
+    container (ICO can embed PNG-format frames directly, a well-documented
+    format detail, avoided pulling in a new npm dependency just for this).
+    **Real gotcha hit along the way:** the first hand-assembled `.ico`
+    500'd both `/icon` and `/apple-icon` at runtime with "The PNG is not
+    in RGBA format", because a Playwright screenshot of an opaque
+    (non-transparent) element produces an RGB PNG with no alpha channel,
+    and Next's ICO decoder requires RGBA for embedded PNG frames. Fixed by
+    forcing the alpha channel with `sharp(...).ensureAlpha()` (already a
+    transitive dependency of Next, no new package added) before packing.
+    If a favicon is ever hand-assembled again outside Next's own
+    generation path, check the source PNGs are RGBA first, this failure
+    mode is silent until the route is actually requested.
+
+    The same audit pass also fixed three smaller, unrelated SEO findings
+    in the same session, all still live: `siteConfig.metaDescription`
+    trimmed from 171 to 156 characters (the project's own 155-160 target,
+    see the SEO section below); `sitemap.ts` now gives every static route
+    a real per-route `lastModified` date (hand-maintained, the same
+    upkeep the blog's own `date` field already requires) instead of a
+    build-time `new Date()` that made every route look identically
+    "just changed" regardless of actual edit history; and the homepage
+    now sets `alternates.canonical: "/"` in `layout.tsx`'s root metadata,
+    since it was the one route on the entire site without an explicit
+    canonical tag, every other route already sets one at the page level.
+
 ## Repository structure
 
 ```
 src/app/                  Routes (App Router). Keep page files thin,
                           compose components, don't inline large JSX trees.
-  layout.tsx              Root layout: self-hosted font, metadata, JSON-LD
-                          structured data, header/footer shell
+  layout.tsx              Root layout: self-hosted font, metadata (including
+                          the homepage's own `alternates.canonical`, added
+                          2026-08-16, gotcha #14), JSON-LD structured data,
+                          header/footer shell
   fonts/                  Bespoke Serif woff2 files, loaded via
                           `next/font/local` in layout.tsx
+  favicon.ico             On-brand icon (regenerated 2026-08-16, see
+                          gotcha #14), not the pre-rebrand black/white
+                          triangle it replaced
+  icon.tsx, apple-icon.tsx  Code-generated app icons via `next/og`
+                          `ImageResponse` (added 2026-08-16, gotcha #14),
+                          Next's native icon convention, not static image
+                          files
   page.tsx                Home. Sections: Hero, StatBand, services grid
                           (#services anchor, 6 cards), differentiators, QA
                           consulting (#qa-consulting anchor), process
@@ -487,7 +559,12 @@ src/app/                  Routes (App Router). Keep page files thin,
                             component body rather than at module level
                             (gotcha #12).
   sitemap.ts, robots.ts   Generated SEO files, list every route, keep in
-                          sync by hand when a route is added or removed
+                          sync by hand when a route is added or removed.
+                          Static routes carry a hand-maintained
+                          `lastModified` date (see gotcha #14), bump a
+                          route's date when its content meaningfully
+                          changes, blog posts already do this via their
+                          own `date` field
 
 next.config.ts            `redirects()` for dead URLs from the pre-rebuild
                            Eleventy site that Google still crawls (see
@@ -589,8 +666,10 @@ src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
 public/                   Static assets served as-is. og-image.png (1200x630,
                            the sitewide OG/Twitter card image referenced by
                            siteConfig.ogImage) is generated, not hand-designed,
-                           see gotcha #13 before touching it. favicon.ico is
-                           still the only other file here, no PNG icon set yet.
+                           see gotcha #13 before touching it. That's the only
+                           file here, favicon.ico and the icon/apple-icon
+                           generators live in src/app/ instead (Next's app
+                           icon convention requires it, see gotcha #14).
 ```
 
 ## Coding standards
