@@ -838,7 +838,7 @@ repo already handle well.
   This is as much an SEO requirement as a code convention: a page with no
   title or description does not get indexed well.
 - Keep `sitemap.ts` and `robots.ts` in sync with the actual route list.
-  33 marketing routes today (`/`, `/software-testing-services` and its
+  32 marketing routes today (`/`, `/software-testing-services` and its
   six subpages, `/qa-consulting` and its six subpages, `/about`, `/blog`
   and its 15 `/blog/[slug]` posts, see the repository structure above), a
   new page needs an entry in `sitemap.ts` too. Don't trust this number
