@@ -597,7 +597,9 @@ src/app/                  Routes (App Router). Keep page files thin,
   blog/
     page.tsx               Blog index, added 2026-08-05. Its own BlogHero
                             (not PageHero, see gotcha #5), category filter
-                            pills, a 6-per-page grid, and pagination, all
+                            pills, a 9-per-page grid (`POSTS_PER_PAGE` in
+                            `blog-data.ts`, three rows of three at the `lg`
+                            breakpoint), and pagination, all
                             driven by `?category=`/`?page=` searchParams,
                             no client state (see gotcha #9). Page-scoped
                             Blog and BreadcrumbList (2-item) JSON-LD
