@@ -121,9 +121,27 @@ literal, minimal "greenlight."
 
 This is a solid interim mark for a code-first build, but it is **not** a
 substitute for a professionally designed logo system (proper vector
-lockups, a standalone icon/favicon mark at small sizes, monochrome
-variants). Treat the current implementation as the _content and color
-spec_ for a designer to execute properly, not as the final asset.
+lockups, monochrome variants). Treat the current implementation as the
+_content and color spec_ for a designer to execute properly, not as the
+final asset.
+
+**Standalone favicon/app icon mark (added 2026-08-16):** the wordmark's
+dot-and-halo device was scaled up into a dedicated icon, since the site's
+only icon asset before this was a leftover pre-rebrand black/white
+triangle that matched nothing about the current brand. Implemented as
+`src/app/icon.tsx` and `src/app/apple-icon.tsx` (Next's native icon
+convention, a `next/og` `ImageResponse` generator, not a hand-designed
+image file) plus a regenerated `src/app/favicon.ico`: a Dark Slate Grey
+(`#354639`) square, the same bold-section color the hero/PageHero/founders
+section already use, with a Sandy Brown (`#ee9e58`) circle and a soft
+Navajo-White-tinted halo at its center, the same ring device as the header
+wordmark's dot, just without the wordmark text (illegible at 16-32px).
+Generated the same way as `og-image.png` (see the codebase engineering
+guide's OG image gotcha), code-rendered from the real brand tokens rather
+than exported from a design tool. This is still an interim, code-first
+mark, not the "when a real logo is commissioned" deliverable below, a
+professional pass should still revisit it, but the icon set is no longer
+a placeholder that fails at the small end.
 
 **Until a designed logo system exists:**
 
