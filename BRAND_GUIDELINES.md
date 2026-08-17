@@ -323,6 +323,19 @@ see the page-family note below.
   family-specific.
 - **See §9 (Animation)** for motion inside a bold section, continuous
   ambient animation is part of this pattern, not a separate concern.
+- **The footer (`src/components/layout/site-footer.tsx`) is a bold
+  section too, added 2026-08-16, and it is sitewide chrome rather than
+  page-family-scoped, so it reuses Dark Slate Grey (the same hardcoded
+  `#354639` the hero and About's founders section use) instead of
+  claiming its own color the way a page family would.** It previously
+  sat on the plain calm `bg-background` with only a thin `border-t`,
+  which made it blend into whatever page it closed rather than read as
+  an intentional ending. `Logo` gained a `variant="onDark"` prop for use
+  inside this and any future dark bold section, since its default
+  `text-foreground`/`bg-primary` styling is tuned for the calm system and
+  inverts oddly (near-black text on a bright green dot) against a
+  hardcoded dark background once dark mode's own token values are in
+  play.
 
 ---
 
@@ -564,6 +577,21 @@ section is about the writing itself.
 - **Never keyword-stuff.** If a term appears in three different sections,
   each mention should teach the reader something the others didn't, not
   just repeat itself for search engine weight.
+- **Every blog post opens its first real heading as a direct-answer
+  question, not a topic label.** Established 2026-08-16 across all 12
+  launch posts: after the intro, the first `H2` is phrased the way a
+  reader or an AI answer engine would actually ask it (`"What does
+outsourcing QA testing actually mean?"`), and the paragraph right
+  beneath it answers in 1-2 plain sentences before the post goes deeper.
+  That paragraph is written to be lifted verbatim as a featured snippet,
+  so it needs to stand alone without the surrounding context. Every post
+  also needs one section a generic competitor article would not have
+  (red flags, a worked example, a decision framework), built from this
+  site's real verified stats or a genuine mechanism, never an invented
+  figure, the "don't invent testimonials or logos" rule below applies to
+  fabricated data points just as much as fabricated quotes. Full
+  technical spec (heading types, title/excerpt character budgets) in
+  [CLAUDE.md gotcha #15](./CLAUDE.md#️-read-before-you-write-code).
 
 ---
 

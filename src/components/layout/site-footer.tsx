@@ -14,17 +14,17 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-border/60 bg-background border-t">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <footer className="bg-[#354639]">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <Logo />
-            <p className="text-muted-foreground mt-3 max-w-sm text-sm">
+            <Logo variant="onDark" />
+            <p className="mt-2.5 max-w-sm text-sm text-[#f9f4eb]/70">
               {siteConfig.footerDescription}
             </p>
             <a
               href={`mailto:${siteConfig.email}`}
-              className="text-muted-foreground hover:text-foreground mt-3 inline-block text-sm"
+              className="mt-2.5 inline-block text-sm text-[#f9f4eb]/70 hover:text-[#ee9e58]"
             >
               {siteConfig.email}
             </a>
@@ -32,17 +32,17 @@ export function SiteFooter() {
 
           {footerNavGroups.map((group) => (
             <nav key={group.href} aria-label={group.label}>
-              <h3 className="text-foreground text-sm font-semibold">
-                <Link href={group.href} className="hover:underline">
+              <h3 className="text-sm font-semibold text-[#f9f4eb]">
+                <Link href={group.href} className="hover:text-[#ee9e58]">
                   {group.label}
                 </Link>
               </h3>
-              <ul className="mt-3 space-y-2">
+              <ul className="mt-2.5 space-y-1.5">
                 {group.items?.map((sub) => (
                   <li key={sub.href}>
                     <Link
                       href={sub.href}
-                      className="text-muted-foreground hover:text-foreground text-sm"
+                      className="text-sm text-[#f9f4eb]/70 hover:text-[#ee9e58]"
                     >
                       {sub.label}
                     </Link>
@@ -53,13 +53,13 @@ export function SiteFooter() {
           ))}
 
           <nav aria-label="Company">
-            <h3 className="text-foreground text-sm font-semibold">Company</h3>
-            <ul className="mt-3 space-y-2">
+            <h3 className="text-sm font-semibold text-[#f9f4eb]">Company</h3>
+            <ul className="mt-2.5 space-y-1.5">
               {aboutItem ? (
                 <li>
                   <Link
                     href={aboutItem.href}
-                    className="text-muted-foreground hover:text-foreground text-sm"
+                    className="text-sm text-[#f9f4eb]/70 hover:text-[#ee9e58]"
                   >
                     {aboutItem.label}
                   </Link>
@@ -69,7 +69,7 @@ export function SiteFooter() {
                 <li>
                   <Link
                     href={blogItem.href}
-                    className="text-muted-foreground hover:text-foreground text-sm"
+                    className="text-sm text-[#f9f4eb]/70 hover:text-[#ee9e58]"
                   >
                     {blogItem.label}
                   </Link>
@@ -78,7 +78,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href={siteConfig.links.calendar}
-                  className="text-muted-foreground hover:text-foreground text-sm"
+                  className="text-sm text-[#f9f4eb]/70 hover:text-[#ee9e58]"
                 >
                   Book a call
                 </Link>
@@ -87,7 +87,7 @@ export function SiteFooter() {
           </nav>
         </div>
 
-        <div className="border-border/60 text-muted-foreground mt-10 border-t pt-6 text-sm">
+        <div className="mt-8 border-t border-[#f9f4eb]/15 pt-5 text-sm text-[#f9f4eb]/60">
           &copy; {year} {siteConfig.legalName}. All rights reserved.
         </div>
       </div>
