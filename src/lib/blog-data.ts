@@ -8,7 +8,10 @@ import {
   Layers,
   Repeat,
   Rocket,
+  Search,
+  Target,
   TrendingDown,
+  TrendingUp,
   UserCheck,
   Webhook,
   Workflow,
@@ -863,6 +866,209 @@ export const blogPosts: BlogPost[] = [
       {
         type: "paragraph",
         text: "Most engagements that inherit an existing Selenium suite keep it running for regression on stable, well-covered paths, while building any new feature coverage in Playwright. Over time, the Selenium suite naturally shrinks as its covered paths get retired or rebuilt, without ever requiring a disruptive big-bang migration that pauses feature work to get there.",
+      },
+    ],
+  },
+  {
+    slug: "manual-exploratory-testing",
+    title: "Manual and Exploratory Testing Best Practices",
+    excerpt:
+      "What manual and exploratory testing catch that automation cannot, when to run each, and what good exploratory coverage actually looks like.",
+    category: "testing-practices",
+    author: "Mohammad Khan",
+    date: "2026-08-16",
+    readTime: "8 min read",
+    icon: Search,
+    body: [
+      {
+        type: "paragraph",
+        text: "Most QA conversations skip straight to automation, since it is the easier thing to point at on a roadmap. That skips past a category of defect only a human tester finds: the workflow that passes every scripted step and still feels broken, the edge case nobody thought to script, the thing a real user tries that no test plan predicted.",
+      },
+      { type: "heading", text: "What is exploratory testing?" },
+      {
+        type: "paragraph",
+        text: "Exploratory testing is unscripted testing where an engineer investigates the product in real time, forming and testing hypotheses about where it might break as they go, instead of executing a pre-written list of steps. Manual testing is the broader category, exploratory testing is manual testing done without a script.",
+      },
+      {
+        type: "heading",
+        text: "What manual and exploratory testing catch that automation cannot",
+      },
+      {
+        type: "list",
+        items: [
+          "Usability friction that passes every check but still feels wrong to a real person using it",
+          "Edge cases nobody thought to write a script for, since a script only tests what someone predicted in advance",
+          "Visual and layout regressions a script checking values and status codes was never built to notice",
+          "Real-world, multi-step behavior: opening the same flow in two tabs, hitting the browser back button mid-form, losing connectivity halfway through a payment",
+          "The first honest reaction to a new feature, which only a person forming an opinion in real time can give you",
+        ],
+      },
+      { type: "heading", text: "When to run manual and exploratory testing" },
+      {
+        type: "subheading",
+        text: "New features, before anything gets automated",
+      },
+      {
+        type: "paragraph",
+        text: "A brand-new feature has not earned automated coverage yet, since nobody knows its actual shape well enough to script it reliably. Manual and exploratory testing here does double duty: it finds the defects an automated suite would have missed anyway, and it teaches the team which paths are stable enough to actually automate next sprint.",
+      },
+      { type: "subheading", text: "Anything customer-facing, every release" },
+      {
+        type: "paragraph",
+        text: "Automated regression should run on every pull request, but a release that touches anything customer-facing still earns a manual pass before it ships, since a script only checks what it was told to check, and a real release touches more of the product than any single pull request's diff.",
+      },
+      {
+        type: "subheading",
+        text: "After a large refactor, even when every script passes",
+      },
+      {
+        type: "paragraph",
+        text: "A refactor that leaves every automated test green is not the same as a refactor that left the product unchanged. Automated tests check the specific assertions someone wrote months ago, and a large refactor is exactly the moment those assertions stop matching what actually needs checking. Exploratory testing catches the gap between what the suite verifies and what the product now actually does.",
+      },
+      {
+        type: "heading",
+        text: "Signs a team has gone automation-only, and is paying for it",
+      },
+      {
+        type: "list",
+        items: [
+          "Bugs reach production in flows with full automated coverage, since the script kept passing while the product's behavior around it quietly changed",
+          "Nobody on the team can describe what the product feels like to use, only what the test suite reports",
+          "QA time is spent entirely maintaining scripts, with none left to actually explore the product",
+          "A new feature ships with zero manual pass before release, because the automated suite is green",
+        ],
+      },
+      { type: "heading", text: "A practical exploratory testing checklist" },
+      {
+        type: "list",
+        items: [
+          "Set a charter for the session, one specific area or workflow, not the whole product at once",
+          "Time-box the session, 60 to 90 minutes holds focus better than an open-ended pass",
+          "Take notes as you go, not after, since the exact steps that triggered a bug are easy to lose",
+          "Vary the input with real-world data, not just clean happy-path values",
+          "File what you find immediately, with reproduction steps, while the context is still fresh",
+          "Debrief with the team on what got covered and what did not, so the next session does not repeat ground already tested",
+        ],
+      },
+      {
+        type: "paragraph",
+        text: "Automation and exploratory testing are not competing for the same budget, they cover different ground. The teams closing in on the 95% release coverage mark we track across embedded engagements are rarely the ones with the biggest automated suite, they are the ones who never let automation replace a person actually using the product before it ships.",
+      },
+    ],
+  },
+  {
+    slug: "how-we-reached-95-percent-coverage",
+    title: "How We Got a Client to 95% Release Coverage",
+    excerpt:
+      "What it actually took to get a SaaS client to 95% release coverage, where coverage was hiding real gaps, and what changed in order to close them.",
+    category: "case-studies",
+    author: "Muhammad Ali",
+    date: "2026-08-16",
+    readTime: "7 min read",
+    icon: Target,
+    body: [
+      {
+        type: "paragraph",
+        text: "A SaaS client came to us already running manual QA on every release. The problem was not that nothing got tested, it was that nobody could say what percentage of the product actually had coverage, and the untested share was exactly where nearly every production incident kept originating.",
+      },
+      {
+        type: "heading",
+        text: "What does it actually take to reach 95% release coverage?",
+      },
+      {
+        type: "paragraph",
+        text: "Reaching 95% release coverage takes a real coverage map before anything else, a documented picture of every critical path and whether a test actually exists for it, not a guess. Without that map, a team adds tests to whatever feels most urgent that week and never closes the gaps actually causing incidents.",
+      },
+      { type: "heading", text: "Where the coverage gap was actually hiding" },
+      {
+        type: "paragraph",
+        text: "The team's instinct was to test new features thoroughly, which felt like good practice and looked fine in every sprint retro. The blind spot was everything already shipped and considered done. Production incidents kept originating in code nobody had looked at in months, not in the features getting the most current attention, since working and recently tested had quietly become the same assumption.",
+      },
+      { type: "heading", text: "What changed, in order" },
+      {
+        type: "list",
+        items: [
+          "A full coverage audit mapping every critical path against existing test cases, so the team could see the real percentage for the first time instead of estimating it",
+          "Coverage gaps prioritized by risk and production incident history, not by which feature was newest or most requested",
+          "Test cases written for the highest-risk gaps first, closing the areas actually causing incidents",
+          "Automated regression layered onto the newly mapped stable paths, so coverage did not quietly erode as the product kept changing",
+          "Coverage tracked and reported every release, so the number stayed real instead of becoming a one-time snapshot",
+        ],
+      },
+      { type: "heading", text: "The result" },
+      {
+        type: "paragraph",
+        text: "Coverage climbed from an unmeasured guess to 95% within two quarters, tracked release over release instead of assumed once and forgotten. Production incidents originating from previously untested areas of the product dropped sharply within the same window, since those were precisely the paths the coverage map had surfaced as gaps.",
+      },
+      { type: "heading", text: "What 95% coverage does not mean" },
+      {
+        type: "paragraph",
+        text: "A coverage percentage only means as much as the tests behind it. A suite that checks that a page loads without checking that the data on it is correct will report high coverage and still let real defects through. The number mattered less to this engagement than the map behind it, since the map is what made 95% an honest figure instead of a vanity metric.",
+      },
+      {
+        type: "paragraph",
+        text: "This is the same pattern we track across embedded engagements broadly, coverage that climbs toward the 95% mark once a team can actually see its own gaps, not because more tests get written for their own sake, but because the team finally knows which ones are worth writing.",
+      },
+    ],
+  },
+  {
+    slug: "how-we-supported-1b-in-revenue",
+    title: "How QA Supported a Client Past $1B in Revenue",
+    excerpt:
+      "How embedded QA held up production reliability for a payments client scaling past $1B in processed revenue, and what breaks first at that volume.",
+    category: "case-studies",
+    author: "Mohammad Khan",
+    date: "2026-08-16",
+    readTime: "7 min read",
+    icon: TrendingUp,
+    body: [
+      {
+        type: "paragraph",
+        text: "One of the highest-stakes engagements behind the $1B+ in revenue we have supported across embedded QA engagements was a payments client scaling well past its original transaction volume. The product's feature set had barely changed. The risk underneath it had changed completely.",
+      },
+      {
+        type: "heading",
+        text: "What breaks first when a product scales past high transaction volume?",
+      },
+      {
+        type: "paragraph",
+        text: "The paths that break first at high volume are usually the ones nobody re-tested after they were first built: payment retries, webhook delivery, and anything relying on a queue or a third-party rate limit that never mattered when usage was low. Functional correctness rarely fails first. Capacity and timing do.",
+      },
+      {
+        type: "heading",
+        text: "Why a stable feature set does not mean stable risk",
+      },
+      {
+        type: "paragraph",
+        text: "Nothing about the checkout flow's code had changed in months, and every existing test for it still passed. What had changed was the volume moving through it: more concurrent requests, more retries hitting the same idempotency key, more chances for a webhook to arrive twice or a rate limit to get hit mid-transaction. None of that shows up in a functional test run at low volume, since the defect only exists at the volume the test never simulated.",
+      },
+      { type: "heading", text: "What the QA priorities shifted to" },
+      {
+        type: "list",
+        items: [
+          "Load and concurrency testing on payment and webhook paths, not just functional correctness",
+          "Retry and idempotency behavior under failure, so a duplicate webhook or timeout could not double-charge or double-fulfill an order",
+          "Monitoring tied directly to test coverage, so a regression at 2am got caught before a support ticket did",
+          "Rollback and incident-response steps rehearsed as part of the release process, not written down and never practiced",
+          "Risk-based regression reweighted every quarter as usage patterns shifted, instead of a checklist frozen at launch",
+        ],
+      },
+      { type: "heading", text: "The result" },
+      {
+        type: "paragraph",
+        text: "The client went through its highest-volume quarter to date without a single payment-path incident reaching a customer. That is the specific outcome this engagement contributed to the $1B+ figure we track across embedded engagements combined, not one dramatic fix, but a QA process that scaled its priorities alongside the product's actual risk instead of testing the same way at ten times the volume.",
+      },
+      {
+        type: "heading",
+        text: "The mistake most teams make scaling QA with the product",
+      },
+      {
+        type: "paragraph",
+        text: "The common mistake is scaling engineering headcount and infrastructure for growth while leaving the test suite exactly as it was, on the assumption that if a path worked at one-tenth the volume, it still works now. Volume is not just a bigger number running through the same code, it is a different set of failure modes entirely, and a test suite built for correctness alone will not catch a single one of them.",
+      },
+      {
+        type: "paragraph",
+        text: "Scaling QA alongside a product is not about testing more, it is about testing for the failure modes that only exist at the new volume, the same discipline behind any risk-based regression suite, just applied to growth instead of a release calendar.",
       },
     ],
   },
