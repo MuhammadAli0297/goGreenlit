@@ -16,6 +16,17 @@ export function ArticleBody({ blocks }: { blocks: BlogContentBlock[] }) {
             );
           }
 
+          if (block.type === "subheading") {
+            return (
+              <h3
+                key={index}
+                className="pt-2 text-lg font-semibold tracking-tight text-balance"
+              >
+                {block.text}
+              </h3>
+            );
+          }
+
           if (block.type === "list") {
             return (
               <ul key={index} className="space-y-2 pl-1">

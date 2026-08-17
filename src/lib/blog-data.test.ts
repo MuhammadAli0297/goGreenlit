@@ -16,7 +16,7 @@ import {
 describe("getPostBySlug", () => {
   it("finds a post by its slug", () => {
     expect(getPostBySlug("playwright-vs-selenium-2026")?.title).toBe(
-      "Playwright vs Selenium in 2026: Which One Should You Choose?",
+      "Playwright vs Selenium: Choosing in 2026",
     );
   });
 
