@@ -597,7 +597,9 @@ src/app/                  Routes (App Router). Keep page files thin,
   blog/
     page.tsx               Blog index, added 2026-08-05. Its own BlogHero
                             (not PageHero, see gotcha #5), category filter
-                            pills, a 6-per-page grid, and pagination, all
+                            pills, a 9-per-page grid (`POSTS_PER_PAGE` in
+                            `blog-data.ts`, three rows of three at the `lg`
+                            breakpoint), and pagination, all
                             driven by `?category=`/`?page=` searchParams,
                             no client state (see gotcha #9). Page-scoped
                             Blog and BreadcrumbList (2-item) JSON-LD
@@ -836,9 +838,9 @@ repo already handle well.
   This is as much an SEO requirement as a code convention: a page with no
   title or description does not get indexed well.
 - Keep `sitemap.ts` and `robots.ts` in sync with the actual route list.
-  30 marketing routes today (`/`, `/software-testing-services` and its
+  33 marketing routes today (`/`, `/software-testing-services` and its
   six subpages, `/qa-consulting` and its six subpages, `/about`, `/blog`
-  and its 12 `/blog/[slug]` posts, see the repository structure above), a
+  and its 15 `/blog/[slug]` posts, see the repository structure above), a
   new page needs an entry in `sitemap.ts` too. Don't trust this number
   blindly, check `src/app/`, `blog-data.ts`, and `sitemap.ts` directly
   since another page or post has likely been added since this was
