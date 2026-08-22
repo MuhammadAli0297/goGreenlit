@@ -95,6 +95,9 @@ New pages are expected and welcome. When adding one:
 - **Tooling**: ESLint (flat config), Prettier (+ `prettier-plugin-tailwindcss`),
   Husky + lint-staged + commitlint
 - **Deploy target**: Vercel
+- **Analytics**: GA4 via `@next/third-parties` (added 2026-08-17), see
+  Environment variables below, inert until `NEXT_PUBLIC_GA_MEASUREMENT_ID`
+  is set
 
 Package manager is **npm**, don't introduce a lockfile from another package
 manager.
