@@ -95,6 +95,9 @@ New pages are expected and welcome. When adding one:
 - **Tooling**: ESLint (flat config), Prettier (+ `prettier-plugin-tailwindcss`),
   Husky + lint-staged + commitlint
 - **Deploy target**: Vercel
+- **Analytics**: GA4 via `@next/third-parties` (added 2026-08-17), see
+  Environment variables below, inert until `NEXT_PUBLIC_GA_MEASUREMENT_ID`
+  is set
 
 Package manager is **npm**, don't introduce a lockfile from another package
 manager.
@@ -877,6 +880,20 @@ processes for this project and remove `.next/dev/lock` before retrying.
 
 ## Environment variables
 
-See `.env.example` for the full list. Currently just
-`NEXT_PUBLIC_SITE_URL`, which overrides the canonical site URL used in
-metadata, the sitemap, and OG tags (defaults to the production URL).
+See `.env.example` for the full list.
+
+- `NEXT_PUBLIC_SITE_URL` overrides the canonical site URL used in
+  metadata, the sitemap, and OG tags (defaults to the production URL).
+- `NEXT_PUBLIC_GA_MEASUREMENT_ID` (added 2026-08-17) enables GA4 via
+  `@next/third-parties`' `GoogleAnalytics` component, rendered
+  conditionally in `layout.tsx` only when this is set, so a local dev
+  server or a preview build with no env var configured never sends
+  traffic to the real property. No custom click-tracking code was added
+  for the "Book a call" CTA specifically: `calendly.com` (via
+  `siteConfig.links.calendar`) is the only external domain linked
+  anywhere on the site, so GA4's own Enhanced Measurement automatically
+  captures every "Book a call" click as an `outbound_click` (i.e.
+  `click` with `outbound: true`) event with zero code, no dilution risk
+  from other outbound links since there are none. Mark that event as a
+  key event (GA4's current term for a conversion) in the GA4 Admin UI
+  once traffic is flowing, not something configurable from code.
