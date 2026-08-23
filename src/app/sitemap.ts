@@ -25,7 +25,7 @@ const staticRouteLastModified: Record<string, string> = {
   "/qa-consulting/qa-audit-assessment": "2026-08-16",
   "/qa-consulting/release-readiness": "2026-08-16",
   "/about": "2026-08-16",
-  "/blog": "2026-08-16",
+  "/blog": "2026-08-23",
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {
