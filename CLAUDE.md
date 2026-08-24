@@ -326,7 +326,7 @@ Live in `src/app/globals.css`.
    into range (`clampPage` in `blog-data.ts`) rather than erroring.
    Individual posts (`blog/[slug]/page.tsx`) deliberately use
    `BlogPostHeader`, not `BlogHero` or `PageHero`: a full dark aurora
-   hero repeated on all 12 posts would fight against actually reading
+   hero repeated on every post would fight against actually reading
    them, so posts get a calm, light, `max-w-3xl` reading-width header
    instead (icon tile, category badge, `h1`, author/date/read-time line).
 10. **Dead URLs from the old pre-rebuild Eleventy site still get crawled
@@ -524,6 +524,45 @@ actually mean?"`, not `"Overview"`), and the paragraph immediately
     - **`date` gets bumped and `readTime` recalculated whenever a post's
       content meaningfully changes**, the same principle gotcha #14
       already applies to `sitemap.ts`'s per-route `lastModified`.
+16. **The blog grew from 15 posts to 25 in a second content batch
+    (2026-08-23), 2 new posts per existing category, and that batch
+    established how to source new blog topics going forward: real
+    research, not invented trends.** Topics were pulled from an actual
+    web search on 2026-era QA industry trends (AI-generated code
+    straining existing QA processes, agentic/AI-assisted test
+    generation, self-healing automation, shift-left/shift-right, leaner
+    QA headcount) rather than guessed, and 4 of the 10 new posts turned
+    that research into AI-focused topics, spread across QA Strategy,
+    Test Automation, Outsourcing & Hiring, and Testing Practices so AI
+    content did not dominate the whole batch. Do the same before writing
+    a next batch: search current QA/testing trends first, don't invent
+    topics from memory.
+
+    **The Case Studies category hit a real constraint worth knowing
+    about before writing more of them**: it already used the site's
+    only 3 verified track-record stats (45% reduction in escaped
+    defects, 95% release coverage, $1B+ revenue supported) as 3
+    individual client stories, so 2 more "case studies" could not be
+    written the same way without either fabricating a new client story
+    or a new number, both banned by `BRAND_GUIDELINES.md` §2. Resolved
+    by writing composite pattern pieces instead
+    (`what-18-years-of-qa-experience-looks-like`,
+    `the-pattern-behind-every-successful-qa-engagement`), honestly
+    framed as patterns observed across engagements, built only from the
+    4 real verified stats (the 3 above plus 18+ years combined
+    experience, which had not been used as its own post yet), never a
+    new fabricated client. If a future Case Studies post is needed and
+    there is no new real client detail to write from, use this same
+    composite-pattern approach rather than inventing one.
+
+    **Also worth knowing**: this batch was originally built on a feature
+    branch (`add-ga4-analytics`) that turned out to already have its own
+    open, unrelated PR. The blog changes were moved to a fresh branch
+    off `main` (`git stash`, `git checkout -b <new> origin/main`,
+    `git stash pop`) before committing, so the blog PR did not get
+    bundled with or blocked by the unrelated one. Check `git log
+main..<current-branch>` before committing unrelated work to whatever
+    branch happens to be checked out.
 
 ## Repository structure
 
@@ -605,7 +644,8 @@ src/app/                  Routes (App Router). Keep page files thin,
                             Blog and BreadcrumbList (2-item) JSON-LD
                             blocks (gotcha #12).
     [slug]/page.tsx         Post template, `generateStaticParams` over all
-                            slugs in blog-data.ts (12 posts at launch),
+                            slugs in blog-data.ts (12 posts at launch,
+                            25 as of 2026-08-23, see gotcha #16),
                             `notFound()` on an unknown slug. Uses
                             BlogPostHeader, not BlogHero/PageHero (gotcha
                             #9), plus ArticleBody, BlogRelatedPosts (same
@@ -838,9 +878,9 @@ repo already handle well.
   This is as much an SEO requirement as a code convention: a page with no
   title or description does not get indexed well.
 - Keep `sitemap.ts` and `robots.ts` in sync with the actual route list.
-  32 marketing routes today (`/`, `/software-testing-services` and its
+  42 marketing routes today (`/`, `/software-testing-services` and its
   six subpages, `/qa-consulting` and its six subpages, `/about`, `/blog`
-  and its 15 `/blog/[slug]` posts, see the repository structure above), a
+  and its 25 `/blog/[slug]` posts, see the repository structure above), a
   new page needs an entry in `sitemap.ts` too. Don't trust this number
   blindly, check `src/app/`, `blog-data.ts`, and `sitemap.ts` directly
   since another page or post has likely been added since this was
