@@ -5,6 +5,8 @@ import { ArticleBody } from "@/components/marketing/article-body";
 import { BlogPostHeader } from "@/components/marketing/blog-post-header";
 import { BlogRelatedPosts } from "@/components/marketing/blog-related-posts";
 import { CtaSection } from "@/components/marketing/cta-section";
+import { FaqAccordion } from "@/components/marketing/faq-accordion";
+import { stripInlineLinks } from "@/components/marketing/inline-links";
 import { blogPosts, getPostBySlug, getRelatedPosts } from "@/lib/blog-data";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { siteConfig } from "@/lib/site-config";
@@ -83,6 +85,21 @@ export default async function BlogPostPage({
     { name: post.title, href: `/blog/${post.slug}` },
   ]);
 
+  const faqStructuredData = post.faqs
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: post.faqs.map(({ question, answer }) => ({
+          "@type": "Question",
+          name: question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: stripInlineLinks(answer),
+          },
+        })),
+      }
+    : null;
+
   return (
     <>
       <script
@@ -93,9 +110,29 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(postStructuredData) }}
       />
+      {faqStructuredData && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(faqStructuredData),
+          }}
+        />
+      )}
 
       <BlogPostHeader post={post} />
       <ArticleBody blocks={post.body} />
+
+      {post.faqs && post.faqs.length > 0 && (
+        <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+          <h2 className="text-center text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
+            Frequently asked questions
+          </h2>
+          <div className="mt-10">
+            <FaqAccordion faqs={post.faqs} />
+          </div>
+        </section>
+      )}
+
       <BlogRelatedPosts posts={relatedPosts} />
 
       <CtaSection

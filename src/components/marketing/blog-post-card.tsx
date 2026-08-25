@@ -26,14 +26,29 @@ export function BlogPostCard({
         href={`/blog/${post.slug}`}
         className="group/post-card block h-full"
       >
-        <Card className="group-hover/post-card:border-primary/40 h-full transition-colors">
+        <Card
+          className={cn(
+            "group-hover/post-card:border-primary/40 h-full overflow-hidden border-t-4 transition-colors",
+            category?.borderClass,
+          )}
+        >
           <CardHeader>
             <div className="flex items-center justify-between gap-2">
-              <div className="bg-accent text-accent-foreground flex size-10 items-center justify-center rounded-lg">
-                <Icon className="size-5" />
+              <div
+                className={cn(
+                  "flex size-10 items-center justify-center rounded-lg",
+                  category ? category.tintClass : "bg-accent",
+                )}
+              >
+                <Icon className="text-foreground size-5" />
               </div>
               {category ? (
-                <span className="text-muted-foreground inline-flex items-center gap-1.5 text-xs font-medium">
+                <span
+                  className={cn(
+                    "text-foreground/80 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium",
+                    category.tintClass,
+                  )}
+                >
                   <span
                     aria-hidden
                     className={cn("size-1.5 rounded-full", category.colorClass)}

@@ -592,26 +592,42 @@ outsourcing QA testing actually mean?"`), and the paragraph right
   fabricated data points just as much as fabricated quotes. Full
   technical spec (heading types, title/excerpt character budgets) in
   [CLAUDE.md gotcha #15](./CLAUDE.md#️-read-before-you-write-code).
+- **Every blog post also needs 5 to 8 real in-content links in the
+  body, and 5 to 8 more in its FAQ section when it has one.** Established
+  2026-08-24. Link to a real Services/QA Consulting subpage that matches
+  the surrounding phrase, or to another real blog post, especially the
+  case study post behind an aggregate stat like "45% reduction in
+  escaped defects", turning a claim that reads as vague on its own into
+  one a reader can actually verify. Never pad to hit the count and never
+  invent a destination, the same "real proof, not a new number" rule
+  from earlier in this section applies to links too. A short post sits
+  nearer 5 links, a long one nearer 8. Full syntax and the process this
+  fits into: [CLAUDE.md gotcha #17-18](./CLAUDE.md#️-read-before-you-write-code).
+- **Every post also carries a one-line author bio under the byline**,
+  the real founder facts already on `/about`, never an invented
+  credential. This is the E-E-A-T signal that ties a post's claims to an
+  actual named, credentialed person, not a decorative byline.
 
 ---
 
 ## 11. Do / Don't summary
 
-| Do                                                                                     | Don't                                               |
-| -------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| Lead with a specific, real number                                                      | Use unquantified superlatives                       |
-| Say "QA engineers"                                                                     | Say "QA resources"                                  |
-| Use Dark Slate Grey for actions/signals only in the default system                     | Use it as decorative fill in the default system     |
-| Mix every surface from the five swatches                                               | Use `#fff`/`#000` or translucent white              |
-| Keep Palm Leaf to accents, not CTAs, in the default system                             | Use it as a second action color there               |
-| Use real client proof when available                                                   | Invent testimonials or logos                        |
-| Use `buttonVariants()` on `<Link>` for link-styled buttons                             | Wrap a `<Link>` in `<Button render={...}>`          |
-| Keep the warm neutral scale (cream/olive/terracotta) understated                       | Introduce a third accent color                      |
-| Sound like a warm, confident expert                                                    | Sound like you are showing off                      |
-| Use SEO keywords naturally, in context                                                 | Stack keywords into an unnatural list               |
-| Use a period, comma, or colon to join clauses                                          | Use an em dash, ever, anywhere in this project      |
-| In a bold section, use any swatch as background and let contrast pick the action color | Make every section bold, or skip the contrast check |
-| Animate bold-section ambient motion with hand-written CSS keyframes                    | Add an animation library                            |
-| Use the shared `Reveal` component for scroll-triggered fades, anywhere on the page     | Hand-roll a new `IntersectionObserver` per section  |
-| Use `PageHero` for a new page's header, and `FaqAccordion` for a new FAQ section       | Rebuild either pattern by hand                      |
-| Give each new page family its own bold color and composition devices                   | Reuse another family's bold color/devices verbatim  |
+| Do                                                                                     | Don't                                                 |
+| -------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| Lead with a specific, real number                                                      | Use unquantified superlatives                         |
+| Say "QA engineers"                                                                     | Say "QA resources"                                    |
+| Use Dark Slate Grey for actions/signals only in the default system                     | Use it as decorative fill in the default system       |
+| Mix every surface from the five swatches                                               | Use `#fff`/`#000` or translucent white                |
+| Keep Palm Leaf to accents, not CTAs, in the default system                             | Use it as a second action color there                 |
+| Use real client proof when available                                                   | Invent testimonials or logos                          |
+| Use `buttonVariants()` on `<Link>` for link-styled buttons                             | Wrap a `<Link>` in `<Button render={...}>`            |
+| Keep the warm neutral scale (cream/olive/terracotta) understated                       | Introduce a third accent color                        |
+| Sound like a warm, confident expert                                                    | Sound like you are showing off                        |
+| Use SEO keywords naturally, in context                                                 | Stack keywords into an unnatural list                 |
+| Use a period, comma, or colon to join clauses                                          | Use an em dash, ever, anywhere in this project        |
+| In a bold section, use any swatch as background and let contrast pick the action color | Make every section bold, or skip the contrast check   |
+| Animate bold-section ambient motion with hand-written CSS keyframes                    | Add an animation library                              |
+| Use the shared `Reveal` component for scroll-triggered fades, anywhere on the page     | Hand-roll a new `IntersectionObserver` per section    |
+| Use `PageHero` for a new page's header, and `FaqAccordion` for a new FAQ section       | Rebuild either pattern by hand                        |
+| Give each new page family its own bold color and composition devices                   | Reuse another family's bold color/devices verbatim    |
+| Link a blog claim to the real post/page it comes from (5-8 per body, 5-8 per FAQ)      | Force links to hit the count, or link to nothing real |

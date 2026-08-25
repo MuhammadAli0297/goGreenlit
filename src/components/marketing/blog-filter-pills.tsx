@@ -38,7 +38,10 @@ export function BlogFilterPills({
             key={category.slug}
             href={`/blog?category=${category.slug}`}
             aria-current={isActive ? "page" : undefined}
-            className={cn(pillClass, isActive && pillActiveClass)}
+            className={cn(
+              pillClass,
+              isActive ? pillActiveClass : category.tintClass,
+            )}
           >
             <span
               aria-hidden
