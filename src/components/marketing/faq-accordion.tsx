@@ -1,3 +1,4 @@
+import { renderWithInlineLinks } from "@/components/marketing/inline-links";
 import { Reveal } from "@/components/marketing/reveal";
 import {
   Accordion,
@@ -35,7 +36,7 @@ export function FaqAccordion({ faqs }: { faqs: Faq[] }) {
               {question}
             </AccordionTrigger>
             <AccordionContent className="faq-panel text-muted-foreground px-0 pb-6 text-sm">
-              {answer}
+              {renderWithInlineLinks(answer)}
             </AccordionContent>
           </AccordionItem>
         </Reveal>

@@ -2,7 +2,7 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
-import { getCategoryBySlug, type BlogPost } from "@/lib/blog-data";
+import { authorBios, getCategoryBySlug, type BlogPost } from "@/lib/blog-data";
 import { cn } from "@/lib/utils";
 
 /**
@@ -32,11 +32,19 @@ export function BlogPostHeader({ post }: { post: BlogPost }) {
         </Link>
 
         <div className="mt-6 flex items-center gap-3">
-          <div className="bg-accent text-accent-foreground flex size-11 items-center justify-center rounded-lg">
-            <Icon className="size-5" />
+          <div
+            className={cn(
+              "flex size-11 items-center justify-center rounded-lg",
+              category ? category.tintClass : "bg-accent",
+            )}
+          >
+            <Icon className="text-foreground size-5" />
           </div>
           {category ? (
-            <Badge variant="outline" className="gap-1.5">
+            <Badge
+              variant="outline"
+              className={cn("gap-1.5 border-transparent", category.tintClass)}
+            >
               <span
                 aria-hidden
                 className={cn("size-1.5 rounded-full", category.colorClass)}
@@ -51,7 +59,13 @@ export function BlogPostHeader({ post }: { post: BlogPost }) {
         </h1>
 
         <p className="text-muted-foreground mt-4 text-sm">
-          {post.author} &middot; {formattedDate} &middot; {post.readTime}
+          <Link href="/about" className="hover:text-foreground font-medium">
+            {post.author}
+          </Link>{" "}
+          &middot; {formattedDate} &middot; {post.readTime}
+        </p>
+        <p className="text-muted-foreground/80 mt-1 text-sm">
+          {authorBios[post.author]}
         </p>
       </div>
     </header>

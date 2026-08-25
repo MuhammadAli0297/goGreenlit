@@ -1,3 +1,4 @@
+import { renderWithInlineLinks } from "@/components/marketing/inline-links";
 import type { BlogContentBlock } from "@/lib/blog-data";
 
 export function ArticleBody({ blocks }: { blocks: BlogContentBlock[] }) {
@@ -39,7 +40,7 @@ export function ArticleBody({ blocks }: { blocks: BlogContentBlock[] }) {
                       aria-hidden
                       className="bg-primary mt-2.5 size-1.5 shrink-0 rounded-full"
                     />
-                    <span>{item}</span>
+                    <span>{renderWithInlineLinks(item)}</span>
                   </li>
                 ))}
               </ul>
@@ -51,7 +52,7 @@ export function ArticleBody({ blocks }: { blocks: BlogContentBlock[] }) {
               key={index}
               className="text-foreground/90 text-base leading-relaxed"
             >
-              {block.text}
+              {renderWithInlineLinks(block.text)}
             </p>
           );
         })}

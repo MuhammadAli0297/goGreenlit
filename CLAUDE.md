@@ -230,7 +230,13 @@ Live in `src/app/globals.css`.
    `border-none`). The expand/collapse animation itself is still the
    generated primitive's, with a plain `transition: height` on top (see
    `.faq-panel` in `globals.css`) since the generated component doesn't
-   declare one itself.
+   declare one itself. Its `answer` text is rendered through the shared
+   `renderWithInlineLinks()` (added 2026-08-24, gotcha #17), the same
+   `[label](/path)` parser `ArticleBody` uses, so a blog post's FAQ
+   answers can carry real in-content links. Every other `FaqAccordion`
+   consumer (the Services/QA Consulting overview pages) passes plain
+   strings with no brackets, which the parser returns unchanged, so this
+   is a safe no-op for them, not a behavior change.
 7. **Each page family has its own claimed bold-section color and its own
    composition devices, don't mix them across families.** "Family" means
    an overview page plus its subpages (Software Testing Services, QA
@@ -267,10 +273,19 @@ Live in `src/app/globals.css`.
    - **Blog**: no claimed bold-section color at all, not even a reused
      one. Its own `BlogHero` (not `PageHero`, see gotcha #5) instead of a
      bold band, plus the site's existing `--chart-1` through `--chart-5`
-     theme tokens (previously unused) mapped one-to-one onto the five
-     post categories for a small color-coded dot on filter pills, post
-     cards, and post headers. See gotcha #9 for the rest of the blog's
-     own patterns (content model, URL-driven filters/pagination, why
+     theme tokens mapped one-to-one onto the five post categories.
+     Originally just a small color-coded dot on filter pills, post cards,
+     and post headers; amplified 2026-08-24 (the blog read as too plain
+     against the colorful hero, per direct feedback) into a colored top
+     border strip on cards, a tinted icon tile, and a tinted category
+     badge/pill, still the same five chart tokens, no new hue introduced.
+     `BlogCategory`'s `tintClass`/`borderClass` fields (see gotcha #9)
+     are why this counts as amplifying the existing device rather than
+     claiming a new bold color, chart-2 through chart-5 fail WCAG text
+     contrast against the card background (checked, as low as 1.47:1),
+     so the color only ever lives in backgrounds/borders, dark text sits
+     on top everywhere. See gotcha #9 for the rest of the blog's own
+     patterns (content model, URL-driven filters/pagination, why
      individual posts don't reuse a bold hero at all).
 
    When adding a new page to an existing family, match that family's
@@ -328,7 +343,21 @@ Live in `src/app/globals.css`.
    `BlogPostHeader`, not `BlogHero` or `PageHero`: a full dark aurora
    hero repeated on every post would fight against actually reading
    them, so posts get a calm, light, `max-w-3xl` reading-width header
-   instead (icon tile, category badge, `h1`, author/date/read-time line).
+   instead (icon tile, category badge, `h1`, author/date/read-time line,
+   plus a one-line author bio underneath, see gotcha #18). `BlogCategory`
+   also carries `borderClass`/`tintClass` (added 2026-08-24 alongside the
+   color amplification in gotcha #7) next to the original `colorClass`
+   dot, all three literal Tailwind classes referencing the same chart-N
+   token so Tailwind's build-time scan picks them up, don't try to derive
+   one from another at runtime with string manipulation. `BlogPost` also
+   carries an optional `faqs?: BlogFaq[]` (added 2026-08-24): when
+   present, `blog/[slug]/page.tsx` renders an `FaqAccordion` section and
+   emits `FAQPage` JSON-LD, when absent, neither renders, so adding an
+   FAQ to a post is just adding the array. See gotcha #17 for the
+   in-content-link syntax both `ArticleBody` and `FaqAccordion` share,
+   and gotcha #18 for the full standing process a post follows end to
+   end, including when an FAQ section is expected, not just how the
+   pieces are wired.
 10. **Dead URLs from the old pre-rebuild Eleventy site still get crawled
     by Google and need a redirect, not a silent 404.** The previous site
     (see `git show c60ec12 --stat` for its full file list) had pages at
@@ -564,6 +593,146 @@ actually mean?"`, not `"Overview"`), and the paragraph immediately
 main..<current-branch>` before committing unrelated work to whatever
     branch happens to be checked out.
 
+17. **Every blog post needs real in-content links, 5 to 8 in the body and
+    5 to 8 more in the FAQ section when the post has one, scaled to the
+    post's length and to how many genuinely fit, never padded to hit a
+    number.** Established 2026-08-24 during a full SEO pass on
+    `how-to-outsource-qa-testing` (piloted there first, same standing bar
+    going forward as gotcha #15's content structure). A shorter post
+    (6-7 min read) sits nearer 5 in each section, a longer one (9-10+ min)
+    nearer 8. Body and FAQ are counted separately, a post's total can run
+    10-16 links across both.
+    - **Syntax**: body (`paragraph`/`list` blocks) and FAQ `answer`
+      strings support a lightweight `[anchor text](/path)` syntax, not
+      real markdown, just this one pattern. Parsed by
+      `renderWithInlineLinks()` in
+      `src/components/marketing/inline-links.tsx`, shared by
+      `ArticleBody` and `FaqAccordion` so a link works identically in
+      either. A plain string with no brackets is unaffected, so this is
+      fully backward compatible with every post that predates the rule,
+      nothing needs retrofitting just to keep building.
+    - **Real gotcha already hit once**: `FaqAccordion` is also used by
+      the Services/QA Consulting overview pages (see gotcha #7), whose
+      FAQ answers are plain strings, so it is easy to add link parsing to
+      `ArticleBody` and forget `FaqAccordion` needs the same treatment,
+      that exact miss shipped once (3 of 5 FAQ links silently rendered
+      as dead bracket text) before being caught and fixed. If a third
+      consumer of body-style text ever needs links, route it through
+      `renderWithInlineLinks()` too rather than re-implementing parsing.
+    - **Second real gotcha**: a `BlogPost`'s `faqs` also feed the
+      `FAQPage` JSON-LD block in `blog/[slug]/page.tsx` (gotcha #12's
+      structured data), and that field needs plain text, not the
+      bracket syntax, one already shipped with raw `[label](/path)`
+      visible in a live JSON-LD `text` field before being caught. Use
+      `stripInlineLinks()` (same file as `renderWithInlineLinks`) when
+      building that field, never the raw `answer` string directly.
+    - **Real destinations only, and prefer variety over repetition**:
+      link to an actual Services/QA Consulting subpage whose topic
+      matches the anchor phrase, or another real blog post, especially a
+      case study post when the surrounding claim cites a stat (the 45%
+      escaped-defect and 95% coverage numbers each link to their own
+      case study post, turning an aggregate claim into a traceable one,
+      see the EEAT discussion below). Spread links across distinct
+      destinations rather than reusing the same target twice on one page
+      where a different real destination fits just as well, that spread
+      is itself part of what makes the linking read as genuine rather
+      than mechanical.
+    - **This is also the fix for a specific EEAT gap, not just a link
+      quota**: aggregate stats in body/FAQ copy ("across the embedded
+      engagements we have run") read as vague on their own. Linking the
+      specific number to the real post it came from is what makes the
+      claim verifiable, prefer that over inventing a new client story or
+      a new number, which stays banned per `BRAND_GUIDELINES.md` §2 and
+      gotcha #16's case-study constraint.
+18. **Every blog post, new or rewritten, follows one fixed end-to-end
+    process, not just a content structure to hit.** Established
+    2026-08-24, piloted on `how-to-outsource-qa-testing` before being
+    written up here as the standing default for every post going
+    forward, the same way gotcha #15 already is. Gotchas #15-17 cover
+    the individual pieces in technical detail, this entry is the order
+    to run them in and what each step actually produces:
+    1. **Research before outlining.** Pull the real heading structure
+       and content gaps from actual top-ranking or competitor content
+       for the post's primary keyword (WebSearch/WebFetch, not recalled
+       from memory), the same way gotcha #16 already requires for topic
+       selection. One primary keyword per post, resist the urge to
+       target every keyword on a list in one piece.
+    2. **Build and confirm an outline before writing.** Structured
+       around gotcha #15's shape (direct-answer H2 first, real H2/H3
+       depth, one unique-angle section), noting where the post's
+       real internal-link and FAQ opportunities will go before drafting
+       prose around them.
+    3. **Write to gotcha #15's structure**, voice per
+       `BRAND_GUIDELINES.md` §2 (no em dash, no contractions, admit
+       tradeoffs).
+    4. **Add 5 to 8 in-content links in the body**, per gotcha #17.
+    5. **Add an FAQ section when the post has enough natural question-
+       shaped sub-topics to support 5 to 8 real Q&A pairs** (`faqs` on
+       the post, gotcha #9), each answer carrying its own share of that
+       same 5 to 8 in-content link range. Skip the section entirely
+       rather than padding it with thin questions just to have one, a
+       post genuinely can be complete without it.
+    6. **Add the one-line author bio.** `authorBios` in `blog-data.ts`
+       keyed by `BlogPost["author"]`, rendered under the byline in
+       `BlogPostHeader`, sourced only from the real founder facts already
+       on `/about` (`src/app/about/page.tsx`'s `founders` array), never a
+       new invented credential. This is what a byline alone does not do:
+       it ties the claims in the post to a real, named role, an EEAT
+       signal search engines and AI answer engines both weight.
+    7. **Run an EEAT self-review before calling the post done**: where
+       does it lack first-hand proof, and can that be fixed by linking
+       an aggregate stat to the real case-study post it came from (step
+       4), never by inventing a client detail or number (gotcha #16).
+    8. **Offer, don't auto-apply, title tag and meta description
+       options.** 3 options each, budgeted per gotcha #15 (title short
+       enough that `title + " | GoGreenlit"` stays under 60 characters,
+       `excerpt` 138-160 characters), always including the current live
+       version as a baseline option. A post that already ranks should
+       not have its `title`/`excerpt` changed without the user
+       deliberately picking a replacement, changing what is already
+       indexed is a real, not a cosmetic, decision.
+
+    **This reverses an earlier, now-outdated decision.** The original
+    2026-08-16 SEO pass considered inline hyperlinks inside post body
+    text and deliberately decided against it, judged a bigger
+    architectural change than one post warranted at the time. That
+    decision no longer holds, gotcha #17's `[label](/path)` syntax is
+    now standard. If an older note anywhere still says post bodies have
+    no internal linking, treat gotcha #17 as the current, correct
+    behavior instead.
+
+    **Rollout status as of 2026-08-25: all 25 posts are brought up to
+    this standard for in-content links and an FAQ section.** The rollout
+    ran as a checklist-driven, one-post-at-a-time pass across two
+    sessions (2026-08-24 and 2026-08-25), see
+    [[project-gogreenlit-rebuild]] for the full narrative and
+    [[feedback-sequential-checklist-work]] for the working method. The
+    author bio line lives in the shared `BlogPostHeader` template keyed
+    only by `post.author`, so it already rendered on every post
+    automatically throughout, nothing per-post was needed for that piece.
+    A future post (new or substantially rewritten) still needs this
+    standard applied deliberately, don't assume it happens automatically
+    just because the rest of the catalog complies, check `faqs` presence
+    and in-content links in `blog-data.ts` directly for that specific
+    post rather than trusting this note as a live source.
+
+    **A pattern specific to the 5 case-study posts**
+    (`how-we-reduced-escaped-defects`, `how-we-reached-95-percent-coverage`,
+    `how-we-supported-1b-in-revenue`, `what-18-years-of-qa-experience-looks-like`,
+    `the-pattern-behind-every-successful-qa-engagement`): unlike the
+    how-to and comparison posts, these did not benefit from
+    competitor-gap research, since the content is a real internal
+    narrative, not a competable topic. The real work was linking each
+    step of the narrative to the real service page it corresponds to (an
+    audit step to `/qa-consulting/qa-audit-assessment`, a regression step
+    to `/software-testing-services/regression-testing`, and so on), plus
+    cross-linking the sibling case studies and
+    `/blog/the-pattern-behind-every-successful-qa-engagement` so the
+    result reads as one observed pattern across engagements rather than
+    an isolated, unverifiable outlier. Apply this same approach, not the
+    competitor-research-first approach used for the how-to posts, to any
+    future case-study post.
+
 ## Repository structure
 
 ```
@@ -654,7 +823,12 @@ src/app/                  Routes (App Router). Keep page files thin,
                             JSON-LD blocks per post, the one place
                             breadcrumbSchema is built inside the
                             component body rather than at module level
-                            (gotcha #12).
+                            (gotcha #12). When a post has `faqs` (gotcha
+                            #9), also renders an FaqAccordion section and
+                            a page-scoped FAQPage JSON-LD block, built
+                            from `stripInlineLinks(answer)` so the
+                            structured data carries plain text, not the
+                            `[label](/path)` link syntax (gotcha #17).
   sitemap.ts, robots.ts   Generated SEO files, list every route, keep in
                           sync by hand when a route is added or removed.
                           Static routes carry a hand-maintained
@@ -734,12 +908,22 @@ src/components/
                            pills.tsx and blog-pagination.tsx (both plain
                            Links driven by searchParams, no client state),
                            blog-post-header.tsx (the calm per-post reading
-                           header), article-body.tsx (renders a post's
-                           BlogContentBlock[]), and blog-related-posts.tsx;
-                           and related-links.tsx, the Services/QA
-                           Consulting cross-link block (see gotcha #11),
-                           built on Reveal like everything else here, not
-                           a new animation pattern
+                           header, plus a one-line author bio under the
+                           byline, gotcha #18), article-body.tsx (renders
+                           a post's BlogContentBlock[]), and
+                           blog-related-posts.tsx; inline-links.tsx (added
+                           2026-08-24, gotcha #17), the `[label](/path)`
+                           parser shared by article-body.tsx and
+                           faq-accordion.tsx, so a link written into a
+                           blog post's body or FAQ answer renders
+                           identically in either, plus a plain-text
+                           `stripInlineLinks()` counterpart for anywhere
+                           that needs a real string instead of JSX, such
+                           as FAQPage JSON-LD's `text` field; and
+                           related-links.tsx, the Services/QA Consulting
+                           cross-link block (see gotcha #11), built on
+                           Reveal like everything else here, not a new
+                           animation pattern
 
 src/lib/
   site-config.ts          Single source of truth for site name, tagline,
@@ -756,16 +940,24 @@ src/lib/
                            there, don't hardcode it in site-header.tsx
   blog-data.ts            All blog content and category data (see gotcha
                            #9): `blogCategories` (5, each mapped to a
-                           chart-N theme token), `blogPosts` (12, each a
+                           chart-N token via `colorClass`/`borderClass`/
+                           `tintClass`), `blogPosts` (25, each a
                            title/excerpt/category/author/date/readTime/
-                           icon plus a `BlogContentBlock[]` body), and the
-                           filter/pagination helpers `getPostsByCategory`,
-                           `getRelatedPosts`, `clampPage`, `paginatePosts`.
-                           Add a new post here, not by hand-editing a page,
-                           and follow the SEO content structure in gotcha
-                           #15 (direct-answer H2, H2/H3 depth, a real
-                           unique-angle section, title/excerpt length
-                           budgets) rather than free-writing it.
+                           icon plus a `BlogContentBlock[]` body and an
+                           optional `faqs?: BlogFaq[]`), `authorBios`
+                           (added 2026-08-24, a one-line credential per
+                           author name rendered under the byline, sourced
+                           from the real founder facts on `/about`), and
+                           the filter/pagination helpers
+                           `getPostsByCategory`, `getRelatedPosts`,
+                           `clampPage`, `paginatePosts`. Add a new post
+                           here, not by hand-editing a page, and follow
+                           the full process in gotcha #18 (research,
+                           outline, gotcha #15's content structure, 5-8
+                           in-content links per gotcha #17, an FAQ section
+                           when it earns one, an EEAT self-review, then
+                           title/meta options) rather than free-writing
+                           it.
   related-pages.ts        `getRelatedLinkGroups()` and the curated
                            `crossFamilyPairs` map behind the RelatedLinks
                            cross-link block (see gotcha #11). Add a pairing
