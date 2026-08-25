@@ -701,50 +701,37 @@ main..<current-branch>` before committing unrelated work to whatever
     no internal linking, treat gotcha #17 as the current, correct
     behavior instead.
 
-    **Rollout status as of 2026-08-24: 15 of 25 posts have been brought
-    fully up to this standard for in-content links and an FAQ section,
-    the other 10 have neither yet.** Done: `how-to-outsource-qa-testing`
-    (the pilot), `qa-process-setup-series-a-startups`,
-    `regression-testing-checklist`, `when-to-hire-qa-consultant`,
-    `test-automation-roi`, `qa-maturity-model`,
-    `api-testing-best-practices`, `agile-qa-sprint-cycles`,
-    `playwright-cicd-integration`, `in-house-vs-outsourced-qa`,
-    `how-we-reduced-escaped-defects`, `playwright-vs-selenium-2026`,
-    `manual-exploratory-testing`, `how-we-reached-95-percent-coverage`,
-    and `how-we-supported-1b-in-revenue`. Still pending:
-    `qa-strategy-for-ai-generated-code`,
-    `shift-left-vs-shift-right-testing`, `ai-powered-test-generation`,
-    `self-healing-test-automation`, `how-ai-is-changing-qa-hiring`,
-    `staff-augmentation-vs-embedded-qa`, `how-to-test-ai-features`,
-    `test-data-management-best-practices`,
-    `what-18-years-of-qa-experience-looks-like`, and
-    `the-pattern-behind-every-successful-qa-engagement`. The one
-    exception to all of this is the author bio line, that lives in the
-    shared `BlogPostHeader` template keyed only by `post.author` (one of
-    two names), so it already renders on every post automatically,
-    nothing per-post to add. Don't assume a post has links or an FAQ
-    just because the rule is documented, check the specific post before
-    claiming it complies. This list is a snapshot, not a live source,
-    check `faqs` presence in `blog-data.ts` directly for the current
-    state rather than trusting this count blindly.
+    **Rollout status as of 2026-08-25: all 25 posts are brought up to
+    this standard for in-content links and an FAQ section.** The rollout
+    ran as a checklist-driven, one-post-at-a-time pass across two
+    sessions (2026-08-24 and 2026-08-25), see
+    [[project-gogreenlit-rebuild]] for the full narrative and
+    [[feedback-sequential-checklist-work]] for the working method. The
+    author bio line lives in the shared `BlogPostHeader` template keyed
+    only by `post.author`, so it already rendered on every post
+    automatically throughout, nothing per-post was needed for that piece.
+    A future post (new or substantially rewritten) still needs this
+    standard applied deliberately, don't assume it happens automatically
+    just because the rest of the catalog complies, check `faqs` presence
+    and in-content links in `blog-data.ts` directly for that specific
+    post rather than trusting this note as a live source.
 
-    **A pattern specific to the 3 case-study posts done so far**
+    **A pattern specific to the 5 case-study posts**
     (`how-we-reduced-escaped-defects`, `how-we-reached-95-percent-coverage`,
-    `how-we-supported-1b-in-revenue`): unlike the how-to and comparison
-    posts, these do not benefit from competitor-gap research, since the
-    content is a real internal narrative, not a competable topic. The
-    real work is linking each step of the narrative to the real service
-    page it corresponds to (an audit step to
-    `/qa-consulting/qa-audit-assessment`, a regression step to
-    `/software-testing-services/regression-testing`, and so on), plus
+    `how-we-supported-1b-in-revenue`, `what-18-years-of-qa-experience-looks-like`,
+    `the-pattern-behind-every-successful-qa-engagement`): unlike the
+    how-to and comparison posts, these did not benefit from
+    competitor-gap research, since the content is a real internal
+    narrative, not a competable topic. The real work was linking each
+    step of the narrative to the real service page it corresponds to (an
+    audit step to `/qa-consulting/qa-audit-assessment`, a regression step
+    to `/software-testing-services/regression-testing`, and so on), plus
     cross-linking the sibling case studies and
     `/blog/the-pattern-behind-every-successful-qa-engagement` so the
     result reads as one observed pattern across engagements rather than
-    an isolated, unverifiable outlier. The remaining 2 case studies,
-    `what-18-years-of-qa-experience-looks-like` and
-    `the-pattern-behind-every-successful-qa-engagement`, should follow
-    the same approach, not the competitor-research-first approach used
-    for the how-to posts.
+    an isolated, unverifiable outlier. Apply this same approach, not the
+    competitor-research-first approach used for the how-to posts, to any
+    future case-study post.
 
 ## Repository structure
 
