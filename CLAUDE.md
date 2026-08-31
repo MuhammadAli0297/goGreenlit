@@ -733,6 +733,33 @@ main..<current-branch>` before committing unrelated work to whatever
     competitor-research-first approach used for the how-to posts, to any
     future case-study post.
 
+19. **The unfiltered blog index never shows two same-category posts back
+    to back, by design, not by accident of insertion order.** Added
+    2026-08-31 once the catalog reached 35 posts across 5 categories,
+    Muhammad said the color-coded cards read better with categories
+    mixed than clustered and asked for this as a standing rule going
+    forward, not a one-time reshuffle. `interleaveByCategory()` in
+    `src/lib/blog-data.ts` round-robins through `blogCategories` in its
+    fixed order, pulling one post per category per pass, which
+    guarantees zero adjacent duplicates whenever no single category
+    holds more than half the total (true today at an even 7-per-category
+    split, and the safe general case for any reasonably balanced future
+    split). `src/app/blog/page.tsx` calls it only for the unfiltered "all
+    categories" view (`category ? posts : interleaveByCategory(posts)`),
+    a single-category filtered view is already one color throughout, so
+    interleaving it would be a no-op. This only reorders the _display_
+    list, `blogPosts` itself and `getPostsByCategory()`'s own return
+    order are untouched, so `sitemap.ts`, `getRelatedPosts()`, and
+    anything else reading `blogPosts` directly still sees the original
+    catalog order. Covered by 3 unit tests in `blog-data.test.ts`
+    (`interleaveByCategory` describe block): no adjacent duplicates
+    across the real catalog, no post dropped or duplicated, and a
+    single-category input passes through unchanged. If a future category
+    ever holds more than half of all posts, this algorithm degrades
+    gracefully (adjacent duplicates become possible only in that
+    category's own overflow, it will not crash or drop posts), that
+    edge case has not been hit yet and does not need a fix pre-emptively.
+
 ## Repository structure
 
 ```
@@ -809,12 +836,18 @@ src/app/                  Routes (App Router). Keep page files thin,
                             `blog-data.ts`, three rows of three at the `lg`
                             breakpoint), and pagination, all
                             driven by `?category=`/`?page=` searchParams,
-                            no client state (see gotcha #9). Page-scoped
-                            Blog and BreadcrumbList (2-item) JSON-LD
-                            blocks (gotcha #12).
+                            no client state (see gotcha #9). The
+                            unfiltered "all categories" view runs posts
+                            through `interleaveByCategory()` before
+                            paginating (gotcha #19), so no two adjacent
+                            cards share a category; a filtered view skips
+                            it since it is already single-category.
+                            Page-scoped Blog and BreadcrumbList (2-item)
+                            JSON-LD blocks (gotcha #12).
     [slug]/page.tsx         Post template, `generateStaticParams` over all
-                            slugs in blog-data.ts (12 posts at launch,
-                            25 as of 2026-08-23, see gotcha #16),
+                            slugs in blog-data.ts (12 posts at launch, 25
+                            as of 2026-08-23, 35 as of 2026-08-31, see
+                            gotchas #16 and #19),
                             `notFound()` on an unknown slug. Uses
                             BlogPostHeader, not BlogHero/PageHero (gotcha
                             #9), plus ArticleBody, BlogRelatedPosts (same
@@ -941,10 +974,15 @@ src/lib/
   blog-data.ts            All blog content and category data (see gotcha
                            #9): `blogCategories` (5, each mapped to a
                            chart-N token via `colorClass`/`borderClass`/
-                           `tintClass`), `blogPosts` (25, each a
+                           `tintClass`), `blogPosts` (35 as of 2026-08-31,
+                           an even 7 per category, each a
                            title/excerpt/category/author/date/readTime/
                            icon plus a `BlogContentBlock[]` body and an
-                           optional `faqs?: BlogFaq[]`), `authorBios`
+                           optional `faqs?: BlogFaq[]`),
+                           `interleaveByCategory()` (added 2026-08-31,
+                           gotcha #19, round-robins the unfiltered blog
+                           index so same-category posts never sit
+                           adjacent), `authorBios`
                            (added 2026-08-24, a one-line credential per
                            author name rendered under the byline, sourced
                            from the real founder facts on `/about`), and
@@ -1070,9 +1108,9 @@ repo already handle well.
   This is as much an SEO requirement as a code convention: a page with no
   title or description does not get indexed well.
 - Keep `sitemap.ts` and `robots.ts` in sync with the actual route list.
-  42 marketing routes today (`/`, `/software-testing-services` and its
+  52 marketing routes today (`/`, `/software-testing-services` and its
   six subpages, `/qa-consulting` and its six subpages, `/about`, `/blog`
-  and its 25 `/blog/[slug]` posts, see the repository structure above), a
+  and its 35 `/blog/[slug]` posts, see the repository structure above), a
   new page needs an entry in `sitemap.ts` too. Don't trust this number
   blindly, check `src/app/`, `blog-data.ts`, and `sitemap.ts` directly
   since another page or post has likely been added since this was

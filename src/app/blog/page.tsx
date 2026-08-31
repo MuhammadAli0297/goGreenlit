@@ -12,6 +12,7 @@ import {
   getCategoryBySlug,
   getPostsByCategory,
   getTotalPages,
+  interleaveByCategory,
   paginatePosts,
 } from "@/lib/blog-data";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
@@ -65,9 +66,12 @@ export default async function BlogPage({
   const params = await searchParams;
   const category = getCategoryBySlug(params.category);
   const posts = getPostsByCategory(category?.slug);
-  const totalPages = getTotalPages(posts.length);
+  // Only the unfiltered "all categories" view mixes categories, a
+  // filtered view is already single-category throughout.
+  const displayPosts = category ? posts : interleaveByCategory(posts);
+  const totalPages = getTotalPages(displayPosts.length);
   const currentPage = clampPage(Number(params.page ?? 1), totalPages);
-  const pagePosts = paginatePosts(posts, currentPage);
+  const pagePosts = paginatePosts(displayPosts, currentPage);
 
   return (
     <>
