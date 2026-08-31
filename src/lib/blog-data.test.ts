@@ -10,6 +10,7 @@ import {
   getPostsByCategory,
   getRelatedPosts,
   getTotalPages,
+  interleaveByCategory,
   paginatePosts,
 } from "@/lib/blog-data";
 
@@ -49,6 +50,31 @@ describe("getPostsByCategory", () => {
 
   it("falls back to every post for an unknown category", () => {
     expect(getPostsByCategory("not-a-category")).toHaveLength(blogPosts.length);
+  });
+});
+
+describe("interleaveByCategory", () => {
+  it("never places two posts from the same category next to each other", () => {
+    const interleaved = interleaveByCategory(blogPosts);
+    for (let i = 1; i < interleaved.length; i++) {
+      const current = interleaved[i];
+      const previous = interleaved[i - 1];
+      expect(current?.category).not.toBe(previous?.category);
+    }
+  });
+
+  it("preserves every post with none dropped or duplicated", () => {
+    const interleaved = interleaveByCategory(blogPosts);
+    expect(interleaved).toHaveLength(blogPosts.length);
+    expect(new Set(interleaved.map((post) => post.slug)).size).toBe(
+      blogPosts.length,
+    );
+  });
+
+  it("handles a single-category input without dropping posts", () => {
+    const singleCategory = getPostsByCategory("case-studies");
+    const interleaved = interleaveByCategory(singleCategory);
+    expect(interleaved).toHaveLength(singleCategory.length);
   });
 });
 
