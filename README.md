@@ -15,16 +15,24 @@ a production build, and end-to-end tests.
 ![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
 [![CI](https://img.shields.io/github/actions/workflow/status/MuhammadAli0297/goGreenlit/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/MuhammadAli0297/goGreenlit/actions)
 
-<table>
-<tr>
-<td width="60%"><img src="public/readme/home-hero.png" alt="Homepage hero with animated aurora background" /></td>
-<td width="40%"><img src="public/readme/home-mobile.png" alt="Responsive mobile navigation" /></td>
-</tr>
-<tr>
-<td><img src="public/readme/qa-consulting.png" alt="QA Consulting page, a visually distinct page family" /></td>
-<td><img src="public/readme/blog-index.png" alt="Blog index with category-based color coding" /></td>
-</tr>
-</table>
+<p align="center">
+  <img src="public/readme/home-hero.png" width="100%" alt="Homepage hero with animated aurora background" />
+  <br />
+  <sub>Homepage hero: animated aurora background, always fills exactly one viewport</sub>
+</p>
+
+<p align="center">
+  <img src="public/readme/home-mobile.png" width="260" alt="Mobile hamburger nav drawer" />
+  <br />
+  <sub>Mobile hamburger nav drawer</sub>
+</p>
+
+<p align="center">
+  <img src="public/readme/qa-consulting.png" width="48%" alt="QA Consulting page, a visually distinct page family" />
+  <img src="public/readme/blog-index.png" width="48%" alt="Blog index with category-based color coding" />
+  <br />
+  <sub>QA Consulting, a visually distinct page family&nbsp;&nbsp;·&nbsp;&nbsp;Blog index with category color coding</sub>
+</p>
 
 ## What this project is
 
