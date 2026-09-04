@@ -3,8 +3,8 @@
 **A production marketing + content site, live at [gogreenlit.com](https://www.gogreenlit.com).**
 
 Built solo with Next.js 16, TypeScript, and Tailwind CSS v4. 17 hand-built
-page templates plus a templated blog engine generating 25 long-form
-posts, 42 total indexed routes, full technical SEO (structured data,
+page templates plus a templated blog engine generating 40 long-form
+posts, 57 total indexed routes, full technical SEO (structured data,
 sitemaps, redirects), a custom scroll-driven animation system, and a
 CI/CD pipeline that gates every merge on lint, typecheck, unit tests,
 a production build, and end-to-end tests.
@@ -58,7 +58,7 @@ like the hero's shrink-on-scroll, bypassing React re-renders entirely
 for performance. Every animation has a `prefers-reduced-motion`
 fallback.
 
-**A typed content model instead of a CMS.** All 25 blog posts live as
+**A typed content model instead of a CMS.** All 40 blog posts live as
 structured TypeScript data (`src/lib/blog-data.ts`), not MDX or a
 headless CMS, a deliberate choice after trying MDX and removing it. Post
 bodies are a discriminated union of content blocks (`paragraph`,
@@ -124,13 +124,13 @@ reintroduced later.
 ## By the numbers
 
 - **17** hand-built page templates across 4 distinct page families, plus
-  a blog engine generating **25** long-form posts, **42** total indexed
+  a blog engine generating **40** long-form posts, **57** total indexed
   routes
-- **17** unit tests and a **3**-scenario Playwright end-to-end suite,
+- **20** unit tests and a **3**-scenario Playwright end-to-end suite,
   both required to pass in CI before merge
 - **Zero** runtime animation dependencies, every motion effect is pure
   CSS or a native browser API
-- **~70KB** internal engineering doc (`CLAUDE.md`) documenting every
+- **~72KB** internal engineering doc (`CLAUDE.md`) documenting every
   non-obvious architectural decision and gotcha hit along the way, kept
   current as the source of truth for how the codebase actually works
 
