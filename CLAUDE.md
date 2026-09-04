@@ -846,8 +846,8 @@ src/app/                  Routes (App Router). Keep page files thin,
                             JSON-LD blocks (gotcha #12).
     [slug]/page.tsx         Post template, `generateStaticParams` over all
                             slugs in blog-data.ts (12 posts at launch, 25
-                            as of 2026-08-23, 35 as of 2026-08-31, see
-                            gotchas #16 and #19),
+                            as of 2026-08-23, 35 as of 2026-08-31, 40 as
+                            of 2026-09-04, see gotchas #16 and #19),
                             `notFound()` on an unknown slug. Uses
                             BlogPostHeader, not BlogHero/PageHero (gotcha
                             #9), plus ArticleBody, BlogRelatedPosts (same
@@ -974,8 +974,8 @@ src/lib/
   blog-data.ts            All blog content and category data (see gotcha
                            #9): `blogCategories` (5, each mapped to a
                            chart-N token via `colorClass`/`borderClass`/
-                           `tintClass`), `blogPosts` (35 as of 2026-08-31,
-                           an even 7 per category, each a
+                           `tintClass`), `blogPosts` (40 as of 2026-09-04,
+                           an even 8 per category, each a
                            title/excerpt/category/author/date/readTime/
                            icon plus a `BlogContentBlock[]` body and an
                            optional `faqs?: BlogFaq[]`),
@@ -1108,9 +1108,9 @@ repo already handle well.
   This is as much an SEO requirement as a code convention: a page with no
   title or description does not get indexed well.
 - Keep `sitemap.ts` and `robots.ts` in sync with the actual route list.
-  52 marketing routes today (`/`, `/software-testing-services` and its
+  57 marketing routes today (`/`, `/software-testing-services` and its
   six subpages, `/qa-consulting` and its six subpages, `/about`, `/blog`
-  and its 35 `/blog/[slug]` posts, see the repository structure above), a
+  and its 40 `/blog/[slug]` posts, see the repository structure above), a
   new page needs an entry in `sitemap.ts` too. Don't trust this number
   blindly, check `src/app/`, `blog-data.ts`, and `sitemap.ts` directly
   since another page or post has likely been added since this was
