@@ -196,7 +196,8 @@ Live in `src/app/globals.css`.
    back up. It uses the hero `<section>`'s own rendered height (via
    `closest("section")`) as the scroll range, not a fixed viewport
    fraction, since `PageHero` is shorter and content-driven, unlike the
-   homepage hero's fixed `min-h-[85vh]`. CTAs live outside the zoom
+   homepage hero's fixed `min-h-[calc(100dvh-4rem)]` (full viewport height
+   minus the sticky header's `h-16`, see gotcha #20). CTAs live outside the zoom
    wrapper so they stay normal-sized and clickable at any scroll
    position. A third scroll-linked instance exists now too:
    `BlogHeroScroll` (`src/components/marketing/blog-hero-scroll.tsx`),
@@ -296,29 +297,62 @@ Live in `src/app/globals.css`.
    and check contrast on any new pairing rather than assuming a swatch
    that worked elsewhere works here too (see BRAND_GUIDELINES.md §4).
 
-8. **The header nav has no mobile hamburger/drawer, it's hand-squeezed to
-   fit every top-level entry at once, and that squeeze is at its
-   practical limit now.** `site-header.tsx` shrinks the logo, nav item
-   padding/font-size, and the "Book a call" button size below the `sm`
-   breakpoint to fit four top-level entries (`Services`, `QA Consulting`,
-   `About`, `Blog`) without wrapping or overflowing down to a 320px
-   viewport. `NavItem` (in `site-config.ts`) has two escape hatches for
-   this: `overviewLabel` (custom text for the dropdown's link back to its
-   own overview page, defaults to `"All {label}"`) and `shortLabel` (an
-   abbreviated label shown only below `sm`, e.g. `"QA"` for
-   `"QA Consulting"`, defaults to the full `label`). Adding `Blog` as a
-   fourth entry overflowed at 360px (confirmed via a Playwright
-   `document.documentElement.scrollWidth` check, not eyeballing a desktop
-   viewport) even with `shortLabel` already in place, so closing the gap
-   took more than that one lever: nav item horizontal padding dropped to
-   `px-0` below `sm` (spacing now comes from a `gap-1.5` on the `<nav>`
-   itself instead), the logo's gap/text size shrank further, and the
-   "Book a call" button swaps to a `CalendarClock` icon with `sr-only`
-   text below `sm` instead of shrinking the label text, since the label
-   was already as short as it could usefully get. If a fifth top-level
-   entry is ever added and none of these levers close the gap, that's the
-   actual signal to build a real mobile drawer/hamburger menu, not
-   another round of shrinking padding.
+8. **The header nav is a real hamburger/drawer below `sm`, not a
+   hand-squeezed row.** Before 2026-09-04 the header shrank the logo, nav
+   item padding/font-size, and the "Book a call" button below `sm` to
+   cram all four top-level entries (`Services`, `QA Consulting`, `About`,
+   `Blog`) into one row without wrapping, down to a 320px viewport (see
+   the memory record if curious about that era's specific squeeze
+   levers). That approach was explicitly replaced, not extended further,
+   once asked for a proper mobile drawer instead of another squeeze
+   round. Current shape: `site-header.tsx` renders the full desktop
+   `NavigationMenu` row plus a normal-sized `Logo` and "Book a call"
+   button inside a `hidden sm:flex` wrapper, and `MobileNav`
+   (`src/components/layout/mobile-nav.tsx`, a small `"use client"`
+   component) inside a `sm:hidden` wrapper, so exactly one of the two
+   renders at any width, there is no longer a squeezed third state
+   in between. `MobileNav` is a shadcn `Sheet` (`src/components/ui/
+sheet.tsx`, Base UI's `Dialog` under the hood, added via
+   `npx shadcn@latest add sheet`) sliding in from the right: the sheet's
+   own local `open` state is lifted into the component so every nav Link
+   and the "Book a call" link can call `setOpen(false)` on click,
+   otherwise the drawer would stay open after navigating. Subpage groups
+   (`Services`, `QA Consulting`, `Blog`, anything with `NavItem.items`)
+   reuse the existing `Accordion` primitive rather than a bespoke
+   collapsible, consistent with "no new pattern below 3 call sites,"
+   Base UI's Accordion defaults to single-open/collapsible behavior with
+   no `type`/`collapsible` props to set (unlike Radix's Accordion API,
+   don't reach for those prop names here). One real style leak from
+   reusing `AccordionContent`: its default inner wrapper applies
+   `[&_a]:underline` to every descendant `<a>` (built for FAQ prose
+   links), which is higher specificity than a plain utility class on the
+   link itself, so a normal `no-underline` override loses to it. Fixed
+   with the Tailwind v4 trailing-bang important modifier,
+   `no-underline!`, on every nav Link inside the accordion, not by
+   editing the generated `accordion.tsx`. Also fixed along the way: the
+   shadcn CLI's generated `sheet.tsx` imports `cn` from a literal
+   package named `"cn"` instead of this project's own `@/lib/utils`
+   (every other generated primitive does the latter), which the CLI also
+   silently installs as a real dependency, remove it
+   (`npm uninstall cn`) and fix the import by hand after running
+   `add sheet`, don't leave the stray package or the wrong import in
+   place. `NavItem.shortLabel` (the old below-`sm` abbreviated label
+   escape hatch, e.g. `"QA"` for `"QA Consulting"`) is gone entirely,
+   nothing renders a shrunk label anymore since the mobile drawer always
+   shows full labels. `overviewLabel` is still live, both the desktop
+   dropdown and the mobile accordion use it for the "link back to the
+   overview page" row. **A real Playwright-testing gotcha hit while
+   verifying this**: clicking a Link inside a still-animating
+   `AccordionContent` panel can silently "succeed" (no thrown error, no
+   strict-mode violation) while actually navigating nowhere, a
+   real click landed mid-height-transition can resolve to the wrong
+   effective target even though the locator's bounding box and href both
+   check out correctly in isolation. Fixed the same way gotcha #5's
+   screenshot-methodology note already prescribes for `Reveal`:
+   `page.emulateMedia({ reducedMotion: "reduce" })` before interacting,
+   not a longer arbitrary `waitForTimeout`. If a fifth top-level nav
+   entry is ever added, it just becomes one more row inside the drawer,
+   there is no width constraint left to re-check.
 9. **The blog (`src/app/blog/`) has no MDX and no client-side filter
    state, both deliberate.** MDX was tried and removed earlier in this
    project (see the memory record if curious), so post bodies are plain
@@ -759,6 +793,57 @@ main..<current-branch>` before committing unrelated work to whatever
     gracefully (adjacent duplicates become possible only in that
     category's own overflow, it will not crash or drop posts), that
     edge case has not been hit yet and does not need a fix pre-emptively.
+20. **The homepage hero always fills exactly one screen, header included,
+    on any device, and that is a deliberate height calculation, not a
+    round number.** Added 2026-09-05 on direct request ("the hero should
+    always take up the entire web page no matter what size the screen
+    is"), replacing the previous fixed `min-h-[85vh]` (which left a
+    visible sliver of the next section on load). `hero.tsx`'s content
+    wrapper uses `min-h-[calc(100dvh-4rem)]`, `100dvh` (dynamic viewport
+    height, not `100vh`) because `100vh` on mobile Safari/Chrome does not
+    account for the address bar showing or hiding, a well-documented
+    source of mobile hero sections that overflow or leave a gap; `4rem`
+    is the sticky header's own `h-16`, subtracted so header plus hero
+    together equal exactly one viewport, not the hero alone plus a
+    header's worth of extra scroll. Verified by measuring
+    `header.getBoundingClientRect().height + section.getBoundingClientRect().height`
+    against the real viewport height in Playwright across desktop,
+    laptop, and phone sizes, not by eyeballing a screenshot, since a 1px
+    rounding difference is invisible to the eye but would fail a strict
+    equality check.
+
+    **A real content-overflow gap surfaced immediately, and was fixed as
+    a deliberate follow-up, not folded into the same change blindly.** On
+    a short viewport (a phone in portrait under roughly 700px tall, or
+    any phone in landscape), the hero's actual content, badge, headline,
+    paragraph, two buttons, is taller than the available space, since
+    `min-height` only sets a floor and content pushes past it when it
+    does not fit. Multiple fix options were weighed before picking one
+    (shrink text globally, drop the fullscreen constraint on short
+    screens, or shrink padding/hide non-essential content only when
+    short): the chosen fix is a **height-based** Tailwind arbitrary
+    variant, `[@media(max-height:700px)]:...`, applied only to spacing
+    and the badge, never the headline's font size, so the headline stays
+    full-size and visually anchoring on every device, and normal-height
+    devices (including a 1280x720 laptop, deliberately checked since 720
+    sits just above the 700px cutoff) render byte-for-byte identically to
+    before. Below that cutoff: the badge pill (`No long-term contracts,
+founder-embedded from day one`) hides entirely via
+    `[@media(max-height:700px)]:hidden`, and `py-24`/`mt-6`/`mt-10` each
+    compress to a smaller value at the same breakpoint. This closes most
+    of the gap on a real short phone (iPhone SE portrait went from a
+    232px overflow to 48px) but does not fully eliminate it on an extreme
+    case like a phone rotated to landscape (423px down to 239px), an
+    explicitly accepted tradeoff of the "never shrink the headline"
+    decision, not an oversight, don't try to silently close that last gap
+    with a font-size reduction without checking that decision again
+    first. This is the first height-based (rather than width-based)
+    responsive breakpoint anywhere on the site, reach for the same
+    `[@media(max-height:...)]:` pattern for a future short-viewport
+    problem rather than inventing a different mechanism, but combine it
+    with a width variant too (e.g. `max-sm:[@media(max-height:700px)]:`)
+    if the future case, unlike this one, should not also apply to a short
+    but wide desktop window.
 
 ## Repository structure
 
@@ -891,8 +976,9 @@ src/components/
   layout/                 Site chrome: header (site-header.tsx renders a
                            dropdown via NavigationMenu for any navItems
                            entry with nested items, a plain Link
-                           otherwise, and hand-squeezes both for mobile,
-                           see gotcha #8), footer (site-footer.tsx renders
+                           otherwise, desktop-only below `sm`; mobile-nav.tsx
+                           renders the same nav as a Sheet drawer for
+                           `sm`-and-below, see gotcha #8), footer (site-footer.tsx renders
                            link columns for every navItems entry that
                            carries subpages, plus a Company column for
                            About/Blog/Book a call, built from siteConfig.nav
@@ -964,13 +1050,13 @@ src/lib/
                            copy, founders, location, links (email, booking
                            calendar), and `navItems` (typed as `NavItem[]`,
                            each entry optionally carrying a nested `items`
-                           array that renders as a header dropdown, an
-                           `overviewLabel` for that dropdown's link back
-                           to its own overview page, and a `shortLabel`
-                           shown below the `sm` breakpoint when the full
-                           label doesn't fit, see gotcha #8 and
-                           site-header.tsx), add a new page's header link
-                           there, don't hardcode it in site-header.tsx
+                           array that renders as a header dropdown (desktop)
+                           or an accordion group (mobile drawer), and an
+                           `overviewLabel` for that group's link back to
+                           its own overview page, see gotcha #8,
+                           site-header.tsx, and mobile-nav.tsx), add a new
+                           page's header link there, don't hardcode it in
+                           site-header.tsx or mobile-nav.tsx
   blog-data.ts            All blog content and category data (see gotcha
                            #9): `blogCategories` (5, each mapped to a
                            chart-N token via `colorClass`/`borderClass`/

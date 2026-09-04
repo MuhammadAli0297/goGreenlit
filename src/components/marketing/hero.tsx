@@ -12,10 +12,10 @@ export function Hero() {
     <HeroScrollShrink className="relative overflow-hidden bg-[#354639]">
       <AuroraBackground />
 
-      <div className="relative mx-auto flex min-h-[85vh] max-w-6xl flex-col items-center justify-center px-4 py-24 text-center sm:px-6 lg:px-8">
+      <div className="relative mx-auto flex min-h-[calc(100dvh-4rem)] max-w-6xl flex-col items-center justify-center px-4 py-24 text-center sm:px-6 lg:px-8 [@media(max-height:700px)]:py-10">
         <Badge
           variant="secondary"
-          className="mb-6 gap-1.5 border border-[#ffe0ad]/15 bg-[#ffe0ad]/10 text-[#ffe0ad]"
+          className="mb-6 gap-1.5 border border-[#ffe0ad]/15 bg-[#ffe0ad]/10 text-[#ffe0ad] [@media(max-height:700px)]:hidden"
         >
           <span className="inline-block size-1.5 animate-pulse rounded-full bg-[#ee9e58]" />
           No long-term contracts, founder-embedded from day one
@@ -28,11 +28,11 @@ export function Hero() {
           </span>
         </h1>
 
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-balance text-[#f9f4eb]/75">
+        <p className="mx-auto mt-6 max-w-2xl text-lg text-balance text-[#f9f4eb]/75 [@media(max-height:700px)]:mt-3">
           {siteConfig.description}
         </p>
 
-        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row [@media(max-height:700px)]:mt-6">
           <Link
             href={siteConfig.links.calendar}
             className={cn(
