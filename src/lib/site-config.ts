@@ -5,8 +5,6 @@ export interface NavItem {
   items?: readonly { label: string; href: string }[];
   /** Label for the dropdown's link back to `href` itself. Defaults to "All {label}" in SiteHeader if omitted. */
   overviewLabel?: string;
-  /** Shorter label shown below the `sm` breakpoint, where the header has no room for every full label at once. Defaults to `label`. */
-  shortLabel?: string;
 }
 
 /**
@@ -49,7 +47,6 @@ export const navItems: NavItem[] = [
   },
   {
     label: "QA Consulting",
-    shortLabel: "QA",
     href: "/qa-consulting",
     overviewLabel: "QA consulting overview",
     items: [
