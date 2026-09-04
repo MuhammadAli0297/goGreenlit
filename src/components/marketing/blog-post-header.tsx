@@ -1,7 +1,7 @@
-import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
+import { BackToBlogLink } from "@/components/marketing/back-to-blog-link";
 import { authorBios, getCategoryBySlug, type BlogPost } from "@/lib/blog-data";
 import { cn } from "@/lib/utils";
 
@@ -23,13 +23,7 @@ export function BlogPostHeader({ post }: { post: BlogPost }) {
   return (
     <header className="border-border/60 border-b">
       <div className="mx-auto max-w-3xl px-4 pt-12 pb-10 sm:px-6 lg:px-8">
-        <Link
-          href="/blog"
-          className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm font-medium"
-        >
-          <ArrowLeft className="size-4" />
-          Back to the blog
-        </Link>
+        <BackToBlogLink />
 
         <div className="mt-6 flex items-center gap-3">
           <div
