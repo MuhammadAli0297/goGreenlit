@@ -70,7 +70,6 @@ const structuredData = {
     "Selenium test automation",
     "API and data testing",
     "QA strategy consulting",
-    "Website testing",
     "Regression testing",
     "Mobile app testing",
     "QA audit and assessment",
