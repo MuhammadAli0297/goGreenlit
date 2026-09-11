@@ -67,6 +67,11 @@ export default async function BlogPostPage({
     description: post.excerpt,
     image: `${siteConfig.url}/blog/${post.slug}/opengraph-image`,
     datePublished: post.date,
+    // No separate "last edited" field exists in the data model, `date`
+    // is already bumped whenever a post's content meaningfully changes
+    // (see CLAUDE.md gotcha #15), so it is the real, honest value for
+    // both fields, not a fabricated freshness signal.
+    dateModified: post.date,
     author: {
       "@type": "Person",
       name: post.author,
@@ -74,6 +79,12 @@ export default async function BlogPostPage({
     publisher: {
       "@type": "Organization",
       name: siteConfig.name,
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteConfig.url}/apple-icon`,
+        width: 180,
+        height: 180,
+      },
     },
     mainEntityOfPage: `${siteConfig.url}/blog/${post.slug}`,
   };

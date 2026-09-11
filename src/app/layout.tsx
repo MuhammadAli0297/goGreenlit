@@ -40,13 +40,25 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.metaDescription,
     siteName: siteConfig.name,
-    images: [{ url: siteConfig.ogImage }],
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: siteConfig.ogImageWidth,
+        height: siteConfig.ogImageHeight,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.metaDescription,
-    images: [siteConfig.ogImage],
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: siteConfig.ogImageWidth,
+        height: siteConfig.ogImageHeight,
+      },
+    ],
   },
 };
 
@@ -57,6 +69,8 @@ const structuredData = {
   url: siteConfig.url,
   email: siteConfig.email,
   description: siteConfig.metaDescription,
+  logo: `${siteConfig.url}/apple-icon`,
+  sameAs: siteConfig.sameAs,
   areaServed: "Remote",
   address: {
     "@type": "PostalAddress",

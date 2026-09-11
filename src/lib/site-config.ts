@@ -120,9 +120,14 @@ export const siteConfig = {
   },
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.gogreenlit.com",
   ogImage: "/og-image.png",
+  /** public/og-image.png's real rendered dimensions (see CLAUDE.md gotcha #13), so social crawlers don't have to fetch the image before laying out a preview card. */
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
   email: "gogreenlit@gmail.com",
   links: {
     calendar: "https://calendly.com/gogreenlit/30min",
   },
+  /** Real, actively-maintained external profile URLs for the Organization schema's `sameAs` field. Only add a profile here once it actually exists and is maintained. */
+  sameAs: ["https://www.linkedin.com/company/gogreenlit/"],
   nav: navItems,
 } as const;
