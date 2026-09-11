@@ -52,6 +52,17 @@ export type BlogCategorySlug =
 export interface BlogCategory {
   slug: BlogCategorySlug;
   label: string;
+  /**
+   * A real, 150-160 character description of what this category covers,
+   * reused as both the category's filtered-view meta description and its
+   * on-page intro paragraph (see blog/page.tsx's generateMetadata and the
+   * category intro section rendered above BlogFilterPills), the same
+   * dual-purpose-copy pattern blog-post excerpts already use. Added so
+   * `/blog?category=slug` earns a
+   * unique, indexable identity instead of sharing the unfiltered index's
+   * title and description.
+   */
+  description: string;
   /** Literal Tailwind class referencing one of the theme's chart-N tokens, used as a small per-category color dot. Kept literal (not built from a template string) so Tailwind's build-time scan picks it up. */
   colorClass: string;
   /** Same chart-N token at full saturation, for borders/rings. Chart-2 through chart-5 fail text contrast against the card background (checked: 2.25:1, 1.75:1, 1.51:1, 1.47:1), so this is for decorative strokes only, never text. */
@@ -64,6 +75,8 @@ export const blogCategories: BlogCategory[] = [
   {
     slug: "qa-strategy",
     label: "QA Strategy",
+    description:
+      "QA strategy articles on test planning, coverage models, shift-left and shift-right testing, and how QA maturity gets built as an engineering team grows.",
     colorClass: "bg-[var(--chart-1)]",
     borderClass: "border-[var(--chart-1)]",
     tintClass: "bg-[var(--chart-1)]/10",
@@ -71,6 +84,8 @@ export const blogCategories: BlogCategory[] = [
   {
     slug: "test-automation",
     label: "Test Automation",
+    description:
+      "Test automation articles on Playwright, Selenium, CI/CD pipeline integration, and how to tell whether an automation suite is actually paying for itself.",
     colorClass: "bg-[var(--chart-2)]",
     borderClass: "border-[var(--chart-2)]",
     tintClass: "bg-[var(--chart-2)]/15",
@@ -78,6 +93,8 @@ export const blogCategories: BlogCategory[] = [
   {
     slug: "outsourcing-hiring",
     label: "Outsourcing & Hiring",
+    description:
+      "Outsourcing and hiring articles on when to bring in QA help, in-house versus outsourced testing, staff augmentation versus an embedded QA team, and real costs.",
     colorClass: "bg-[var(--chart-3)]",
     borderClass: "border-[var(--chart-3)]",
     tintClass: "bg-[var(--chart-3)]/15",
@@ -85,6 +102,8 @@ export const blogCategories: BlogCategory[] = [
   {
     slug: "testing-practices",
     label: "Testing Practices",
+    description:
+      "Testing practices articles on manual and exploratory testing, regression checklists, flaky test triage, accessibility testing, and test data management.",
     colorClass: "bg-[var(--chart-4)]",
     borderClass: "border-[var(--chart-4)]",
     tintClass: "bg-[var(--chart-4)]/15",
@@ -92,6 +111,8 @@ export const blogCategories: BlogCategory[] = [
   {
     slug: "case-studies",
     label: "Case Studies",
+    description:
+      "Real patterns from GoGreenlit's own embedded QA engagements: escaped defect reduction, release coverage, and what changes when QA gets embedded early.",
     colorClass: "bg-[var(--chart-5)]",
     borderClass: "border-[var(--chart-5)]",
     tintClass: "bg-[var(--chart-5)]/15",

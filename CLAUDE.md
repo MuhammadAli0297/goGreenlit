@@ -733,8 +733,8 @@ main..<current-branch>` before committing unrelated work to whatever
        post genuinely can be complete without it.
     6. **Add the one-line author bio.** `authorBios` in `blog-data.ts`
        keyed by `BlogPost["author"]`, rendered under the byline in
-       `BlogPostHeader`, sourced only from the real founder facts already
-       on `/about` (`src/app/about/page.tsx`'s `founders` array), never a
+       `BlogPostHeader`, sourced only from the real founder facts
+       centralized in `src/lib/founders.ts` (gotcha #28), never a
        new invented credential. This is what a byline alone does not do:
        it ties the claims in the post to a real, named role, an EEAT
        signal search engines and AI answer engines both weight.
@@ -940,18 +940,20 @@ signature wOF2` immediately, before variable-font support even
     an out-of-range `?page=` clamps to the same real last page in both
     the canonical tag and the rendered content, never a canonical
     pointing at a page that doesn't exist, then self-canonicalizes to
-    `/blog?page=N` only when unfiltered and `N > 1`. **`?category=` views
-    deliberately keep the bare `/blog` canonical at every page number,
-    that is not a bug to "fix" later**, it's the audit's own separate
-    opportunity-level finding (category views trade indexability for
-    avoiding duplicate-content risk from query-param combinations), a
-    decision to revisit only if category pages are ever given their own
-    real metadata identity, not something this pagination fix should
-    have touched. Any future paginated or filtered route on this site
-    should follow the same shape: `generateMetadata` reruns the
-    identical filter/clamp logic the page uses, and only the
+    `/blog?page=N` only when unfiltered and `N > 1`. **Update 2026-09-11:
+    `?category=` views now also self-canonicalize** (see gotcha #29),
+    reversing the "trade indexability for avoiding duplicate-content
+    risk" call this gotcha originally documented, once each category
+    had enough posts and real per-category copy to earn a genuine,
+    non-thin identity. If an older note anywhere still says category
+    views intentionally share the bare `/blog` canonical, gotcha #29 is
+    the current, correct behavior. Any future paginated or filtered
+    route on this site should follow the same shape: `generateMetadata`
+    reruns the identical filter/clamp logic the page uses, and only the
     dimension(s) actually meant to be indexable get a self-referencing
-    canonical.
+    canonical, real per-dimension metadata (title/description, not just
+    a canonical tag) is what actually earns that indexability, a
+    canonical alone doesn't fix thin content.
 
 24. **Sitewide security headers are set in `next.config.ts`'s `headers()`,
     with a deliberately simple `'unsafe-inline'` CSP, not a nonce-based
@@ -1036,6 +1038,117 @@ signature wOF2` immediately, before variable-font support even
     browser navigation), not the source file's line or word count,
     since JSX/props inflate a raw file count in a way that does not
     track visible copy.
+27. **`llms.txt` was evaluated 2026-09-11 and deliberately skipped, don't
+    build it on a future pass without re-checking the evidence first.**
+    It's a proposed (not standardized) convention for giving an LLM a
+    markdown map of a site, and was considered as one of the 2026-09-01
+    audit's four forward-looking opportunity items. Real research at the
+    time found: Google confirmed (July 2025, reiterated June 2026) it
+    has zero effect on Search rankings or AI Overviews and Search simply
+    ignores the file; no major AI vendor (OpenAI, Anthropic, Google,
+    Meta, Mistral) has committed to reading it in production crawl/search
+    systems; and real crawler logs show negligible uptake (408 requests
+    to `/llms.txt` out of 500M+ monitored AI bot visits over 90 days).
+    The one place it demonstrably helps is developer documentation sites,
+    where a coding agent is told to go read an API's docs and fetches
+    `llms.txt` as a curated table of contents for agentic retrieval, a
+    real, observed use case (Anthropic's and Cursor's own docs sites, via
+    Mintlify). GoGreenlit is a marketing/consulting site with no docs for
+    an agent to retrieve and act on, so that use case doesn't apply here.
+    This is a live-standards judgment call, not a permanent fact, if a
+    future session revisits this, re-check current adoption and vendor
+    support rather than trusting this note indefinitely, the point of
+    recording it is to save re-deriving the same research, not to freeze
+    the conclusion forever.
+28. **Founder identity (for `Person` schema) lives in one shared module,
+    `src/lib/founders.ts`, not duplicated across the pages that reference
+    it.** Added 2026-09-11 closing the "no `Person` schema for the two
+    named founders" opportunity finding. A bare `"author":
+{"@type":"Person","name":"..."}` (what every `BlogPosting` had before)
+    is a weak E-E-A-T signal, it asserts a name but proves nothing.
+    `founders.ts` exports `Founder` (slug, name, jobTitle, bio, initials,
+    avatarClassName, linkedin, real individually-owned profile URLs, never
+    fabricated) plus `buildFounderPersonSchema()` and `getFounderByName()`
+    (throws on an unknown name, there are exactly two valid authors and
+    that's an internal guarantee, not a scenario to defensively handle).
+    Consumed in three places so the same entity reinforces itself across
+    the site rather than living once on `/about`: the About page's
+    profile cards (which now import `founders` from here instead of
+    declaring a local array) plus a `@graph` array of `Person` JSON-LD;
+    the sitewide `Organization` schema in `layout.tsx` (a `founder` array,
+    the structural link Google's own documented Organization schema
+    recommends for founder-led companies); and every `BlogPosting`'s
+    `author` field (both founders write posts, see `blog-data.ts`'s
+    `author` union type). `Person.url` points at `/about#{slug}`, a real
+    anchor on each founder's card, which required adding an optional `id`
+    passthrough prop to the shared `Reveal` component
+    (`src/components/marketing/reveal.tsx`), non-breaking, every other
+    consumer omits it and gets the same behavior as before. If a third
+    founder or author is ever added, add them to `founders.ts` (with a
+    real LinkedIn URL or no `sameAs` at all, never a placeholder) and to
+    `BlogPost["author"]`'s union type, don't hand-write a `Person` object
+    inline anywhere.
+29. **Blog category views (`/blog?category=slug`) now self-canonicalize
+    with real, unique metadata and on-page copy, reversing the decision
+    gotcha #23 originally documented.** Added 2026-09-11 once the catalog
+    reached 8 posts per category, five genuine topical search intents
+    worth ranking for on their own, whereas at launch a category view had
+    no unique copy of its own and canonicalizing it to `/blog` was the
+    correct call to avoid indexing a thin duplicate. `BlogCategory`
+    (`blog-data.ts`) gained a `description` field, a real 150-160
+    character sentence per category, reused as both the filtered view's
+    meta description and its on-page intro paragraph (the same
+    dual-purpose-copy pattern blog post `excerpt` already established,
+    write it once, use it twice). `blog/page.tsx`'s `generateMetadata`
+    builds the canonical from a `URLSearchParams` carrying `category` and
+    (when present) `page`, in the same param order `BlogPagination`
+    already generates, title becomes `"{label} Articles"`, description
+    becomes the category's own. The page body renders a small `h2` +
+    `p` intro block (the category label and its description) above
+    `BlogFilterPills`, only when a category is active, since a canonical
+    tag alone doesn't fix thin content, the visible page needs to
+    actually differ too, that's what makes this a genuinely separate,
+    indexable page rather than the same content with a different meta
+    tag. Deliberately did **not** move to real static routes
+    (`/blog/category/[slug]`), that was considered and rejected as
+    disproportionate engineering effort (new routes, redirects from every
+    existing `?category=` link in the header nav and internal blog
+    copy, new `generateStaticParams`) for a 5-category blog at this
+    traffic stage, revisit only if the blog grows meaningfully larger or
+    external sites start linking to a category specifically. A new
+    category needs a real `description` written the same way, not a
+    placeholder, before it should be added.
+30. **Core Web Vitals field data needs Search Console or a CrUX API key,
+    neither reachable by Claude directly, `npx lighthouse` against the
+    live production URL is the fallback for lab data, not a permanent
+    dependency to add to `package.json`.** The PageSpeed Insights API
+    (`pagespeedonline.googleapis.com`) hit its daily quota on both
+    2026-09-01 and 2026-09-10/11, and even a working key only returns lab
+    data from that API's own single Lighthouse run server-side, not real
+    field data either. Genuine field data (what Google actually ranks on)
+    only comes from Search Console (needs the site owner's own Google
+    login, and the domain may not even be verified there yet, see the
+    still-deferred analytics finding) or the separate Chrome UX Report
+    API (`chromeuxreport.googleapis.com`, a different quota bucket, needs
+    a free API key generated in the user's own Google Cloud Console, and
+    even then may come back empty if the site doesn't have enough
+    real-world Chrome traffic to clear CrUX's inclusion threshold, a
+    real possibility for a smaller consulting site, not a failure if it
+    happens). When neither is available, run
+    `npx --yes lighthouse <url> --output=json --chrome-flags="--headless=new --no-sandbox" --only-categories=performance --preset=perf --form-factor=mobile --screenEmulation.mobile --quiet`
+    against the live URL, a one-off diagnostic tool call (same "use the
+    right tool once, don't add it as a dependency" pattern gotcha #21
+    already established for `fontTools`), and present the result clearly
+    labeled as lab data, a single synthetic run, not the field data
+    Google ranks on. 2026-09-11 baseline for future comparison: homepage
+    0.95 performance score / 2.3s LCP / 0.052 CLS / 20ms TBT, blog index
+    0.94 / 2.5s LCP (sitting right at the "Good" threshold's edge, the
+    one to watch first if the blog gets heavier) / 0.019 CLS / 20ms TBT,
+    a blog post 0.97 / 2.1s LCP / 0 CLS / 20ms TBT, QA Consulting overview
+    0.95 / 2.2s LCP / 0.062 CLS / 20ms TBT. All comfortably inside
+    Google's "Good" thresholds (LCP ≤2.5s, CLS ≤0.1) across every page
+    type sampled, no fix was needed, this gotcha exists to record the
+    measurement method and baseline, not a defect.
 
 ## Repository structure
 
@@ -1044,8 +1157,10 @@ src/app/                  Routes (App Router). Keep page files thin,
                           compose components, don't inline large JSX trees.
   layout.tsx              Root layout: self-hosted font, metadata (including
                           the homepage's own `alternates.canonical`, added
-                          2026-08-16, gotcha #14), JSON-LD structured data,
-                          header/footer shell
+                          2026-08-16, gotcha #14), JSON-LD structured data
+                          (the sitewide `ProfessionalService` block includes
+                          a `founder` array built from `src/lib/founders.ts`,
+                          added 2026-09-11, gotcha #28), header/footer shell
   fonts/                  Bespoke Serif woff2 files, loaded via
                           `next/font/local` in layout.tsx. Also two static
                           TTF instances (`BespokeSerif-OG-Regular.ttf`,
@@ -1118,9 +1233,14 @@ src/app/                  Routes (App Router). Keep page files thin,
                            cards (colored-initial avatars, on a Dark
                            Slate Grey bold section), an italic pull-quote,
                            and a typographic manifesto list instead of a
-                           card grid. No FAQ section, no FAQPage JSON-LD,
-                           but does carry a 2-item BreadcrumbList (gotcha
-                           #12), the only structured data it emits. Also
+                           card grid. Founder data (name/jobTitle/bio/
+                           initials/avatarClassName/linkedin) is imported
+                           from `src/lib/founders.ts`, not declared locally
+                           (moved 2026-09-11, gotcha #28), and each card
+                           carries a real `id={founder.slug}` anchor. Carries
+                           a 2-item BreadcrumbList plus, as of 2026-09-11, a
+                           `@graph` array of `Person` JSON-LD for both
+                           founders (gotcha #28), no FAQPage JSON-LD. Also
                            has its own opengraph-image.tsx/twitter-image.tsx
                            pair (gotcha #25), Dark Slate Grey background.
   blog/
@@ -1135,11 +1255,17 @@ src/app/                  Routes (App Router). Keep page files thin,
                             through `interleaveByCategory()` before
                             paginating (gotcha #19), so no two adjacent
                             cards share a category; a filtered view skips
-                            it since it is already single-category.
-                            Page-scoped Blog and BreadcrumbList (2-item)
-                            JSON-LD blocks (gotcha #12). Also has its own
-                            opengraph-image.tsx/twitter-image.tsx pair
-                            (gotcha #25, Dark Slate Grey background),
+                            it since it is already single-category. A
+                            category-filtered view (2026-09-11, gotcha #29)
+                            self-canonicalizes to its own `/blog?category=
+slug` URL with a real, unique title/description drawn from that
+                            category's own `BlogCategory.description`, and
+                            renders a matching on-page intro (`h2` + `p`)
+                            above the filter pills, not just a different
+                            meta tag. Page-scoped Blog and BreadcrumbList
+                            (2-item) JSON-LD blocks (gotcha #12). Also has
+                            its own opengraph-image.tsx/twitter-image.tsx
+                            pair (gotcha #25, Dark Slate Grey background),
                             separate from each individual post's own pair
                             below.
     [slug]/page.tsx         Post template, `generateStaticParams` over all
@@ -1239,7 +1365,10 @@ src/components/
                            background layer both heroes use), the shared
                            scroll-animation helpers: reveal.tsx
                            (scroll-triggered fade-up, replays every
-                           re-entry), animated-stat-value.tsx (count-up
+                           re-entry, takes an optional `id` passthrough
+                           added 2026-09-11 for real anchor targets like
+                           the About page's founder cards, gotcha #28),
+                           animated-stat-value.tsx (count-up
                            numbers, also replays), hero-scroll-shrink.tsx
                            (scroll-position-linked shrink/grow, homepage
                            hero only), page-hero-scroll-zoom.tsx (the same
@@ -1280,8 +1409,12 @@ src/components/
 src/lib/
   site-config.ts          Single source of truth for site name, tagline,
                            meta description, on-page description, footer
-                           copy, founders, location, links (email, booking
-                           calendar), and `navItems` (typed as `NavItem[]`,
+                           copy, `founders` (a plain string, "Muhammad and
+                           Mohammad", used only in homepage prose, not to
+                           be confused with the structured founder identity
+                           data in `founders.ts` below), location, links
+                           (email, booking calendar), and `navItems` (typed
+                           as `NavItem[]`,
                            each entry optionally carrying a nested `items`
                            array that renders as a header dropdown (desktop)
                            or an accordion group (mobile drawer), and an
@@ -1293,7 +1426,10 @@ src/lib/
   blog-data.ts            All blog content and category data (see gotcha
                            #9): `blogCategories` (5, each mapped to a
                            chart-N token via `colorClass`/`borderClass`/
-                           `tintClass`), `blogPosts` (40 as of 2026-09-04,
+                           `tintClass`, plus a real `description` field
+                           added 2026-09-11, gotcha #29, powering the
+                           category-filtered blog view's own metadata and
+                           on-page intro), `blogPosts` (40 as of 2026-09-04,
                            an even 8 per category, each a
                            title/excerpt/category/author/date/readTime/
                            icon plus a `BlogContentBlock[]` body and an
@@ -1304,7 +1440,10 @@ src/lib/
                            adjacent), `authorBios`
                            (added 2026-08-24, a one-line credential per
                            author name rendered under the byline, sourced
-                           from the real founder facts on `/about`), and
+                           from the same real founder facts now centralized
+                           in `founders.ts` below, kept as its own shorter
+                           one-liner rather than reused verbatim since the
+                           byline needs a single line, not a full bio), and
                            the filter/pagination helpers
                            `getPostsByCategory`, `getRelatedPosts`,
                            `clampPage`, `paginatePosts`. Add a new post
@@ -1315,6 +1454,15 @@ src/lib/
                            when it earns one, an EEAT self-review, then
                            title/meta options) rather than free-writing
                            it.
+  founders.ts             Added 2026-09-11 (gotcha #28). Single source of
+                           truth for founder identity: `Founder` (slug,
+                           name, jobTitle, bio, initials, avatarClassName,
+                           linkedin), `buildFounderPersonSchema()`, and
+                           `getFounderByName()`. Consumed by the About
+                           page's profile cards and `Person` JSON-LD, the
+                           sitewide `Organization` schema's `founder` array
+                           in `layout.tsx`, and every `BlogPosting`'s
+                           `author` field in `blog/[slug]/page.tsx`.
   blog-og-image.tsx       Added 2026-09-10 (gotcha #21). Shared rendering
                            for the blog's per-post OG/Twitter images:
                            `buildBlogOgElement()` (the JSX, dark brand
@@ -1436,13 +1584,24 @@ repo already handle well.
   see `siteConfig.sameAs`), and every `BlogPosting` block carries
   `publisher.logo` and `dateModified` (same date, since there is no
   separate last-edited field to distinguish it from `datePublished`).
+- **Author and founder identity uses real `Person` schema, not a bare
+  name string.** Added 2026-09-11 (gotcha #28). `src/lib/founders.ts` is
+  the single source of truth (`buildFounderPersonSchema()`), consumed by
+  the sitewide `ProfessionalService` block's `founder` array, the About
+  page's own `Person` JSON-LD, and every `BlogPosting`'s `author` field.
+  A `Person` with just a `name` proves nothing for E-E-A-T, one with a
+  real `jobTitle`, `url` (an anchor on `/about`), and `sameAs` (a real,
+  individually-owned profile, never fabricated) does. A new author needs
+  an entry in `founders.ts`, not a hand-written `Person` object inline.
 - **Any page whose content depends on `searchParams` (pagination,
   category filters, anything else query-driven) needs `generateMetadata`,
   not a static `metadata` export**, so its canonical and title can
   actually vary with the query string instead of silently describing
   only the unfiltered, page-1 view. See gotcha #23 for the concrete
-  pattern (`blog/page.tsx`) and the deliberate exception (category views
-  intentionally stay canonicalized to the bare route).
+  pattern (`blog/page.tsx`), and gotcha #29 for how each dimension
+  (page number, category) earns its own self-referencing canonical once
+  it has real, unique metadata behind it, a canonical alone doesn't
+  justify indexing a thin duplicate.
 - **Every non-home page also carries `BreadcrumbList` JSON-LD** via
   `buildBreadcrumbSchema()` (see gotcha #12), additive to, not a
   replacement for, the sitewide `ProfessionalService` block and any

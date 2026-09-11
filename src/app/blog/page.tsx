@@ -36,32 +36,40 @@ export async function generateMetadata({
   const totalPages = getTotalPages(displayPosts.length);
   const currentPage = clampPage(Number(params.page ?? 1), totalPages);
 
-  // Category views deliberately keep the bare /blog canonical (avoids
-  // duplicate-content flags from query-param combinations, a separate
-  // decision covered by the 2026-09-01 audit's own opportunity finding).
-  // Only the unfiltered pagination case self-canonicalizes here, that's
-  // the one the audit flagged as an actual bug: page 2+ was pointing
-  // back at page 1 instead of itself.
-  const canonical =
-    !category && currentPage > 1 ? `/blog?page=${currentPage}` : "/blog";
+  // Each category now carries its own real 150-160 char description (see
+  // BlogCategory in blog-data.ts), so a filtered view earns a genuinely
+  // unique title/description instead of sharing the unfiltered index's,
+  // and self-canonicalizes to its own URL rather than the bare /blog
+  // pointer it used before. Pagination within a category still folds
+  // into that same category canonical (`?category=slug&page=N`), the
+  // same one-dimension-self-canonicalizes-at-a-time approach the
+  // unfiltered view already established.
+  const pageTitle = category ? `${category.label} Articles` : title;
+  const pageDescription = category ? category.description : description;
+  const canonicalParams = new URLSearchParams();
+  if (category) canonicalParams.set("category", category.slug);
+  if (currentPage > 1) canonicalParams.set("page", String(currentPage));
+  const canonical = canonicalParams.size
+    ? `/blog?${canonicalParams.toString()}`
+    : "/blog";
 
   return {
-    title,
-    description,
+    title: pageTitle,
+    description: pageDescription,
     alternates: {
       canonical,
     },
     openGraph: {
       type: "website",
       url: `${siteConfig.url}${canonical}`,
-      title: `${title} | ${siteConfig.name}`,
-      description,
+      title: `${pageTitle} | ${siteConfig.name}`,
+      description: pageDescription,
       siteName: siteConfig.name,
     },
     twitter: {
       card: "summary_large_image",
-      title: `${title} | ${siteConfig.name}`,
-      description,
+      title: `${pageTitle} | ${siteConfig.name}`,
+      description: pageDescription,
     },
   };
 }
@@ -130,6 +138,15 @@ export default async function BlogPage({
       </BlogHero>
 
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
+        {category && (
+          <div className="mx-auto mb-10 max-w-2xl text-center">
+            <h2 className="text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
+              {category.label} articles
+            </h2>
+            <p className="text-muted-foreground mt-3">{category.description}</p>
+          </div>
+        )}
+
         <BlogFilterPills activeCategory={category?.slug} />
 
         {pagePosts.length > 0 ? (

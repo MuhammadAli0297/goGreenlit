@@ -9,12 +9,14 @@ export function Reveal({
   className,
   delay = 0,
   as = "div",
+  id,
 }: {
   children: ReactNode;
   className?: string;
   /** Stagger offset in milliseconds, applied as a transition-delay once revealed. */
   delay?: number;
   as?: "div" | "li";
+  id?: string;
 }) {
   const [visible, setVisible] = useState(false);
   const node = useRef<HTMLElement | null>(null);
@@ -45,6 +47,7 @@ export function Reveal({
       ref={(el: HTMLElement | null) => {
         node.current = el;
       }}
+      id={id}
       style={{ transitionDelay: `${delay}ms` }}
       className={cn(
         "reveal-on-scroll transition-all duration-700 ease-out",
