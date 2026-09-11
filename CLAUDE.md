@@ -1007,6 +1007,35 @@ signature wOF2` immediately, before variable-font support even
     `opengraph-image.tsx`/`twitter-image.tsx` pair calling
     `buildMarketingOgElement(title, family)` with that family's slug,
     not invent a new rendering path.
+26. **A "thin content" finding on a service page is fixed by adding one
+    genuinely new section that borrows a device a sibling page already
+    established, never by padding existing prose or inventing a new
+    visual pattern.** `qa-consulting/cicd-quality-gates`,
+    `qa-audit-assessment`, and `release-readiness` all rendered
+    noticeably fewer words (431-435) than the rest of the QA Consulting
+    family (485-569) and Services (550-680), a 2026-09-01 audit finding,
+    fixed 2026-09-10. The actual gap, once measured on the rendered
+    page rather than guessed from file size: the thin pages each had 3
+    real content sections (an overview grid, `PhaseTimeline`, plus
+    either a plain checklist or a deliverables grid) where every deeper
+    page in the family had 4. Fixed by giving each thin page the
+    specific section type it was missing, reusing a pattern already
+    live elsewhere in the family rather than designing a new one:
+    `qa-audit-assessment` got a "signs you need this" checklist (the
+    same device `qa-process-design`'s own `signals` section already
+    uses, Reveal-wrapped `ul` with a `CheckCircle2` per item, see gotcha
+    below on where that lives), `cicd-quality-gates` and
+    `release-readiness` each got a "what you actually get" deliverables
+    icon-grid (the same device `qa-audit-assessment`'s own existing
+    `deliverables` section already uses). All three now render
+    630-643 words, past the family's own previous high end, still zero
+    fabricated stats or claims (`BRAND_GUIDELINES.md` §2 applies here as
+    strictly as anywhere else on the site). **Measure a "thin content"
+    claim against the actual rendered page**
+    (`document.body.innerText.split(/\s+/).length` via a real headless
+    browser navigation), not the source file's line or word count,
+    since JSX/props inflate a raw file count in a way that does not
+    track visible copy.
 
 ## Repository structure
 
