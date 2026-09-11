@@ -3048,7 +3048,7 @@ export const blogPosts: BlogPost[] = [
     slug: "ai-code-review-habituation",
     title: "AI Code Review Habituation: Why Scrutiny Drops",
     excerpt:
-      "The more AI-generated code a team reviews, the less carefully they actually look at it. What habituation is, the real numbers behind it, and how to counteract it.",
+      "The more AI-generated code a team reviews, the less carefully they look at it. What habituation is, the numbers behind it, and how to counteract it.",
     category: "qa-strategy",
     author: "Mohammad Khan",
     date: "2026-08-31",
