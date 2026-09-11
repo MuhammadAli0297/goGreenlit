@@ -575,7 +575,15 @@ actually mean?"`, not `"Overview"`), and the paragraph immediately
       layout's `title.template` appends ` | GoGreenlit` (13 characters)
       to every page's `<title>`, so a post's `title` field needs to stay
       short enough that `title + " | GoGreenlit"` lands under 60
-      characters total, not just the bare title on its own.
+      characters total, not just the bare title on its own. **This is a
+      hard requirement, not a guideline to eyeball**: 9 of the 10 posts
+      in the 2026-09-04 AI-topics batch shipped over this budget (one as
+      long as 82 characters) and were only caught in a later SEO audit,
+      not during writing. Before calling any new post or batch done,
+      verify every title in `blog-data.ts` with a real length check
+      (`title.length + 13 <= 60` for each post, a one-line script is
+      enough), don't estimate by reading it. All 9 offending titles were
+      corrected 2026-09-10 following a live-site SEO audit.
     - **`excerpt` is doing four jobs at once**: meta description, OG/
       Twitter description, and the blog index card blurb, in addition to
       being the human-facing summary. Keep it 138-160 characters and
@@ -724,7 +732,13 @@ main..<current-branch>` before committing unrelated work to whatever
        version as a baseline option. A post that already ranks should
        not have its `title`/`excerpt` changed without the user
        deliberately picking a replacement, changing what is already
-       indexed is a real, not a cosmetic, decision.
+       indexed is a real, not a cosmetic, decision. **Verify every
+       option's character count with an actual count, not by eye**,
+       before offering it, per the enforcement note added to gotcha #15
+       after the 2026-09-04 batch shipped 9 posts over budget undetected.
+       This applies per-post and per-batch alike: a batch is not done
+       until every title in it has been checked, not just the one you
+       happened to write most recently.
 
     **This reverses an earlier, now-outdated decision.** The original
     2026-08-16 SEO pass considered inline hyperlinks inside post body
@@ -845,6 +859,83 @@ founder-embedded from day one`) hides entirely via
     if the future case, unlike this one, should not also apply to a short
     but wide desktop window.
 
+21. **`next/og`'s bundled Satori renderer cannot parse WOFF2 at all, a hard
+    blocker for any future OG/social-card image that needs the site's own
+    typography.** Discovered 2026-09-10 building distinct per-post blog OG
+    images: passing `BespokeSerif-Variable.woff2` straight into
+    `ImageResponse`'s `fonts` option throws `Unsupported OpenType
+signature wOF2` immediately, before variable-font support even
+    becomes a question. Fixed by extracting two static (non-variable)
+    TTF instances, weight 400 and 600 (the two weights actually used
+    sitewide, see `layout.tsx`'s `localFont` call and `hero.tsx`'s
+    `font-semibold` heading), from the existing variable woff2 using
+    `fontTools` (Python, `pip install fonttools`, not an npm dependency):
+    `TTFont(path)`, then
+    `varLib.instancer.instantiateVariableFont(font, {"wght": weight})`,
+    set `.flavor = None`, `.save()`. The two ~55KB TTFs are pre-generated
+    once and checked into `src/app/fonts/`
+    (`BespokeSerif-OG-Regular.ttf`, `BespokeSerif-OG-SemiBold.ttf`)
+    alongside the original woff2 files, the same "generate the derived
+    asset once, commit it" pattern gotcha #14 already established for
+    the favicon, not a build-time conversion step (Vercel's build
+    environment isn't guaranteed to have `fonttools` available, and
+    shelling out to Python mid-`next build` would be fragile). If a
+    future OG image needs a weight this pair doesn't cover, regenerate
+    with the same two-line `fontTools` snippet rather than reaching for
+    a different tool or a hosted font conversion service.
+22. **Dropping or never-building a page leaves phantom references in more
+    than one place, and a technical SEO audit reliably catches only the
+    schema instance, not matching visible content.** The
+    `/software-testing-services/website-testing` page was intentionally
+    dropped during the original rebuild (gotcha #10) and only ever got a
+    redirect, never a rebuilt page. That decision was correctly reflected
+    in `next.config.ts`'s `redirects()`, but two other references to it
+    silently survived for weeks: the sitewide `ProfessionalService`
+    JSON-LD's `makesOffer` array in `layout.tsx` (caught by the
+    2026-09-01 live-site audit, since a crawler parses structured data
+    directly) and a live, unlinked `ServiceCard` tile on the Services
+    overview page itself, full descriptive copy ("cross-browser and
+    cross-device compatibility checks... an accessibility pass") for a
+    service with no page behind it anywhere on the site (missed by that
+    same audit, since it checked schema and metadata, not page-copy-
+    versus-sitemap consistency; found and fixed 2026-09-10 while fixing
+    the schema instance). **When intentionally dropping a page or
+    service, or discovering one that already doesn't map to a real
+    subpage, check all of:** the sitewide `makesOffer` array
+    (`layout.tsx`), the relevant overview page's own service grid/card
+    copy, `site-config.ts`'s `navItems`, `site-footer.tsx`'s generated
+    columns (both nav-driven so usually already safe, but verify), any
+    FAQ answer or blog in-content link that might reference it, and
+    `sitemap.ts` plus `next.config.ts`'s redirect list. Fixing the schema
+    is not the whole fix, don't stop there.
+23. **A `page.tsx` with query-param-driven behavior (`searchParams`)
+    needs `generateMetadata`, not a static `metadata` export, or its
+    canonical and title never actually vary with the query string.**
+    `blog/page.tsx` handles both `?category=` and `?page=`, but shipped
+    with a static, module-level `metadata` const hardcoding
+    `alternates.canonical: "/blog"`, so `/blog?page=2` told Google it was
+    a duplicate of page 1, the outdated pre-2019 pagination pattern
+    (caught by the 2026-09-01 audit, fixed 2026-09-10). Converted to an
+    async `generateMetadata({ searchParams })` that recomputes
+    `category`/`currentPage` with the exact same
+    `getCategoryBySlug`/`getPostsByCategory`/`interleaveByCategory`/
+    `getTotalPages`/`clampPage` calls the page component itself uses, so
+    an out-of-range `?page=` clamps to the same real last page in both
+    the canonical tag and the rendered content, never a canonical
+    pointing at a page that doesn't exist, then self-canonicalizes to
+    `/blog?page=N` only when unfiltered and `N > 1`. **`?category=` views
+    deliberately keep the bare `/blog` canonical at every page number,
+    that is not a bug to "fix" later**, it's the audit's own separate
+    opportunity-level finding (category views trade indexability for
+    avoiding duplicate-content risk from query-param combinations), a
+    decision to revisit only if category pages are ever given their own
+    real metadata identity, not something this pagination fix should
+    have touched. Any future paginated or filtered route on this site
+    should follow the same shape: `generateMetadata` reruns the
+    identical filter/clamp logic the page uses, and only the
+    dimension(s) actually meant to be indexable get a self-referencing
+    canonical.
+
 ## Repository structure
 
 ```
@@ -855,7 +946,13 @@ src/app/                  Routes (App Router). Keep page files thin,
                           2026-08-16, gotcha #14), JSON-LD structured data,
                           header/footer shell
   fonts/                  Bespoke Serif woff2 files, loaded via
-                          `next/font/local` in layout.tsx
+                          `next/font/local` in layout.tsx. Also two static
+                          TTF instances (`BespokeSerif-OG-Regular.ttf`,
+                          `BespokeSerif-OG-SemiBold.ttf`, added 2026-09-10,
+                          gotcha #21) extracted from the woff2 via
+                          `fontTools`, used only by the blog OG image
+                          routes below since `next/og`'s Satori renderer
+                          can't parse woff2 at all
   favicon.ico             On-brand icon (regenerated 2026-08-16, see
                           gotcha #14), not the pre-rebrand black/white
                           triangle it replaced
@@ -947,6 +1044,19 @@ src/app/                  Routes (App Router). Keep page files thin,
                             from `stripInlineLinks(answer)` so the
                             structured data carries plain text, not the
                             `[label](/path)` link syntax (gotcha #17).
+                            `BlogPosting`'s `image` field (added
+                            2026-09-10) points at
+                            `/blog/[slug]/opengraph-image` below.
+    [slug]/opengraph-image.tsx,
+    [slug]/twitter-image.tsx  Added 2026-09-10 (gotcha #21), Next's native
+                            per-route image convention, `generateStaticParams`
+                            over the same slugs so all 40 posts x 2 image
+                            routes prerender at build time. Both files
+                            share their actual rendering via
+                            `buildBlogOgElement()`/`loadBlogOgFonts()` in
+                            `src/lib/blog-og-image.tsx`, a real title and
+                            category-colored eyebrow per post rather than
+                            the one shared sitewide `og-image.png`.
   sitemap.ts, robots.ts   Generated SEO files, list every route, keep in
                           sync by hand when a route is added or removed.
                           Static routes carry a hand-maintained
@@ -1082,6 +1192,17 @@ src/lib/
                            when it earns one, an EEAT self-review, then
                            title/meta options) rather than free-writing
                            it.
+  blog-og-image.tsx       Added 2026-09-10 (gotcha #21). Shared rendering
+                           for the blog's per-post OG/Twitter images:
+                           `buildBlogOgElement()` (the JSX, dark brand
+                           background, category-colored eyebrow via a
+                           hardcoded dark-mode chart-1..5 hex map since
+                           Satori can't resolve CSS custom properties,
+                           post title, logo mark) and `loadBlogOgFonts()`
+                           (reads the two static TTFs from `src/app/fonts/`).
+                           Consumed by both `blog/[slug]/opengraph-image.tsx`
+                           and `twitter-image.tsx`, not duplicated between
+                           them.
   related-pages.ts        `getRelatedLinkGroups()` and the curated
                            `crossFamilyPairs` map behind the RelatedLinks
                            cross-link block (see gotcha #11). Add a pairing
@@ -1173,7 +1294,17 @@ repo already handle well.
 - **Structured data lives in `src/app/layout.tsx`** as a `ProfessionalService`
   JSON-LD block. If the list of services in `page.tsx` changes, update the
   `makesOffer` array in that structured data to match, they should never
-  drift apart.
+  drift apart. When a service or page is dropped rather than added, the
+  same rule cuts the other way: remove it from `makesOffer` and check the
+  other places a phantom reference can hide (gotcha #22), don't assume
+  the schema is the only place it was ever written down.
+- **Any page whose content depends on `searchParams` (pagination,
+  category filters, anything else query-driven) needs `generateMetadata`,
+  not a static `metadata` export**, so its canonical and title can
+  actually vary with the query string instead of silently describing
+  only the unfiltered, page-1 view. See gotcha #23 for the concrete
+  pattern (`blog/page.tsx`) and the deliberate exception (category views
+  intentionally stay canonicalized to the bare route).
 - **Every non-home page also carries `BreadcrumbList` JSON-LD** via
   `buildBreadcrumbSchema()` (see gotcha #12), additive to, not a
   replacement for, the sitewide `ProfessionalService` block and any
