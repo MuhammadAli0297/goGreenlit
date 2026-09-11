@@ -936,6 +936,61 @@ signature wOF2` immediately, before variable-font support even
     dimension(s) actually meant to be indexable get a self-referencing
     canonical.
 
+24. **Sitewide security headers are set in `next.config.ts`'s `headers()`,
+    with a deliberately simple `'unsafe-inline'` CSP, not a nonce-based
+    strict one.** Added 2026-09-10 to close a medium-priority SEO audit
+    finding (no CSP/X-Frame-Options/X-Content-Type-Options/Referrer-
+    Policy/Permissions-Policy at all). A strict, nonce-based CSP (no
+    `unsafe-inline`) is Next's more secure documented option, but it
+    requires every page to opt into dynamic rendering, since a nonce can
+    only be generated and injected per-request via `proxy.ts`, which
+    would drop static generation, CDN edge caching, and ISR sitewide,
+    the exact things this site's fast TTFB and edge-cached HTML (see the
+    Technical & security findings in the 2026-09-01 audit) depend on.
+    There is also an experimental Subresource-Integrity path that keeps
+    static generation, but Next's own docs flag it as experimental and
+    "may change or be removed," too fragile a foundation for a
+    production CSP. Chosen instead: `script-src 'self' 'unsafe-inline'`
+    (plus `'unsafe-eval'` only in development, matching Next's own
+    documented dev-mode requirement for React's debugging `eval`),
+    justified by the site having no user-generated content, forms, or
+    dynamic user input rendered anywhere, so the realistic XSS surface
+    `unsafe-inline` gives up is low. Verified against a real headless
+    browser (zero console/CSP violations) including the mobile nav
+    drawer, and the full Playwright e2e suite, before shipping.
+    **If GA4, Vercel Analytics, or any other third-party script is ever
+    added** (closing the audit's separate "no analytics detected"
+    finding), the CSP in `next.config.ts` needs updating at the same
+    time: add the script's origin to `script-src`, its collection
+    endpoint to `connect-src`, and any tracking pixel host to `img-src`,
+    don't just drop the script into `layout.tsx` and assume it will load,
+    a CSP violation silently blocks it with no visible error on the page
+    itself, only in the browser console.
+25. **The per-post blog OG image pipeline (gotcha #21) now has a marketing-
+    page sibling, `src/lib/marketing-og-image.tsx`, covering the 16
+    static pages that aren't blog posts but also shouldn't share the
+    homepage's `og-image.png`.** Added 2026-09-10 alongside gotcha #24,
+    closing the "12+ pages share one generic OG image" finding for
+    everything except the homepage itself (which keeps `og-image.png`,
+    that image was always built specifically for it, see gotcha #13, not
+    a generic fallback other pages were incorrectly reusing). Same
+    `next/og` + static-TTF-font technique as blog, but the design
+    differs deliberately: each page reuses its own real `<h1>` text
+    (hardcoded per `opengraph-image.tsx`/`twitter-image.tsx` file, there
+    is no shared data source for H1 wording the way blog posts have
+    `post.title`, so keep the string in sync by hand if a page's H1
+    copy changes) on its family's existing claimed bold color rather
+    than blog's fixed dark background: Palm Leaf with dark
+    (`#1f2a20`-ish) text for Software Testing Services, Muted Olive with
+    dark text for QA Consulting, Dark Slate Grey with cream text for
+    About and the blog index. The light-background families need dark
+    text, the inverse of blog's white-on-dark scheme, get this backwards
+    and the eyebrow/title become nearly invisible against the light
+    green. A new marketing page in an existing family should add its own
+    `opengraph-image.tsx`/`twitter-image.tsx` pair calling
+    `buildMarketingOgElement(title, family)` with that family's slug,
+    not invent a new rendering path.
+
 ## Repository structure
 
 ```
@@ -982,6 +1037,11 @@ src/app/                  Routes (App Router). Keep page files thin,
     mobile-app-testing/page.tsx       FAQPage and BreadcrumbList JSON-LD
                                        blocks, plus a RelatedLinks
                                        cross-link section (gotchas #11-12)
+                                       Every page in this family, overview
+                                       included, also has its own
+                                       opengraph-image.tsx/twitter-image.tsx
+                                       pair (added 2026-09-10, gotcha #25),
+                                       Palm Leaf background with dark text.
   qa-consulting/
     page.tsx              QA consulting overview, added 2026-08-05. Own
                            FAQPage and BreadcrumbList JSON-LD blocks
@@ -1000,6 +1060,10 @@ src/app/                  Routes (App Router). Keep page files thin,
     release-readiness/page.tsx        FAQPage and BreadcrumbList JSON-LD
                                        blocks, plus a RelatedLinks
                                        cross-link section (gotchas #11-12)
+                                       Every page in this family also has
+                                       its own opengraph-image.tsx/
+                                       twitter-image.tsx pair (gotcha #25),
+                                       Muted Olive background, dark text.
   about/
     page.tsx              Added 2026-08-05, explicitly asked to look
                            "super different" from every other page while
@@ -1010,7 +1074,9 @@ src/app/                  Routes (App Router). Keep page files thin,
                            and a typographic manifesto list instead of a
                            card grid. No FAQ section, no FAQPage JSON-LD,
                            but does carry a 2-item BreadcrumbList (gotcha
-                           #12), the only structured data it emits.
+                           #12), the only structured data it emits. Also
+                           has its own opengraph-image.tsx/twitter-image.tsx
+                           pair (gotcha #25), Dark Slate Grey background.
   blog/
     page.tsx               Blog index, added 2026-08-05. Its own BlogHero
                             (not PageHero, see gotcha #5), category filter
@@ -1025,7 +1091,11 @@ src/app/                  Routes (App Router). Keep page files thin,
                             cards share a category; a filtered view skips
                             it since it is already single-category.
                             Page-scoped Blog and BreadcrumbList (2-item)
-                            JSON-LD blocks (gotcha #12).
+                            JSON-LD blocks (gotcha #12). Also has its own
+                            opengraph-image.tsx/twitter-image.tsx pair
+                            (gotcha #25, Dark Slate Grey background),
+                            separate from each individual post's own pair
+                            below.
     [slug]/page.tsx         Post template, `generateStaticParams` over all
                             slugs in blog-data.ts (12 posts at launch, 25
                             as of 2026-08-23, 35 as of 2026-08-31, 40 as
@@ -1068,7 +1138,11 @@ src/app/                  Routes (App Router). Keep page files thin,
 next.config.ts            `redirects()` for dead URLs from the pre-rebuild
                            Eleventy site that Google still crawls (see
                            gotcha #10), add a new entry here rather than
-                           letting an old, still-indexed URL 404
+                           letting an old, still-indexed URL 404. Also
+                           `headers()` (added 2026-09-10, gotcha #24):
+                           sitewide CSP and the other four security
+                           response headers, update the CSP here if a
+                           third-party script is ever added
 
 src/components/
   ui/                     shadcn/ui primitives, generated, don't hand-edit.
@@ -1203,6 +1277,17 @@ src/lib/
                            Consumed by both `blog/[slug]/opengraph-image.tsx`
                            and `twitter-image.tsx`, not duplicated between
                            them.
+  marketing-og-image.tsx  Added 2026-09-10 (gotcha #25), the non-blog
+                           sibling of blog-og-image.tsx above. Same
+                           next/og + static-TTF-font technique, but
+                           `buildMarketingOgElement(title, family)` picks
+                           light-background-dark-text or dark-background-
+                           light-text per family (Software Testing
+                           Services/QA Consulting are light, About/blog
+                           index are dark), and title is passed in per
+                           call site rather than read from shared data,
+                           since these pages have no equivalent of
+                           blog's `post.title`.
   related-pages.ts        `getRelatedLinkGroups()` and the curated
                            `crossFamilyPairs` map behind the RelatedLinks
                            cross-link block (see gotcha #11). Add a pairing
@@ -1297,7 +1382,11 @@ repo already handle well.
   drift apart. When a service or page is dropped rather than added, the
   same rule cuts the other way: remove it from `makesOffer` and check the
   other places a phantom reference can hide (gotcha #22), don't assume
-  the schema is the only place it was ever written down.
+  the schema is the only place it was ever written down. The block also
+  carries `logo` and `sameAs` (added 2026-09-10, real profile URLs only,
+  see `siteConfig.sameAs`), and every `BlogPosting` block carries
+  `publisher.logo` and `dateModified` (same date, since there is no
+  separate last-edited field to distinguish it from `datePublished`).
 - **Any page whose content depends on `searchParams` (pagination,
   category filters, anything else query-driven) needs `generateMetadata`,
   not a static `metadata` export**, so its canonical and title can
