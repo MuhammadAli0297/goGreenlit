@@ -3046,8 +3046,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "ai-code-review-habituation",
-    title:
-      "AI Code Review Habituation: Why Scrutiny Drops as AI Adoption Rises",
+    title: "AI Code Review Habituation: Why Scrutiny Drops",
     excerpt:
       "The more AI-generated code a team reviews, the less carefully they actually look at it. What habituation is, the real numbers behind it, and how to counteract it.",
     category: "qa-strategy",
@@ -3247,7 +3246,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "quality-gates-for-ai-generated-code",
-    title: "Quality Gates for AI-Generated Code: What a Real One Requires",
+    title: "Quality Gates for AI-Generated Code",
     excerpt:
       "A green build is not a quality gate. What actually makes a gate for AI-generated code credible, what it needs to check, and who should own it.",
     category: "qa-strategy",
@@ -3432,7 +3431,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "agentic-testing-how-autonomous-test-agents-work",
-    title: "Agentic Testing: How Autonomous Test Agents Actually Work",
+    title: "Agentic Testing: How Autonomous Test Agents",
     excerpt:
       "Agentic testing decides what to test, not just how to run it. What that autonomy loop actually looks like, where it earns trust, and where it does not.",
     category: "test-automation",
@@ -3607,8 +3606,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "ai-powered-dynamic-test-selection",
-    title:
-      "AI-Powered Dynamic Test Selection: Running Less of the Suite, Safely",
+    title: "AI-Powered Dynamic Test Selection, Explained",
     excerpt:
       "Running every test on every change stops scaling long before a suite gets huge. How AI-powered test selection decides what to skip, and what it risks.",
     category: "test-automation",
@@ -3765,7 +3763,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "how-to-evaluate-an-ai-testing-vendor",
-    title: "How to Evaluate an AI Testing Vendor Before You Sign",
+    title: "How to Evaluate an AI Testing Vendor",
     excerpt:
       "Every QA vendor pitch now leads with AI. What actually separates a credible AI-augmented QA partner from a slide deck, and the questions worth asking first.",
     category: "outsourcing-hiring",
@@ -3938,8 +3936,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "the-rise-of-the-ai-testing-sdet",
-    title:
-      "The Rise of the AI-Testing SDET: A New Role, and Whether You Need One",
+    title: "The Rise of the AI-Testing SDET",
     excerpt:
       "AI-testing SDET postings are growing fast and taking months to fill directly. What the role actually covers, and how to decide if you need to hire for it.",
     category: "outsourcing-hiring",
@@ -4288,7 +4285,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "ai-assisted-visual-regression-testing",
-    title: "AI-Assisted Visual Regression Testing: What It Catches and Misses",
+    title: "AI-Assisted Visual Regression Testing",
     excerpt:
       "AI-assisted visual testing tells layout drift from an intentional redesign apart. What it actually catches, what still needs a human eye, and how to tune it.",
     category: "testing-practices",
@@ -4448,7 +4445,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "qa-process-for-ai-heavy-codebases",
-    title: "Our QA Process When a Codebase Is Mostly AI-Generated",
+    title: "QA Process for a Mostly AI-Generated Codebase",
     excerpt:
       "A growing share of the codebases we get embedded in were mostly written by an AI assistant. The pattern does not change. What it looks for does.",
     category: "case-studies",
@@ -4587,7 +4584,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "release-sign-off-when-ai-writes-the-tests",
-    title: "Release Sign-Off When AI Agents Are Writing the Tests",
+    title: "Release Sign-Off When AI Writes the Tests",
     excerpt:
       "A green suite means less than it used to when the same system wrote the feature and its own tests. What sign-off has to check for now, and what it still means.",
     category: "case-studies",
