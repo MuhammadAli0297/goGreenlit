@@ -38,7 +38,6 @@ export async function generateMetadata({
       title: `${title} | ${siteConfig.name}`,
       description,
       siteName: siteConfig.name,
-      images: [{ url: siteConfig.ogImage }],
       publishedTime: post.date,
       authors: [post.author],
     },
@@ -46,7 +45,6 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: `${title} | ${siteConfig.name}`,
       description,
-      images: [siteConfig.ogImage],
     },
   };
 }
@@ -67,6 +65,7 @@ export default async function BlogPostPage({
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
+    image: `${siteConfig.url}/blog/${post.slug}/opengraph-image`,
     datePublished: post.date,
     author: {
       "@type": "Person",
