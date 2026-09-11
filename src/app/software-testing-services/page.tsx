@@ -4,7 +4,6 @@ import {
   Bug,
   CheckCircle2,
   GaugeCircle,
-  Globe,
   Radar,
   RefreshCw,
   Smartphone,
@@ -88,12 +87,6 @@ const offerings = [
     title: "QA strategy and process",
     description:
       "Risk-based test planning, a testing pyramid sized to your stack, and sprint-level coverage metrics that show where your actual exposure is, not a generic audit.",
-  },
-  {
-    icon: Globe,
-    title: "Website testing",
-    description:
-      "Functional QA across your marketing site or web app, cross-browser and cross-device compatibility checks, and an accessibility pass so the experience holds up for every visitor.",
   },
   {
     icon: RefreshCw,
