@@ -3,11 +3,14 @@ import Link from "next/link";
 import {
   CheckCircle2,
   ClipboardList,
+  Copy,
+  FileCheck2,
   GaugeCircle,
   MessagesSquare,
   RefreshCw,
   Route,
   Target,
+  UserCheck,
 } from "lucide-react";
 
 import { CtaSection } from "@/components/marketing/cta-section";
@@ -110,6 +113,33 @@ const checklistTraits = [
   "Known issues are listed explicitly, with the reasoning for shipping anyway attached",
   "The checklist gets reviewed and updated after every release, not written once and frozen",
   "Sign-off requires an actual name attached to the decision, not a passive “no objections”",
+];
+
+const deliverables = [
+  {
+    icon: FileCheck2,
+    label: "A written go or no-go record",
+    description:
+      "The actual decision, who made it, and the reasoning behind it, documented so it is not just a Slack message people forget by the next release.",
+  },
+  {
+    icon: UserCheck,
+    label: "A named owner for the observation window",
+    description:
+      "Someone specific watching the metrics that matter after release, with a defined window and a clear trigger for when to roll back.",
+  },
+  {
+    icon: Copy,
+    label: "A reusable readiness template",
+    description:
+      "The checklist carries forward and gets refined release to release, instead of being rebuilt from memory every time.",
+  },
+  {
+    icon: ClipboardList,
+    label: "A one-page release summary",
+    description:
+      "What shipped, what is known and accepted, and what is being watched, written for people outside engineering to actually read.",
+  },
 ];
 
 const faqs = [
@@ -268,6 +298,32 @@ export default function ReleaseReadinessPage() {
             ))}
           </ul>
         </Reveal>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+            What a completed review leaves you with
+          </h2>
+        </div>
+
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {deliverables.map(({ icon: Icon, label, description }, index) => (
+            <Reveal
+              key={label}
+              className="border-border/60 rounded-lg border p-5"
+              delay={index * 80}
+            >
+              <div className="bg-accent text-accent-foreground flex size-10 items-center justify-center rounded-lg">
+                <Icon className="size-5" />
+              </div>
+              <h3 className="mt-3 font-semibold">{label}</h3>
+              <p className="text-muted-foreground mt-1 text-sm">
+                {description}
+              </p>
+            </Reveal>
+          ))}
+        </div>
       </section>
 
       <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">

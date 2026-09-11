@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   BarChart3,
+  CheckCircle2,
   ClipboardList,
   FileText,
   Milestone,
@@ -48,6 +49,14 @@ export const metadata: Metadata = {
     description,
   },
 };
+
+const auditSignals = [
+  "Nobody can say with confidence what percentage of the product is actually covered by tests",
+  "The same category of defect keeps escaping to production, and no one has traced why",
+  "The team or stack has changed significantly since anyone last reviewed the QA process end to end",
+  "Coverage and quality metrics get reported every sprint, but nobody has checked whether they predict anything real",
+  "Leadership is asking for a quality plan, and the honest answer is that one does not exist in writing",
+];
 
 const domains = [
   {
@@ -231,6 +240,32 @@ export default function QaAuditAssessmentPage() {
           where quality breaks down
         </span>
       </PageHero>
+
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+            Signs you&rsquo;re overdue for a QA audit
+          </h2>
+          <p className="text-muted-foreground mt-4">
+            None of these feel urgent on their own. Together, they usually mean
+            nobody has an accurate picture of your actual risk anymore.
+          </p>
+        </div>
+
+        <Reveal
+          as="div"
+          className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-2"
+        >
+          <ul className="col-span-full grid gap-4 sm:grid-cols-2">
+            {auditSignals.map((item) => (
+              <li key={item} className="flex gap-3">
+                <CheckCircle2 className="text-primary mt-0.5 size-5 shrink-0" />
+                <span className="text-foreground/90 text-sm">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+      </section>
 
       <section
         id="domains"
