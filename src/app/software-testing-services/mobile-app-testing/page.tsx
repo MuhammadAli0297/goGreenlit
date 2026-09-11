@@ -16,6 +16,7 @@ import {
 
 import { CtaSection } from "@/components/marketing/cta-section";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
+import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { PageHero } from "@/components/marketing/page-hero";
 import { RelatedLinks } from "@/components/marketing/related-links";
 import { Reveal } from "@/components/marketing/reveal";
@@ -152,11 +153,12 @@ const faqs = [
   },
 ];
 
-const breadcrumbSchema = buildBreadcrumbSchema([
+const breadcrumbItems = [
   { name: "Home", href: "/" },
   { name: "Software Testing Services", href: "/software-testing-services" },
   { name: title, href: "/software-testing-services/mobile-app-testing" },
-]);
+];
+const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 
 const faqStructuredData = {
   "@context": "https://schema.org",
@@ -182,6 +184,8 @@ export default function MobileAppTestingPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
+
+      <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
         badge="iOS, Android, React Native, and Flutter, tested on real devices when it matters"

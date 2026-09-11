@@ -14,6 +14,7 @@ import {
   Workflow,
 } from "lucide-react";
 
+import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { CtaSection } from "@/components/marketing/cta-section";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { PageHero } from "@/components/marketing/page-hero";
@@ -204,10 +205,11 @@ const faqStructuredData = {
   })),
 };
 
-const breadcrumbSchema = buildBreadcrumbSchema([
+const breadcrumbItems = [
   { name: "Home", href: "/" },
   { name: title, href: "/software-testing-services" },
-]);
+];
+const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 
 export default function SoftwareTestingServicesPage() {
   return (
@@ -220,6 +222,8 @@ export default function SoftwareTestingServicesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
+
+      <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
         badge="Manual and automated testing, embedded in your sprint"

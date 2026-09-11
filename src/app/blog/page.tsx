@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { BlogFilterPills } from "@/components/marketing/blog-filter-pills";
 import { BlogHero } from "@/components/marketing/blog-hero";
 import { BlogPagination } from "@/components/marketing/blog-pagination";
@@ -73,10 +74,11 @@ const blogStructuredData = {
   description,
 };
 
-const breadcrumbSchema = buildBreadcrumbSchema([
+const breadcrumbItems = [
   { name: "Home", href: "/" },
   { name: title, href: "/blog" },
-]);
+];
+const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 
 export default async function BlogPage({
   searchParams,
@@ -103,6 +105,8 @@ export default async function BlogPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogStructuredData) }}
       />
+
+      <Breadcrumbs items={breadcrumbItems} />
 
       <BlogHero
         badge="QA insights written by engineers"

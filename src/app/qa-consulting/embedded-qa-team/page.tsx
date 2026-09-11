@@ -5,6 +5,7 @@ import { CalendarCheck, CheckCircle2, Clock, Milestone } from "lucide-react";
 import { CompareColumns } from "@/components/marketing/compare-columns";
 import { CtaSection } from "@/components/marketing/cta-section";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
+import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PhaseTimeline } from "@/components/marketing/phase-timeline";
 import { RelatedLinks } from "@/components/marketing/related-links";
@@ -127,11 +128,12 @@ const faqs = [
   },
 ];
 
-const breadcrumbSchema = buildBreadcrumbSchema([
+const breadcrumbItems = [
   { name: "Home", href: "/" },
   { name: "QA Consulting", href: "/qa-consulting" },
   { name: title, href: "/qa-consulting/embedded-qa-team" },
-]);
+];
+const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 
 const faqStructuredData = {
   "@context": "https://schema.org",
@@ -157,6 +159,8 @@ export default function EmbeddedQaTeamPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
+
+      <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
         badge="A QA engineer who joins your team, not a vendor queue"
