@@ -23,27 +23,49 @@ const title = "Blog";
 const description =
   "QA insights written by the engineers who do the work: manual and automated testing, QA strategy, and lessons from real embedded engagements.";
 
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: {
-    canonical: "/blog",
-  },
-  openGraph: {
-    type: "website",
-    url: `${siteConfig.url}/blog`,
-    title: `${title} | ${siteConfig.name}`,
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string; page?: string }>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const category = getCategoryBySlug(params.category);
+  const posts = getPostsByCategory(category?.slug);
+  const displayPosts = category ? posts : interleaveByCategory(posts);
+  const totalPages = getTotalPages(displayPosts.length);
+  const currentPage = clampPage(Number(params.page ?? 1), totalPages);
+
+  // Category views deliberately keep the bare /blog canonical (avoids
+  // duplicate-content flags from query-param combinations, a separate
+  // decision covered by the 2026-09-01 audit's own opportunity finding).
+  // Only the unfiltered pagination case self-canonicalizes here, that's
+  // the one the audit flagged as an actual bug: page 2+ was pointing
+  // back at page 1 instead of itself.
+  const canonical =
+    !category && currentPage > 1 ? `/blog?page=${currentPage}` : "/blog";
+
+  return {
+    title,
     description,
-    siteName: siteConfig.name,
-    images: [{ url: siteConfig.ogImage }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${title} | ${siteConfig.name}`,
-    description,
-    images: [siteConfig.ogImage],
-  },
-};
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      type: "website",
+      url: `${siteConfig.url}${canonical}`,
+      title: `${title} | ${siteConfig.name}`,
+      description,
+      siteName: siteConfig.name,
+      images: [{ url: siteConfig.ogImage }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | ${siteConfig.name}`,
+      description,
+      images: [siteConfig.ogImage],
+    },
+  };
+}
 
 const blogStructuredData = {
   "@context": "https://schema.org",
