@@ -4,6 +4,7 @@ import { GitBranch, GitPullRequest, Rocket, Server } from "lucide-react";
 
 import { CtaSection } from "@/components/marketing/cta-section";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
+import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PhaseTimeline } from "@/components/marketing/phase-timeline";
 import { RelatedLinks } from "@/components/marketing/related-links";
@@ -137,11 +138,12 @@ const faqs = [
   },
 ];
 
-const breadcrumbSchema = buildBreadcrumbSchema([
+const breadcrumbItems = [
   { name: "Home", href: "/" },
   { name: "QA Consulting", href: "/qa-consulting" },
   { name: title, href: "/qa-consulting/cicd-quality-gates" },
-]);
+];
+const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 
 const faqStructuredData = {
   "@context": "https://schema.org",
@@ -167,6 +169,8 @@ export default function CicdQualityGatesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
+
+      <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
         badge="Automated checks that actually block a bad merge"

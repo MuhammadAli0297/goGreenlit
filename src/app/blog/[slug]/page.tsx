@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { ArticleBody } from "@/components/marketing/article-body";
 import { BlogPostHeader } from "@/components/marketing/blog-post-header";
+import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { BlogRelatedPosts } from "@/components/marketing/blog-related-posts";
 import { CtaSection } from "@/components/marketing/cta-section";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
@@ -89,11 +90,12 @@ export default async function BlogPostPage({
     mainEntityOfPage: `${siteConfig.url}/blog/${post.slug}`,
   };
 
-  const breadcrumbSchema = buildBreadcrumbSchema([
+  const breadcrumbItems = [
     { name: "Home", href: "/" },
     { name: "Blog", href: "/blog" },
     { name: post.title, href: `/blog/${post.slug}` },
-  ]);
+  ];
+  const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 
   const faqStructuredData = post.faqs
     ? {
@@ -128,6 +130,8 @@ export default async function BlogPostPage({
           }}
         />
       )}
+
+      <Breadcrumbs items={breadcrumbItems} />
 
       <BlogPostHeader post={post} />
       <ArticleBody blocks={post.body} />

@@ -13,6 +13,7 @@ import {
 import { CompareColumns } from "@/components/marketing/compare-columns";
 import { CtaSection } from "@/components/marketing/cta-section";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
+import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PhaseTimeline } from "@/components/marketing/phase-timeline";
 import { Reveal } from "@/components/marketing/reveal";
@@ -175,10 +176,11 @@ const faqStructuredData = {
   })),
 };
 
-const breadcrumbSchema = buildBreadcrumbSchema([
+const breadcrumbItems = [
   { name: "Home", href: "/" },
   { name: title, href: "/qa-consulting" },
-]);
+];
+const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 
 export default function QaConsultingPage() {
   return (
@@ -191,6 +193,8 @@ export default function QaConsultingPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
+
+      <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
         badge="Strategy and process, not just extra hands"
