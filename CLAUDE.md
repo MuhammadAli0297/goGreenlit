@@ -451,13 +451,13 @@ sheet.tsx`, Base UI's `Dialog` under the hood, added via
     only add it to `crossFamilyPairs` if it has a genuine cross-family
     counterpart worth pointing at.
 12. **Every non-home page carries `BreadcrumbList` JSON-LD, not just the
-    deep ones.** `src/lib/breadcrumbs.ts`'s `buildBreadcrumbSchema()`
+    deep ones, and (added 2026-09-10) a matching visible trail, not just
+    the schema.** `src/lib/breadcrumbs.ts`'s `buildBreadcrumbSchema()`
     takes an ordered `{ name, href }[]` and returns a schema.org
     `BreadcrumbList` (absolute URLs via `siteConfig.url`, "Home" first).
     Every route except `/` renders one via its own inline `<script>`, the
     same per-page pattern already used for `FAQPage`/`BlogPosting`/`Blog`
-    JSON-LD (see gotcha #6 and the SEO section below), not a shared
-    rendering component, `buildBreadcrumbSchema` only builds the data.
+    JSON-LD (see gotcha #6 and the SEO section below).
     Overview/index pages (`/software-testing-services`, `/qa-consulting`,
     `/about`, `/blog`) get a 2-item trail (Home, self); the 12 family
     subpages and every `/blog/[slug]` post get 3 (Home, family or Blog,
@@ -468,6 +468,23 @@ sheet.tsx`, Base UI's `Dialog` under the hood, added via
     can never drift from the page's actual `<title>`. A new page should
     follow whichever of these two patterns matches its depth, this is the
     standing convention now, not an exception to add case by case.
+    **The schema went unaccompanied by any visible UI for over a month**
+    (a real audit finding, 2026-09-01), fixed by extracting the raw items
+    array into its own `breadcrumbItems` const on every page (previously
+    it was built inline and thrown away right after
+    `buildBreadcrumbSchema()` consumed it) and feeding that same array to
+    both `buildBreadcrumbSchema(breadcrumbItems)` and the new
+    `<Breadcrumbs items={breadcrumbItems} />` component
+    (`src/components/marketing/breadcrumbs.tsx`), so the visible trail
+    and the JSON-LD read from one source and can never drift apart. The
+    component renders right after the page's JSON-LD `<script>` tags and
+    before its hero (`PageHero`/`BlogHero`/`BlogPostHeader`), on the
+    plain background, not inside any family's bold section, and uses a
+    plain `/` text separator rather than an icon, since it also has to
+    render correctly on the icon-free About page (gotcha #7). A new page
+    should follow the same shape: a module-level (or in-body, for
+    `[slug]`-style dynamic routes) `breadcrumbItems` array feeding both
+    calls, never a bespoke visible trail.
 13. **`public/og-image.png` is generated, not designed in an external
     tool.** It's a screenshot of real HTML/CSS styled to match the
     homepage hero exactly (same `#354639` background, the same static
@@ -1186,6 +1203,9 @@ src/components/
   marketing/              Reusable marketing sections (hero, CTA, stat
                            band, service cards, page-hero.tsx for a
                            secondary page's on-brand dark/aurora header),
+                           breadcrumbs.tsx (added 2026-09-10, gotcha #12,
+                           the visible counterpart to buildBreadcrumbSchema,
+                           reused across every non-home page),
                            aurora-background.tsx (the shared ambient
                            background layer both heroes use), the shared
                            scroll-animation helpers: reveal.tsx
