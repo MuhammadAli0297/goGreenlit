@@ -44,13 +44,11 @@ export const metadata: Metadata = {
     title: `${title} | ${siteConfig.name}`,
     description,
     siteName: siteConfig.name,
-    images: [{ url: siteConfig.ogImage }],
   },
   twitter: {
     card: "summary_large_image",
     title: `${title} | ${siteConfig.name}`,
     description,
-    images: [siteConfig.ogImage],
   },
 };
 
