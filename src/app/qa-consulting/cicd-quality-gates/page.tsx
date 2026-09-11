@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { GitBranch, GitPullRequest, Rocket, Server } from "lucide-react";
+import {
+  BarChart3,
+  ClipboardList,
+  FileCode2,
+  GitBranch,
+  GitPullRequest,
+  Rocket,
+  Server,
+  ShieldAlert,
+} from "lucide-react";
 
 import { CtaSection } from "@/components/marketing/cta-section";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
@@ -100,6 +109,33 @@ const phases = [
     title: "Wire in and monitor",
     description:
       "Gates go live in the pipeline, with a review point to tune thresholds once real data comes in.",
+  },
+];
+
+const deliverables = [
+  {
+    icon: FileCode2,
+    label: "Gate definitions in your repo",
+    description:
+      "Configuration lives in your actual CI config, GitHub Actions YAML, a Jenkinsfile, or GitLab CI rules, version-controlled and reviewable like any other code change, not a slide deck nobody opens again.",
+  },
+  {
+    icon: ShieldAlert,
+    label: "A documented override policy",
+    description:
+      "A written escalation path for the rare release that needs a gate bypassed: who can authorize it, and what has to happen before the next one ships.",
+  },
+  {
+    icon: BarChart3,
+    label: "Pass and fail trend visibility",
+    description:
+      "A dashboard showing which gates fail most often and why, so a chronically flaky check gets fixed instead of quietly muted.",
+  },
+  {
+    icon: ClipboardList,
+    label: "A runbook for a blocked release",
+    description:
+      "A written procedure for what happens when a gate actually blocks a merge or a deploy: who gets paged, what gets checked first, how a false positive gets cleared.",
   },
 ];
 
@@ -262,6 +298,32 @@ export default function CicdQualityGatesPage() {
           </div>
 
           <PhaseTimeline phases={phases} />
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+            What you actually get
+          </h2>
+        </div>
+
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {deliverables.map(({ icon: Icon, label, description }, index) => (
+            <Reveal
+              key={label}
+              className="border-border/60 rounded-lg border p-5"
+              delay={index * 80}
+            >
+              <div className="bg-accent text-accent-foreground flex size-10 items-center justify-center rounded-lg">
+                <Icon className="size-5" />
+              </div>
+              <h3 className="mt-3 font-semibold">{label}</h3>
+              <p className="text-muted-foreground mt-1 text-sm">
+                {description}
+              </p>
+            </Reveal>
+          ))}
         </div>
       </section>
 
