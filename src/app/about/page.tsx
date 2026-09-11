@@ -8,6 +8,7 @@ import { Reveal } from "@/components/marketing/reveal";
 import { StatBand } from "@/components/marketing/stat-band";
 import { buttonVariants } from "@/components/ui/button";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
+import { buildFounderPersonSchema, founders } from "@/lib/founders";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -35,23 +36,6 @@ export const metadata: Metadata = {
   },
 };
 
-const founders = [
-  {
-    initials: "MA",
-    name: "Muhammad Ali",
-    title: "Co-Founder and QA Manager",
-    bio: "Nine years building and managing QA processes across fintech, SaaS, and e-commerce teams. The one who designs the process before anyone touches a test case, and joins your planning meetings to make sure it stays that way.",
-    avatarClassName: "bg-[#ffe0ad] text-[#354639]",
-  },
-  {
-    initials: "MK",
-    name: "Mohammad Khan",
-    title: "Co-Founder and Lead Automation QA Engineer",
-    bio: "Builds automation suites in Playwright and Selenium that live inside your CI pipeline, not next to it. If a bad build gets blocked before it merges, this is usually why.",
-    avatarClassName: "bg-[#ee9e58] text-[#354639]",
-  },
-];
-
 const manifesto = [
   "We're not a testing factory. We don't execute a checklist and hand back a pass or fail report.",
   "Quality is cross-functional. It doesn't live in a QA silo, it lives in planning, in code review, in the retro.",
@@ -65,12 +49,23 @@ const breadcrumbItems = [
 ];
 const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 
+const founderStructuredData = {
+  "@context": "https://schema.org",
+  "@graph": founders.map(buildFounderPersonSchema),
+};
+
 export default function AboutPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(founderStructuredData),
+        }}
       />
 
       <Breadcrumbs items={breadcrumbItems} />
@@ -155,8 +150,9 @@ export default function AboutPage() {
             {founders.map((founder, index) => (
               <Reveal
                 key={founder.name}
+                id={founder.slug}
                 delay={index * 80}
-                className="rounded-2xl border border-[#ffe0ad]/15 bg-[#ffe0ad]/10 p-8"
+                className="scroll-mt-16 rounded-2xl border border-[#ffe0ad]/15 bg-[#ffe0ad]/10 p-8"
               >
                 <div
                   className={cn(
@@ -170,7 +166,7 @@ export default function AboutPage() {
                   {founder.name}
                 </h3>
                 <p className="mt-1 text-sm text-[#f9f4eb]/70">
-                  {founder.title}
+                  {founder.jobTitle}
                 </p>
                 <p className="mt-4 text-sm text-[#f9f4eb]/80">{founder.bio}</p>
               </Reveal>

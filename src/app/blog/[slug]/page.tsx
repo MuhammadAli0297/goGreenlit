@@ -10,6 +10,7 @@ import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { stripInlineLinks } from "@/components/marketing/inline-links";
 import { blogPosts, getPostBySlug, getRelatedPosts } from "@/lib/blog-data";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
+import { buildFounderPersonSchema, getFounderByName } from "@/lib/founders";
 import { siteConfig } from "@/lib/site-config";
 
 export function generateStaticParams() {
@@ -73,10 +74,7 @@ export default async function BlogPostPage({
     // (see CLAUDE.md gotcha #15), so it is the real, honest value for
     // both fields, not a fabricated freshness signal.
     dateModified: post.date,
-    author: {
-      "@type": "Person",
-      name: post.author,
-    },
+    author: buildFounderPersonSchema(getFounderByName(post.author)),
     publisher: {
       "@type": "Organization",
       name: siteConfig.name,

@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { buildFounderPersonSchema, founders } from "@/lib/founders";
 import { siteConfig } from "@/lib/site-config";
 
 import "./globals.css";
@@ -71,6 +72,7 @@ const structuredData = {
   description: siteConfig.metaDescription,
   logo: `${siteConfig.url}/apple-icon`,
   sameAs: siteConfig.sameAs,
+  founder: founders.map(buildFounderPersonSchema),
   areaServed: "Remote",
   address: {
     "@type": "PostalAddress",
