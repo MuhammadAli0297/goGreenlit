@@ -1149,6 +1149,42 @@ signature wOF2` immediately, before variable-font support even
     Google's "Good" thresholds (LCP ≤2.5s, CLS ≤0.1) across every page
     type sampled, no fix was needed, this gotcha exists to record the
     measurement method and baseline, not a defect.
+31. **A third content batch (2026-09-15) grew the blog from 40 posts to
+    45, 1 new post per existing category, following the same real-research-
+    first sourcing gotcha #16 established and the same full process gotcha
+    #18 lays out.** Topics came from an actual web search on 2026 QA
+    industry trends (QAOps, the codeless test automation market, the
+    outcome-based/managed-QA pricing shift, performance and load testing
+    practices) cross-checked against every existing post title so no topic
+    duplicated prior coverage: `qa-strategy` got QAOps (the QA/DevOps
+    convergence trend), `test-automation` got codeless test automation
+    (deliberately framed around its honest limitations, not just its
+    benefits, gotcha #15's unique-angle requirement), `outsourcing-hiring`
+    got outcome-based QA pricing (a distinct angle from the existing
+    `qa-outsourcing-cost-pricing-guide` post, which covers rate ranges,
+    not the newer outcome-versus-hourly contract structure), and
+    `testing-practices` got performance and load testing, a genuine gap,
+    no post in that category touched performance at all before this.
+    `case-studies` again hit the fabrication constraint gotcha #16
+    documents (all 4 real verified stats already used across 5 existing
+    posts), resolved the same way as before: a composite pattern piece
+    (`what-a-qa-audit-usually-finds`), generalized across engagements
+    rather than one identified client, linking each finding category to
+    a real service page and closing on the same two real stats (45%
+    escaped-defect reduction, 95% coverage) via their own case-study
+    posts rather than a new number. All 5 posts carry 5 to 8 in-content
+    links in the body plus a 5 to 8 link FAQ section per gotcha #17, an
+    author bio via the existing `authorBios` map (no new entry needed,
+    both founders already covered), and every title was verified against
+    the `title.length + 13 <= 60` budget from gotcha #15 before being
+    written into `blog-data.ts`, not estimated by eye. The category split
+    stayed even (9 per category, 45 total) and
+    `interleaveByCategory()`'s no-adjacent-duplicate guarantee (gotcha
+    #19) was reverified against the larger catalog via the existing
+    Vitest suite rather than assumed to still hold. `README.md`'s and
+    this file's own "40 posts / 57 routes" figures were updated to
+    45/62 in the same change, the same upkeep gotcha #14 already
+    established for `sitemap.ts`'s per-route dates.
 
 ## Repository structure
 
@@ -1271,7 +1307,8 @@ slug` URL with a real, unique title/description drawn from that
     [slug]/page.tsx         Post template, `generateStaticParams` over all
                             slugs in blog-data.ts (12 posts at launch, 25
                             as of 2026-08-23, 35 as of 2026-08-31, 40 as
-                            of 2026-09-04, see gotchas #16 and #19),
+                            of 2026-09-04, 45 as of 2026-09-15, see
+                            gotchas #16, #19, and #31),
                             `notFound()` on an unknown slug. Uses
                             BlogPostHeader, not BlogHero/PageHero (gotcha
                             #9), plus ArticleBody, BlogRelatedPosts (same
@@ -1429,8 +1466,8 @@ src/lib/
                            `tintClass`, plus a real `description` field
                            added 2026-09-11, gotcha #29, powering the
                            category-filtered blog view's own metadata and
-                           on-page intro), `blogPosts` (40 as of 2026-09-04,
-                           an even 8 per category, each a
+                           on-page intro), `blogPosts` (45 as of 2026-09-15,
+                           an even 9 per category, each a
                            title/excerpt/category/author/date/readTime/
                            icon plus a `BlogContentBlock[]` body and an
                            optional `faqs?: BlogFaq[]`),
@@ -1622,9 +1659,9 @@ repo already handle well.
   This is as much an SEO requirement as a code convention: a page with no
   title or description does not get indexed well.
 - Keep `sitemap.ts` and `robots.ts` in sync with the actual route list.
-  57 marketing routes today (`/`, `/software-testing-services` and its
+  62 marketing routes today (`/`, `/software-testing-services` and its
   six subpages, `/qa-consulting` and its six subpages, `/about`, `/blog`
-  and its 40 `/blog/[slug]` posts, see the repository structure above), a
+  and its 45 `/blog/[slug]` posts, see the repository structure above), a
   new page needs an entry in `sitemap.ts` too. Don't trust this number
   blindly, check `src/app/`, `blog-data.ts`, and `sitemap.ts` directly
   since another page or post has likely been added since this was
