@@ -95,8 +95,12 @@ Three patterns, don't mix them up:
 ## Typography
 
 - Bespoke Serif for everything, headings, body copy, and the stat
-  numbers that used to be monospace (see `StatBand`). One typeface,
-  self-hosted via `next/font/local`, no second family anywhere.
+  numbers that used to be monospace (see `StatBand`). Self-hosted via
+  `next/font/local`. **One exception (2026-10-18):** JetBrains Mono, as
+  `font-label`, for small uppercase labels, statuses and numbers only.
+- Live Build headings: `font-medium tracking-[-0.035em]`, one italic
+  accent word as `<em>` (or `*word*` in a string prop), Sandy Brown on
+  dark grounds and plain ink on the light family bands.
 - Headings: `font-semibold tracking-tight`; add `text-balance` on
   headings and short lead paragraphs so they wrap evenly.
 - Use Tailwind's default scale (`text-sm` through `text-6xl`, or larger
@@ -107,8 +111,9 @@ Three patterns, don't mix them up:
 - Containers: `max-w-6xl` for full-width sections, `max-w-3xl` /
   `max-w-2xl` for reading-width text, if any gets added.
 - Outer gutter on every section: `px-4 sm:px-6 lg:px-8`.
-- Vertical rhythm: `py-20` for standalone sections (`pt-20 pb-12` /
-  `pb-16` for headers directly under the sticky site header). A bold
+- Vertical rhythm: `py-20` for standalone sections. The site header is now
+  a floating pill that takes no layout space, so a page's first element
+  clears it with `pt-(--header-clearance)` (Breadcrumbs already does). A bold
   hero-style section can run taller (`min-h-[85vh]` or similar) since it
   is meant to feel like a billboard moment, not a standard content block.
 - Radius: `--radius: 0.5rem`, tighter than shadcn's default, keep it
@@ -127,6 +132,14 @@ import { buttonVariants } from "@/components/ui/button";
   Explore services
 </Link>;
 ```
+
+On redesigned pages the main call to action uses `ctaVariants` from
+`@/components/brand/cta-variants` the same way (`cta` for the primary
+action, `outline` on a light ground, `outlineOnDark` inside a dark
+section, sizes `md`, `lg`, `xl`). `buttonVariants` still works and is
+unchanged. Status colors are `StatusPill` (olive pass, sandy bug, always
+with an icon and a label) and cards are `StickerCard`, both in
+`src/components/brand/`.
 
 Also don't nest a full `<Button>` inside another Base UI component's
 `render` prop (e.g. `<SheetTrigger render={<Button ... />}>`), both
@@ -184,8 +197,14 @@ Tailwind classes. Don't mix in a second icon set.
       and components), or deliberately claims new ones for a new family,
       rather than accidentally cloning another family's exact look
 - [ ] Typography matches the scale/weight conventions above
-- [ ] Any button-as-link uses `buttonVariants()` on `<Link>`, not
-      `Button asChild`
+- [ ] Any button-as-link uses `buttonVariants()` or `ctaVariants()` on
+      `<Link>`, not `Button asChild`
+- [ ] Focus is visible (ink on light, Navajo White inside a dark section
+      with the `on-dark` class), Sandy Brown is never used for focus rings
+      or for text on paper
+- [ ] Any new animation is pure CSS from the `lb-*` set (or Reveal), shows
+      its finished state without scroll-driven support, and is checked by
+      sampling real values over time, not just the end state
 - [ ] Copy has no banned words, no em dashes, and no fabricated social
       proof
 - [ ] Headings form a clean outline (one `h1`, `h2` per section, `h3`

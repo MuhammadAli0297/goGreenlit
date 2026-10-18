@@ -184,6 +184,39 @@ The palette this brand is built from (verbatim, [coolors.co/354639-8fa175-b1c680
 | Navajo White    | `#ffe0ad` | Warm pale cream, the lightest tint, page-section base       |
 | Sandy Brown     | `#ee9e58` | Warm orange-terracotta, secondary surfaces, borders         |
 
+### Live Build brand layer (2026 redesign)
+
+Added 2026-10-18 for the redesign (see CLAUDE.md gotchas #32 to #34). The
+five swatches above and every shadcn token below are unchanged. These
+tokens sit beside them in `globals.css` and are used as `bg-ink`,
+`text-ink`, `bg-paper`, `bg-surface`, `bg-sandy`, `bg-pass`, `bg-bug` and
+so on:
+
+| Token                                            | Hex       | Job                                                                   |
+| ------------------------------------------------ | --------- | --------------------------------------------------------------------- |
+| `--ink`                                          | `#1c2820` | Text and every 1.5px outline. Never pure black.                       |
+| `--paper`                                        | `#fbf3e2` | The new page ground, a lighter tint of Navajo White.                  |
+| `--surface`                                      | `#fffaf0` | Cards that sit on paper. Never pure white.                            |
+| `--deep` `--leaf` `--olive` `--navajo` `--sandy` | swatches  | The five swatches by role name, so bold sections stop hardcoding hex. |
+| `--pass` (= olive) and `--bug` (= sandy)         | -         | The status language, see below.                                       |
+
+- **Status language.** Muted Olive means a check passed, Sandy Brown means
+  a bug was found, in every widget on every page, so a visitor learns it
+  once. Never rely on the color alone: `StatusPill` pairs each status
+  with an icon (a tick, an exclamation mark) and a text label.
+- **Checked contrast pairings** (WCAG, locked by
+  `src/lib/brand-contrast.test.ts`, which reads the real hex values):
+  ink on paper 13.85, ink on sandy 7.04, ink on olive 8.20, ink on leaf
+  5.48, navajo on deep 7.92, sandy on deep 4.63, all fine for body text.
+  **Deep on leaf is 3.61, large text only.** **Sandy, olive and leaf on
+  paper are 1.97, 1.69 and 2.53, decoration only: never text, never a
+  focus ring.**
+- **Keyboard focus** is a 3px ring in ink on light grounds and Navajo
+  White inside a dark section (add the `on-dark` class to the section).
+  Sandy Brown is deliberately not used for it, it fails the 3:1 minimum.
+- **The site has no dark mode switch**, so the new tokens have no dark
+  counterpart.
+
 ### Semantic tokens
 
 **No pure white or pure black anywhere, including translucent overlays.**
@@ -348,7 +381,11 @@ see the page-family note below.
   range 300 to 800, with a matching italic), self-hosted via
   `next/font/local` in `src/app/layout.tsx`, with the woff2 files in
   `src/app/fonts/`. Don't add a second typeface without updating this
-  document.
+  document. **One deliberate exception, added 2026-10-18:** JetBrains
+  Mono (`font-label`, via `next/font/google`, self-hosted at build time)
+  for small uppercase labels, statuses and numbers only, the "test log"
+  voice of the Live Build redesign. Never for body copy, headings or
+  buttons.
 - **Why Bespoke Serif**: a deliberate move away from the neutral
   sans/mono system pairing toward a single, editorial serif with real
   character, warmer and more considered than a generic UI sans, which
@@ -357,6 +394,13 @@ see the page-family note below.
   monospace face) trades tabular digit alignment for total typographic
   consistency, that tradeoff was made deliberately, don't reintroduce a
   second face for numbers without checking first.
+- **Live Build headings** (the redesign): `font-medium` with
+  `tracking-[-0.035em]` and `leading-[1.04]` to `leading-[1.08]` at
+  display sizes, larger than before (`text-4xl` up to `text-7xl`). **One
+  italic accent word per headline**, written as `<em>` (or `*word*` in a
+  string prop like `CtaSection`'s `title`), in Sandy Brown on a dark
+  ground and plain ink on the light family bands (Sandy Brown fails
+  contrast there). It replaces the old highlighted-chip span.
 - **Scale**: use Tailwind's default type scale (`text-sm` through
   `text-6xl`) rather than one-off font sizes. Headings are
   `font-semibold` with `tracking-tight`; body copy is default weight.
@@ -418,7 +462,7 @@ leaning on imagery. If/when photography is introduced:
 
 ## 9. Animation
 
-There are three distinct motion patterns on this site now. They live in
+There are four distinct motion patterns on this site now. They live in
 different places and follow different rules, don't reach for the wrong
 one for a given job.
 
@@ -480,9 +524,11 @@ throughout, including the calm token-driven parts of the site.
   `globals.css` forces `opacity: 1; transform: none; transition: none`
   regardless of the component's internal state, so a new consumer
   doesn't need its own `matchMedia` branch.
-- The stat band's count-up numbers (`animated-stat-value.tsx`) follow
-  the same trigger/replay/reduced-motion shape, animating a number via
-  `requestAnimationFrame` instead of toggling a CSS class.
+- The stat band's count-up numbers (`count-up.tsx`) follow the same
+  trigger/replay/reduced-motion shape, animating a number via
+  `requestAnimationFrame` instead of toggling a CSS class. They count over
+  about 1.8 seconds as each card fades in, not in step with scroll, and
+  the server-rendered page already holds the final values.
 
 ### Scroll-linked continuous transforms (two standing instances)
 
@@ -515,6 +561,32 @@ Both share the same implementation approach:
   third scroll-position listener elsewhere without confirming it's
   worth the added main-thread cost, prefer the reveal pattern above for
   anything that's really just "animate in once visible."
+
+### Live Build motion utilities (the redesign, pure CSS)
+
+Added 2026-10-18 (CLAUDE.md gotcha #32). A set of `lb-*` classes in
+`globals.css`, still no animation library and still Server Component
+friendly. They add to `Reveal`, they do not replace it.
+
+- **Ambient loops:** `lb-float`, `lb-pulse` (the logo halo's heartbeat),
+  `lb-caret`, `lb-marquee` (pauses on hover), `lb-sweep` (a test run
+  sweeping through a grid of cells: idle, bug, pass), `lb-term-line` (a
+  log whose lines appear one after another, ten lines at most).
+- **Scroll-driven:** `lb-rise`, `lb-slide-l`, `lb-slide-r`, `lb-parallax`,
+  `lb-parallax-soft`, `lb-zoom-out`, `lb-draw` (a line that draws as its
+  section scrolls through), `lb-wipe`, `lb-progress` (reading progress).
+  Native `animation-timeline: view()` / `scroll()` inside an `@supports`
+  block.
+- **The two rules every one of them follows:** content is visible without
+  the animation (an unsupported browser, a screenshot, or reduced motion
+  shows the finished page, keyframes always end on the resting state), and
+  every class drops to that resting state under
+  `prefers-reduced-motion: reduce`.
+- **Use motion to show the work, once per scroll.** A looping demo
+  (terminal, run matrix) is the page's one moving moment in its section,
+  not decoration scattered everywhere. Decorative widgets are
+  `aria-hidden` or a single labelled `role="img"`, and their example text
+  never contains a number that is not one of the four verified stats.
 
 ### FAQ accordion (any page with an FAQ)
 
@@ -629,5 +701,11 @@ outsourcing QA testing actually mean?"`), and the paragraph right
 | Animate bold-section ambient motion with hand-written CSS keyframes                    | Add an animation library                              |
 | Use the shared `Reveal` component for scroll-triggered fades, anywhere on the page     | Hand-roll a new `IntersectionObserver` per section    |
 | Use `PageHero` for a new page's header, and `FaqAccordion` for a new FAQ section       | Rebuild either pattern by hand                        |
+| Use `ctaVariants` on a `<Link>` for the main call to action on a redesigned page       | Hand-style a one-off sandy button                     |
+| Pair every pass or bug color with an icon and a label (`StatusPill`)                   | Signal status by color alone                          |
+| Put one italic accent word in a headline (`<em>`, or `*word*` in a string)             | Highlight a word with a colored background chip       |
+| Use ink for keyboard focus on light grounds, Navajo White on dark                      | Use Sandy Brown for focus rings or text on paper      |
+| Clear the floating header with `pt-(--header-clearance)` on a page's first element     | Let a page's first element sit under the header       |
+| Check an animation by sampling its values over time in a real browser                  | Trust that the final state means it animated          |
 | Give each new page family its own bold color and composition devices                   | Reuse another family's bold color/devices verbatim    |
 | Link a blog claim to the real post/page it comes from (5-8 per body, 5-8 per FAQ)      | Force links to hit the count, or link to nothing real |

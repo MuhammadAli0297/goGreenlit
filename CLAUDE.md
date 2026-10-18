@@ -81,9 +81,31 @@ New pages are expected and welcome. When adding one:
   content to justify its own URL and search intent, not for a subsection
   that fits fine as more homepage content.
 
+### Redesign in progress: "Live Build" (started 2026-10-18)
+
+The whole site is being redesigned on one long-lived branch
+(`chat/oct-18-session`), phase by phase, and **nothing merges to `main`
+until the full redesign is approved**. Pushing the branch is fine, merging
+is not (deploy rule: `main` is production). The direction keeps the five
+swatches, the warm voice and every page family's identity, and adds
+motion, interactive widgets and a sharper component look: hard-edged
+"sticker" cards, pill buttons with a press-down edge, mono status labels,
+one italic accent word per headline, and live demos (a looping test-run
+terminal, a run matrix) in place of static illustration. Design source of
+truth while it is in flight: the Live Build design canvas artifact
+(https://claude.ai/artifact/EZczMG9LP1hscifNEaFLU3, 20 boards covering
+every page, the menus, the shared pieces and phone widths) and the
+progress tracker (https://claude.ai/artifact/MkU75tfmdu3vVt69E9WBiZ, 10
+phases, 87 tasks). **Status as of 2026-10-18:** Phase 0 (decisions) is
+open, Phases 1 to 3 (foundation, site chrome, shared components) are
+built and pushed, Phase 4 (homepage) is next. See gotchas #32 to #34 for
+what each finished phase established. Pages not yet redone still look
+mixed on purpose (old highlight chips, old CTA buttons inside new
+components), each later phase converts its own pages.
+
 ## Stack
 
-- **Framework**: Next.js 16 (App Router, Turbopack, React 19.2)
+- **Framework**: Next.js 16 (App Router, Turbopack, React 19.2): Next.js 16 (App Router, Turbopack, React 19.2)
 - **Language**: TypeScript, `strict` + extra strictness flags on (see
   `tsconfig.json`)
 - **Styling**: Tailwind CSS v4 (CSS-first config, no `tailwind.config.ts`,
@@ -91,6 +113,9 @@ New pages are expected and welcome. When adding one:
 - **Components**: shadcn/ui (`base-nova` style) on top of **Base UI**
   (`@base-ui/react`), not Radix. See the Base UI gotcha below before you use
   `asChild` out of habit.
+- **Fonts**: Bespoke Serif (self-hosted, `next/font/local`) for everything, plus
+  JetBrains Mono (`next/font/google`, self-hosted at build time) for small
+  uppercase labels only (`font-label`), see gotcha #32
 - **Testing**: Vitest + React Testing Library (unit), Playwright (e2e)
 - **Tooling**: ESLint (flat config), Prettier (+ `prettier-plugin-tailwindcss`),
   Husky + lint-staged + commitlint
@@ -196,8 +221,9 @@ Live in `src/app/globals.css`.
    back up. It uses the hero `<section>`'s own rendered height (via
    `closest("section")`) as the scroll range, not a fixed viewport
    fraction, since `PageHero` is shorter and content-driven, unlike the
-   homepage hero's fixed `min-h-[calc(100dvh-4rem)]` (full viewport height
-   minus the sticky header's `h-16`, see gotcha #20). CTAs live outside the zoom
+   homepage hero's fixed `min-h-dvh` (exactly one viewport, the floating
+   header takes no layout space since the 2026-10-18 chrome rebuild, see
+   gotcha #20). CTAs live outside the zoom
    wrapper so they stay normal-sized and clickable at any scroll
    position. A third scroll-linked instance exists now too:
    `BlogHeroScroll` (`src/components/marketing/blog-hero-scroll.tsx`),
@@ -297,8 +323,16 @@ Live in `src/app/globals.css`.
    and check contrast on any new pairing rather than assuming a swatch
    that worked elsewhere works here too (see BRAND_GUIDELINES.md §4).
 
-8. **The header nav is a real hamburger/drawer below `sm`, not a
-   hand-squeezed row.** Before 2026-09-04 the header shrank the logo, nav
+8. **The header nav is a real hamburger/drawer below `md`, not a
+   hand-squeezed row.** **Update 2026-10-18: the whole header was rebuilt
+   in the Live Build redesign, see gotcha #33 for the current shape**
+   (floating pill, `HeaderBar` client component, Base UI mega menus,
+   full-screen drawer, breakpoint raised from `sm` to `md`). What still
+   holds from this entry: no squeezed third state, the Accordion reuse and
+   its `no-underline!` fix, the `cn` import fix after `add sheet`,
+   `overviewLabel`, `NavItem.shortLabel` stays gone, and the Playwright
+   mid-animation click gotcha. The rest below is the history of the
+   earlier shape, written when the breakpoint was `sm`. Before 2026-09-04 the header shrank the logo, nav
    item padding/font-size, and the "Book a call" button below `sm` to
    cram all four top-level entries (`Services`, `QA Consulting`, `About`,
    `Blog`) into one row without wrapping, down to a 320px viewport (see
@@ -843,6 +877,20 @@ main..<current-branch>` before committing unrelated work to whatever
     rounding difference is invisible to the eye but would fail a strict
     equality check.
 
+    **Update 2026-10-18: the header no longer takes layout space, so the
+    "minus `4rem`" is gone.** The floating pill header (gotcha #33) is
+    `sticky top-0 h-0`, it overlays the page instead of sitting above it,
+    so `hero.tsx` is now plain `min-h-dvh` and the hero alone equals one
+    viewport. Re-verified by measuring the hero section against
+    `innerHeight` at 1440x900, 1280x720, 1920x1080, 768x1024 and 390x844,
+    all exactly equal. The short-viewport variant below changed from
+    `py-10` to `pt-(--header-clearance) pb-10` so the headline still
+    clears the pill, and the accepted overflow shrank slightly (375x667
+    now 31px, landscape 844x390 now 207px, was 48 and 239). Everything
+    else in this entry (the `dvh` reasoning, the height-based
+    `[@media(max-height:700px)]` mechanism, never shrinking the headline)
+    still applies unchanged.
+
     **A real content-overflow gap surfaced immediately, and was fixed as
     a deliberate follow-up, not folded into the same change blindly.** On
     a short viewport (a phone in portrait under roughly 700px tall, or
@@ -1185,13 +1233,185 @@ signature wOF2` immediately, before variable-font support even
     this file's own "40 posts / 57 routes" figures were updated to
     45/62 in the same change, the same upkeep gotcha #14 already
     established for `sitemap.ts`'s per-route dates.
+32. **Live Build foundation layer (2026-10-18): additive tokens, one new
+    font, shared motion utilities, a global focus ring, and a brand
+    component folder outside `ui/`.** Phase 1 of the redesign, built so
+    every later phase assembles from finished parts.
+    - **Tokens are additive.** `globals.css` gained `--ink` (#1c2820),
+      `--paper` (#fbf3e2), `--surface` (#fffaf0), the five swatches as
+      `--deep`/`--leaf`/`--olive`/`--navajo`/`--sandy`, the status pair
+      `--pass` (= olive) and `--bug` (= sandy), and `--header-clearance`
+      (5.5rem). They are exposed to Tailwind (`bg-ink`, `text-ink`,
+      `bg-paper`, `bg-surface`, `bg-sandy`, `bg-pass` and so on). The
+      shadcn tokens (`--background`, `--card`...) are untouched so pages
+      that are not redone yet look the same. The site has no dark mode
+      switch, so the new tokens have no `.dark` values. Olive means a check
+      passed, Sandy Brown means a bug was found, in every widget, and never
+      by color alone (see `StatusPill`).
+    - **`font-label`** is JetBrains Mono (`next/font/google`, weights 400
+      and 500, self-hosted at build time so there is no request to Google
+      and the CSP needs no change, `preload: false` so Bespoke Serif keeps
+      the early bandwidth). Small uppercase labels, statuses and numbers
+      only. `font-mono` still points at the serif on purpose: three
+      existing call sites use it (404, a homepage line, the old stat
+      value), and they migrate with their pages.
+    - **`lb-*` motion utilities** (globals.css, pure CSS, no library):
+      `lb-float`, `lb-pulse`, `lb-caret`, `lb-marquee` + `lb-marquee-track`,
+      `lb-sweep` (set `--lb-i`), `lb-term-line` (looping terminal log),
+      and the scroll-driven `lb-rise`, `lb-slide-l/r`, `lb-parallax`,
+      `lb-parallax-soft`, `lb-zoom-out`, `lb-draw`, `lb-wipe`,
+      `lb-progress`, all behind `@supports (animation-timeline: view())`
+      with keyframes that end on the natural resting state, so an
+      unsupported browser or a screenshot shows the finished page. Every
+      class drops to its resting state under `prefers-reduced-motion`.
+      They sit beside `Reveal`, which is still the default calm fade-up.
+      The terminal needs one keyframe set per line (`lb-term-1` to
+      `lb-term-10`, a shared `animation-delay` only offsets the first loop),
+      so ten lines is the supported maximum.
+    - **Focus ring.** A zero-specificity `:where(a, button, ...):focus-visible`
+      rule in `@layer base` draws a 3px ring in `--focus-ring` (ink on light,
+      Navajo White inside a section that carries the `on-dark` class).
+      Components that draw their own ring with `outline-none`, like Button,
+      keep it. **Sandy Brown is not used for focus**: it is 1.97:1 on paper,
+      below the 3:1 non-text minimum.
+    - **Brand components live in `src/components/brand/`, not in `ui/`**
+      (that folder is shadcn-generated and not hand-edited, so
+      `buttonVariants` and the generated Card are unchanged):
+      `cta-variants.ts` (`ctaVariants`: `cta` Sandy Brown press-down pill,
+      `outline`, `outlineOnDark`, sizes `md`/`lg`/`xl`, applied to a `<Link>`
+      like `buttonVariants`), `status-pill.tsx` (`StatusPill`, pass / bug /
+      idle, each pass and bug carries an icon), `sticker-card.tsx`
+      (`StickerCard`, ink outline, hard offset shadow, tones surface / leaf /
+      olive / navajo / sandy / deep, lifts on hover unless
+      `interactive={false}`; the deep tone uses an ink shadow because a slate
+      one would vanish).
+    - **Contrast is a test.** `src/lib/brand-contrast.test.ts` reads the
+      real hex values out of `globals.css` and asserts WCAG ratios, so a
+      swatch change fails before an unreadable pairing ships. Checked
+      2026-10-18: ink on paper 13.85, ink on sandy 7.04, ink on olive 8.20,
+      ink on leaf 5.48, navajo on deep 7.92, sandy on deep 4.63. **Deep on
+      leaf is 3.61, large text only.** Sandy, olive and leaf on paper are
+      all under 3:1, decoration only, never text or a focus ring.
+    - **Test setup.** `vitest.setup.ts` now stubs `IntersectionObserver`
+      (Reveal creates one on mount) and `matchMedia` (reports reduced motion
+      as ON, so scroll-linked effects skip their listeners). A test that
+      needs the animated path, like `count-up.test.tsx`, overrides
+      `matchMedia` to `matches: false` itself.
+33. **Site chrome rebuilt (2026-10-18): a floating pill header that takes
+    no layout space, Base UI mega menus, a full-screen drawer, a new
+    footer and breadcrumbs.** Phase 2.
+    - **The header is `sticky top-0 z-50 h-0`** with the pill inside
+      (`site-header.tsx`, a Server Component, passes plain props to
+      `header-bar.tsx`, a `"use client"` component). It overlays the page,
+      so **the first element of every page must clear it** with
+      `pt-(--header-clearance)`: `Breadcrumbs` carries it (every page but
+      the homepage), the homepage hero uses `py-24`, 404 and error use
+      `py-32`. A new page whose first element is not Breadcrumbs needs the
+      padding itself. The pill is paper-colored everywhere, one variant, no
+      scroll-position detection for dark versus light heroes.
+    - **Breakpoint is `md` (768px), not `sm`.** Four items plus the booking
+      button do not fit comfortably between 640 and 768. Below `md` the
+      `MobileNav` drawer renders instead.
+    - **Mega menus** use one `NavigationMenu` root built directly from
+      `@base-ui/react/navigation-menu` parts inside `header-bar.tsx`, not the
+      generated `ui/navigation-menu.tsx` (its popup classes are hardcoded
+      inside the root, so a custom look cannot be composed from outside).
+      The popup is anchored to the pill element via the Positioner's
+      `anchor` ref with `positionMethod="fixed"`, `align="center"`. Services
+      and QA Consulting show their subpages with a one-line `description`
+      (a new optional field on `navItems` sub-items in `site-config.ts`)
+      plus a booking card. Blog shows category tiles with real article
+      counts and the latest post, **computed on the server in `SiteHeader`
+      and passed down as props** so none of `blog-data.ts`'s post bodies
+      reach the client bundle. There is deliberately no hover preview of
+      invented test-log lines in the Services menu (they would need numbers
+      the brand rules ban). **Every `NavigationMenu.Link` needs
+      `closeOnClick`**, otherwise the menu stays open after a client
+      navigation (caught by the e2e suite).
+    - **Playwright gotcha:** while a menu is open Base UI sets
+      `pointer-events: none` on the `NavigationMenu.List`, so Playwright's
+      `hover()` cannot reach a second trigger (the actionability check says
+      the `nav` intercepts the pointer). Real mouse movement between
+      triggers works fine. `e2e/navigation.spec.ts` opens menus with focus
+      plus Enter instead, which also covers the keyboard path.
+    - **`MobileNav`** is a full-screen Ink sheet with large type. The
+      generated sheet's own close button is turned off
+      (`showCloseButton={false}`) in favor of a `SheetClose` in the header
+      row, the generated one is a light ghost button that sits wrong on the
+      dark ground. Rows rise in with `tw-animate-css` (`animate-in
+slide-in-from-right-8`, staggered by index) each time it opens.
+      `Logo` gained an optional `onClick` so tapping it closes the drawer.
+    - **Footer.** Back to top is a client button (`back-to-top.tsx`) calling
+      `window.scrollTo`, **not a `#` link: Next's router swallows a bare `#`
+      click on this layout and never scrolls.** The oversized decorative
+      wordmark's glyph boxes extend up past its tight `leading-[0.85]`, and
+      `elementFromPoint` showed them covering the Back to top button, so the
+      row above carries `relative z-10`. Link columns still come from
+      `siteConfig.nav`.
+    - **Breadcrumbs** are mono labels with a plain `/` separator (still no
+      icon, so About stays icon-free), and no bottom border band.
+    - **Tests.** `e2e/navigation.spec.ts` (15 tests: header, mega menus,
+      Escape, current-page highlight, hero is exactly one viewport, mobile
+      drawer, breadcrumb clearance, footer columns, Back to top) plus the 3
+      in `home.spec.ts` make 18. `breadcrumbs.test.tsx` covers breadcrumbs.
+34. **Shared marketing components restyled (2026-10-18), props kept stable
+    so all 15 consuming pages still work.** Phase 3. The old per-page
+    pieces they replace (the `aurora-glow` highlight chip inside an `h1`,
+    `buttonVariants` CTA overrides) still render inside these components
+    until each page's own phase converts them.
+    - **`PageHero`** gained `tone` (`deep` default, `leaf`, `olive` for the
+      family bands, with ink text since sandy fails on leaf and olive) and
+      `aside` (a widget slot, switches to two left-aligned columns on `lg`).
+      An `<em>` inside the `h1` is the italic accent word. The scroll zoom
+      (`PageHeroScrollZoom`) is unchanged.
+    - **`CtaSection`** is a full-bleed band with the aurora. `tone` is
+      `navajo` (default), `leaf` or `olive`, **no deep tone, because it is
+      always the last section before the footer and the footer is Dark
+      Slate Grey, a deep CTA would merge into it.** `title` accepts
+      `*word*` for the italic accent via `renderWithEmphasis()`
+      (`emphasis.tsx`), a string without asterisks is unchanged. The old
+      default copy had contractions, now fixed and guarded by a test.
+    - **`StatBand`** is four `StickerCard`s with the four verified stats
+      only, each number a **`CountUp`** (`count-up.tsx`, a `"use client"`
+      leaf): server-rendered as the final value, resets to 0 only while off
+      screen, then eases up over 1.8s when it enters (staggered 80ms with its
+      card's `Reveal`), replays on every re-entry, reduced motion shows the
+      final value, real value repeated in an `sr-only` span. **A lesson from
+      building it:** a first CSS-only version scrubbed the count to scroll
+      position over the card's own height, it technically worked but finished
+      in about 100px of scrolling, too fast to see, and the check had only
+      confirmed the final numbers. Verify an animation by sampling its
+      values over time in a real browser, not by checking the end state.
+      `animated-stat-value.tsx` and the CSS `lb-count` were removed.
+    - **`FaqAccordion`** keeps its structure (closed by default, inline-link
+      parser, `Reveal` per row) with large questions, ink rules and a plus
+      icon in a ring that rotates and fills Sandy Brown when open. The
+      generated chevrons are hidden with `hidden!` (a plain `hidden` loses
+      to the primitive's own expanded-state rule). **`ServiceCard`** is a
+      `StickerCard` (`bold` = leaf card with sandy icon tile, `subtle` =
+      surface card with olive tile), the old blurred hover-glow CSS is
+      removed. **`RelatedLinks`**, **`PhaseTimeline`** (line draws with
+      `lb-draw`, numbered navajo circles) and **`CompareColumns`** (flat
+      tinted left, sandy-bordered sticker right, every item has an icon) are
+      restyled in place.
+    - **Two reusable widgets**, both decorative and Server Components:
+      `TestRunTerminal` (`test-run-terminal.tsx`, `aria-hidden`, at most ten
+      lines, tones pass / bug / note) and `RunMatrix` (`run-matrix.tsx`, one
+      `role="img"` with a plain-language label, cells sweep diagonally). Keep
+      their example text honest and generic, **never put a number in them
+      that is not one of the four verified stats** (BRAND_GUIDELINES.md
+      section 2).
+    - **Verification at the end of Phase 3:** 100 unit tests across 16
+      files, 18 e2e tests, lint, format, typecheck clean, and every one of
+      the 62 sitemap routes returning 200.
 
 ## Repository structure
 
 ```
 src/app/                  Routes (App Router). Keep page files thin,
                           compose components, don't inline large JSX trees.
-  layout.tsx              Root layout: self-hosted font, metadata (including
+  layout.tsx              Root layout: self-hosted fonts (Bespoke Serif plus
+                          JetBrains Mono for labels, gotcha #32), metadata (including
                           the homepage's own `alternates.canonical`, added
                           2026-08-16, gotcha #14), JSON-LD structured data
                           (the sitewide `ProfessionalService` block includes
@@ -1366,12 +1586,19 @@ src/components/
                           polymorphic components, safe to point at
                           `next/link` directly (see gotcha #2, that only
                           warns about Button, not Link-to-Link).
-  layout/                 Site chrome: header (site-header.tsx renders a
-                           dropdown via NavigationMenu for any navItems
-                           entry with nested items, a plain Link
-                           otherwise, desktop-only below `sm`; mobile-nav.tsx
-                           renders the same nav as a Sheet drawer for
-                           `sm`-and-below, see gotcha #8), footer (site-footer.tsx renders
+  brand/                  Live Build primitives (added 2026-10-18, gotcha
+                           #32), outside ui/ because ui/ is shadcn-generated:
+                           cta-variants.ts (`ctaVariants`, pill buttons with
+                           a press-down edge), status-pill.tsx (`StatusPill`),
+                           sticker-card.tsx (`StickerCard`)
+  layout/                 Site chrome (rebuilt 2026-10-18, gotcha #33): header
+                           (site-header.tsx is the zero-height floating
+                           shell and computes the blog menu data on the
+                           server, header-bar.tsx is the client pill with
+                           the Base UI mega menus, shown from `md` up;
+                           mobile-nav.tsx is the full-screen Sheet drawer
+                           below `md`, see gotchas #8 and #33), footer
+                           (back-to-top.tsx is its one client leaf; site-footer.tsx renders
                            link columns for every navItems entry that
                            carries subpages, plus a Company column for
                            About/Blog/Book a call, built from siteConfig.nav
@@ -1405,8 +1632,9 @@ src/components/
                            re-entry, takes an optional `id` passthrough
                            added 2026-09-11 for real anchor targets like
                            the About page's founder cards, gotcha #28),
-                           animated-stat-value.tsx (count-up
-                           numbers, also replays), hero-scroll-shrink.tsx
+                           count-up.tsx (the stat
+                           band's number that eases up from 0 when it enters
+                           and replays, gotcha #34), hero-scroll-shrink.tsx
                            (scroll-position-linked shrink/grow, homepage
                            hero only), page-hero-scroll-zoom.tsx (the same
                            technique applied to every PageHero consumer,
@@ -1442,6 +1670,16 @@ src/components/
                            cross-link block (see gotcha #11), built on
                            Reveal like everything else here, not a new
                            animation pattern
+
+                           Live Build additions (2026-10-18, gotcha #34):
+                           emphasis.tsx (`renderWithEmphasis`, turns
+                           `*word*` in a string prop into an italic `<em>`),
+                           test-run-terminal.tsx (`TestRunTerminal`, looping
+                           fake log) and run-matrix.tsx (`RunMatrix`, sweeping
+                           test grid), both decorative widgets. PageHero,
+                           CtaSection, StatBand, FaqAccordion, ServiceCard,
+                           RelatedLinks, PhaseTimeline and CompareColumns
+                           were restyled in place, see gotcha #34
 
 src/lib/
   site-config.ts          Single source of truth for site name, tagline,
@@ -1533,8 +1771,12 @@ src/lib/
                            each page still renders its own <script> tag.
   utils.ts                `cn()` class-merging helper
 
-e2e/                      Playwright specs
+e2e/                      Playwright specs: home.spec.ts (3 tests) and
+                          navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
+                          (100 across 16 files as of 2026-10-18)
+vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
+                          matchMedia stubs for jsdom (gotcha #32)
 
 public/                   Static assets served as-is. og-image.png (1200x630,
                            the sitewide OG/Twitter card image referenced by
