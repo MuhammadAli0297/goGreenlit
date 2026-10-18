@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
 
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -23,6 +24,19 @@ const bespokeSerif = localFont({
   ],
   variable: "--font-serif",
   display: "swap",
+});
+
+// The one new typeface of the Live Build redesign, used only for small
+// uppercase labels, statuses and numbers (the `font-label` utility).
+// next/font self-hosts it at build time, so there is no request to Google
+// and the CSP needs no change. Not preloaded: labels are never the LCP
+// element, so Bespoke Serif keeps the early-load bandwidth.
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -105,7 +119,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${bespokeSerif.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${bespokeSerif.variable} ${jetbrainsMono.variable} h-full antialiased`}
+    >
       <body className="flex min-h-full flex-col">
         <script
           type="application/ld+json"

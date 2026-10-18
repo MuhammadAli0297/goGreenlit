@@ -2,7 +2,7 @@ export interface NavItem {
   label: string;
   href: string;
   /** Subpages rendered as a dropdown under this item, see SiteHeader. */
-  items?: readonly { label: string; href: string }[];
+  items?: readonly { label: string; href: string; description?: string }[];
   /** Label for the dropdown's link back to `href` itself. Defaults to "All {label}" in SiteHeader if omitted. */
   overviewLabel?: string;
 }
@@ -22,26 +22,32 @@ export const navItems: NavItem[] = [
       {
         label: "Manual Testing",
         href: "/software-testing-services/manual-testing",
+        description: "Exploratory sessions that find what scripts miss",
       },
       {
         label: "Playwright Automation",
         href: "/software-testing-services/playwright-automation",
+        description: "Stable end-to-end suites that run in your CI",
       },
       {
         label: "Selenium Testing",
         href: "/software-testing-services/selenium-testing",
+        description: "Proven coverage for established stacks",
       },
       {
         label: "API Testing",
         href: "/software-testing-services/api-data-testing",
+        description: "Contracts and data checked below the interface",
       },
       {
         label: "Regression Testing",
         href: "/software-testing-services/regression-testing",
+        description: "Prove yesterday still works so today can ship",
       },
       {
         label: "Mobile Testing",
         href: "/software-testing-services/mobile-app-testing",
+        description: "Real devices, real networks, real users",
       },
     ],
   },
@@ -53,26 +59,32 @@ export const navItems: NavItem[] = [
       {
         label: "Embedded QA Team",
         href: "/qa-consulting/embedded-qa-team",
+        description: "Senior testers inside your sprints",
       },
       {
         label: "Test Strategy",
         href: "/qa-consulting/test-strategy-consulting",
+        description: "Decide what to test, and what to skip",
       },
       {
         label: "QA Process Design",
         href: "/qa-consulting/qa-process-design",
+        description: "Roles, handoffs and triage that work",
       },
       {
         label: "CI/CD Quality Gates",
         href: "/qa-consulting/cicd-quality-gates",
+        description: "Automated checks that stop bad builds",
       },
       {
         label: "QA Audit",
         href: "/qa-consulting/qa-audit-assessment",
+        description: "An honest read of where you stand",
       },
       {
         label: "Release Readiness",
         href: "/qa-consulting/release-readiness",
+        description: "A clear go or no-go before you ship",
       },
     ],
   },

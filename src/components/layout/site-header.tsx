@@ -1,78 +1,55 @@
-import Link from "next/link";
-
-import { Logo } from "@/components/layout/logo";
-import { MobileNav } from "@/components/layout/mobile-nav";
-import { buttonVariants } from "@/components/ui/button";
+import { HeaderBar, type BlogMenuData } from "@/components/layout/header-bar";
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+  blogCategories,
+  blogPosts,
+  getCategoryBySlug,
+  getPostsByCategory,
+} from "@/lib/blog-data";
 import { siteConfig } from "@/lib/site-config";
 
+/** The one category whose chart token (Dark Slate Grey) needs light text on top. */
+const DARK_TILE_SLUGS = new Set(["qa-strategy"]);
+
+function buildBlogMenu(): BlogMenuData {
+  const latest = [...blogPosts].sort((a, b) => b.date.localeCompare(a.date))[0];
+  if (!latest) throw new Error("blogPosts is empty, the header needs one post");
+  const latestCategory = getCategoryBySlug(latest.category);
+
+  return {
+    total: blogPosts.length,
+    categories: blogCategories.map((cat) => ({
+      slug: cat.slug,
+      label: cat.label,
+      href: `/blog?category=${cat.slug}`,
+      count: getPostsByCategory(cat.slug).length,
+      colorClass: cat.colorClass,
+      onDark: DARK_TILE_SLUGS.has(cat.slug),
+    })),
+    latest: {
+      title: latest.title,
+      href: `/blog/${latest.slug}`,
+      categoryLabel: latestCategory?.label ?? "",
+      excerpt: latest.excerpt,
+    },
+  };
+}
+
+/**
+ * Floating pill header. It takes no layout space (h-0, sticky), the pill
+ * sits over the top of whatever the page starts with, so the first
+ * element on every page clears it with `pt-(--header-clearance)` (see
+ * globals.css). That is also why the homepage hero is now exactly one
+ * viewport tall, with no header height to subtract.
+ */
 export function SiteHeader() {
   return (
-    <header className="border-border/60 bg-background/80 supports-backdrop-filter:bg-background/60 sticky top-0 z-50 border-b backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-4 sm:px-6 lg:px-8">
-        <Logo />
-        <div className="hidden items-center gap-6 sm:flex">
-          <nav className="flex items-center">
-            {siteConfig.nav.map((item) =>
-              item.items ? (
-                <NavigationMenu key={item.href}>
-                  <NavigationMenuList>
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger className="text-foreground/80 hover:text-foreground px-2.5 text-sm">
-                        {item.label}
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent className="min-w-56">
-                        <ul className="flex flex-col gap-0.5">
-                          <li>
-                            <NavigationMenuLink
-                              render={<Link href={item.href} />}
-                              className="font-medium"
-                            >
-                              {item.overviewLabel ?? `All ${item.label}`}
-                            </NavigationMenuLink>
-                          </li>
-                          {item.items.map((sub) => (
-                            <li key={sub.href}>
-                              <NavigationMenuLink
-                                render={<Link href={sub.href} />}
-                              >
-                                {sub.label}
-                              </NavigationMenuLink>
-                            </li>
-                          ))}
-                        </ul>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                  </NavigationMenuList>
-                </NavigationMenu>
-              ) : (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="text-foreground/80 hover:text-foreground px-2.5 py-1.5 text-sm font-medium whitespace-nowrap"
-                >
-                  {item.label}
-                </Link>
-              ),
-            )}
-          </nav>
-          <Link
-            href={siteConfig.links.calendar}
-            className={buttonVariants({ size: "default" })}
-          >
-            Book a call
-          </Link>
-        </div>
-        <div className="sm:hidden">
-          <MobileNav />
-        </div>
+    <header className="sticky top-0 z-50 h-0">
+      <div className="mx-auto mt-3.5 w-[min(1180px,calc(100%-2rem))]">
+        <HeaderBar
+          nav={siteConfig.nav}
+          blog={buildBlogMenu()}
+          bookingHref={siteConfig.links.calendar}
+        />
       </div>
     </header>
   );
