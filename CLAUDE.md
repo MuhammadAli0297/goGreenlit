@@ -98,8 +98,10 @@ every page, the menus, the shared pieces and phone widths) and the
 progress tracker (https://claude.ai/artifact/MkU75tfmdu3vVt69E9WBiZ, 10
 phases, 87 tasks). **Status as of 2026-10-18:** Phase 0 (decisions) is
 open, Phases 1 to 3 (foundation, site chrome, shared components) are
-built and pushed, Phase 4 (homepage) is next. See gotchas #32 to #34 for
-what each finished phase established. Pages not yet redone still look
+built and pushed, Phase 4 (homepage) is built (committed on the branch,
+the savings calculator is deliberately not built, see gotcha #35), Phase 5
+(Services family) is next. See gotchas #32 to #35 for what each finished
+phase established. Pages not yet redone still look
 mixed on purpose (old highlight chips, old CTA buttons inside new
 components), each later phase converts its own pages.
 
@@ -1405,6 +1407,45 @@ slide-in-from-right-8`, staggered by index) each time it opens.
       files, 18 e2e tests, lint, format, typecheck clean, and every one of
       the 62 sitemap routes returning 200.
 
+35. **Homepage rebuilt (2026-10-18), Phase 4.** Section order and grounds
+    alternate on purpose: hero (deep), what-we-test strip (navajo), stat
+    band (paper), service explorer (deep), QA consulting teaser (paper),
+    why-embedded bento (leaf), process (paper), `CtaSection` (navajo), footer
+    (deep).
+    - **Hero** keeps the keyword H1 "Embedded QA teams for startups that
+      _ship fast_" (SEO, and the e2e test matches it), the italic accent is an
+      `<em>` in Sandy Brown replacing the old highlight chip. The mockup's
+      "Ship fast. Skip the escaped bugs." was not used for that reason. From
+      `lg` the right column is a `TestRunTerminal` plus two floating
+      stickers, **below `lg` they are not rendered** so the hero stays
+      exactly one viewport on a phone (gotcha #20 still holds, re-measured
+      at 1440x900 and 390x844). Terminal lines carry no numbers.
+    - **`WhatWeTestMarquee`**: one `lb-marquee-track` holding two identical
+      rows, the track slides by 50% so each row must carry its own spacing
+      (`gap-0! pr-0!` on the track, `gap-3.5 pr-3.5` on the rows), otherwise
+      the loop jumps. The second row is `aria-hidden`.
+    - **`ServiceExplorer`** (client): ARIA tabs for Manual, Playwright, API
+      and data, Regression, with arrow/Home/End keys and a roving tabindex.
+      **All four panels are in the server HTML**, inactive ones only
+      `hidden`, so copy and links stay crawlable. The log lines animate in
+      with `tw-animate-css` classes each time a panel un-hides. The mockup's
+      "212 of 214 checks" and "31 endpoints" were dropped (no invented
+      numbers, a unit test fails on digits in the logs other than HTTP
+      codes). Selenium, mobile testing and the overview are linked underneath
+      so all six services keep an in-content link. The H2 stays
+      keyword-led, "Software testing services built for _shipping teams_".
+    - **`WhyEmbeddedBento`** keeps the five claims the page already made
+      (founder-led, transparent reporting with a sweeping coverage grid, no
+      long-term contracts, embedded, manual plus automated), no new claims.
+    - The QA consulting teaser section and its `#qa-consulting` anchor are
+      kept (internal links to that family). The process section reuses
+      `PhaseTimeline` with the old four steps.
+    - **Savings calculator not built**: Phase 0 never approved it. Add it
+      only on a yes, labelled illustrative, applying the verified 45% only.
+    - Verification: 110 unit tests (18 files), 20 e2e, lint, format and
+      typecheck clean, tab animation and marquee sampled over time in a
+      real browser. Metadata and JSON-LD untouched.
+
 ## Repository structure
 
 ```
@@ -1771,10 +1812,10 @@ src/lib/
                            each page still renders its own <script> tag.
   utils.ts                `cn()` class-merging helper
 
-e2e/                      Playwright specs: home.spec.ts (3 tests) and
+e2e/                      Playwright specs: home.spec.ts (5 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (100 across 16 files as of 2026-10-18)
+                          (110 across 18 files as of 2026-10-18)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 

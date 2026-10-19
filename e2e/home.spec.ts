@@ -34,3 +34,31 @@ test("footer shows the contact email", async ({ page }) => {
       .getByRole("link", { name: /gogreenlit@gmail\.com/ }),
   ).toHaveAttribute("href", "mailto:gogreenlit@gmail.com");
 });
+
+test("service explorer switches tabs and shows that service's example run", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const tab = page.getByRole("tab", { name: "Playwright automation" });
+  await tab.click();
+  await expect(tab).toHaveAttribute("aria-selected", "true");
+  const panel = page.getByRole("tabpanel");
+  await expect(
+    panel.getByRole("heading", { name: "Playwright test automation" }),
+  ).toBeVisible();
+  await expect(
+    panel.getByRole("link", { name: /see playwright automation/i }),
+  ).toHaveAttribute("href", "/software-testing-services/playwright-automation");
+  await tab.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(page.getByRole("tab", { name: "API and data" })).toBeFocused();
+});
+
+test("the what-we-test strip is moving", async ({ page }) => {
+  await page.goto("/");
+  const track = page.locator(".lb-marquee-track");
+  const a = await track.evaluate((e) => getComputedStyle(e).transform);
+  await page.waitForTimeout(800);
+  const b = await track.evaluate((e) => getComputedStyle(e).transform);
+  expect(a).not.toBe(b);
+});
