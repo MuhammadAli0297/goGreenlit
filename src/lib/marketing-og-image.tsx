@@ -363,6 +363,170 @@ function buildConsultingOgElement(title: string, accent?: string) {
   );
 }
 
+/** The five category chips on the blog index card, same swatches and order as the blog hero. */
+const BLOG_INDEX_CHIPS = [
+  { label: "QA Strategy", background: "#ee9e58", color: "#1c2820", rotate: -4 },
+  {
+    label: "Test Automation",
+    background: "#b1c680",
+    color: "#1c2820",
+    rotate: 3,
+  },
+  {
+    label: "Outsourcing & Hiring",
+    background: "#8fa175",
+    color: "#1c2820",
+    rotate: -2,
+  },
+  {
+    label: "Testing Practices",
+    background: "#ffe0ad",
+    color: "#1c2820",
+    rotate: 4,
+  },
+  {
+    label: "Case Studies",
+    background: "#fffaf0",
+    color: "#1c2820",
+    rotate: -3,
+  },
+];
+
+/**
+ * The Live Build card for the blog index: Dark Slate Grey ground with soft
+ * glows (as the blog hero), the wordmark and a "Blog" pill, the page's real H1
+ * with its accent phrase in Sandy Brown (4.6:1 on this ground, and Satori has
+ * no italic instance of the font), and the five category chips along the
+ * bottom, each in its own swatch and tilted like the hero's floating chips.
+ * Case Studies is the light chip here, a Dark Slate Grey chip would vanish
+ * into the ground (same reason as the hero).
+ */
+function buildBlogIndexOgElement(title: string, accent?: string) {
+  const index = accent ? title.indexOf(accent) : -1;
+  const [before = "", mid = "", after = ""] =
+    accent && index >= 0
+      ? [title.slice(0, index), accent, title.slice(index + accent.length)]
+      : [title, "", ""];
+  const ink = "#1c2820";
+  const word = (text: string, color: string, key: string) =>
+    text
+      .split(" ")
+      .filter(Boolean)
+      .map((w, i) => (
+        <div key={`${key}-${i}`} style={{ display: "flex", color }}>
+          {w}
+        </div>
+      ));
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        padding: "56px 70px",
+        position: "relative",
+        background: "#354639",
+        backgroundImage:
+          "radial-gradient(circle at 0% 0%, rgba(238,158,88,0.35) 0%, rgba(238,158,88,0) 38%), radial-gradient(circle at 100% 100%, rgba(143,161,117,0.55) 0%, rgba(143,161,117,0) 46%)",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div
+            style={{
+              width: 20,
+              height: 20,
+              borderRadius: 999,
+              background: "#ee9e58",
+              border: "2px solid #ffe0ad",
+              display: "flex",
+            }}
+          />
+          <div
+            style={{
+              fontFamily: "Bespoke Serif",
+              fontWeight: 600,
+              fontSize: 32,
+              color: "#ffe0ad",
+              display: "flex",
+            }}
+          >
+            GoGreenlit
+          </div>
+        </div>
+        <div
+          style={{
+            fontFamily: "Bespoke Serif",
+            fontWeight: 400,
+            fontSize: 20,
+            letterSpacing: 2,
+            textTransform: "uppercase",
+            color: ink,
+            background: "#fffaf0",
+            border: `2px solid ${ink}`,
+            borderRadius: 999,
+            padding: "10px 22px",
+            display: "flex",
+          }}
+        >
+          Blog
+        </div>
+      </div>
+
+      <div
+        style={{
+          fontFamily: "Bespoke Serif",
+          fontWeight: 600,
+          fontSize: 78,
+          lineHeight: 1.1,
+          letterSpacing: -1.5,
+          display: "flex",
+          flexWrap: "wrap",
+          columnGap: 20,
+          maxWidth: 1000,
+        }}
+      >
+        {word(before, "#ffe0ad", "a")}
+        {word(mid, "#ee9e58", "b")}
+        {word(after, "#ffe0ad", "c")}
+      </div>
+
+      <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
+        {BLOG_INDEX_CHIPS.map((chip) => (
+          <div
+            key={chip.label}
+            style={{
+              fontFamily: "Bespoke Serif",
+              fontWeight: 400,
+              fontSize: 16,
+              letterSpacing: 1.5,
+              whiteSpace: "nowrap",
+              textTransform: "uppercase",
+              color: chip.color,
+              background: chip.background,
+              border: `2px solid ${ink}`,
+              borderRadius: 999,
+              padding: "9px 15px",
+              transform: `rotate(${chip.rotate}deg)`,
+              display: "flex",
+            }}
+          >
+            {chip.label}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function buildMarketingOgElement(
   title: string,
   family: MarketingOgFamily,
@@ -373,6 +537,9 @@ export function buildMarketingOgElement(
   }
   if (family === "qa-consulting") {
     return buildConsultingOgElement(title, accent);
+  }
+  if (family === "blog-index") {
+    return buildBlogIndexOgElement(title, accent);
   }
   const style = FAMILY_STYLES[family];
   const isDark = family === "about" || family === "blog-index";

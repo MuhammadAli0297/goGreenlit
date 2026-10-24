@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog) is in progress (b-tile, b-hero, b-filters, b-featured, b-category, b-pagination, b-post, b-toc, b-callouts, b-related, b-seo done).
+(Blog) is in progress (b-tile, b-hero, b-filters, b-featured, b-category, b-pagination, b-post, b-toc, b-callouts, b-related, b-seo, b-og done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1801,10 +1801,8 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
     category needed light text (`DARK_TILE_SLUGS`, qa-strategy, true for the old
     tokens), so the new deep Case Studies tile had dark text on dark. The menu now
     takes `coverClass` and the special case is gone, so a future color change
-    cannot make that mistake again. **Still on the old colors until their own
-    task:** the per-post blog OG images (`blog-og-image.tsx` has a hardcoded
-    hex map for the five old tokens, handled in b-og) and the filter pills (their
-    new look is b-filters). 4 new unit tests.
+    cannot make that mistake again. **Their follow-ups are done:** the per-post OG images (gotcha #58) and the
+    filter pills (gotcha #51). 4 new unit tests.
 
 47. **Blog hero (2026-10-23), task b-hero.** `BlogHero` is now the deep hero
     with the italic accent: the page's H1 words are unchanged ("Straight talk
@@ -2078,8 +2076,40 @@ follow` with a canonical on `/blog` (gotcha #48). **Pre-existing, not caused by
     the redesign:** the plain index and its pages have no `h2` before the first
     card `h3` (the `h1` is followed by `h3`s, the same on `main`), and
     `how-to-evaluate-an-ai-testing-vendor` has 4 in-body links where gotcha #17
-    asks for 5 to 8 (its FAQ has 6). **Still to do in b-og:** the per-post OG
-    images keep the old chart colors.
+    asks for 5 to 8 (its FAQ has 6). The per-post OG images were restyled
+    afterwards (gotcha #58).
+
+58. **Blog OG and Twitter images (2026-10-23), task b-og.** **Per post**
+    (`buildBlogOgElement` in `blog-og-image.tsx`, used by both
+    `[slug]/opengraph-image.tsx` and `twitter-image.tsx`): the blog tile at
+    1200 by 630. The category's swatch is the ground (the same pairing as
+    `coverClass`, repeated as hex in `CATEGORY_COVER` because Satori cannot read
+    Tailwind classes or CSS variables, **keep it in step with the swatches**), with
+    a radial glow and two soft rings, the wordmark and a category pill on top, the
+    title large, **the post's own icon drawn big at the bottom right**, and the
+    founder's initials chip, name and read time. The old hex map of dark-mode
+    `chart-1..5` colors is gone. **Index** (`buildBlogIndexOgElement` in
+    `marketing-og-image.tsx`, the `blog-index` family now routes to it, About keeps
+    the old layout until Phase 8): Dark Slate Grey with glows like the hero, the
+    page's real H1 with "shipping quality software" in Sandy Brown (passed as the
+    third argument in both `opengraph-image.tsx` and `twitter-image.tsx`, edit both
+    if the H1 changes), and the five category chips tilted along the bottom, Case
+    Studies the light one for the same reason as the hero. **Three gotchas.**
+    (1) **A lucide icon cannot be rendered in Satori**: it is a forwardRef that
+    renders another forwardRef which calls `useContext`, so a direct `<Icon />`
+    returns a 500. The outer one only builds an element that carries
+    `props.iconNode` (a list of `[tag, attrs]`), so `renderIcon()` calls
+    `icon.render()` one level and draws the `<svg>` itself, and returns null on
+    anything unexpected (a unit test fails if any of the 45 posts loses its svg, so a
+    lucide upgrade cannot silently drop the icons). (2) **Satori breaks words at
+    hyphens**, so "AI-Generated" split across two lines; titles are rendered as one
+    flex item per word with `columnGap` instead of a text run. (3) **Sandy Brown
+    accents vanish on the Sandy Brown (QA Strategy) ground**, so the wordmark dot
+    goes Navajo White and the initials chip surface there. No digits or claims were
+    added, the cards show the post's own title, author and read time. Verified: all
+    90 post image routes (45 posts times two) return `200 image/png`, the Twitter
+    image is the same renderer, and the longest title (47 characters) and each
+    category color were viewed. 3 new unit tests.
 
 ## Repository structure
 
@@ -2416,11 +2446,12 @@ src/lib/
                            `author` field in `blog/[slug]/page.tsx`.
   blog-og-image.tsx       Added 2026-09-10 (gotcha #21). Shared rendering
                            for the blog's per-post OG/Twitter images:
-                           `buildBlogOgElement()` (the JSX, dark brand
-                           background, category-colored eyebrow via a
-                           hardcoded dark-mode chart-1..5 hex map since
-                           Satori can't resolve CSS custom properties,
-                           post title, logo mark) and `loadBlogOgFonts()`
+                           `buildBlogOgElement()` (the JSX, restyled
+                           2026-10-23, gotcha #58: the category's swatch
+                           as ground via a hex map since Satori can't
+                           resolve CSS custom properties, the post title,
+                           its own icon, author and read time) and
+                           `loadBlogOgFonts()`
                            (reads the two static TTFs from `src/app/fonts/`).
                            Consumed by both `blog/[slug]/opengraph-image.tsx`
                            and `twitter-image.tsx`, not duplicated between
@@ -2452,7 +2483,7 @@ e2e/                      Playwright specs: home.spec.ts (8 tests),
                           blog-post.spec.ts (2) and blog-index.spec.ts (2),
                           both added 2026-10-23
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (215 across 41 files as of 2026-10-23)
+                          (218 across 42 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 
