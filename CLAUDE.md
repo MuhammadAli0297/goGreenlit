@@ -2147,9 +2147,17 @@ follow` with a canonical on `/blog` (gotcha #48). **Pre-existing, not caused by
     stay in step with the meta description), set at up to 112px with each word
     rising in one after another on load (`lb-word`, `--lb-i` is the index, 0.7s
     each, 60ms apart, ends on the resting state, off under reduced motion). The
-    accent is `lb-marker`, a Sandy Brown marker stroke behind ink text, **because
-    Sandy Brown text fails contrast on paper** (the italic-accent-word rule of gotcha
-    #34 uses ink or Sandy depending on the ground). Two decorative circles
+    accent is `lb-marker`, a **Sandy Brown text-decoration underline** under ink
+    italic text (chosen from five options in a scratch artifact: italic only,
+    underline, soft highlighter, olive highlighter, wavy underline). **Sandy Brown
+    text fails contrast on paper, so the phrase stays ink.** It replaced a first
+    version that painted a gradient bar behind the phrase, which sat at the wrong
+    height and covered only part of a wrapped line. **Gotcha:** an underline on a
+    parent does not reach inside an `inline-block` child, and the hero words are
+    inline blocks (for the rise-in), so the accent words carry `lb-marker`
+    themselves as well as the `<em>`, which underlines the spaces; without that only
+    the spaces were underlined. Sampled at 1440, 1100 and 390, one continuous stroke
+    per wrapped line. Two decorative circles
     (`lb-parallax`) show **only from 1400px**, below that they touched the headline
     (checked at 1440, 1399, 1280, 1100, 1024 by intersecting real text ranges, not
     boxes). The hero keeps the two CTAs the page already had. **Founders:** two
@@ -2162,8 +2170,8 @@ follow` with a canonical on `/blog` (gotcha #48). **Pre-existing, not caused by
     this page** (the board shows only the 18+ years figure, a `CountUp` from
     `verifiedStats` under the cards); put it back if you want all four stats here.
     **Pull quote:** the real founders' quote, not the board's "Founder-embedded
-    from day one." placeholder, as a 60px italic with `lb-wipe` and a marker on
-    "cannot afford to hire yet". **Manifesto:** the four existing statements (not
+    from day one." placeholder, as a 60px italic with `lb-wipe` and the same
+    underline on "cannot afford to hire yet". **Manifesto:** the four existing statements (not
     the board's five, whose extra lines were new claims), numbered, each with a
     colored left rule that fills on hover and slides 10px (not under reduced
     motion). **Copy:** metadata, breadcrumb and `Person` JSON-LD are unchanged and
