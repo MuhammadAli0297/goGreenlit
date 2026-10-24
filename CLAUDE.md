@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is built and pushed. Phase 9 (hardening) is in progress (z-devices, z-lh, z-keys, z-contrast and z-rm done).
+(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is built and pushed. Phase 9 (hardening) is in progress (z-devices, z-lh, z-keys, z-contrast, z-rm and z-csp done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -2411,6 +2411,29 @@ JetBrainsMono-Latin-Variable.woff2`: basic Latin and Latin-1, weight axis cut
     last frame, which is wrong for a loop whose last frame is a blank). The reading
     progress bar and the contents pill's progress line follow scroll position and
     are kept on purpose, they show where you are and do not move on their own.
+70. **CSP and console check (2026-10-24), task z-csp. Clean, no change needed.**
+    Run against a **production build** (`next start`, a scratchpad worktree), not
+    `next dev`, because the dev CSP adds `'unsafe-eval'` and hides what production
+    blocks. `next.config.ts` is identical to `main` (the CSP and the four other
+    security headers are unchanged: `default-src 'self'`, `script-src` and
+    `style-src` with `'unsafe-inline'`, `img-src 'self' data: blob:`, `font-src
+'self'`, `connect-src 'self'`, `object-src 'none'`, `frame-ancestors 'none'`,
+    `upgrade-insecure-requests`). **Method:** every sitemap URL plus the 404, three
+    blog query views and a search, at 1280 and at 390 with touch; each page scrolled
+    top to bottom, every tab clicked, every visible demo button clicked, the first two
+    FAQ questions opened, then the three mega menus (or the drawer with its three
+    groups) opened and closed and a blog search typed. A `securitypolicyviolation`
+    listener was added before every load, and console errors and warnings, page
+    errors, failed requests and 4xx and 5xx responses were collected. **Result: zero
+    CSP violations, zero page errors, zero failed requests and no 4xx or 5xx on any
+    real page.** The only console line is the browser's own "404" for the 404 page's
+    address, and the only failed requests are Next's `_rsc` prefetches aborted when
+    the script clicked a link and left the page, which is normal. What the redesign
+    added is all compatible with the policy: self-hosted fonts (no Google request, see
+    gotcha #66), no remote images, inline `<style>` and `<script type="application/
+ld+json">` only, and the new code-rendered OG images are same-origin routes.
+    Any third-party script added later still needs the CSP edited alongside it
+    (gotcha #24).
 
 ## Repository structure
 
