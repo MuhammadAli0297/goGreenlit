@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is in progress (a-about, a-404, a-og and a-favicon done).
+(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is built (about, 404, OG cards, favicon check, sitemap check), its last commits not yet pushed.
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -2228,6 +2228,20 @@ follow` with a canonical on `/blog` (gotcha #48). **Pre-existing, not caused by
     wordmark (Sandy dot, DSG ground in the footer, hero and OG cards). No new
     swatch or shape entered the redesign, so the set still fits. Viewed beside
     the wordmark at 180, 128, 32 and 16 px, the dot stays readable at 16.
+64. **Sitemap, robots and redirects confirmed untouched (2026-10-23), task
+    a-sitemap, ends Phase 8.** `git diff origin/main` on `src/app/sitemap.ts`,
+    `src/app/robots.ts` and `next.config.ts` is empty, so routes, per-route
+    `lastModified` dates, the robots rules, the security headers and the two dead
+    URL redirects are byte-identical to `main`. Live check: the sitemap lists 62
+    URLs and every one returns 200; `robots.txt` still allows all and points at the
+    sitemap; `/software-testing-services/website-testing` and
+    `/software-testing-services/qa-strategy-process` still 308 to the overview and
+    to test-strategy-consulting, and trailing-slash URLs (`/about/`) still 308 to
+    the plain URL. **Open decision, not changed:** the sitemap's hand-kept
+    `lastModified` dates were not bumped for the redesign (gotcha #14 says to bump
+    when content meaningfully changes, and the visuals and some copy did); do it
+    in Phase 9 if wanted. The full SEO regression against `main` for every page
+    type is still the Phase 9 task (method in gotcha #57).
 
 ## Repository structure
 
