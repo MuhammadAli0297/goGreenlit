@@ -1507,7 +1507,18 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     line by line (sampled 0 to 5 lines over about 3s, button Running then Run
     again), reduced motion shows everything at once, results sit in a polite
     live region, no numbers or timings. Contractions in this page's copy were
-    removed. Still to come in
+    removed. **All six Services subpages are on the template** (manual, selenium, api-data,
+    regression and mobile were rebuilt by the same pattern, with `CheckGrid`
+    for statement lists: `tone="bug"` for problem lists such as why suites decay
+    and mobile testing gaps, olive tick for benefits). Regression's 95%
+    standard reuses `CoverageRing` in an olive card. Page metadata, titles,
+    descriptions and heading text are unchanged, apart from contraction fixes
+    in body copy and two FAQ questions ("automation will not", "What is the
+    difference"). **Pre-existing copy not changed but worth a decision:** the
+    regression page says "a suite of 50 well-maintained tests that runs in 8
+    minutes with a 0% false-positive rate" and the Playwright page says
+    "200 to 500 tests" and "three to six months", illustrative figures outside
+    the four verified stats. Still to come in
     Phase 5: coverage ring,
     device picker, the subpage template and the family OG images.
 
@@ -1880,7 +1891,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (130 across 23 files as of 2026-10-23)
+                          (132 across 24 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 

@@ -16,18 +16,19 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-import { CtaSection } from "@/components/marketing/cta-section";
-import { FaqAccordion } from "@/components/marketing/faq-accordion";
+import { ctaVariants } from "@/components/brand/cta-variants";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
+import { CheckGrid } from "@/components/marketing/check-grid";
+import { CtaSection } from "@/components/marketing/cta-section";
+import { DeepBand } from "@/components/marketing/deep-band";
+import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { PageHero } from "@/components/marketing/page-hero";
 import { RelatedLinks } from "@/components/marketing/related-links";
-import { Reveal } from "@/components/marketing/reveal";
+import { SectionIntro } from "@/components/marketing/section-intro";
 import { ServiceCard } from "@/components/marketing/service-card";
-import { buttonVariants } from "@/components/ui/button";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
-import { cn } from "@/lib/utils";
 
 const title = "Manual Testing Services";
 const description =
@@ -88,10 +89,10 @@ const techniques = [
 
 const whenItFits = [
   "New features where the requirements are still evolving sprint to sprint.",
-  "Complex, multi-step workflows a single scripted test can't cover end to end.",
+  "Complex, multi-step workflows a single scripted test cannot cover end to end.",
   "Edge cases that need business context to recognize as a problem at all.",
   "Situations where judgment matters more than repetition.",
-  "A second pass after automation runs, to catch what a script isn't built to see.",
+  "A second pass after automation runs, to catch what a script is not built to see.",
 ];
 
 const sprintPhases = [
@@ -105,7 +106,7 @@ const sprintPhases = [
     icon: PlayCircle,
     title: "During-sprint execution",
     description:
-      "Sessions run alongside development, not queued up for the end of the sprint, so a defect surfaces while it's still cheap to fix.",
+      "Sessions run alongside development, not queued up for the end of the sprint, so a defect surfaces while it is still cheap to fix.",
   },
   {
     icon: ShieldCheck,
@@ -142,7 +143,7 @@ const deliverables = [
   {
     icon: ClipboardList,
     label: "Coverage summaries",
-    description: "A sprint-by-sprint view of what got tested and what didn't.",
+    description: "A sprint-by-sprint view of what got tested and what did not.",
   },
   {
     icon: CheckCircle2,
@@ -160,14 +161,14 @@ const faqs = [
   },
   {
     question:
-      "What kinds of bugs does manual testing catch that automation won't?",
+      "What kinds of bugs does manual testing catch that automation will not?",
     answer:
-      "Visual inconsistencies, confusing copy or error messaging, workflows that technically work but don't make sense, and business logic edge cases that need human context to recognize as wrong.",
+      "Visual inconsistencies, confusing copy or error messaging, workflows that technically work but do not make sense, and business logic edge cases that need human context to recognize as wrong.",
   },
   {
     question: "How do you document test cases?",
     answer:
-      "In structured templates inside whatever project management tool your team already uses. We don't introduce a separate system you have to check.",
+      "In structured templates inside whatever project management tool your team already uses. We do not introduce a separate system you have to check.",
   },
   {
     question: "What exactly is exploratory testing?",
@@ -216,56 +217,43 @@ export default function ManualTestingPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
+        tone="leaf"
         badge="Exploratory, UAT, and usability review"
-        description="Automated suites are good at repeating the same steps. They are bad at noticing a confirmation message that doesn't make sense, or a workflow that technically works but feels wrong. GoGreenlit's manual testing engineers run exploratory sessions, user acceptance testing, and usability review directly inside your sprint, the judgment automation can't replicate."
+        description="Automated suites are good at repeating the same steps. They are bad at noticing a confirmation message that does not make sense, or a workflow that technically works but feels wrong. GoGreenlit's manual testing engineers run exploratory sessions, user acceptance testing, and usability review directly inside your sprint, the judgment automation cannot replicate."
         ctas={
           <>
             <Link
               href={siteConfig.links.calendar}
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "bg-[#ee9e58] text-[#354639] hover:bg-[#ee9e58]/85",
-              )}
+              className={ctaVariants({ variant: "cta", size: "xl" })}
             >
-              Book a call
+              Book a call <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
               href="#techniques"
-              className={cn(
-                buttonVariants({ size: "lg", variant: "outline" }),
-                "border-[#ffe0ad]/30 bg-transparent text-[#ffe0ad] hover:bg-[#ffe0ad]/10 hover:text-[#ffe0ad]",
-              )}
+              className={ctaVariants({ variant: "outline", size: "xl" })}
             >
               See what we test
             </Link>
           </>
         }
       >
-        Manual testing services that catch what{" "}
-        <span className="aurora-glow inline-block animate-[glow-pulse_3.5s_ease-in-out_infinite] rounded-md bg-[#ee9e58] px-2 py-2 leading-[1.2] text-[#354639]">
-          automation can&rsquo;t
-        </span>
+        Manual testing services that catch what <em>automation cannot</em>
       </PageHero>
 
       <section
         id="techniques"
-        className="mx-auto max-w-6xl scroll-mt-16 px-4 py-20 sm:px-6 lg:px-8"
+        className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8"
       >
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            What manual testing actually covers
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            Five techniques, each suited to a different kind of risk, run by an
-            engineer who reads your product the way a real user would.
-          </p>
-        </div>
-
+        <SectionIntro
+          eyebrow="Techniques"
+          title="What manual testing *actually* covers"
+          description="Five techniques, each suited to a different kind of risk, run by an engineer who reads your product the way a real user would."
+        />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {techniques.map((technique, index) => (
+          {techniques.map((item, index) => (
             <ServiceCard
-              key={technique.title}
-              {...technique}
+              key={item.title}
+              {...item}
               variant="bold"
               index={index}
             />
@@ -273,100 +261,46 @@ export default function ManualTestingPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            When manual testing is the right tool
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            Automation earns its keep on repetition. These are the situations
-            where a person still has the advantage.
-          </p>
-        </div>
-
-        <Reveal
-          as="div"
-          className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-2"
-        >
-          <ul className="col-span-full grid gap-4 sm:grid-cols-2">
-            {whenItFits.map((item) => (
-              <li key={item} className="flex gap-3">
-                <CheckCircle2 className="text-primary mt-0.5 size-5 shrink-0" />
-                <span className="text-foreground/90 text-sm">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+      <section className="mx-auto max-w-6xl px-4 pb-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          eyebrow="When it fits"
+          title="When manual testing is the *right tool*"
+          description="Automation earns its keep on repetition. These are the situations where a person still has the advantage."
+        />
+        <CheckGrid items={whenItFits} className="mt-12" />
       </section>
 
-      <section className="border-border/60 border-t bg-[#8fa175]">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-foreground text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              How we run manual testing inside your sprint
-            </h2>
-          </div>
+      <DeepBand
+        eyebrow="In your sprint"
+        title="How we run manual testing *inside your sprint*"
+        items={sprintPhases}
+      />
 
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {sprintPhases.map(
-              (
-                { icon: Icon, title: itemTitle, description: itemDescription },
-                index,
-              ) => (
-                <Reveal
-                  key={itemTitle}
-                  className="flex flex-col items-center gap-3 text-center"
-                  delay={index * 80}
-                >
-                  <div className="flex size-10 items-center justify-center rounded-lg bg-[#ee9e58] text-[#354639]">
-                    <Icon className="size-5" />
-                  </div>
-                  <h3 className="text-foreground font-semibold">{itemTitle}</h3>
-                  <p className="text-foreground/80 text-sm">
-                    {itemDescription}
-                  </p>
-                </Reveal>
-              ),
-            )}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            What you get from a manual testing engagement
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            Every session leaves something behind, not just a pass or fail on a
-            ticket.
-          </p>
-        </div>
-
+      <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          eyebrow="Deliverables"
+          title="What you get from a manual testing *engagement*"
+          description="Every session leaves something behind, not just a pass or fail on a ticket."
+        />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {deliverables.map(({ icon: Icon, label, description }, index) => (
-            <Reveal
+          {deliverables.map(({ icon, label, description }, index) => (
+            <ServiceCard
               key={label}
-              className="border-border/60 rounded-lg border p-5"
-              delay={index * 80}
-            >
-              <div className="bg-accent text-accent-foreground flex size-10 items-center justify-center rounded-lg">
-                <Icon className="size-5" />
-              </div>
-              <h3 className="mt-3 font-semibold">{label}</h3>
-              <p className="text-muted-foreground mt-1 text-sm">
-                {description}
-              </p>
-            </Reveal>
+              icon={icon}
+              title={label}
+              description={description}
+              index={index}
+            />
           ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <h2 className="text-center text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Frequently asked questions
-        </h2>
-
+      <section className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          align="center"
+          eyebrow="Questions"
+          title="Frequently asked *questions*"
+        />
         <div className="mt-12">
           <FaqAccordion faqs={faqs} />
         </div>
@@ -379,8 +313,9 @@ export default function ManualTestingPage() {
       />
 
       <CtaSection
-        title="Ready to bring in a manual tester who thinks like a user?"
-        description="Tell us what you're building and where judgment calls are slipping through. We'll scope an engagement in one call, no long-term contract required."
+        tone="leaf"
+        title="Ready to bring in a manual tester who *thinks like a user?*"
+        description="Tell us what you are building and where judgment calls are slipping through. We will scope an engagement in one call, no long-term contract required."
       />
     </>
   );

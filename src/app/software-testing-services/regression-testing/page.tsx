@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  AlertTriangle,
   CloudUpload,
   GitCommit,
   GitPullRequest,
@@ -11,18 +10,22 @@ import {
   Target,
 } from "lucide-react";
 
-import { CtaSection } from "@/components/marketing/cta-section";
-import { FaqAccordion } from "@/components/marketing/faq-accordion";
+import { ctaVariants } from "@/components/brand/cta-variants";
+import { StickerCard } from "@/components/brand/sticker-card";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
+import { CheckGrid } from "@/components/marketing/check-grid";
+import { CoverageRing } from "@/components/marketing/coverage-ring";
+import { CtaSection } from "@/components/marketing/cta-section";
+import { DeepBand } from "@/components/marketing/deep-band";
+import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { PageHero } from "@/components/marketing/page-hero";
 import { RelatedLinks } from "@/components/marketing/related-links";
 import { Reveal } from "@/components/marketing/reveal";
+import { SectionIntro } from "@/components/marketing/section-intro";
 import { ServiceCard } from "@/components/marketing/service-card";
-import { buttonVariants } from "@/components/ui/button";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
-import { cn } from "@/lib/utils";
 
 const title = "Regression Testing Services";
 const description =
@@ -93,7 +96,7 @@ const pipelineStages = [
     icon: CloudUpload,
     title: "Staging",
     description:
-      "The full regression suite runs after every deploy, catching what a focused pre-merge pass isn't scoped to find.",
+      "The full regression suite runs after every deploy, catching what a focused pre-merge pass is not scoped to find.",
   },
   {
     icon: ShieldCheck,
@@ -112,7 +115,7 @@ const faqs = [
   {
     question: "What percentage of our tests should be automated?",
     answer:
-      "There's no universal target, but for a mature product, 60 to 70% automated regression paired with 30 to 40% structured manual testing is a reasonable range. The right split depends on how much of your product needs human judgment, not a fixed rule.",
+      "There is no universal target, but for a mature product, 60 to 70% automated regression paired with 30 to 40% structured manual testing is a reasonable range. The right split depends on how much of your product needs human judgment, not a fixed rule.",
   },
   {
     question: "How long should a regression suite take to run?",
@@ -122,12 +125,12 @@ const faqs = [
   {
     question: "What happens when a regression test breaks?",
     answer:
-      "It gets looked at, whether it turns out to be a real regression or a false positive. A broken test in CI blocks the merge either way, and it shouldn't get ignored or skipped to unblock a release.",
+      "It gets looked at, whether it turns out to be a real regression or a false positive. A broken test in CI blocks the merge either way, and it should not get ignored or skipped to unblock a release.",
   },
   {
     question: "How do you decide what goes into the regression suite?",
     answer:
-      "Critical user flows, historically buggy areas, external service integrations, and high-churn code. We don't aim for complete application coverage, that's what makes a suite unmaintainable within a year.",
+      "Critical user flows, historically buggy areas, external service integrations, and high-churn code. We do not aim for complete application coverage, that is what makes a suite unmaintainable within a year.",
   },
 ];
 
@@ -166,83 +169,52 @@ export default function RegressionTestingPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
+        tone="leaf"
         badge="Risk-prioritized suites and CI gates"
         description="Most regression suites work well at first and slowly stop working. Not from one bad decision, but from fragile tests, no ownership, and growth without pruning, until nobody trusts a red build anymore. GoGreenlit builds regression suites that stay fast and stay trusted, as your codebase and your release cycle keep growing."
         ctas={
           <>
             <Link
               href={siteConfig.links.calendar}
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "bg-[#ee9e58] text-[#354639] hover:bg-[#ee9e58]/85",
-              )}
+              className={ctaVariants({ variant: "cta", size: "xl" })}
             >
-              Book a call
+              Book a call <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
               href="#principles"
-              className={cn(
-                buttonVariants({ size: "lg", variant: "outline" }),
-                "border-[#ffe0ad]/30 bg-transparent text-[#ffe0ad] hover:bg-[#ffe0ad]/10 hover:text-[#ffe0ad]",
-              )}
+              className={ctaVariants({ variant: "outline", size: "xl" })}
             >
               See how we build suites
             </Link>
           </>
         }
       >
-        Regression testing services that scale with{" "}
-        <span className="aurora-glow inline-block animate-[glow-pulse_3.5s_ease-in-out_infinite] rounded-md bg-[#ee9e58] px-2 py-2 leading-[1.2] text-[#354639]">
-          your release cycle
-        </span>
+        Regression testing services that scale with <em>your release cycle</em>
       </PageHero>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            Why most regression suites stop working over time
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            The suite that protected you last year is often the same one slowing
-            you down today. These are the reasons why.
-          </p>
-        </div>
-
-        <Reveal
-          as="div"
-          className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-2"
-        >
-          <ul className="col-span-full grid gap-4 sm:grid-cols-2">
-            {rootCauses.map((cause) => (
-              <li key={cause} className="flex gap-3">
-                <AlertTriangle className="text-primary mt-0.5 size-5 shrink-0" />
-                <span className="text-foreground/90 text-sm">{cause}</span>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+      <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          eyebrow="Why suites decay"
+          title="Why most regression suites *stop working* over time"
+          description="The suite that protected you last year is often the same one slowing you down today. These are the reasons why."
+        />
+        <CheckGrid items={rootCauses} tone="bug" className="mt-12" />
       </section>
 
       <section
         id="principles"
-        className="mx-auto max-w-6xl scroll-mt-16 px-4 py-20 sm:px-6 lg:px-8"
+        className="mx-auto max-w-6xl px-4 pb-24 sm:px-6 lg:px-8"
       >
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            Building a suite that survives codebase growth
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            A suite of 50 well-maintained tests that runs in 8 minutes with a 0%
-            false-positive rate is worth more than a suite of 500 tests nobody
-            trusts. These are the structural decisions that get you there.
-          </p>
-        </div>
-
+        <SectionIntro
+          eyebrow="Principles"
+          title="Building a suite that *survives* codebase growth"
+          description="A suite of 50 well-maintained tests that runs in 8 minutes with a 0% false-positive rate is worth more than a suite of 500 tests nobody trusts. These are the structural decisions that get you there."
+        />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {principles.map((principle, index) => (
+          {principles.map((item, index) => (
             <ServiceCard
-              key={principle.title}
-              {...principle}
+              key={item.title}
+              {...item}
               variant="bold"
               index={index}
             />
@@ -250,57 +222,45 @@ export default function RegressionTestingPage() {
         </div>
       </section>
 
-      <section className="border-border/60 border-t bg-[#8fa175]">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-foreground text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              Running regression in your CI/CD pipeline
-            </h2>
-          </div>
+      <DeepBand
+        eyebrow="CI/CD"
+        title="Running regression in your *CI/CD* pipeline"
+        items={pipelineStages}
+      />
 
-          <div className="mt-12 grid gap-8 sm:grid-cols-3">
-            {pipelineStages.map(
-              ({ icon: Icon, title: itemTitle, description }, index) => (
-                <Reveal
-                  key={itemTitle}
-                  className="flex flex-col items-center gap-3 text-center"
-                  delay={index * 80}
-                >
-                  <div className="flex size-10 items-center justify-center rounded-lg bg-[#ee9e58] text-[#354639]">
-                    <Icon className="size-5" />
-                  </div>
-                  <h3 className="text-foreground font-semibold">{itemTitle}</h3>
-                  <p className="text-foreground/80 text-sm">{description}</p>
-                </Reveal>
-              ),
-            )}
-          </div>
-        </div>
+      <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+        <Reveal>
+          <StickerCard
+            tone="olive"
+            interactive={false}
+            className="grid items-center gap-8 p-7 sm:p-10 md:grid-cols-[auto_1fr] md:gap-14"
+          >
+            <CoverageRing value={95} />
+            <div>
+              <p className="font-label text-xs tracking-widest uppercase">
+                Our standard
+              </p>
+              <h2 className="mt-3 text-3xl leading-[1.1] font-medium tracking-[-0.025em] text-balance sm:text-4xl">
+                The GoGreenlit 95% coverage standard
+              </h2>
+              <p className="mt-4 max-w-xl text-lg">
+                95% of the defined test cases for a given release have been
+                executed and have either passed or have a known, documented
+                outcome. The remaining 5% is not a gap we hide, it comes with a
+                documented reason: a deferred issue, an unstable environment, or
+                an edge case that genuinely does not matter for that release.
+              </p>
+            </div>
+          </StickerCard>
+        </Reveal>
       </section>
 
-      <section className="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          The GoGreenlit 95% coverage standard
-        </h2>
-        <div className="border-border/60 mt-8 rounded-2xl border p-8">
-          <p className="font-serif text-5xl font-semibold text-[#354639] dark:text-[#f9f4eb]">
-            95%
-          </p>
-          <p className="text-muted-foreground mt-4">
-            95% of the defined test cases for a given release have been executed
-            and have either passed or have a known, documented outcome. The
-            remaining 5% is not a gap we hide, it comes with a documented
-            reason: a deferred issue, an unstable environment, or an edge case
-            that genuinely does not matter for that release.
-          </p>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <h2 className="text-center text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Frequently asked questions
-        </h2>
-
+      <section className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          align="center"
+          eyebrow="Questions"
+          title="Frequently asked *questions*"
+        />
         <div className="mt-12">
           <FaqAccordion faqs={faqs} />
         </div>
@@ -313,8 +273,9 @@ export default function RegressionTestingPage() {
       />
 
       <CtaSection
-        title="Ready for a regression suite you can actually trust?"
-        description="Tell us what's slowing your suite down, or where you're starting from scratch. We'll scope an engagement in one call, no long-term contract required."
+        tone="leaf"
+        title="Ready for a regression suite you can actually *trust?*"
+        description="Tell us what is slowing your suite down, or where you are starting from scratch. We will scope an engagement in one call, no long-term contract required."
       />
     </>
   );

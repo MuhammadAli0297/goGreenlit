@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   Bug,
-  CheckCircle2,
   GaugeCircle,
   Radar,
   RefreshCw,
@@ -19,6 +18,7 @@ import { StickerCard } from "@/components/brand/sticker-card";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { DeepBand } from "@/components/marketing/deep-band";
 import { CtaSection } from "@/components/marketing/cta-section";
+import { CheckGrid } from "@/components/marketing/check-grid";
 import { CoverageRing } from "@/components/marketing/coverage-ring";
 import { DevicePicker } from "@/components/marketing/device-picker";
 import { FrameworkPicker } from "@/components/marketing/framework-picker";
@@ -279,25 +279,7 @@ export default function SoftwareTestingServicesPage() {
           </p>
         </Reveal>
 
-        <ul className="mt-12 grid gap-5 sm:grid-cols-2">
-          {sprintSteps.map((step, index) => (
-            <Reveal as="li" key={step} delay={index * 80}>
-              <StickerCard
-                tone="surface"
-                interactive={false}
-                className="flex h-full gap-4 p-5"
-              >
-                <span
-                  aria-hidden="true"
-                  className="border-ink bg-olive mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-full border-[1.5px]"
-                >
-                  <CheckCircle2 className="size-4" />
-                </span>
-                <span className="text-[17px] leading-snug">{step}</span>
-              </StickerCard>
-            </Reveal>
-          ))}
-        </ul>
+        <CheckGrid items={sprintSteps} className="mt-12" />
       </section>
 
       <section
