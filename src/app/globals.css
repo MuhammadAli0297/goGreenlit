@@ -277,6 +277,35 @@
 .lb-caret {
   animation: lb-caret 1s steps(2) infinite;
 }
+/* The release packet in QualityGateDemo. Node centers sit at 10, 30, 50, 70
+   and 90 percent of the track, the gate is the fourth, and a held packet waits just in front of it. The base `left` is
+   the resting position (end of the line, or stopped at the gate), which is
+   what reduced motion shows. */
+.lb-packet {
+  left: calc(90% - 11px);
+  animation: lb-packet 4s linear infinite;
+}
+.lb-packet-held {
+  left: calc(70% - 52px);
+  animation: lb-packet-held 4s linear infinite;
+}
+@keyframes lb-packet {
+  from {
+    left: calc(10% - 11px);
+  }
+  to {
+    left: calc(90% - 11px);
+  }
+}
+@keyframes lb-packet-held {
+  from {
+    left: calc(10% - 11px);
+  }
+  70%,
+  to {
+    left: calc(70% - 52px);
+  }
+}
 .lb-marquee {
   overflow: hidden;
   white-space: nowrap;
@@ -703,6 +732,8 @@
   .lb-float,
   .lb-pulse,
   .lb-caret,
+  .lb-packet,
+  .lb-packet-held,
   .lb-marquee-track,
   .lb-sweep,
   .lb-rise,

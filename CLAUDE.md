@@ -98,7 +98,7 @@ every page, the menus, the shared pieces and phone widths) and the
 progress tracker (https://claude.ai/artifact/MkU75tfmdu3vVt69E9WBiZ, 10
 phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
-Services family) are built and pushed, Phase 6 (QA Consulting family) is in progress (q-overview done).
+Services family) are built and pushed, Phase 6 (QA Consulting family) is in progress (q-overview and the quality gate demo done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1559,6 +1559,35 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     "See the consulting model" link lands on `#model`, 132 unit tests and 23
     e2e pass, lint, format and typecheck clean.
 
+38. **`QualityGateDemo` (2026-10-23), the QA Consulting overview's live widget,
+    built in place of the old stat band after the hero.** A client component
+    (`quality-gate-demo.tsx`, takes `areas` with an optional `gap` flag):
+    an example audit scans five areas, the gap areas keep a five-node release
+    pipeline's tests and gate Sandy Brown with the deploy node reading HOLD,
+    "Close the gaps" turns them to passed one at a time and the gate opens to
+    GO, "Run the audit again" replays the scan. It was picked from six options
+    (the five single widgets plus the A and E combination) in a scratch
+    artifact. **Placement decision:** it sits in its own full-width section
+    right after the hero, not in the hero, because the wide card puts the audit
+    beside the pipeline and stays short, and the hero stays plain text. It
+    replaced `StatBand` on this page, so **the four verified stats no longer
+    appear on `/qa-consulting`**, they could move into the "signs you need
+    this" section if wanted. **Complete at rest:** the server render, a
+    reduced-motion visitor and a failed observer all see the finished audit
+    with two gaps and the gate holding; the scan plays once, the first time the
+    card is 40 percent in view (`IntersectionObserver`), reduced motion jumps
+    straight to the open state on click. The release packet is CSS
+    (`lb-packet`, `lb-packet-held` in globals.css, base `left` is the resting
+    position so the reduced-motion rule just drops the animation), and a held
+    packet waits in front of the gate, not behind it (an earlier stop at the
+    gate's center hid it under the node). Results sit in a polite live region,
+    status uses `StatusPill` (tick, exclamation, word), the pipeline itself is
+    `aria-hidden` because the message says the same thing, no digits anywhere
+    (a unit test fails on any). Sampled in a real browser at 1440 and 390: row
+    labels step Scanning, Passed, Gap found over about 4 seconds, the gaps close
+    at 600ms steps, the packet moved 770 to 1017px then held, the button was
+    hit-tested, no horizontal overflow. 5 new unit tests.
+
 ## Repository structure
 
 ```
@@ -1928,7 +1957,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (132 across 24 files as of 2026-10-23)
+                          (137 across 25 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 

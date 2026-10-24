@@ -22,7 +22,7 @@ import { Reveal } from "@/components/marketing/reveal";
 import { SectionHeading } from "@/components/marketing/section-heading";
 import { SectionIntro } from "@/components/marketing/section-intro";
 import { ServiceCard } from "@/components/marketing/service-card";
-import { StatBand } from "@/components/marketing/stat-band";
+import { QualityGateDemo } from "@/components/marketing/quality-gate-demo";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { siteConfig } from "@/lib/site-config";
 
@@ -60,6 +60,14 @@ const consultingModel = [
   "Assesses where defects are actually escaping to production",
   "Redesigns the process, then embeds it inside your sprint",
   "Your team owns the process after the engagement ends",
+];
+
+const auditAreas = [
+  { name: "Test strategy" },
+  { name: "Automation in CI" },
+  { name: "Release sign-off", gap: true },
+  { name: "Bug triage" },
+  { name: "Coverage visibility", gap: true },
 ];
 
 const phases = [
@@ -223,7 +231,22 @@ export default function QaConsultingPage() {
         <em>ships software</em>
       </PageHero>
 
-      <StatBand />
+      <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          eyebrow="How a quality gate works"
+          title="The audit finds the gaps, the gate *holds the release*"
+          description="An example engagement in miniature. The audit reads each area of a QA setup, and what it finds decides whether a release is allowed to ship."
+        />
+        <Reveal className="mt-12">
+          <StickerCard
+            tone="surface"
+            interactive={false}
+            className="p-6 sm:p-10"
+          >
+            <QualityGateDemo areas={auditAreas} />
+          </StickerCard>
+        </Reveal>
+      </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-24 sm:px-6 lg:px-8">
         <SectionIntro
