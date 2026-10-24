@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is built and pushed. Phase 9 (hardening) is in progress (z-lh done, z-devices waiting on a real phone).
+(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is built and pushed. Phase 9 (hardening) is in progress (z-devices, z-lh and z-keys done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -2316,6 +2316,37 @@ JetBrainsMono-Latin-Variable.woff2`: basic Latin and Latin-1, weight axis cut
     LCP got worse, 3.6s); dropping the italic Bespoke preload (saves 28ms, risks a
     font swap in the hero `<em>`); dropping the mono preload (saves about 50ms but
     brings back the 0.19 breadcrumb shift of gotcha #65).
+67. **Keyboard pass (2026-10-23), task z-keys.** Tabbed through 19 page types
+    (every family page, a post, the 404) and checked each stop for a visible focus
+    ring, zero size and hidden or inert ancestors, then drove every widget with the
+    keyboard. **Clean:** every focus stop had a ring (the one that read faint was a
+    mid-`transition-colors` read, it settles to Navajo White), the five tab groups
+    (service explorer, framework and device pickers, compare switch, week picker)
+    have a roving tabindex, arrows wrap, Home and End work and the panel shows, all
+    the demo buttons (Run test, Close the gaps, Fix the failing test, Next finding,
+    risk map, triage, known issues) respond to Enter and Space, the maturity check
+    boxes toggle with Space and update the live advice, the FAQ opens with
+    Enter and Space and ArrowDown moves between questions, the mega menu closes on
+    Escape with focus back on its trigger, blog search keeps focus while typing.
+    **Three real problems, fixed:** (1) **no skip link** (the floating header put 8
+    stops before every page): `layout.tsx` now has a "Skip to content" link, first
+    in the body, visible on focus (Navajo pill with an ink edge), targeting
+    `<main id="main-content" tabIndex={-1}>`. `focus:not-sr-only` also sets
+    `padding: 0`, so the padding is on `focus:px-5 focus:py-3`. (2) **The mobile
+    drawer did not trap Tab**: after its last link focus went out to the skip link,
+    header and breadcrumbs behind the full-screen sheet and back in, although Base
+    UI's Dialog is modal. `MobileNav` now sets `inert` on every other child of
+    `<body>` while open and removes it on close (checked after Escape and after a
+    link navigation: none left, focus returns to the menu button). A couple of
+    Tabs still land on Base UI's invisible focus guards at the end of the list,
+    that is its own and is left. (3) **The contents pill was not keyboard
+    reachable once open** (its list sits before the button in the DOM, so Tab from
+    the button went to the next thing on the page): opening now focuses the current
+    section link, Escape closes and returns focus to the pill, and a keyboard jump
+    moves focus onto the target heading (`tabIndex -1`, `preventScroll`) instead of
+    leaving it on a link that has collapsed (`e.detail === 0` tells a keyboard
+    activation from a click). 3 new e2e tests in `e2e/keyboard.spec.ts`, the drawer
+    one fails on the old code.
 
 ## Repository structure
 
@@ -2681,7 +2712,8 @@ src/lib/
   utils.ts                `cn()` class-merging helper
 
 e2e/                      Playwright specs: home.spec.ts (8 tests),
-                          navigation.spec.ts (15, added 2026-10-18) and
+                          navigation.spec.ts (15, added 2026-10-18),
+                          keyboard.spec.ts (3, added 2026-10-23) and
                           blog-post.spec.ts (2) and blog-index.spec.ts (2),
                           both added 2026-10-23
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source

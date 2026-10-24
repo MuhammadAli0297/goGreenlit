@@ -35,3 +35,9 @@ if (typeof window !== "undefined" && !window.matchMedia) {
       dispatchEvent: () => false,
     }) as MediaQueryList;
 }
+
+// jsdom has no layout, so it does not implement scrollIntoView. Components
+// that bring an element into view (the contents pill) only need it to exist.
+if (typeof Element !== "undefined" && !Element.prototype.scrollIntoView) {
+  Element.prototype.scrollIntoView = () => {};
+}

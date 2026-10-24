@@ -125,8 +125,16 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
+        <a
+          href="#main-content"
+          className="border-ink bg-navajo text-ink font-label sr-only rounded-full border-[1.5px] text-xs tracking-widest uppercase shadow-[3px_3px_0_var(--ink)] focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[70] focus:px-5 focus:py-3"
+        >
+          Skip to content
+        </a>
         <SiteHeader />
-        <main className="flex-1">{children}</main>
+        <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+          {children}
+        </main>
         <SiteFooter />
       </body>
     </html>

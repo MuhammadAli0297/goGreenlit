@@ -2,7 +2,7 @@
 
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ctaVariants } from "@/components/brand/cta-variants";
 import { Logo } from "@/components/layout/logo";
@@ -46,6 +46,33 @@ const STAGGER_MS = 60;
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
+
+  // The sheet is modal, but Tab still walked out of it into the page behind
+  // (skip link, header, breadcrumbs) and back. While it is open, everything
+  // else in the body is made inert so focus has nowhere else to go.
+  useEffect(() => {
+    if (!open) return;
+    const inerted: Element[] = [];
+    let frame = 0;
+    let tries = 0;
+    const apply = () => {
+      const popup = document.querySelector('[data-slot="sheet-content"]');
+      if (!popup) {
+        if (tries++ < 20) frame = requestAnimationFrame(apply);
+        return;
+      }
+      for (const child of Array.from(document.body.children)) {
+        if (child.contains(popup) || child.hasAttribute("inert")) continue;
+        child.setAttribute("inert", "");
+        inerted.push(child);
+      }
+    };
+    apply();
+    return () => {
+      cancelAnimationFrame(frame);
+      inerted.forEach((el) => el.removeAttribute("inert"));
+    };
+  }, [open]);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>

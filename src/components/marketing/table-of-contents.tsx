@@ -44,6 +44,7 @@ export function TableOfContents({
   const [visible, setVisible] = useState(false);
   const root = useRef<HTMLElement>(null);
   const line = useRef<HTMLSpanElement>(null);
+  const toggle = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const headings = items
@@ -91,12 +92,16 @@ export function TableOfContents({
     };
   }, [items, bodyId, endId]);
 
-  // Opening scrolls the list so the current section is fully in view.
+  // Opening scrolls the list so the current section is fully in view and
+  // moves focus onto it, so a keyboard user lands inside the list (it sits
+  // before the button in the DOM, so Tab from the button would skip it).
   useEffect(() => {
     if (!open) return;
-    root.current
-      ?.querySelector<HTMLElement>('a[aria-current="location"]')
-      ?.scrollIntoView({ block: "nearest" });
+    const link =
+      root.current?.querySelector<HTMLElement>('a[aria-current="location"]') ??
+      root.current?.querySelector<HTMLElement>("ol a");
+    link?.scrollIntoView({ block: "nearest" });
+    link?.focus({ preventScroll: true });
   }, [open]);
 
   useEffect(() => {
@@ -107,7 +112,9 @@ export function TableOfContents({
       }
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key !== "Escape") return;
+      setOpen(false);
+      toggle.current?.focus();
     };
     document.addEventListener("pointerdown", onPointer);
     document.addEventListener("keydown", onKey);
@@ -132,6 +139,7 @@ export function TableOfContents({
     const target = document.getElementById(id);
     if (!target || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
+    const fromKeyboard = e.detail === 0;
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -140,6 +148,12 @@ export function TableOfContents({
       block: "start",
     });
     window.history.replaceState(window.history.state, "", `#${id}`);
+    // A keyboard jump continues reading from the heading, not from a link
+    // that has just collapsed out of sight.
+    if (fromKeyboard) {
+      target.tabIndex = -1;
+      target.focus({ preventScroll: true });
+    }
   };
 
   const currentIndex = items.findIndex((item) => item.id === active);
@@ -199,6 +213,7 @@ export function TableOfContents({
         })}
       </ol>
       <button
+        ref={toggle}
         type="button"
         aria-expanded={open}
         aria-controls="toc-list"
