@@ -69,8 +69,10 @@ const founderStructuredData = {
 
 /**
  * The headline's words, each its own inline-block so they rise one after
- * another on load (`lb-word`). `accent` words get the marker stroke inside an
- * `<em>`. The text stays one run of words with real spaces between them, so a
+ * another on load (`lb-word`). `accent` words sit inside an `<em>` and carry
+ * the `lb-marker` underline on each word as well as on the `<em>` (an underline
+ * on a parent does not reach inside an inline-block child, so without the
+ * per-word class only the spaces between the words were underlined). The text stays one run of words with real spaces between them, so a
  * screen reader reads the sentence normally.
  */
 function HeroWords({ before, accent }: { before: string; accent: string }) {
@@ -92,7 +94,7 @@ function HeroWords({ before, accent }: { before: string; accent: string }) {
         {marked.map((word, i) => (
           <span key={`a-${i}`}>
             <span
-              className="lb-word"
+              className="lb-word lb-marker"
               style={{ "--lb-i": lead.length + i } as React.CSSProperties}
             >
               {word}
