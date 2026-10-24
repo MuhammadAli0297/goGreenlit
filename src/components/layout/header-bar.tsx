@@ -25,10 +25,8 @@ export interface BlogMenuData {
     label: string;
     href: string;
     count: number;
-    /** The category's literal chart-N background class, from blog-data. */
-    colorClass: string;
-    /** True when the tile's color is dark enough to need light text. */
-    onDark: boolean;
+    /** The category's cover classes (swatch background plus the text color that reads on it), from blog-data. */
+    coverClass: string;
   }[];
   latest: {
     title: string;
@@ -261,8 +259,7 @@ function BlogPanel({
                 render={<Link href={cat.href} />}
                 className={cn(
                   "border-ink flex min-h-32 flex-col justify-between rounded-[18px] border-[1.5px] p-4 transition-[transform,box-shadow] duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_var(--deep)]",
-                  cat.colorClass,
-                  cat.onDark ? "text-navajo" : "text-ink",
+                  cat.coverClass,
                 )}
               >
                 <span className="font-label text-xs tracking-widest uppercase">

@@ -7,9 +7,6 @@ import {
 } from "@/lib/blog-data";
 import { siteConfig } from "@/lib/site-config";
 
-/** The one category whose chart token (Dark Slate Grey) needs light text on top. */
-const DARK_TILE_SLUGS = new Set(["qa-strategy"]);
-
 function buildBlogMenu(): BlogMenuData {
   const latest = [...blogPosts].sort((a, b) => b.date.localeCompare(a.date))[0];
   if (!latest) throw new Error("blogPosts is empty, the header needs one post");
@@ -22,8 +19,7 @@ function buildBlogMenu(): BlogMenuData {
       label: cat.label,
       href: `/blog?category=${cat.slug}`,
       count: getPostsByCategory(cat.slug).length,
-      colorClass: cat.colorClass,
-      onDark: DARK_TILE_SLUGS.has(cat.slug),
+      coverClass: cat.coverClass,
     })),
     latest: {
       title: latest.title,

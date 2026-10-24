@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and committed but
-not yet pushed, Phase 7 (Blog) is next.
+pushed 2026-10-23, Phase 7 (Blog) is in progress (b-tile done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1777,6 +1777,35 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
     `[role=tab]` under 44px in either direction and ignore only inline links and
     cards that are whole-card links through an `after:` overlay.
 
+46. **Blog post tile with a cover panel (2026-10-23), task b-tile, first of
+    Phase 7.** `BlogPostCard` was restyled in place, so the blog index and the
+    "more on this topic" block on every post both get it. A `StickerCard` that
+    is one link, with a cover panel on top (the category's swatch, a pill that
+    spells the category out, the post's own lucide icon drawn large over two soft
+    rings, the date as a mono `<time>`) and the title (a real `h3`, three lines
+    max), excerpt (three lines max, the full text stays in the markup), founder
+    initials, author, read time and an arrow below. The icon is the post's own
+    (the canvas used a two-letter category code, which would have repeated on
+    every card in a category). The tile lifts on hover through the sticker card
+    and the icon tips, sampled lift 3px left and up, and every tile in the grid
+    measures the same height (425px at 1440 and 390). **Category colors changed
+    at the source to match the canvas**, because the tile cover, the filter dots
+    and the Blog menu tiles all read the same fields: QA Strategy is Sandy Brown,
+    Test Automation Muted Olive, Outsourcing and Hiring Palm Leaf, Testing
+    Practices Navajo White, Case Studies Dark Slate Grey, replacing the old
+    chart-1 to chart-5 tokens (which included a gold, `#f1b650`, that was never
+    a brand swatch). `colorClass`, `borderClass` and `tintClass` in `blog-data.ts`
+    now point at the swatches, and a new **`coverClass`** pairs each swatch with
+    the text color that reads on it (ink on four, navajo on deep, all past 5:1).
+    **A regression this caused and fixed:** the Blog menu hard-coded which
+    category needed light text (`DARK_TILE_SLUGS`, qa-strategy, true for the old
+    tokens), so the new deep Case Studies tile had dark text on dark. The menu now
+    takes `coverClass` and the special case is gone, so a future color change
+    cannot make that mistake again. **Still on the old colors until their own
+    task:** the per-post blog OG images (`blog-og-image.tsx` has a hardcoded
+    hex map for the five old tokens, handled in b-og) and the filter pills (their
+    new look is b-filters). 4 new unit tests.
+
 ## Repository structure
 
 ```
@@ -2146,7 +2175,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (161 across 30 files as of 2026-10-23)
+                          (165 across 31 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 

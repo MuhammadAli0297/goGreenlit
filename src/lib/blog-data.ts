@@ -68,12 +68,14 @@ export interface BlogCategory {
    * title and description.
    */
   description: string;
-  /** Literal Tailwind class referencing one of the theme's chart-N tokens, used as a small per-category color dot. Kept literal (not built from a template string) so Tailwind's build-time scan picks it up. */
+  /** Small per-category color dot: a literal Tailwind class for one of the five brand swatches (Live Build, 2026-10-23, replacing the old chart-N tokens so the category colors match the design canvas). Kept literal, not built from a template string, so Tailwind's build-time scan picks it up. */
   colorClass: string;
-  /** Same chart-N token at full saturation, for borders/rings. Chart-2 through chart-5 fail text contrast against the card background (checked: 2.25:1, 1.75:1, 1.51:1, 1.47:1), so this is for decorative strokes only, never text. */
+  /** Same swatch for borders and rings. Decorative strokes only, never text: sandy, olive, leaf and navajo are all under 3:1 on paper. */
   borderClass: string;
-  /** Same chart-N token as a low-opacity background tint, safe under any foreground text since it barely shifts background luminance. */
+  /** Same swatch as a low-opacity background tint, safe under any foreground text. */
   tintClass: string;
+  /** The post tile's cover panel: the full swatch with the text color that reads on it (ink on sandy, olive, leaf and navajo, navajo on deep Dark Slate Grey, all past 5:1). */
+  coverClass: string;
 }
 
 export const blogCategories: BlogCategory[] = [
@@ -82,45 +84,50 @@ export const blogCategories: BlogCategory[] = [
     label: "QA Strategy",
     description:
       "QA strategy articles on test planning, coverage models, shift-left and shift-right testing, and how QA maturity gets built as an engineering team grows.",
-    colorClass: "bg-[var(--chart-1)]",
-    borderClass: "border-[var(--chart-1)]",
-    tintClass: "bg-[var(--chart-1)]/10",
+    colorClass: "bg-sandy",
+    borderClass: "border-sandy",
+    tintClass: "bg-sandy/10",
+    coverClass: "bg-sandy text-ink",
   },
   {
     slug: "test-automation",
     label: "Test Automation",
     description:
       "Test automation articles on Playwright, Selenium, CI/CD pipeline integration, and how to tell whether an automation suite is actually paying for itself.",
-    colorClass: "bg-[var(--chart-2)]",
-    borderClass: "border-[var(--chart-2)]",
-    tintClass: "bg-[var(--chart-2)]/15",
+    colorClass: "bg-olive",
+    borderClass: "border-olive",
+    tintClass: "bg-olive/20",
+    coverClass: "bg-olive text-ink",
   },
   {
     slug: "outsourcing-hiring",
     label: "Outsourcing & Hiring",
     description:
       "Outsourcing and hiring articles on when to bring in QA help, in-house versus outsourced testing, staff augmentation versus an embedded QA team, and real costs.",
-    colorClass: "bg-[var(--chart-3)]",
-    borderClass: "border-[var(--chart-3)]",
-    tintClass: "bg-[var(--chart-3)]/15",
+    colorClass: "bg-leaf",
+    borderClass: "border-leaf",
+    tintClass: "bg-leaf/20",
+    coverClass: "bg-leaf text-ink",
   },
   {
     slug: "testing-practices",
     label: "Testing Practices",
     description:
       "Testing practices articles on manual and exploratory testing, regression checklists, flaky test triage, accessibility testing, and test data management.",
-    colorClass: "bg-[var(--chart-4)]",
-    borderClass: "border-[var(--chart-4)]",
-    tintClass: "bg-[var(--chart-4)]/15",
+    colorClass: "bg-navajo",
+    borderClass: "border-navajo",
+    tintClass: "bg-navajo/20",
+    coverClass: "bg-navajo text-ink",
   },
   {
     slug: "case-studies",
     label: "Case Studies",
     description:
       "Real patterns from GoGreenlit's own embedded QA engagements: escaped defect reduction, release coverage, and what changes when QA gets embedded early.",
-    colorClass: "bg-[var(--chart-5)]",
-    borderClass: "border-[var(--chart-5)]",
-    tintClass: "bg-[var(--chart-5)]/15",
+    colorClass: "bg-deep",
+    borderClass: "border-deep",
+    tintClass: "bg-deep/10",
+    coverClass: "bg-deep text-navajo",
   },
 ];
 
