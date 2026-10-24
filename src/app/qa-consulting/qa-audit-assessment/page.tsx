@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   BarChart3,
-  CheckCircle2,
   ClipboardList,
   FileText,
   Milestone,
@@ -12,19 +11,22 @@ import {
   Workflow,
 } from "lucide-react";
 
-import { CtaSection } from "@/components/marketing/cta-section";
-import { FaqAccordion } from "@/components/marketing/faq-accordion";
+import { ctaVariants } from "@/components/brand/cta-variants";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
+import { AuditReportPreview } from "@/components/marketing/audit-report-preview";
+import { CheckGrid } from "@/components/marketing/check-grid";
+import { CtaSection } from "@/components/marketing/cta-section";
+import { DeepBand } from "@/components/marketing/deep-band";
+import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PhaseTimeline } from "@/components/marketing/phase-timeline";
 import { RelatedLinks } from "@/components/marketing/related-links";
 import { Reveal } from "@/components/marketing/reveal";
+import { SectionIntro } from "@/components/marketing/section-intro";
 import { ServiceCard } from "@/components/marketing/service-card";
-import { buttonVariants } from "@/components/ui/button";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
-import { cn } from "@/lib/utils";
 
 const title = "QA Audit and Assessment";
 const description =
@@ -75,7 +77,7 @@ const domains = [
     icon: Target,
     title: "Coverage",
     description:
-      "What's actually tested versus assumed to be fine, mapped against where your real risk sits.",
+      "What is actually tested versus assumed to be fine, mapped against where your real risk sits.",
   },
   {
     icon: FileText,
@@ -125,7 +127,7 @@ const deliverables = [
     icon: FileText,
     label: "Executive summary",
     description:
-      "The headline findings, written for whoever's making the budget and headcount calls.",
+      "The headline findings, written for whoever is making the budget and headcount calls.",
   },
   {
     icon: ClipboardList,
@@ -137,7 +139,7 @@ const deliverables = [
     icon: Target,
     label: "Coverage gap analysis",
     description:
-      "Exactly where testing isn't happening, mapped against actual product risk.",
+      "Exactly where testing is not happening, mapped against actual product risk.",
   },
   {
     icon: Milestone,
@@ -154,12 +156,12 @@ const faqs = [
       "Two weeks total: kickoff and discovery, independent analysis, report writing, and a findings presentation.",
   },
   {
-    question: "What's actually in the audit report?",
+    question: "What is actually in the audit report?",
     answer:
       "An executive summary, detailed findings by domain with severity ratings, a coverage gap analysis, and a prioritized 90-day roadmap.",
   },
   {
-    question: "What's the difference between an audit and an assessment?",
+    question: "What is the difference between an audit and an assessment?",
     answer:
       "Mostly terminology. An audit typically implies more formal, documented findings; an assessment can be lighter-weight. We run audit-depth engagements regardless of which word you use.",
   },
@@ -210,127 +212,86 @@ export default function QaAuditAssessmentPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
+        tone="olive"
         badge="A two-week audit, not a vibe check"
         description="Most teams know quality is a problem somewhere. Fewer can point to exactly where. GoGreenlit runs a structured two-week audit across your process, tooling, and coverage, and hands back a prioritized roadmap instead of a list of complaints."
+        aside={<AuditReportPreview className="lg:rotate-[1.5deg]" />}
         ctas={
           <>
             <Link
               href={siteConfig.links.calendar}
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "bg-[#ee9e58] text-[#354639] hover:bg-[#ee9e58]/85",
-              )}
+              className={ctaVariants({ variant: "cta", size: "xl" })}
             >
-              Book a call
+              Book a call <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
               href="#domains"
-              className={cn(
-                buttonVariants({ size: "lg", variant: "outline" }),
-                "border-[#ffe0ad]/30 bg-transparent text-[#ffe0ad] hover:bg-[#ffe0ad]/10 hover:text-[#ffe0ad]",
-              )}
+              className={ctaVariants({ variant: "outline", size: "xl" })}
             >
               See what gets audited
             </Link>
           </>
         }
       >
-        QA audits that show you exactly{" "}
-        <span className="aurora-glow inline-block animate-[glow-pulse_3.5s_ease-in-out_infinite] rounded-md bg-[#ee9e58] px-2 py-2 leading-[1.2] text-[#354639]">
-          where quality breaks down
-        </span>
+        QA audits that show you exactly <em>where quality breaks down</em>
       </PageHero>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            Signs you&rsquo;re overdue for a QA audit
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            None of these feel urgent on their own. Together, they usually mean
-            nobody has an accurate picture of your actual risk anymore.
-          </p>
-        </div>
-
-        <Reveal
-          as="div"
-          className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-2"
-        >
-          <ul className="col-span-full grid gap-4 sm:grid-cols-2">
-            {auditSignals.map((item) => (
-              <li key={item} className="flex gap-3">
-                <CheckCircle2 className="text-primary mt-0.5 size-5 shrink-0" />
-                <span className="text-foreground/90 text-sm">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+      <section className="mx-auto max-w-6xl scroll-mt-16 px-4 py-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          eyebrow="Signs"
+          title="Signs you are overdue for a *QA audit*"
+          description="None of these feel urgent on their own. Together, they usually mean nobody has an accurate picture of your actual risk anymore."
+        />
+        <CheckGrid items={auditSignals} className="mt-12" />
       </section>
 
       <section
         id="domains"
-        className="mx-auto max-w-6xl scroll-mt-16 px-4 py-20 sm:px-6 lg:px-8"
+        className="mx-auto max-w-6xl scroll-mt-16 px-4 pb-24 sm:px-6 lg:px-8"
       >
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            What a QA audit covers
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            Six domains, each reviewed independently so a weakness in one
-            doesn&rsquo;t hide behind strength in another.
-          </p>
-        </div>
-
+        <SectionIntro
+          eyebrow="Six domains"
+          title="What a QA audit *covers*"
+          description="Six domains, each reviewed independently so a weakness in one does not hide behind strength in another."
+        />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {domains.map((domain, index) => (
-            <ServiceCard key={domain.title} {...domain} index={index} />
+          {domains.map((item, index) => (
+            <ServiceCard key={item.title} {...item} index={index} />
           ))}
         </div>
       </section>
 
-      <section className="border-border/60 scroll-mt-16 border-t bg-[#b1c680]">
-        <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-foreground text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              How the audit runs, day by day
+      <section className="bg-olive border-ink scroll-mt-16 border-y-[1.5px]">
+        <div className="mx-auto max-w-3xl px-4 py-24 sm:px-6 lg:px-8">
+          <Reveal className="text-center">
+            <p className="font-label text-xs tracking-widest uppercase">
+              Day by day
+            </p>
+            <h2 className="mt-4 text-4xl leading-[1.05] font-medium tracking-[-0.03em] text-balance sm:text-5xl [&_em]:font-normal [&_em]:italic">
+              How the audit runs, <em>day by day</em>
             </h2>
-          </div>
+          </Reveal>
 
           <PhaseTimeline phases={phases} />
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            What you get from the audit
-          </h2>
-        </div>
+      <DeepBand
+        eyebrow="Deliverables"
+        title="What you get from the *audit*"
+        items={deliverables.map(({ icon, label, description }) => ({
+          icon,
+          title: label,
+          description,
+        }))}
+      />
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {deliverables.map(({ icon: Icon, label, description }, index) => (
-            <Reveal
-              key={label}
-              className="border-border/60 rounded-lg border p-5"
-              delay={index * 80}
-            >
-              <div className="bg-accent text-accent-foreground flex size-10 items-center justify-center rounded-lg">
-                <Icon className="size-5" />
-              </div>
-              <h3 className="mt-3 font-semibold">{label}</h3>
-              <p className="text-muted-foreground mt-1 text-sm">
-                {description}
-              </p>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <h2 className="text-center text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Frequently asked questions
-        </h2>
-
+      <section className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          align="center"
+          eyebrow="Questions"
+          title="Frequently asked *questions*"
+        />
         <div className="mt-12">
           <FaqAccordion faqs={faqs} />
         </div>
@@ -341,8 +302,9 @@ export default function QaAuditAssessmentPage() {
       />
 
       <CtaSection
-        title="Ready to find out exactly where quality is breaking down?"
-        description="Tell us about your team and your current release process. We'll scope a two-week audit in one call."
+        tone="olive"
+        title="Ready to find out exactly where *quality is breaking down?*"
+        description="Tell us about your team and your current release process. We will scope a two-week audit in one call."
       />
     </>
   );

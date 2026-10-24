@@ -98,7 +98,7 @@ every page, the menus, the shared pieces and phone widths) and the
 progress tracker (https://claude.ai/artifact/MkU75tfmdu3vVt69E9WBiZ, 10
 phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
-Services family) are built and pushed, Phase 6 (QA Consulting family) is in progress (q-overview, the quality gate demo, the compare switch, the maturity check, the carousel and the first subpage done).
+Services family) are built and pushed, Phase 6 (QA Consulting family) is in progress (q-overview, the quality gate demo, the compare switch, the maturity check, the carousel and all six subpages done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1698,6 +1698,39 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     already on the page that is not one of the four verified stats: "a 30
     minute conversation", "under about 30 engineers", "30 days notice".
 
+43. **The other five QA Consulting subpages are on the template (2026-10-23),
+    task q-sub-rest.** Test strategy, QA process design, CI/CD quality gates,
+    QA audit and Release readiness copy gotcha #42: olive `PageHero` with a
+    widget `aside` (tilted 1.5 degrees from `lg`), `SectionIntro` eyebrows,
+    `ServiceCard` and `CheckGrid` sections, an olive `PhaseTimeline` band, a
+    `DeepBand` for the deliverables, FAQ, `RelatedLinks`, olive `CtaSection`.
+    Each page's data, metadata and badge are kept, and every heading's words
+    are unchanged (checked in a real browser against the originals) except the
+    contraction fixes ("Signs you are overdue for a QA audit"). **Hero widgets,
+    picked from two options each in a scratch artifact:** `RiskMap`
+    (`risk-map.tsx`, tap an example product area to cycle low, medium, high
+    risk, the effort follows), `TriageSorter` (`triage-sorter.tsx`, pick a
+    severity and the bug lands in fix now, next sprint or backlog, opens on
+    Blocker), `MergeGateDemo` (`merge-gate-demo.tsx`, a pull request whose unit
+    tests check failed, Merge locked, "Fix the failing test" re-runs the checks
+    one by one at 800ms, then Merge unlocks, Replay resets, reduced motion skips
+    the re-run), `AuditReportPreview` (`audit-report-preview.tsx`, cycles three
+    example findings with area, evidence and recommendation, labelled an example
+    and with no "1 of 3" counter), `KnownIssuesDemo` (`known-issues-demo.tsx`,
+    accept or block each of three deferred bugs, verdict Go or Hold, opens on
+    Hold). All five are client components, complete at rest, status carried by a
+    word as well as a color through `StatusPill`, results in polite live regions,
+    no digits (one shared unit test fails on any). The generated structure also
+    meant a **gotcha for the CI/CD page**: the platforms block (label plus detail
+    with no icon) became ruled `dl` rows like the Services stack list, not
+    cards. FAQ questions and answers lost their contractions, so their FAQPage
+    JSON-LD text changed, as before. **Existing numbers not among the four
+    verified stats**, left as they were: "two-week audit" and its day ranges,
+    "under ten minutes" for pre-merge checks, "ten to fifteen initiatives",
+    "90-day roadmap", "three to four weeks" for a strategy, "two to four pages".
+    8 new unit tests across the five widgets. Still to come in Phase 6: q-og,
+    q-mobile.
+
 ## Repository structure
 
 ```
@@ -2067,7 +2100,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (153 across 29 files as of 2026-10-23)
+                          (161 across 30 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 

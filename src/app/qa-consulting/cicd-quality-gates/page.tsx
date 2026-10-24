@@ -11,19 +11,21 @@ import {
   ShieldAlert,
 } from "lucide-react";
 
-import { CtaSection } from "@/components/marketing/cta-section";
-import { FaqAccordion } from "@/components/marketing/faq-accordion";
+import { ctaVariants } from "@/components/brand/cta-variants";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
+import { CtaSection } from "@/components/marketing/cta-section";
+import { DeepBand } from "@/components/marketing/deep-band";
+import { FaqAccordion } from "@/components/marketing/faq-accordion";
+import { MergeGateDemo } from "@/components/marketing/merge-gate-demo";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PhaseTimeline } from "@/components/marketing/phase-timeline";
 import { RelatedLinks } from "@/components/marketing/related-links";
 import { Reveal } from "@/components/marketing/reveal";
+import { SectionIntro } from "@/components/marketing/section-intro";
 import { ServiceCard } from "@/components/marketing/service-card";
-import { buttonVariants } from "@/components/ui/button";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
-import { cn } from "@/lib/utils";
 
 const title = "CI/CD Quality Gates";
 const description =
@@ -54,7 +56,7 @@ const gateTypes = [
     icon: GitPullRequest,
     title: "Pre-merge gates",
     description:
-      "Unit tests, linting, and focused API tests, fast enough to run in under ten minutes so they don't block a developer's flow.",
+      "Unit tests, linting, and focused API tests, fast enough to run in under ten minutes so they do not block a developer's flow.",
   },
   {
     icon: GitBranch,
@@ -80,7 +82,7 @@ const platforms = [
   {
     label: "GitHub Actions",
     detail:
-      "Branch protection rules tied to required status checks, so a pull request can't merge until every gate passes.",
+      "Branch protection rules tied to required status checks, so a pull request cannot merge until every gate passes.",
   },
   {
     label: "Jenkins",
@@ -98,7 +100,7 @@ const phases = [
   {
     title: "Define pass criteria",
     description:
-      "What a gate actually checks, and what counts as a pass, agreed on before it's wired into the pipeline.",
+      "What a gate actually checks, and what counts as a pass, agreed on before it is wired into the pipeline.",
   },
   {
     title: "Set thresholds and override authority",
@@ -153,16 +155,16 @@ const faqs = [
   {
     question: "What tests should actually run before a merge?",
     answer:
-      "Fast, focused checks: unit tests, linting, and API tests scoped to under ten minutes. Full regression and end-to-end suites run post-merge so they don't block a developer's flow.",
+      "Fast, focused checks: unit tests, linting, and API tests scoped to under ten minutes. Full regression and end-to-end suites run post-merge so they do not block a developer's flow.",
   },
   {
     question: "How do you stop flaky tests from blocking every merge?",
     answer:
-      "Fix the root cause where possible, otherwise a limited retry with alerting, or quarantine the test until it's fixed, rather than letting it erode trust in the whole gate.",
+      "Fix the root cause where possible, otherwise a limited retry with alerting, or quarantine the test until it is fixed, rather than letting it erode trust in the whole gate.",
   },
   {
     question:
-      "What's the difference between a quality gate and a deployment gate?",
+      "What is the difference between a quality gate and a deployment gate?",
     answer:
       "A quality gate runs before code merges. A deployment gate runs before that code reaches an environment, staging or production. Most pipelines need both.",
   },
@@ -209,129 +211,103 @@ export default function CicdQualityGatesPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
+        tone="olive"
         badge="Checks that actually block a bad merge"
         description="Most pipelines run tests. Fewer of them actually stop a bad build from shipping. GoGreenlit designs and wires up quality gates covering test results, security scans, coverage thresholds, and code standards, directly into the CI/CD platform you already run."
+        aside={<MergeGateDemo className="lg:rotate-[1.5deg]" />}
         ctas={
           <>
             <Link
               href={siteConfig.links.calendar}
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "bg-[#ee9e58] text-[#354639] hover:bg-[#ee9e58]/85",
-              )}
+              className={ctaVariants({ variant: "cta", size: "xl" })}
             >
-              Book a call
+              Book a call <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
               href="#gate-types"
-              className={cn(
-                buttonVariants({ size: "lg", variant: "outline" }),
-                "border-[#ffe0ad]/30 bg-transparent text-[#ffe0ad] hover:bg-[#ffe0ad]/10 hover:text-[#ffe0ad]",
-              )}
+              className={ctaVariants({ variant: "outline", size: "xl" })}
             >
               See gate types
             </Link>
           </>
         }
       >
-        CI/CD quality gates that stop bugs{" "}
-        <span className="aurora-glow inline-block animate-[glow-pulse_3.5s_ease-in-out_infinite] rounded-md bg-[#ee9e58] px-2 py-2 leading-[1.2] text-[#354639]">
-          before they ship
-        </span>
+        CI/CD quality gates that stop bugs <em>before they ship</em>
       </PageHero>
 
       <section
         id="gate-types"
-        className="mx-auto max-w-6xl scroll-mt-16 px-4 py-20 sm:px-6 lg:px-8"
+        className="mx-auto max-w-6xl scroll-mt-16 px-4 py-24 sm:px-6 lg:px-8"
       >
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            Gate types and where they belong in the pipeline
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            Not every check belongs at the same stage. Fast checks block a
-            merge, slower ones block a deploy.
-          </p>
-        </div>
-
+        <SectionIntro
+          eyebrow="Gate types"
+          title="Gate types and where they belong in the *pipeline*"
+          description="Not every check belongs at the same stage. Fast checks block a merge, slower ones block a deploy."
+        />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {gateTypes.map((gate, index) => (
-            <ServiceCard key={gate.title} {...gate} index={index} />
+          {gateTypes.map((item, index) => (
+            <ServiceCard key={item.title} {...item} index={index} />
           ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            Implementing gates on the platform you already run
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            No pipeline migration required, gates get wired into what your team
-            already uses.
-          </p>
-        </div>
+      <section className="mx-auto max-w-6xl scroll-mt-16 px-4 pb-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          eyebrow="Your platform"
+          title="Implementing gates on the platform you *already run*"
+          description="No pipeline migration required, gates get wired into what your team already uses."
+        />
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-3">
+        <dl className="mt-12 grid gap-x-8 gap-y-2 sm:grid-cols-3">
           {platforms.map(({ label, detail }, index) => (
             <Reveal
               key={label}
-              className="border-border/60 rounded-lg border p-5"
+              className="border-ink border-t-[1.5px] py-5"
               delay={index * 80}
             >
-              <h3 className="font-semibold">{label}</h3>
-              <p className="text-muted-foreground mt-1 text-sm">{detail}</p>
+              <dt className="font-label text-deep text-xs tracking-widest uppercase">
+                {label}
+              </dt>
+              <dd className="mt-2 text-[17px] leading-snug">{detail}</dd>
             </Reveal>
           ))}
-        </div>
+        </dl>
       </section>
 
       <section
         id="policy"
-        className="border-border/60 scroll-mt-16 border-t bg-[#b1c680]"
+        className="bg-olive border-ink scroll-mt-16 border-y-[1.5px]"
       >
-        <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-foreground text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              Defining go or no-go policies the whole team agrees with
+        <div className="mx-auto max-w-3xl px-4 py-24 sm:px-6 lg:px-8">
+          <Reveal className="text-center">
+            <p className="font-label text-xs tracking-widest uppercase">
+              Policy
+            </p>
+            <h2 className="mt-4 text-4xl leading-[1.05] font-medium tracking-[-0.03em] text-balance sm:text-5xl [&_em]:font-normal [&_em]:italic">
+              Defining go or no-go policies the whole team <em>agrees with</em>
             </h2>
-          </div>
+          </Reveal>
 
           <PhaseTimeline phases={phases} />
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            What you actually get
-          </h2>
-        </div>
+      <DeepBand
+        eyebrow="Deliverables"
+        title="What you actually *get*"
+        items={deliverables.map(({ icon, label, description }) => ({
+          icon,
+          title: label,
+          description,
+        }))}
+      />
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {deliverables.map(({ icon: Icon, label, description }, index) => (
-            <Reveal
-              key={label}
-              className="border-border/60 rounded-lg border p-5"
-              delay={index * 80}
-            >
-              <div className="bg-accent text-accent-foreground flex size-10 items-center justify-center rounded-lg">
-                <Icon className="size-5" />
-              </div>
-              <h3 className="mt-3 font-semibold">{label}</h3>
-              <p className="text-muted-foreground mt-1 text-sm">
-                {description}
-              </p>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <h2 className="text-center text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Frequently asked questions
-        </h2>
-
+      <section className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          align="center"
+          eyebrow="Questions"
+          title="Frequently asked *questions*"
+        />
         <div className="mt-12">
           <FaqAccordion faqs={faqs} />
         </div>
@@ -342,8 +318,9 @@ export default function CicdQualityGatesPage() {
       />
 
       <CtaSection
-        title="Ready for gates that actually stop a bad release?"
-        description="Tell us which platform you're on and what's slipping through today. We'll scope a quality gates engagement in one call."
+        tone="olive"
+        title="Ready for gates that actually *stop a bad release?*"
+        description="Tell us which platform you are on and what is slipping through today. We will scope a quality gates engagement in one call."
       />
     </>
   );

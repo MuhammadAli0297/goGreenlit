@@ -11,20 +11,22 @@ import {
   Wrench,
 } from "lucide-react";
 
+import { ctaVariants } from "@/components/brand/cta-variants";
+import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { CompareColumns } from "@/components/marketing/compare-columns";
 import { CtaSection } from "@/components/marketing/cta-section";
+import { DeepBand } from "@/components/marketing/deep-band";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
-import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PhaseTimeline } from "@/components/marketing/phase-timeline";
 import { RelatedLinks } from "@/components/marketing/related-links";
 import { Reveal } from "@/components/marketing/reveal";
+import { RiskMap } from "@/components/marketing/risk-map";
+import { SectionIntro } from "@/components/marketing/section-intro";
 import { ServiceCard } from "@/components/marketing/service-card";
-import { buttonVariants } from "@/components/ui/button";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
-import { cn } from "@/lib/utils";
 
 const title = "Test Strategy Consulting";
 const description =
@@ -67,7 +69,7 @@ const components = [
     icon: Target,
     title: "Scope and objectives",
     description:
-      "What's in scope for testing, what's explicitly out, and what quality actually means for this product.",
+      "What is in scope for testing, what is explicitly out, and what quality actually means for this product.",
   },
   {
     icon: Radar,
@@ -85,7 +87,7 @@ const components = [
     icon: Wrench,
     title: "Tooling decisions",
     description:
-      "Which frameworks and platforms are the standard, so every new hire and every new project doesn't restart that debate.",
+      "Which frameworks and platforms are the standard, so every new hire and every new project does not restart that debate.",
   },
   {
     icon: Server,
@@ -105,7 +107,7 @@ const phases = [
   {
     title: "Discovery workshop",
     description:
-      "A working session with engineering and product to surface what's actually being tested today, and where the gaps are.",
+      "A working session with engineering and product to surface what is actually being tested today, and where the gaps are.",
   },
   {
     title: "Current-state audit",
@@ -148,7 +150,7 @@ const deliverables = [
 const faqs = [
   {
     question:
-      "What's the actual difference between a test strategy and a test plan?",
+      "What is the actual difference between a test strategy and a test plan?",
     answer:
       "A test plan is scoped to a single release or feature and gets rewritten every cycle. A test strategy is set once at the organizational level and answers what gets tested and why, as a standing rule every test plan then follows.",
   },
@@ -158,14 +160,14 @@ const faqs = [
       "Three to four weeks from discovery workshop to a finalized document, most teams run it alongside their normal sprint cadence.",
   },
   {
-    question: "What's actually in the strategy document?",
+    question: "What is actually in the strategy document?",
     answer:
-      "Scope and objectives, a risk model, testing level ownership, tooling decisions, environment strategy, and the metrics you'll track, typically two to four pages.",
+      "Scope and objectives, a risk model, testing level ownership, tooling decisions, environment strategy, and the metrics you will track, typically two to four pages.",
   },
   {
     question: "Does this fit an agile team, or is it a waterfall artifact?",
     answer:
-      "It's written for agile teams specifically: a strategy set at the organizational level that every sprint's test plan draws from, not a fixed document that assumes a fixed release.",
+      "It is written for agile teams specifically: a strategy set at the organizational level that every sprint's test plan draws from, not a fixed document that assumes a fixed release.",
   },
   {
     question: "Do you help implement the strategy, or just write it?",
@@ -209,47 +211,37 @@ export default function TestStrategyConsultingPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
+        tone="olive"
         badge="A strategy, not a binder"
-        description="Most teams don't have a test strategy so much as a set of habits nobody wrote down. GoGreenlit runs a focused engagement to document what gets tested, why, and by whom, sized to actually get used instead of shelved."
+        description="Most teams do not have a test strategy so much as a set of habits nobody wrote down. GoGreenlit runs a focused engagement to document what gets tested, why, and by whom, sized to actually get used instead of shelved."
+        aside={<RiskMap className="lg:rotate-[1.5deg]" />}
         ctas={
           <>
             <Link
               href={siteConfig.links.calendar}
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "bg-[#ee9e58] text-[#354639] hover:bg-[#ee9e58]/85",
-              )}
+              className={ctaVariants({ variant: "cta", size: "xl" })}
             >
-              Book a call
+              Book a call <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
               href="#components"
-              className={cn(
-                buttonVariants({ size: "lg", variant: "outline" }),
-                "border-[#ffe0ad]/30 bg-transparent text-[#ffe0ad] hover:bg-[#ffe0ad]/10 hover:text-[#ffe0ad]",
-              )}
+              className={ctaVariants({ variant: "outline", size: "xl" })}
             >
-              See what&rsquo;s in it
+              See what is in it
             </Link>
           </>
         }
       >
-        Test strategy consulting that aligns QA with{" "}
-        <span className="aurora-glow inline-block animate-[glow-pulse_3.5s_ease-in-out_infinite] rounded-md bg-[#ee9e58] px-2 py-2 leading-[1.2] text-[#354639]">
-          the business
-        </span>
+        Test strategy consulting that aligns QA with <em>the business</em>
       </PageHero>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            A test strategy is not a test plan
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            Teams that confuse the two end up rewriting the same decisions every
-            single release.
-          </p>
-        </div>
+      <section className="mx-auto max-w-6xl scroll-mt-16 px-4 py-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          align="center"
+          eyebrow="Strategy versus plan"
+          title="A test strategy is not a *test plan*"
+          description="Teams that confuse the two end up rewriting the same decisions every single release."
+        />
 
         <CompareColumns
           leftTitle="A test plan"
@@ -261,68 +253,51 @@ export default function TestStrategyConsultingPage() {
 
       <section
         id="components"
-        className="mx-auto max-w-6xl scroll-mt-16 px-4 py-20 sm:px-6 lg:px-8"
+        className="mx-auto max-w-6xl scroll-mt-16 px-4 pb-24 sm:px-6 lg:px-8"
       >
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            What a strategy that actually gets used includes
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            Six components, kept short enough to fit in two to four pages, not a
-            document that gets written once and never opened again.
-          </p>
-        </div>
-
+        <SectionIntro
+          eyebrow="What is in it"
+          title="What a strategy that actually gets used *includes*"
+          description="Six components, kept short enough to fit in two to four pages, not a document that gets written once and never opened again."
+        />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {components.map((component, index) => (
-            <ServiceCard key={component.title} {...component} index={index} />
+          {components.map((item, index) => (
+            <ServiceCard key={item.title} {...item} index={index} />
           ))}
         </div>
       </section>
 
-      <section className="border-border/60 scroll-mt-16 border-t bg-[#b1c680]">
-        <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-foreground text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              How a strategy engagement runs
+      <section className="bg-olive border-ink scroll-mt-16 border-y-[1.5px]">
+        <div className="mx-auto max-w-3xl px-4 py-24 sm:px-6 lg:px-8">
+          <Reveal className="text-center">
+            <p className="font-label text-xs tracking-widest uppercase">
+              How it runs
+            </p>
+            <h2 className="mt-4 text-4xl leading-[1.05] font-medium tracking-[-0.03em] text-balance sm:text-5xl [&_em]:font-normal [&_em]:italic">
+              How a strategy engagement <em>runs</em>
             </h2>
-          </div>
+          </Reveal>
 
           <PhaseTimeline phases={phases} />
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            What you get from the engagement
-          </h2>
-        </div>
+      <DeepBand
+        eyebrow="Deliverables"
+        title="What you get from the *engagement*"
+        items={deliverables.map(({ icon, label, description }) => ({
+          icon,
+          title: label,
+          description,
+        }))}
+      />
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-3">
-          {deliverables.map(({ icon: Icon, label, description }, index) => (
-            <Reveal
-              key={label}
-              className="border-border/60 rounded-lg border p-5"
-              delay={index * 80}
-            >
-              <div className="bg-accent text-accent-foreground flex size-10 items-center justify-center rounded-lg">
-                <Icon className="size-5" />
-              </div>
-              <h3 className="mt-3 font-semibold">{label}</h3>
-              <p className="text-muted-foreground mt-1 text-sm">
-                {description}
-              </p>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <h2 className="text-center text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Frequently asked questions
-        </h2>
-
+      <section className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          align="center"
+          eyebrow="Questions"
+          title="Frequently asked *questions*"
+        />
         <div className="mt-12">
           <FaqAccordion faqs={faqs} />
         </div>
@@ -333,8 +308,9 @@ export default function TestStrategyConsultingPage() {
       />
 
       <CtaSection
-        title="Ready to stop making the same testing decisions twice?"
-        description="Tell us about your current QA situation and where decisions keep getting made ad hoc. We'll scope a strategy engagement in one call."
+        tone="olive"
+        title="Ready to stop making the same testing decisions *twice?*"
+        description="Tell us about your current QA situation and where decisions keep getting made ad hoc. We will scope a strategy engagement in one call."
       />
     </>
   );
