@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog) is in progress (b-tile, b-hero, b-filters, b-featured, b-category, b-pagination, b-post, b-toc, b-callouts, b-related done).
+(Blog) is in progress (b-tile, b-hero, b-filters, b-featured, b-category, b-pagination, b-post, b-toc, b-callouts, b-related, b-seo done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -2048,6 +2048,38 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
     only, so each post points at its own neighbours and every post is linked from
     at least one other (a unit test checks all 45). Viewed on an Outsourcing post
     and a Case Studies post at 1440 and 390, no overflow. 4 new unit tests.
+
+57. **Blog SEO regression check (2026-10-23), task b-seo. Clean, nothing
+    regressed.** The method is worth repeating at the end of the redesign (Phase 9):
+    check out `origin/main` as a git worktree in the scratchpad, **symlink
+    `node_modules` into it and run `npx next dev --webpack -p 3100`** (Turbopack
+    refuses a symlinked `node_modules`, webpack does not, and a second project dir
+    gets its own dev lock), then fetch every blog URL from both servers with
+    JavaScript off in Playwright (what a crawler sees) and diff title, description,
+    canonical, robots, OG and Twitter tags, JSON-LD, headings and in-content
+    links. Set both sites' URL to the same origin before comparing (a copied
+    `.env.local` pointed `main` at port 3000, which showed up as a false sitemap
+    diff), and strip the `?hash` Next appends to the OG image URLs, it depends on
+    the checkout path. Remove the worktree and its symlink afterwards. **Results
+    over 61 URLs (all 45 posts, the index at pages 1, 2, 3, 5 and an out-of-range
+    page, an unknown category, every category at pages 1 and 2):** title,
+    description, canonical, robots, OG and Twitter text, and every JSON-LD block
+    (`BlogPosting`, `BreadcrumbList`, `FAQPage`, `Blog`) are **identical** to
+    `main`; the sitemap (62 URLs with the same `lastModified`) and `robots.txt` are
+    identical; every post has exactly one `h1`, no skipped heading level, no
+    duplicate ids, every contents link has its target, no em dash, no bracket link
+    syntax in FAQ schema text, FAQ schema count equals the visible questions on all
+    45 FAQ posts, every title is 60 characters or fewer with the template and every
+    description 138 to 160, self-canonical on every post, an unknown slug is a 404
+    as before. **Headings differ on 35 posts only inside the related block**
+    (`getRelatedPosts` now rotates, gotcha #56), on the index the featured post is
+    an `h2` where it was an `h3` (gotcha #49), and a search view is `noindex,
+follow` with a canonical on `/blog` (gotcha #48). **Pre-existing, not caused by
+    the redesign:** the plain index and its pages have no `h2` before the first
+    card `h3` (the `h1` is followed by `h3`s, the same on `main`), and
+    `how-to-evaluate-an-ai-testing-vendor` has 4 in-body links where gotcha #17
+    asks for 5 to 8 (its FAQ has 6). **Still to do in b-og:** the per-post OG
+    images keep the old chart colors.
 
 ## Repository structure
 
