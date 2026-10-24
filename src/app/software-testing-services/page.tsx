@@ -19,6 +19,7 @@ import { StickerCard } from "@/components/brand/sticker-card";
 import { AuroraBackground } from "@/components/marketing/aurora-background";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { CtaSection } from "@/components/marketing/cta-section";
+import { FrameworkPicker } from "@/components/marketing/framework-picker";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { PageHero } from "@/components/marketing/page-hero";
 import { RunMatrix } from "@/components/marketing/run-matrix";
@@ -345,6 +346,27 @@ export default function SoftwareTestingServicesPage() {
                 Book a call <span aria-hidden="true">&rarr;</span>
               </Link>
             </StickerCard>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="bg-leaf border-ink border-y-[1.5px]">
+        <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+          <Reveal className="max-w-3xl">
+            <p className="font-label text-xs tracking-widest uppercase">
+              Playwright or Selenium?
+            </p>
+            <SectionHeading className="mt-4">
+              Choose the tool that fits your *stack*, not the trend
+            </SectionHeading>
+            <p className="mt-5 text-lg">
+              Playwright is our default for new suites. If your team already
+              runs Selenium, we extend it instead of rewriting it for its own
+              sake.
+            </p>
+          </Reveal>
+          <Reveal className="mt-10">
+            <FrameworkPicker />
           </Reveal>
         </div>
       </section>

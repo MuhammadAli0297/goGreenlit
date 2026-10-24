@@ -77,3 +77,11 @@ test("services overview opens with the Palm Leaf hero and keeps its FAQ closed",
     page.getByRole("button", { name: /what is included in outsourced/i }),
   ).toHaveAttribute("aria-expanded", "false");
 });
+
+test("services picker swaps Playwright for Selenium", async ({ page }) => {
+  await page.goto("/software-testing-services");
+  const tab = page.getByRole("tab", { name: "Selenium" });
+  await tab.click();
+  await expect(tab).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByRole("tabpanel")).toContainText("WebDriver driver");
+});

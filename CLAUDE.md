@@ -1467,8 +1467,14 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     carries a `RunMatrix` as its `aside` (Chrome, Firefox, Safari, Android,
     iOS, tilted 1.5 degrees from `lg`), which switches the hero to two
     left-aligned columns, stacked on a phone. Sampled in a real browser: the
-    cells cycle through several distinct colors over time. Still to come in
-    Phase 5: framework picker, coverage ring,
+    cells cycle through several distinct colors over time. A
+    leaf band after the grid holds `FrameworkPicker` (client, ARIA tabs,
+    Playwright default, Selenium, both panels in the server HTML; no "fit"
+    percentage bar, the mockup's 88% and 64% were invented numbers; a unit test
+    fails on any percentage). **Gotcha:** `<pre><code>` inherits `font-mono`,
+    which still aliases the serif, so set `font-label` on the `code` element
+    too. Still to come in
+    Phase 5: coverage ring,
     device picker, the subpage template and the family OG images.
 
 ## Repository structure
@@ -1837,10 +1843,10 @@ src/lib/
                            each page still renders its own <script> tag.
   utils.ts                `cn()` class-merging helper
 
-e2e/                      Playwright specs: home.spec.ts (6 tests) and
+e2e/                      Playwright specs: home.spec.ts (7 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (112 across 19 files as of 2026-10-23)
+                          (117 across 20 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 
