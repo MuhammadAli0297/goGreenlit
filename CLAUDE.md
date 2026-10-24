@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is built and pushed. Phase 9 (hardening) is in progress (z-devices, z-lh, z-keys and z-contrast done).
+(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is built and pushed. Phase 9 (hardening) is in progress (z-devices, z-lh, z-keys, z-contrast and z-rm done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -2384,6 +2384,33 @@ JetBrainsMono-Latin-Variable.woff2`: basic Latin and Latin-1, weight axis cut
     any sandy blob under it drops it), so olive stays for text on flat deep grounds
     only. **Not checked by this scan:** hover and open states (the pairings are
     token-covered), text inside the OG images, and dark mode (there is none).
+69. **Reduced-motion pass (2026-10-24), task z-rm.** Ran every sitemap page
+    (blog index and one post included) with `emulateMedia({ reducedMotion:
+"reduce" })`, scrolled each in 800px steps and listed
+    `document.getAnimations()` that were running (a sanity run without the
+    preference finds 50 on the homepage, so the probe works). **Idle: zero running
+    keyframe animations on every page**, and no scroll-driven or JS-driven motion
+    (every `scrollTo` and `scrollBy` already switched to `auto`, `html` has no
+    `scroll-behavior`). **Interaction was the gap.** Clicking through the widgets
+    still ran hover and press transforms, the mega menu's popup slide and chevron
+    turn, the FAQ's generated `accordion-down` height animation and other panel
+    growth, because those come from component classes or from the shadcn and
+    tw-animate-css CSS, not from the `lb-*` list. Two catch-alls now sit in the
+    existing `prefers-reduced-motion` block of `globals.css`: keyframe animations
+    finish at once and never repeat (`animation-duration: 0.01ms !important`,
+    `iteration-count: 1`, `delay: 0s`), and `transition-property` is limited to
+    color, background, border, outline, fill, stroke, box-shadow and opacity, so
+    anything that moves, resizes or rotates changes instantly while color feedback
+    and plain fades stay. State still changes, it just does not travel. **After:**
+    the menu runs only background-color and opacity, the FAQ, device tabs and quality
+    gate run only background-color, widgets such as Run test, the quality gate and
+    the merge gate show their end state straight away, and the 30 e2e tests (motion
+    on) still pass. **Adding motion later:** a new component needs no per-component
+    guard for these two cases, but a looping decorative animation still needs an
+    explicit `animation: none` (the catch-all would leave a looping keyframe on its
+    last frame, which is wrong for a loop whose last frame is a blank). The reading
+    progress bar and the contents pill's progress line follow scroll position and
+    are kept on purpose, they show where you are and do not move on their own.
 
 ## Repository structure
 

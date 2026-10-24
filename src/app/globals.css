@@ -801,4 +801,26 @@
   .faq-panel {
     transition: none;
   }
+  /* Catch-all for keyframe animations that nothing above names (the
+     generated accordion's height animation, tw-animate-css enter classes):
+     they finish at once, on their last frame, and never repeat. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+  }
+  /* Catch-all for transitions: only color feedback (and a plain fade) may
+     still animate. Anything that moves, resizes or rotates, such as hover
+     lifts, chevron turns, popup slides, panel growth and device morphs,
+     changes instantly. Elements that already say motion-reduce:transition-none
+     are unaffected. State changes still happen, they just do not travel. */
+  *,
+  *::before,
+  *::after {
+    transition-property:
+      color, background-color, border-color, text-decoration-color, fill,
+      stroke, box-shadow, outline-color, opacity !important;
+  }
 }
