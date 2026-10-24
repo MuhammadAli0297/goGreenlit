@@ -1518,7 +1518,15 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     regression page says "a suite of 50 well-maintained tests that runs in 8
     minutes with a 0% false-positive rate" and the Playwright page says
     "200 to 500 tests" and "three to six months", illustrative figures outside
-    the four verified stats. Still to come in
+    the four verified stats. **Services family OG and Twitter images** (all 7 pages, 14 files) use a
+    new `buildServicesOgElement` inside `marketing-og-image.tsx`: Palm Leaf
+    with olive and navajo radial glows (Satori cannot blur), wordmark and
+    family pill, the page's real H1 with an `accent` phrase (third argument of
+    `buildMarketingOgElement`, in Dark Slate Grey since Satori has no italic
+    instance and sandy fails on leaf), and a six-cell result strip with one bug.
+    The QA Consulting, About and blog-index families still use the old layout
+    until their own phases. Rendered and viewed all 14 (each returns 200
+    `image/png`, the longest H1 fits). Still to come in
     Phase 5: coverage ring,
     device picker, the subpage template and the family OG images.
 

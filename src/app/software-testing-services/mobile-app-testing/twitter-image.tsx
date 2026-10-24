@@ -15,6 +15,7 @@ export default async function Image() {
     buildMarketingOgElement(
       "Mobile testing services built for real devices, not just simulators",
       "software-testing-services",
+      "not just simulators",
     ),
     { ...size, fonts },
   );

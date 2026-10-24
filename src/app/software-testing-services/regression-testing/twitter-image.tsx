@@ -15,6 +15,7 @@ export default async function Image() {
     buildMarketingOgElement(
       "Regression testing services that scale with your release cycle",
       "software-testing-services",
+      "your release cycle",
     ),
     { ...size, fonts },
   );

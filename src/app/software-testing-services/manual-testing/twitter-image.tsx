@@ -13,8 +13,9 @@ export default async function Image() {
   const fonts = await loadMarketingOgFonts();
   return new ImageResponse(
     buildMarketingOgElement(
-      "Manual testing services that catch what automation can’t",
+      "Manual testing services that catch what automation cannot",
       "software-testing-services",
+      "automation cannot",
     ),
     { ...size, fonts },
   );

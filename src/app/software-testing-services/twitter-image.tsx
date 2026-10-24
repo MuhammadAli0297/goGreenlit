@@ -15,6 +15,7 @@ export default async function Image() {
     buildMarketingOgElement(
       "Software testing services that plug into your sprint",
       "software-testing-services",
+      "your sprint",
     ),
     { ...size, fonts },
   );
