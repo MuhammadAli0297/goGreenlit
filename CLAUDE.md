@@ -98,7 +98,7 @@ every page, the menus, the shared pieces and phone widths) and the
 progress tracker (https://claude.ai/artifact/MkU75tfmdu3vVt69E9WBiZ, 10
 phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
-Services family) are built and pushed, Phase 6 (QA Consulting family) is in progress (q-overview, the quality gate demo, the compare switch and the maturity check done).
+Services family) are built and pushed, Phase 6 (QA Consulting family) is in progress (q-overview, the quality gate demo, the compare switch, the maturity check and the carousel done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1640,6 +1640,33 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     `StatBand` is unchanged. 5 new unit tests (4 for the check, 1 for compact).
     Still to come in Phase 6: q-carousel, q-sub, q-sub-rest, q-og, q-mobile.
 
+41. **`ServiceCarousel` (2026-10-23), the "six ways in" carousel, task
+    q-carousel.** Replaces the six-card `ServiceCard` grid on the QA Consulting
+    overview. The H2 text ("QA consulting services") and its intro sentence are
+    unchanged, the eyebrow became "Six ways in". **Split on purpose:**
+    `service-carousel.tsx` is a Server Component that renders the cards, and
+    only the scroll controls are client (`carousel-track.tsx`), because an icon
+    component cannot be passed as a prop from a server file to a client one, so
+    the cards are passed in as `children`. Each card is now a real link to its
+    subpage (the old grid cards were not links), so the overview gained six
+    in-content links with the service name as anchor text; the card is an `<h3>`
+    inside the link, flips to Dark Slate Grey on hover and keyboard focus, and
+    the arrow nudges forward. The track is a plain scroll-snap list, so touch
+    swipe, trackpad and keyboard (focusing a card link scrolls it into view)
+    work with no JavaScript; the previous and next buttons only show when the
+    cards overflow and disable at each end, and a progress rail's thumb is
+    written straight to the DOM from a passive scroll listener (state is only
+    the two button flags). Drag-with-the-mouse from the canvas was not built,
+    the buttons cover mouse users on a desktop. **Gotcha:** with `px-2` on the
+    track, snap alignment ignored the padding, so the list began scrolled 8px
+    and Previous was enabled on the first card, fixed with `scroll-px-2`.
+    Sampled in a real browser at 1440 and 390: start at 0 with Previous
+    disabled, a Next click moved the track 287, 374, 384, 384 (smooth, one card
+    step), the end disables Next, focusing the first card scrolls back to 0, the
+    hover background resolved to Dark Slate Grey, no horizontal overflow. 3 new
+    unit tests. `ServiceCard` is unchanged and still used by the subpages.
+    Still to come in Phase 6: q-sub, q-sub-rest, q-og, q-mobile.
+
 ## Repository structure
 
 ```
@@ -2009,7 +2036,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (146 across 27 files as of 2026-10-23)
+                          (149 across 28 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 

@@ -20,7 +20,7 @@ import { PhaseTimeline } from "@/components/marketing/phase-timeline";
 import { Reveal } from "@/components/marketing/reveal";
 import { SectionHeading } from "@/components/marketing/section-heading";
 import { SectionIntro } from "@/components/marketing/section-intro";
-import { ServiceCard } from "@/components/marketing/service-card";
+import { ServiceCarousel } from "@/components/marketing/service-carousel";
 import { CheckGrid } from "@/components/marketing/check-grid";
 import { MaturityCheck } from "@/components/marketing/maturity-check";
 import { StatBand } from "@/components/marketing/stat-band";
@@ -175,36 +175,42 @@ const services = [
     title: "QA Audit and Assessment",
     description:
       "An outside look at your current QA maturity: what is tested, what is assumed, and where the actual risk is hiding.",
+    href: "/qa-consulting/qa-audit-assessment",
   },
   {
     icon: Target,
     title: "Test Strategy Consulting",
     description:
       "A risk-based test strategy sized to your actual stack and release cadence, replacing whatever ad hoc testing decisions are happening today.",
+    href: "/qa-consulting/test-strategy-consulting",
   },
   {
     icon: Workflow,
     title: "QA Process Design",
     description:
       "Defect triage, sprint-level test planning, and release sign-off criteria, designed around how your team already works instead of a generic template.",
+    href: "/qa-consulting/qa-process-design",
   },
   {
     icon: Webhook,
     title: "CI/CD Quality Gates",
     description:
       "Automated checks wired into your pipeline so a build that fails quality standards gets blocked before it reaches a release branch.",
+    href: "/qa-consulting/cicd-quality-gates",
   },
   {
     icon: ShieldCheck,
     title: "Release Readiness",
     description:
       "A structured go or no-go review before a release ships, so sign-off reflects real coverage instead of a gut check.",
+    href: "/qa-consulting/release-readiness",
   },
   {
     icon: Users,
     title: "Embedded QA Team",
     description:
       "A QA engineer embedded directly in your sprint to run the new process day to day, not just hand you a document and leave.",
+    href: "/qa-consulting/embedded-qa-team",
   },
 ];
 
@@ -380,16 +386,14 @@ export default function QaConsultingPage() {
 
       <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
         <SectionIntro
-          eyebrow="Services"
+          eyebrow="Six ways in"
           title="QA consulting *services*"
           description="Each engagement starts with the audit and scopes down from there, not a fixed package."
         />
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, index) => (
-            <ServiceCard key={service.title} {...service} index={index} />
-          ))}
-        </div>
+        <Reveal className="mt-12">
+          <ServiceCarousel services={services} label="QA consulting services" />
+        </Reveal>
       </section>
 
       <section className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 lg:px-8">
