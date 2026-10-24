@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog) is in progress (b-tile, b-hero done).
+(Blog) is in progress (b-tile, b-hero, b-filters done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1828,6 +1828,27 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
     is also on the aurora layer, so select the chips by `.lb-float`, not by that
     class. 3 new unit tests.
 
+48. **Blog search and filter pills (2026-10-23), task b-filters.** Search is a
+    **`?q=` query param on a plain GET form**, not a client component:
+    `BlogSearch` (`blog-search.tsx`, a Server Component) is a `role="search"`
+    form to `/blog` with a labelled `q` field, a hidden `category` field when a
+    category is active, and a Clear link. It works with scripts off, every
+    result is a shareable URL, and it matches how filters and pagination
+    already work. `searchPosts()` and `normalizeSearchQuery()` in `blog-data.ts`
+    match every word (case-insensitive) against title, excerpt, category label
+    and section headings (not whole bodies, to avoid stray-word noise); input is
+    trimmed and capped at 80 characters. **`buildBlogHref({category, q, page})`**
+    (`src/lib/blog-href.ts`) is now the one place that builds blog index URLs, in
+    fixed param order, used by the pills, the pagination and the search.
+    **SEO:** a search view is `noindex, follow` with its canonical pointing at
+    the bare `/blog` or the category view it narrows, so endless query URLs never
+    enter the index; category and page canonicals (gotchas #23, #29) are
+    unchanged. A polite `role="status"` line reports the result count. The
+    filter pills were restyled (mono label, ink outline, active pill ink fill with
+    a sandy offset edge, the category's swatch as a dot, 44px tall on a phone) and
+    carry the active query. Pagination only gained a `query` prop here, its
+    restyle is b-pagination. 6 new unit tests.
+
 ## Repository structure
 
 ```
@@ -2197,7 +2218,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (168 across 32 files as of 2026-10-23)
+                          (174 across 33 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 

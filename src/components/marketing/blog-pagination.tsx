@@ -2,6 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
+import { buildBlogHref } from "@/lib/blog-href";
 import { cn } from "@/lib/utils";
 
 /**
@@ -15,20 +16,16 @@ export function BlogPagination({
   currentPage,
   totalPages,
   category,
+  query,
 }: {
   currentPage: number;
   totalPages: number;
   category?: string;
+  query?: string;
 }) {
   if (totalPages <= 1) return null;
 
-  const hrefFor = (page: number) => {
-    const params = new URLSearchParams();
-    if (category) params.set("category", category);
-    if (page > 1) params.set("page", String(page));
-    const qs = params.toString();
-    return qs ? `/blog?${qs}` : "/blog";
-  };
+  const hrefFor = (page: number) => buildBlogHref({ category, q: query, page });
 
   const isFirst = currentPage === 1;
   const isLast = currentPage === totalPages;

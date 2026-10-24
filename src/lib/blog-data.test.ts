@@ -11,7 +11,9 @@ import {
   getRelatedPosts,
   getTotalPages,
   interleaveByCategory,
+  normalizeSearchQuery,
   paginatePosts,
+  searchPosts,
 } from "@/lib/blog-data";
 
 describe("getPostBySlug", () => {
@@ -120,5 +122,26 @@ describe("pagination helpers", () => {
     const firstPage = paginatePosts(blogPosts, 1);
     expect(firstPage).toHaveLength(Math.min(POSTS_PER_PAGE, blogPosts.length));
     expect(firstPage[0]).toBe(blogPosts[0]);
+  });
+});
+
+describe("search", () => {
+  it("normalizes whitespace and caps the length", () => {
+    expect(normalizeSearchQuery("  playwright   vs  ")).toBe("playwright vs");
+    expect(normalizeSearchQuery(undefined)).toBe("");
+    expect(normalizeSearchQuery("a".repeat(200))).toHaveLength(80);
+  });
+
+  it("returns every post for an empty query", () => {
+    expect(searchPosts(blogPosts, "   ")).toHaveLength(blogPosts.length);
+  });
+
+  it("matches title words case-insensitively", () => {
+    const hits = searchPosts(blogPosts, "PLAYWRIGHT selenium");
+    expect(hits.map((p) => p.slug)).toContain("playwright-vs-selenium-2026");
+  });
+
+  it("requires every word to match", () => {
+    expect(searchPosts(blogPosts, "playwright zzzznotaword")).toHaveLength(0);
   });
 });

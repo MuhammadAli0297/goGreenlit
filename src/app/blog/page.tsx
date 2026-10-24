@@ -6,6 +6,7 @@ import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { BlogFilterPills } from "@/components/marketing/blog-filter-pills";
 import { BlogHero } from "@/components/marketing/blog-hero";
 import { BlogPagination } from "@/components/marketing/blog-pagination";
+import { BlogSearch } from "@/components/marketing/blog-search";
 import { BlogPostCard } from "@/components/marketing/blog-post-card";
 import { CtaSection } from "@/components/marketing/cta-section";
 import {
@@ -14,8 +15,11 @@ import {
   getPostsByCategory,
   getTotalPages,
   interleaveByCategory,
+  normalizeSearchQuery,
   paginatePosts,
+  searchPosts,
 } from "@/lib/blog-data";
+import { buildBlogHref } from "@/lib/blog-href";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { siteConfig } from "@/lib/site-config";
 
@@ -26,14 +30,30 @@ const description =
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string; page?: string }>;
+  searchParams: Promise<{ category?: string; page?: string; q?: string }>;
 }): Promise<Metadata> {
   const params = await searchParams;
   const category = getCategoryBySlug(params.category);
-  const posts = getPostsByCategory(category?.slug);
+  const query = normalizeSearchQuery(params.q);
+  const posts = searchPosts(getPostsByCategory(category?.slug), query);
   const displayPosts = category ? posts : interleaveByCategory(posts);
   const totalPages = getTotalPages(displayPosts.length);
   const currentPage = clampPage(Number(params.page ?? 1), totalPages);
+
+  // Search results are thin, endless URL variants, so they stay out of the
+  // index and point their canonical at the page they narrow (the category
+  // view, or the bare blog). Links on them are still followed.
+  if (query) {
+    const base = category
+      ? buildBlogHref({ category: category.slug })
+      : "/blog";
+    return {
+      title: `Search results for "${query}"`,
+      description,
+      robots: { index: false, follow: true },
+      alternates: { canonical: base },
+    };
+  }
 
   // Each category now carries its own real 150-160 char description (see
   // BlogCategory in blog-data.ts), so a filtered view earns a genuinely
@@ -90,11 +110,12 @@ const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 export default async function BlogPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string; page?: string }>;
+  searchParams: Promise<{ category?: string; page?: string; q?: string }>;
 }) {
   const params = await searchParams;
   const category = getCategoryBySlug(params.category);
-  const posts = getPostsByCategory(category?.slug);
+  const query = normalizeSearchQuery(params.q);
+  const posts = searchPosts(getPostsByCategory(category?.slug), query);
   // Only the unfiltered "all categories" view mixes categories, a
   // filtered view is already single-category throughout.
   const displayPosts = category ? posts : interleaveByCategory(posts);
@@ -140,7 +161,23 @@ export default async function BlogPage({
           </div>
         )}
 
-        <BlogFilterPills activeCategory={category?.slug} />
+        <BlogSearch query={query} category={category?.slug} />
+        <div className="mt-6">
+          <BlogFilterPills activeCategory={category?.slug} query={query} />
+        </div>
+
+        <p
+          role="status"
+          className={
+            query
+              ? "text-muted-foreground font-label mt-8 text-center text-xs tracking-wide uppercase"
+              : "sr-only"
+          }
+        >
+          {query
+            ? `${displayPosts.length} ${displayPosts.length === 1 ? "article" : "articles"} for "${query}"`
+            : ""}
+        </p>
 
         {pagePosts.length > 0 ? (
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -150,7 +187,9 @@ export default async function BlogPage({
           </div>
         ) : (
           <p className="text-muted-foreground mt-12 text-center">
-            No articles in this category yet.
+            {query
+              ? "No articles match that search. Try a shorter phrase, or clear the search and pick a category."
+              : "No articles in this category yet."}
           </p>
         )}
 
@@ -158,6 +197,7 @@ export default async function BlogPage({
           currentPage={currentPage}
           totalPages={totalPages}
           category={category?.slug}
+          query={query}
         />
       </section>
 

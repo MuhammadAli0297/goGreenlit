@@ -6195,3 +6195,38 @@ export function paginatePosts(posts: BlogPost[], page: number): BlogPost[] {
   const start = (page - 1) * POSTS_PER_PAGE;
   return posts.slice(start, start + POSTS_PER_PAGE);
 }
+
+export const MAX_SEARCH_LENGTH = 80;
+
+/** Trim, collapse whitespace and cap the length of a raw `?q=` value. */
+export function normalizeSearchQuery(raw: string | undefined): string {
+  if (!raw) return "";
+  return raw.replace(/\s+/g, " ").trim().slice(0, MAX_SEARCH_LENGTH);
+}
+
+/**
+ * Keeps the posts that match every word of the query (case-insensitive) in
+ * the title, excerpt, category label or any section heading. Post bodies
+ * are not searched word for word, headings carry each section's topic
+ * without matching on stray words in long paragraphs. An empty query
+ * returns the posts unchanged.
+ */
+export function searchPosts(posts: BlogPost[], query: string): BlogPost[] {
+  const terms = normalizeSearchQuery(query).toLowerCase().split(" ");
+  if (terms[0] === "") return posts;
+  return posts.filter((post) => {
+    const haystack = [
+      post.title,
+      post.excerpt,
+      getCategoryBySlug(post.category)?.label ?? "",
+      ...post.body
+        .filter((b) => b.type === "heading" || b.type === "subheading")
+        .map((b) =>
+          b.type === "heading" || b.type === "subheading" ? b.text : "",
+        ),
+    ]
+      .join(" ")
+      .toLowerCase();
+    return terms.every((term) => haystack.includes(term));
+  });
+}
