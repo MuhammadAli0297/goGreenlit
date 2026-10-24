@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog) is in progress (b-tile, b-hero, b-filters, b-featured, b-category done).
+(Blog) is in progress (b-tile, b-hero, b-filters, b-featured, b-category, b-pagination done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1886,6 +1886,21 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
     unchanged**, so the self-canonical and unique title from gotcha #29 still
     hold. 6 new unit tests (every category, singular count).
 
+51. **Blog pagination (2026-10-23), task b-pagination.** `BlogPagination` is
+    restyled in place, same props plus the `query` added with search: mono pill
+    Previous and Next with arrows, numbered pages as 44px rings in an `ol`, the
+    current page ink-filled with a Sandy Brown offset edge and `aria-current`,
+    each numbered link labelled "Page N". **At the ends Previous and Next are no
+    longer links**, they render as dimmed `span`s with `aria-disabled` (the old
+    version kept a link with `pointer-events-none`, still reachable and still
+    crawlable), and the live ones carry `rel="prev"` and `rel="next"`. On a phone
+    the page numbers wrap to their own row below Previous and Next, so nothing
+    overflows. **URLs and canonicals are untouched**: links come from
+    `buildBlogHref` in the same param order (`category`, `q`, `page`), so the
+    self-canonical logic of gotchas #23 and #29 still matches every link. Checked
+    in a real browser at 1440 and 390: no link under 44px, no overflow, Next went
+    from page 2 to 3, page 5 shows no Next. 3 new unit tests.
+
 ## Repository structure
 
 ```
@@ -2255,7 +2270,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (187 across 35 files as of 2026-10-23)
+                          (190 across 36 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 

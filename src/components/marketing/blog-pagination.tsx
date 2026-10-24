@@ -1,16 +1,24 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-import { buttonVariants } from "@/components/ui/button";
 import { buildBlogHref } from "@/lib/blog-href";
 import { cn } from "@/lib/utils";
 
+const stepClass =
+  "border-ink font-label text-ink relative inline-flex min-h-11 items-center gap-2 rounded-full border-[1.5px] px-4 text-xs tracking-wide uppercase transition-colors";
+const pageClass =
+  "border-ink font-label text-ink hover:bg-ink/10 relative inline-flex size-11 items-center justify-center rounded-full border-[1.5px] text-sm transition-colors";
+const pageActiveClass =
+  "bg-ink text-paper hover:bg-ink shadow-[3px_3px_0_0_var(--sandy)]";
+
 /**
  * Prev/Next plus numbered page links, all plain `<Link>`s (no client
- * state), always carrying the current `category` filter along with the
- * `page` param. This is the pagination half of "filters work on every
- * page": since every link here is built from the current category, moving
- * between pages never drops the active filter.
+ * state), always carrying the current `category` and search `query` along
+ * with the `page` param, so moving between pages never drops a filter. At
+ * the ends, Previous and Next are not links at all (a disabled control that
+ * is still a link is a trap for keyboards and crawlers), they render as
+ * dimmed text marked `aria-disabled`. The numbered links drop below the
+ * Previous/Next row on a phone so nothing overflows.
  */
 export function BlogPagination({
   currentPage,
@@ -33,51 +41,54 @@ export function BlogPagination({
   return (
     <nav
       aria-label="Blog pagination"
-      className="mt-12 flex items-center justify-center gap-2"
+      className="mt-14 flex flex-wrap items-center justify-center gap-x-3 gap-y-4"
     >
-      <Link
-        href={hrefFor(Math.max(1, currentPage - 1))}
-        aria-disabled={isFirst}
-        tabIndex={isFirst ? -1 : undefined}
-        className={cn(
-          buttonVariants({ variant: "outline", size: "sm" }),
-          isFirst && "pointer-events-none opacity-40",
-        )}
-      >
-        <ChevronLeft />
-        Previous
-      </Link>
+      {isFirst ? (
+        <span aria-disabled="true" className={cn(stepClass, "opacity-40")}>
+          <ArrowLeft aria-hidden="true" className="size-4" />
+          Previous
+        </span>
+      ) : (
+        <Link
+          href={hrefFor(currentPage - 1)}
+          rel="prev"
+          className={cn(stepClass, "hover:bg-ink/10")}
+        >
+          <ArrowLeft aria-hidden="true" className="size-4" />
+          Previous
+        </Link>
+      )}
 
-      <div className="flex items-center gap-1">
+      <ol className="order-last flex w-full items-center justify-center gap-2 sm:order-none sm:w-auto">
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-          <Link
-            key={page}
-            href={hrefFor(page)}
-            aria-current={page === currentPage ? "page" : undefined}
-            className={cn(
-              "flex size-9 items-center justify-center rounded-lg text-sm font-medium transition-colors",
-              page === currentPage
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground",
-            )}
-          >
-            {page}
-          </Link>
+          <li key={page}>
+            <Link
+              href={hrefFor(page)}
+              aria-current={page === currentPage ? "page" : undefined}
+              aria-label={`Page ${page}`}
+              className={cn(pageClass, page === currentPage && pageActiveClass)}
+            >
+              {page}
+            </Link>
+          </li>
         ))}
-      </div>
+      </ol>
 
-      <Link
-        href={hrefFor(Math.min(totalPages, currentPage + 1))}
-        aria-disabled={isLast}
-        tabIndex={isLast ? -1 : undefined}
-        className={cn(
-          buttonVariants({ variant: "outline", size: "sm" }),
-          isLast && "pointer-events-none opacity-40",
-        )}
-      >
-        Next
-        <ChevronRight />
-      </Link>
+      {isLast ? (
+        <span aria-disabled="true" className={cn(stepClass, "opacity-40")}>
+          Next
+          <ArrowRight aria-hidden="true" className="size-4" />
+        </span>
+      ) : (
+        <Link
+          href={hrefFor(currentPage + 1)}
+          rel="next"
+          className={cn(stepClass, "hover:bg-ink/10")}
+        >
+          Next
+          <ArrowRight aria-hidden="true" className="size-4" />
+        </Link>
+      )}
     </nav>
   );
 }
