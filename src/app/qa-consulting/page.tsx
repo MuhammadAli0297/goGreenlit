@@ -197,7 +197,7 @@ export default function QaConsultingPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
-        badge="Strategy and process, not just extra hands"
+        badge="Strategy and process, not extra hands"
         description="Bringing in another tester treats the symptom. GoGreenlit's QA consulting starts with an assessment of how defects are actually reaching production, then designs and embeds the fix directly into your sprint, with your team owning it long after the engagement ends."
         ctas={
           <>

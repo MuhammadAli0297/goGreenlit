@@ -188,7 +188,7 @@ export default function MobileAppTestingPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
-        badge="iOS, Android, React Native, and Flutter, tested on real devices when it matters"
+        badge="iOS, Android, and real devices"
         description="Mobile testing often gets reduced to tapping through the app on a simulator, checking that buttons do what they're supposed to. That's necessary, but it's not enough. Mobile apps fail in production for reasons that have nothing to do with button behavior: device fragmentation, permission handling, offline behavior, and battery conditions a simulator can't fully replicate."
         ctas={
           <>

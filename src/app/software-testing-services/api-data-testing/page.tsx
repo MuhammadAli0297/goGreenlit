@@ -216,7 +216,7 @@ export default function ApiDataTestingPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
-        badge="Functional, contract, schema, and security testing for REST and GraphQL"
+        badge="REST, GraphQL, contract and security"
         description="A bug caught at the API layer is cheap to fix. The same bug caught in a UI test, or by a user, is not. GoGreenlit tests the layer underneath your interface: endpoints, contracts, schemas, and the data integrity checks that never show up on a screen but break production just as often."
         ctas={
           <>

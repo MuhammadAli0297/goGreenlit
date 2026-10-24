@@ -209,7 +209,7 @@ export default function CicdQualityGatesPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
-        badge="Automated checks that actually block a bad merge"
+        badge="Checks that actually block a bad merge"
         description="Most pipelines run tests. Fewer of them actually stop a bad build from shipping. GoGreenlit designs and wires up quality gates covering test results, security scans, coverage thresholds, and code standards, directly into the CI/CD platform you already run."
         ctas={
           <>

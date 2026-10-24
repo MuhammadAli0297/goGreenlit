@@ -216,7 +216,7 @@ export default function ManualTestingPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
-        badge="Exploratory testing, UAT, and usability review, done by engineers"
+        badge="Exploratory, UAT, and usability review"
         description="Automated suites are good at repeating the same steps. They are bad at noticing a confirmation message that doesn't make sense, or a workflow that technically works but feels wrong. GoGreenlit's manual testing engineers run exploratory sessions, user acceptance testing, and usability review directly inside your sprint, the judgment automation can't replicate."
         ctas={
           <>

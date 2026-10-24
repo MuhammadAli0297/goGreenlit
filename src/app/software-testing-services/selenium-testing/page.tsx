@@ -212,7 +212,7 @@ export default function SeleniumTestingPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
-        badge="Page Object Model frameworks, wait strategy fixes, and Selenium Grid at scale"
+        badge="Page Object Model, Grid, stable waits"
         description="Selenium WebDriver has been part of web automation for over a decade, and for teams with an established Java or Python suite, real enterprise infrastructure constraints, or Selenium expertise already on staff, it is still the right tool. GoGreenlit builds and maintains Selenium frameworks that hold up, extending what you already have instead of forcing a rewrite for its own sake."
         ctas={
           <>

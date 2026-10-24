@@ -166,7 +166,7 @@ export default function RegressionTestingPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
-        badge="Risk-prioritized suites, CI/CD gates, and pruning on a schedule"
+        badge="Risk-prioritized suites and CI gates"
         description="Most regression suites work well at first and slowly stop working. Not from one bad decision, but from fragile tests, no ownership, and growth without pruning, until nobody trusts a red build anymore. GoGreenlit builds regression suites that stay fast and stay trusted, as your codebase and your release cycle keep growing."
         ctas={
           <>

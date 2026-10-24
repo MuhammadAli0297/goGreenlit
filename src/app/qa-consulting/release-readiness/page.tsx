@@ -211,7 +211,7 @@ export default function ReleaseReadinessPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
-        badge="A go or no-go decision backed by more than one number"
+        badge="A go or no-go you can defend"
         description="A regression suite that's green tells you less than it feels like it does. GoGreenlit's release readiness reviews check coverage, critical user paths, rollback plans, and monitoring together, so a sign-off actually reflects whether you're ready to ship."
         ctas={
           <>

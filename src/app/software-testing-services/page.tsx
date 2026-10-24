@@ -241,7 +241,7 @@ export default function SoftwareTestingServicesPage() {
             className="lg:rotate-[1.5deg]"
           />
         }
-        badge="Manual and automated testing, embedded in your sprint"
+        badge="Manual and automated, in your sprint"
         description="Most QA vendors test after your team ships and hand defects back on their own schedule. GoGreenlit’s QA engineers join your sprint itself: writing test cases in planning, executing them alongside development, and filing defects before a release goes out, not after."
         ctas={
           <>

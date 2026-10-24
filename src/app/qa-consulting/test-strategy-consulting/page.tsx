@@ -209,7 +209,7 @@ export default function TestStrategyConsultingPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
-        badge="A strategy your team will actually follow, not a binder"
+        badge="A strategy, not a binder"
         description="Most teams don't have a test strategy so much as a set of habits nobody wrote down. GoGreenlit runs a focused engagement to document what gets tested, why, and by whom, sized to actually get used instead of shelved."
         ctas={
           <>

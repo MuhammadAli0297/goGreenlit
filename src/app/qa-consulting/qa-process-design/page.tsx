@@ -192,7 +192,7 @@ export default function QaProcessDesignPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
-        badge="A process your team follows without being told to"
+        badge="A process your team actually follows"
         description="A missing QA process doesn't look like chaos, it looks like the same argument about whether something's ready to ship, every single release. GoGreenlit designs sprint-level testing process, defect triage, and release criteria around how your team actually works."
         ctas={
           <>

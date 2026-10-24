@@ -163,7 +163,7 @@ export default function EmbeddedQaTeamPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
-        badge="A QA engineer who joins your team, not a vendor queue"
+        badge="A QA engineer who joins your team"
         description="Most outsourced QA sits outside your sprint and hands defects back on its own schedule. GoGreenlit embeds a QA engineer directly into your ceremonies, standups, planning, and retros, so testing runs on your team's clock, not a vendor's."
         ctas={
           <>

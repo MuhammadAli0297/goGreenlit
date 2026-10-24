@@ -210,7 +210,7 @@ export default function QaAuditAssessmentPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
-        badge="A two-week audit, not a vague vibe check"
+        badge="A two-week audit, not a vibe check"
         description="Most teams know quality is a problem somewhere. Fewer can point to exactly where. GoGreenlit runs a structured two-week audit across your process, tooling, and coverage, and hands back a prioritized roadmap instead of a list of complaints."
         ctas={
           <>

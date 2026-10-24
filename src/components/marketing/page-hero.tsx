@@ -97,12 +97,12 @@ export function PageHero({
             {badge ? (
               <span
                 className={cn(
-                  "font-label mb-6 inline-flex items-center gap-2 rounded-full border-[1.5px] px-3.5 py-1.5 text-xs tracking-wide uppercase",
+                  "font-label mb-6 inline-flex max-w-full items-center gap-2 rounded-full border-[1.5px] px-3.5 py-1.5 text-xs tracking-wide whitespace-nowrap uppercase",
                   t.badge,
                 )}
               >
-                <span className="lb-pulse bg-sandy border-ink/60 inline-block size-2 rounded-full border" />
-                {badge}
+                <span className="lb-pulse bg-sandy border-ink/60 inline-block size-2 shrink-0 rounded-full border" />
+                <span className="truncate">{badge}</span>
               </span>
             ) : null}
 

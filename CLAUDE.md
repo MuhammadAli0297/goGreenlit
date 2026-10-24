@@ -1489,7 +1489,12 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     a unit test fails on any digit. The three tab widgets (service explorer,
     framework picker, device picker) share **`useTabs`** (`src/lib/use-tabs.ts`,
     arrow/Home/End with wrap, roving tabindex), extracted at the third call
-    site. **The subpage template** was set on the Playwright subpage and is what the
+    site. **Hero badges are one line, always.** `PageHero`'s badge is `whitespace-nowrap`
+    with a truncating inner span as a safety net, and every page's badge was
+    shortened to 38 characters or fewer (measured single-line and untruncated on
+    all 15 PageHero pages at 360, 390, 768 and 1440 wide). A new badge must stay
+    that short. SEO is unaffected, the badge is a label, the H1, meta
+    description and section headings carry the keywords. **The subpage template** was set on the Playwright subpage and is what the
     other five Services subpages copy next: Palm Leaf `PageHero` with a widget
     `aside` / eyebrow-led sections via **`SectionIntro`** (`section-intro.tsx`,
     eyebrow, headline with `*accent*`, lead, `tone` light or dark, `align`) /

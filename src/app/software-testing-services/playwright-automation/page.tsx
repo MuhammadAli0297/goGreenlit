@@ -245,7 +245,7 @@ export default function PlaywrightAutomationPage() {
 
       <PageHero
         tone="leaf"
-        badge="TypeScript suites, CI/CD wiring, and phased Selenium or Cypress migrations"
+        badge="TypeScript suites and CI/CD wiring"
         description="Playwright is the default choice for new end-to-end suites for good reason: real cross-browser coverage, parallel execution out of the box, and less flake than the tools it replaced. GoGreenlit builds and maintains Playwright suites in TypeScript, checked into your repository and wired into CI, so a failing test blocks a bad merge instead of getting discovered after a release."
         aside={
           <RunTestWidget
