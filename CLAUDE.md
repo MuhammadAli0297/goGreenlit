@@ -2242,6 +2242,43 @@ follow` with a canonical on `/blog` (gotcha #48). **Pre-existing, not caused by
     when content meaningfully changes, and the visuals and some copy did); do it
     in Phase 9 if wanted. The full SEO regression against `main` for every page
     type is still the Phase 9 task (method in gotcha #57).
+65. **Lighthouse and layout-shift pass (2026-10-23), task z-lh, first doable task
+    of Phase 9.** Built the branch and `origin/main` as production builds in two
+    scratchpad worktrees (`cp -cR node_modules` clones it fast on APFS, then a
+    normal Turbopack `npm run build`, `next start` on 3200 and 3300) and ran mobile
+    Lighthouse on both, twice per page. **Absolute numbers from a local server are
+    not comparable to the 2026-09-11 production baseline** (local `main` itself
+    reads LCP 3.2s against 2.3s live, there is no CDN or compression), so the test
+    is branch against `main` on the same machine. **Found and fixed three real
+    shifts the redesign introduced** (`main` had CLS 0 on all of them):
+    (1) `PageHero`'s text column and its zoom wrapper had no width limit, so while
+    the fallback font showed, the `whitespace-nowrap` badge made them 16px wider
+    than the padding and the heading reflowed when the real font arrived
+    (CLS 0.12 on `/software-testing-services`, 0.05 on `/qa-consulting`); the
+    column is now `w-full min-w-0`, the zoom wrapper `w-full`, the badge text
+    `min-w-0`. (2) **The mono font was `preload: false`** and the breadcrumb row is
+    mono, so on QA Consulting subpages the trail fit on one line in the real font
+    and wrapped in the fallback, moving the whole page 20px when the font landed
+    (CLS 0.19 on four subpages, never seen by Lighthouse because it only samples
+    the overview pages). `JetBrains_Mono` is now preloaded (one latin file). (3) the
+    footer's giant decorative wordmark was scored as low-contrast text on every
+    page (it was already on `main`); it is now `before:content-[attr(data-text)]`
+    on an empty `aria-hidden` `p`, so it is not text to a contrast checker. **How
+    to find this kind of shift:** record `layout-shift` entries with `sources` in
+    Playwright under CDP network (150ms, 200kbps) and CPU (4x) throttling and read
+    `previousRect` against `currentRect`, a width change of 16px or a whole-page
+    height step names the cause at once. **After the fixes, CLS is 0.0000 on all 14
+    pages tried** (every PageHero family, the blog index and a post, About, home).
+    **Mobile Lighthouse, branch against `main` (same machine):** performance 0.91
+    to 0.94 against 0.92 to 0.93, accessibility 1.00 on blog, post, QA Consulting
+    and Services against 0.94 to 0.96, best practices 1.00 and SEO 1.00, TBT 0 to
+    10ms, **LCP about 0.3s slower on the branch under simulated throttling (3.5s
+    against 3.2s)**, the one cost of the redesign, it is the same 3.5s on every
+    page so it is probably the shared CSS and fonts, not a page. **Open:** the
+    homepage still scores accessibility 0.96 from one `color-contrast` hit on the
+    ticker tape (`#ffe0ad` on `#777b5d`); the real stack under it is `bg-ink`
+    (13:1), so it reads as a false positive from the hero's overlapping layers, but
+    it was not proven, so say if you want it chased.
 
 ## Repository structure
 

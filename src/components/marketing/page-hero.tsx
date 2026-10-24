@@ -87,10 +87,19 @@ export function PageHero({
             : "flex flex-col items-center justify-center text-center",
         )}
       >
-        <div className={cn(split ? "" : "flex flex-col items-center")}>
+        {/* min-w-0 and w-full keep the column inside the padding while the
+            fallback font is showing: the nowrap badge is wider in it, which
+            used to widen the track by 16px and reflow the heading when the
+            real font arrived (a layout shift, gotcha #65). */}
+        <div
+          className={cn(
+            "w-full min-w-0",
+            !split && "flex flex-col items-center",
+          )}
+        >
           <PageHeroScrollZoom
             className={cn(
-              "flex flex-col",
+              "flex w-full flex-col",
               split ? "items-start" : "items-center",
             )}
           >
@@ -102,7 +111,7 @@ export function PageHero({
                 )}
               >
                 <span className="lb-pulse bg-sandy border-ink/60 inline-block size-2 shrink-0 rounded-full border" />
-                <span className="truncate">{badge}</span>
+                <span className="min-w-0 truncate">{badge}</span>
               </span>
             ) : null}
 

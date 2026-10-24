@@ -112,12 +112,13 @@ export function SiteFooter() {
           <BackToTop />
         </div>
 
+        {/* Pure decoration, drawn as pseudo-element content so contrast
+            checkers do not score its deliberately faint color as text. */}
         <p
           aria-hidden="true"
-          className="text-navajo/10 hover:text-sandy mt-6 mb-[-0.12em] cursor-default text-[clamp(4.5rem,17vw,15.5rem)] leading-[0.85] font-medium tracking-[-0.06em] whitespace-nowrap transition-colors duration-500 select-none"
-        >
-          goGreenlit
-        </p>
+          data-text="goGreenlit"
+          className="text-navajo/10 hover:text-sandy mt-6 mb-[-0.12em] cursor-default text-[clamp(4.5rem,17vw,15.5rem)] leading-[0.85] font-medium tracking-[-0.06em] whitespace-nowrap transition-colors duration-500 select-none before:content-[attr(data-text)]"
+        />
       </div>
     </footer>
   );

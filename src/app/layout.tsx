@@ -29,14 +29,14 @@ const bespokeSerif = localFont({
 // The one new typeface of the Live Build redesign, used only for small
 // uppercase labels, statuses and numbers (the `font-label` utility).
 // next/font self-hosts it at build time, so there is no request to Google
-// and the CSP needs no change. Not preloaded: labels are never the LCP
-// element, so Bespoke Serif keeps the early-load bandwidth.
+// and the CSP needs no change. Preloaded on purpose: the breadcrumb row is
+// mono and wraps differently in the fallback font, so a late swap shifted
+// every page below it (CLS 0.19 on the QA Consulting subpages, gotcha #65).
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-jetbrains-mono",
   display: "swap",
-  preload: false,
 });
 
 export const metadata: Metadata = {
