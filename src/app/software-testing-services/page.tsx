@@ -14,16 +14,18 @@ import {
   Workflow,
 } from "lucide-react";
 
+import { ctaVariants } from "@/components/brand/cta-variants";
+import { StickerCard } from "@/components/brand/sticker-card";
+import { AuroraBackground } from "@/components/marketing/aurora-background";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { CtaSection } from "@/components/marketing/cta-section";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { PageHero } from "@/components/marketing/page-hero";
-import { ServiceCard } from "@/components/marketing/service-card";
 import { Reveal } from "@/components/marketing/reveal";
+import { SectionHeading } from "@/components/marketing/section-heading";
+import { ServiceCard } from "@/components/marketing/service-card";
 import { siteConfig } from "@/lib/site-config";
-import { buttonVariants } from "@/components/ui/button";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
-import { cn } from "@/lib/utils";
 
 const title = "Software Testing Services";
 const description =
@@ -106,7 +108,7 @@ const approach = [
     icon: Radar,
     title: "Shift-left by default",
     description:
-      "Test cases get written in sprint planning and smoke tests run pre-merge, so a defect gets caught before it's merged, not after it's shipped.",
+      "Test cases get written in sprint planning and smoke tests run pre-merge, so a defect gets caught before it is merged, not after it is shipped.",
   },
   {
     icon: Users,
@@ -118,7 +120,7 @@ const approach = [
     icon: GaugeCircle,
     title: "Coverage you can actually see",
     description:
-      "We track functional test execution, pass rates, and production escapes, the metrics that predict a bad release, not a code coverage percentage that doesn't.",
+      "We track functional test execution, pass rates, and production escapes, the metrics that predict a bad release, not a code coverage percentage that does not.",
   },
 ];
 
@@ -151,7 +153,7 @@ const stack = [
 
 const faqs = [
   {
-    question: "What's included in outsourced software testing services?",
+    question: "What is included in outsourced software testing services?",
     answer:
       "Manual testing, automated regression, API and data testing, and full test automation builds, all delivered by an engineer embedded in your sprint rather than a separate testing queue.",
   },
@@ -163,7 +165,7 @@ const faqs = [
   {
     question: "Should we use manual or automated testing?",
     answer:
-      "Both, for different reasons. Manual testing is where judgment matters, exploratory sessions and usability review a script can't replace. Automated testing is where scale matters, regression coverage that needs to run on every build. Most engagements run them in parallel rather than picking one.",
+      "Both, for different reasons. Manual testing is where judgment matters, exploratory sessions and usability review a script cannot replace. Automated testing is where scale matters, regression coverage that needs to run on every build. Most engagements run them in parallel rather than picking one.",
   },
   {
     question: "Which automation framework do you use?",
@@ -226,79 +228,83 @@ export default function SoftwareTestingServicesPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
+        tone="leaf"
         badge="Manual and automated testing, embedded in your sprint"
         description="Most QA vendors test after your team ships and hand defects back on their own schedule. GoGreenlit’s QA engineers join your sprint itself: writing test cases in planning, executing them alongside development, and filing defects before a release goes out, not after."
         ctas={
           <>
             <Link
               href={siteConfig.links.calendar}
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "bg-[#ee9e58] text-[#354639] hover:bg-[#ee9e58]/85",
-              )}
+              className={ctaVariants({ variant: "cta", size: "xl" })}
             >
-              Book a call
+              Book a call <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
               href="#offerings"
-              className={cn(
-                buttonVariants({ size: "lg", variant: "outline" }),
-                "border-[#ffe0ad]/30 bg-transparent text-[#ffe0ad] hover:bg-[#ffe0ad]/10 hover:text-[#ffe0ad]",
-              )}
+              className={ctaVariants({ variant: "outline", size: "xl" })}
             >
               See what we test
             </Link>
           </>
         }
       >
-        Software testing services that plug into{" "}
-        <span className="aurora-glow inline-block animate-[glow-pulse_3.5s_ease-in-out_infinite] rounded-md bg-[#ee9e58] px-2 py-2 leading-[1.2] text-[#354639]">
-          your sprint
-        </span>
+        Software testing services that plug into <em>your sprint</em>
       </PageHero>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            Testing across every layer, not just the UI
-          </h2>
-          <p className="text-muted-foreground mt-4">
+      <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+        <Reveal className="max-w-3xl">
+          <p className="font-label text-deep text-xs tracking-widest uppercase">
+            Every layer
+          </p>
+          <SectionHeading className="mt-4">
+            Testing across every layer, not just the *UI*
+          </SectionHeading>
+          <p className="mt-5 text-lg">
             We test the interface your users touch, the APIs and data pipelines
             behind it, and the cross-browser and regression coverage that keeps
             a release from breaking something that used to work. None of it
             happens in a separate cycle bolted onto the end of a sprint.
           </p>
-        </div>
-
-        <Reveal
-          as="div"
-          className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-2"
-        >
-          <ul className="col-span-full grid gap-4 sm:grid-cols-2">
-            {sprintSteps.map((step) => (
-              <li key={step} className="flex gap-3">
-                <CheckCircle2 className="text-primary mt-0.5 size-5 shrink-0" />
-                <span className="text-foreground/90 text-sm">{step}</span>
-              </li>
-            ))}
-          </ul>
         </Reveal>
+
+        <ul className="mt-12 grid gap-5 sm:grid-cols-2">
+          {sprintSteps.map((step, index) => (
+            <Reveal as="li" key={step} delay={index * 80}>
+              <StickerCard
+                tone="surface"
+                interactive={false}
+                className="flex h-full gap-4 p-5"
+              >
+                <span
+                  aria-hidden="true"
+                  className="border-ink bg-olive mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-full border-[1.5px]"
+                >
+                  <CheckCircle2 className="size-4" />
+                </span>
+                <span className="text-[17px] leading-snug">{step}</span>
+              </StickerCard>
+            </Reveal>
+          ))}
+        </ul>
       </section>
 
       <section
         id="offerings"
-        className="mx-auto max-w-6xl scroll-mt-16 px-4 py-20 sm:px-6 lg:px-8"
+        className="mx-auto max-w-6xl px-4 pb-24 sm:px-6 lg:px-8"
       >
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            Every service your product&rsquo;s testing pyramid needs
-          </h2>
-          <p className="text-muted-foreground mt-4">
+        <Reveal className="max-w-3xl">
+          <p className="font-label text-deep text-xs tracking-widest uppercase">
+            Services
+          </p>
+          <SectionHeading className="mt-4">
+            Every service your product’s *testing pyramid* needs
+          </SectionHeading>
+          <p className="mt-5 text-lg">
             From hands-on manual sessions to automated suites running in your
             CI, each engagement is scoped around your stack and your release
             cadence, not a fixed package.
           </p>
-        </div>
+        </Reveal>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {offerings.map((offering, index) => (
@@ -309,35 +315,67 @@ export default function SoftwareTestingServicesPage() {
               index={index}
             />
           ))}
+          <Reveal className="h-full" delay={offerings.length * 80}>
+            <StickerCard
+              tone="navajo"
+              className="flex h-full flex-col justify-between gap-6 p-6"
+            >
+              <div>
+                <p className="font-label text-xs tracking-widest uppercase">
+                  Not sure where to start?
+                </p>
+                <p className="mt-3 text-xl leading-snug font-semibold tracking-tight">
+                  Most teams begin with one service and add more as the need
+                  shows up.
+                </p>
+              </div>
+              <Link
+                href={siteConfig.links.calendar}
+                className={ctaVariants({ variant: "cta", size: "md" })}
+              >
+                Book a call <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </StickerCard>
+          </Reveal>
         </div>
       </section>
 
-      <section className="border-border/60 border-t bg-[#8fa175]">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-foreground text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              How we work inside your sprint
-            </h2>
-          </div>
+      <section className="on-dark bg-deep text-navajo relative overflow-hidden">
+        <div className="opacity-50">
+          <AuroraBackground />
+        </div>
+        <div className="relative mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+          <Reveal className="max-w-3xl">
+            <p className="font-label text-olive text-xs tracking-widest uppercase">
+              How we work
+            </p>
+            <SectionHeading className="text-paper [&_em]:text-sandy mt-4">
+              How we work inside *your sprint*
+            </SectionHeading>
+          </Reveal>
 
-          <div className="mt-12 grid gap-8 sm:grid-cols-3">
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
             {approach.map(
               (
                 { icon: Icon, title: itemTitle, description: itemDescription },
                 index,
               ) => (
-                <Reveal
-                  key={itemTitle}
-                  className="flex flex-col items-center gap-3 text-center"
-                  delay={index * 80}
-                >
-                  <div className="flex size-10 items-center justify-center rounded-lg bg-[#ee9e58] text-[#354639]">
-                    <Icon className="size-5" />
-                  </div>
-                  <h3 className="text-foreground font-semibold">{itemTitle}</h3>
-                  <p className="text-foreground/80 text-sm">
-                    {itemDescription}
-                  </p>
+                <Reveal key={itemTitle} className="h-full" delay={index * 80}>
+                  <StickerCard
+                    tone="navajo"
+                    interactive={false}
+                    className="h-full p-7 shadow-[6px_6px_0_var(--ink)]"
+                  >
+                    <div className="border-ink bg-sandy flex size-11 items-center justify-center rounded-xl border-[1.5px]">
+                      <Icon aria-hidden="true" className="size-5" />
+                    </div>
+                    <h3 className="mt-5 text-xl font-semibold tracking-tight">
+                      {itemTitle}
+                    </h3>
+                    <p className="mt-2 text-[15px] leading-relaxed">
+                      {itemDescription}
+                    </p>
+                  </StickerCard>
                 </Reveal>
               ),
             )}
@@ -345,35 +383,40 @@ export default function SoftwareTestingServicesPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            Built to test the stack you already run
-          </h2>
-          <p className="text-muted-foreground mt-4">
+      <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+        <Reveal className="max-w-3xl">
+          <p className="font-label text-deep text-xs tracking-widest uppercase">
+            Your stack
+          </p>
+          <SectionHeading className="mt-4">
+            Built to test the stack you *already run*
+          </SectionHeading>
+          <p className="mt-5 text-lg">
             Your QA engineer adapts to the stack you already have, not the other
             way around. A sample of what we test against regularly:
           </p>
-        </div>
+        </Reveal>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <dl className="mt-12 grid gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
           {stack.map(({ label, tools }, index) => (
             <Reveal
               key={label}
-              className="border-border/60 rounded-lg border p-5"
+              className="border-ink border-t-[1.5px] py-5"
               delay={index * 80}
             >
-              <h3 className="font-semibold">{label}</h3>
-              <p className="text-muted-foreground mt-1 text-sm">{tools}</p>
+              <dt className="font-label text-deep text-xs tracking-widest uppercase">
+                {label}
+              </dt>
+              <dd className="mt-2 text-[17px] leading-snug">{tools}</dd>
             </Reveal>
           ))}
-        </div>
+        </dl>
       </section>
 
-      <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <h2 className="text-center text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Frequently asked questions
-        </h2>
+      <section className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 lg:px-8">
+        <SectionHeading className="text-center">
+          Frequently asked *questions*
+        </SectionHeading>
 
         <div className="mt-12">
           <FaqAccordion faqs={faqs} />
@@ -381,8 +424,9 @@ export default function SoftwareTestingServicesPage() {
       </section>
 
       <CtaSection
-        title="Ready to see it inside your own sprint?"
-        description="Tell us what you're building, how often you ship, and where testing is falling through the cracks. We'll scope an engagement in one call, no long-term contract required."
+        tone="leaf"
+        title="Ready to see it inside *your own sprint?*"
+        description="Tell us what you are building, how often you ship, and where testing is falling through the cracks. We will scope an engagement in one call, no long-term contract required."
       />
     </>
   );

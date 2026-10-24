@@ -62,3 +62,18 @@ test("the what-we-test strip is moving", async ({ page }) => {
   const b = await track.evaluate((e) => getComputedStyle(e).transform);
   expect(a).not.toBe(b);
 });
+
+test("services overview opens with the Palm Leaf hero and keeps its FAQ closed", async ({
+  page,
+}) => {
+  await page.goto("/software-testing-services");
+  await expect(
+    page.getByRole("heading", { level: 1, name: /plug into your sprint/i }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "See what we test" }),
+  ).toHaveAttribute("href", "#offerings");
+  await expect(
+    page.getByRole("button", { name: /what is included in outsourced/i }),
+  ).toHaveAttribute("aria-expanded", "false");
+});

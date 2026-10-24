@@ -4,10 +4,10 @@ import { ClipboardCheck, Compass, Users } from "lucide-react";
 import { ctaVariants } from "@/components/brand/cta-variants";
 import { AuroraBackground } from "@/components/marketing/aurora-background";
 import { CtaSection } from "@/components/marketing/cta-section";
-import { renderWithEmphasis } from "@/components/marketing/emphasis";
 import { Hero } from "@/components/marketing/hero";
 import { PhaseTimeline } from "@/components/marketing/phase-timeline";
 import { Reveal } from "@/components/marketing/reveal";
+import { SectionHeading } from "@/components/marketing/section-heading";
 import { ServiceCard } from "@/components/marketing/service-card";
 import { ServiceExplorer } from "@/components/marketing/service-explorer";
 import { StatBand } from "@/components/marketing/stat-band";
@@ -57,23 +57,6 @@ const consultingOfferings = [
       "Automated checks wired into your pipeline that block what matters and stay out of the way of everything else.",
   },
 ];
-
-/** Section headline: large, tight, one italic accent word via *word*. */
-function SectionHeading({
-  children,
-  className,
-}: {
-  children: string;
-  className?: string;
-}) {
-  return (
-    <h2
-      className={`text-4xl leading-[1.05] font-medium tracking-[-0.035em] text-balance sm:text-5xl [&_em]:font-normal [&_em]:italic ${className ?? ""}`}
-    >
-      {renderWithEmphasis(children)}
-    </h2>
-  );
-}
 
 export default function Home() {
   return (

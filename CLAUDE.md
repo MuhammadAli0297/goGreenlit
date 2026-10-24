@@ -1449,6 +1449,24 @@ slide-in-from-right-8`, staggered by index) each time it opens.
       typecheck clean, tab animation and marquee sampled over time in a
       real browser. Metadata and JSON-LD untouched.
 
+36. **Services overview rebuilt (2026-10-23), first task of Phase 5.**
+    `software-testing-services/page.tsx` now reads: Palm Leaf `PageHero`
+    (`tone="leaf"`, `<em>` accent in ink) / "every layer" intro with the four
+    sprint steps as small `StickerCard`s / services grid (the seven
+    `ServiceCard variant="bold"` plus an eighth navajo "Not sure where to
+    start?" booking card, so the four-column grid has no orphan row) / a deep
+    "how we work" band with navajo cards on an ink shadow (a deep shadow would
+    vanish on the deep ground) / stack list as ruled `dl` rows, no boxes / FAQ /
+    `CtaSection tone="leaf"`. Copy, FAQ and JSON-LD are unchanged except that
+    the contractions that had crept into this page ("What's", "can't",
+    "we'll", "you're", "doesn't", "it's") were removed, which also changes the
+    first FAQ question text to "What is included in outsourced software testing
+    services?". **`SectionHeading`** (`section-heading.tsx`) was extracted for
+    this page, it already had two call sites (home and here) and every
+    Services and QA Consulting subpage needs it next. Still to come in Phase 5:
+    the cross-browser `RunMatrix` hero widget, framework picker, coverage ring,
+    device picker, the subpage template and the family OG images.
+
 ## Repository structure
 
 ```
@@ -1815,10 +1833,10 @@ src/lib/
                            each page still renders its own <script> tag.
   utils.ts                `cn()` class-merging helper
 
-e2e/                      Playwright specs: home.spec.ts (5 tests) and
+e2e/                      Playwright specs: home.spec.ts (6 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (110 across 18 files as of 2026-10-18)
+                          (112 across 19 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 
