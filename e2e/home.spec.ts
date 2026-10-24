@@ -83,5 +83,8 @@ test("services picker swaps Playwright for Selenium", async ({ page }) => {
   const tab = page.getByRole("tab", { name: "Selenium" });
   await tab.click();
   await expect(tab).toHaveAttribute("aria-selected", "true");
-  await expect(page.getByRole("tabpanel")).toContainText("WebDriver driver");
+  // The page has other tab widgets (device picker), so scope to this one.
+  await expect(page.getByRole("tabpanel", { name: "Selenium" })).toContainText(
+    "WebDriver driver",
+  );
 });
