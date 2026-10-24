@@ -99,8 +99,8 @@ progress tracker (https://claude.ai/artifact/MkU75tfmdu3vVt69E9WBiZ, 10
 phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
-overview, six subpages, OG images, phone check) is built and committed but
-pushed 2026-10-23, Phase 7 (Blog) is in progress (b-tile done).
+overview, six subpages, OG images, phone check) is built and pushed, Phase 7
+(Blog) is in progress (b-tile done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
