@@ -12,19 +12,31 @@ describe("TableOfContents", () => {
   it("is a labelled nav with a plain hash link per section", () => {
     render(<TableOfContents items={items} />);
     expect(
-      screen.getByRole("navigation", { name: "On this page" }),
+      screen.getByRole("navigation", { name: "On this page", hidden: true }),
     ).toBeInTheDocument();
     expect(
       screen.getByText("Second section", { selector: "a" }),
     ).toHaveAttribute("href", "#two");
   });
 
-  it("toggles the list on small screens", () => {
+  it("is inert (unreachable) until the article is being read", () => {
     render(<TableOfContents items={items} />);
-    const toggle = screen.getByRole("button", { name: /On this page/ });
+    expect(screen.getByRole("navigation", { hidden: true })).toHaveAttribute(
+      "inert",
+    );
+  });
+
+  it("opens and closes the list from the pill, and closes on Escape", () => {
+    render(<TableOfContents items={items} />);
+    const toggle = screen.getByRole("button", {
+      name: /On this page/,
+      hidden: true,
+    });
     expect(toggle).toHaveAttribute("aria-expanded", "false");
     fireEvent.click(toggle);
     expect(toggle).toHaveAttribute("aria-expanded", "true");
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
   });
 
   it("renders nothing for fewer than two sections", () => {

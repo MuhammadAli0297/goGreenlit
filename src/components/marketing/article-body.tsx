@@ -1,21 +1,11 @@
 import { renderWithInlineLinks } from "@/components/marketing/inline-links";
-import type { ReactNode } from "react";
-
 import type { BlogContentBlock } from "@/lib/blog-data";
 import { buildToc } from "@/lib/blog-toc";
 
-export function ArticleBody({
-  blocks,
-  toc,
-}: {
-  blocks: BlogContentBlock[];
-  /** The table of contents. Rendered first, and from `xl` it is positioned in the margin beside the column. */
-  toc?: ReactNode;
-}) {
+export function ArticleBody({ blocks }: { blocks: BlogContentBlock[] }) {
   const sections = buildToc(blocks);
   return (
-    <div className="relative mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
-      {toc}
+    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
       <div id="article-body" className="space-y-6">
         {blocks.map((block, index) => {
           if (block.type === "heading") {

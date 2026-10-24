@@ -1930,31 +1930,38 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
     bottom, no overflow, one `h1`. The table of contents is the next task and will
     reuse `#article-body`. Metadata and JSON-LD untouched. 3 new unit tests.
 
-53. **Table of contents (2026-10-23), task b-toc.** `TableOfContents`
-    (`table-of-contents.tsx`, client) lists a post's H2 sections (`heading`
-    blocks; H3 `subheading`s are not listed) plus "Frequently asked questions"
-    when the post has FAQs. **From `xl` (1280px) it sits in the empty margin to
-    the right of the article and is sticky** (`top-28`, clears the floating
-    header), the section you are in marked with a Sandy Brown rule and bold text
-    (`aria-current="location"`); **below `xl` it is a collapsed "On this page"
-    toggle (44px, `aria-expanded`) above the article** and closes after a tap. It
-    is **one list in the DOM** for both layouts (CSS only changes how it shows),
-    so every link exists once for crawlers and screen readers, and links are plain
-    `#hash` anchors that work without JavaScript. The current section comes from a
-    passive rAF-throttled scroll listener (gotcha #5), a heading counts once its
-    top is above a 160px line, and only that one state re-renders. **Anchors:**
-    `buildToc()` in `src/lib/blog-toc.ts` makes a unique ASCII id per H2 from its
-    text (`-2`, `-3` on a repeat, never `faq` or `article-body`), `ArticleBody`
-    takes a `toc` prop, gives each `h2` its id and `scroll-mt-28`, and the FAQ
-    section got `id="faq"`, so a jump lands just below the floating header
-    (sampled: heading top at 112px). `ArticleBody`'s outer div is now `relative`
-    so the xl sidebar positions against the article column (`absolute left-full`,
-    `w-56`, fits the 256px margin at exactly 1280, no overflow). A post with fewer
-    than two sections shows no list (none do today, every post has 4 to 9). Sampled
-    in a real browser: the list stayed at the same top while scrolling, the marked
-    section changed at each heading, a click jumped to the right heading, a phone
-    tap opened the list and a link tap closed it and navigated. Reading progress
-    (gotcha #52) is unaffected. 8 new unit tests.
+53. **Table of contents as a floating reading pill (2026-10-23), task b-toc.**
+    The first version was a sticky sidebar list, rejected (it sat 8px under the
+    header line at rest and looked like more body text), five options were shown in
+    a scratch artifact and **the floating pill was chosen, with the rule that it
+    must not cover article text while collapsed.** `TableOfContents`
+    (`table-of-contents.tsx`, client, `items`, `bodyId`, `endId`) is a dark Ink pill
+    showing the current section (or "Introduction"), a thin Sandy Brown progress
+    line and a chevron; tapping it opens the full H2 list upward. **Placement is
+    what keeps it off the text:** from `xl` (1280px) it is `fixed` at
+    `left-[calc(50%+384px+24px)]`, `w-56`, in the empty margin right of the 768px
+    article column (checked at 1440 and 1280: zero text ranges intersect it, no
+    overflow); **below `xl` there is no free margin, so it is a solid bar docked to
+    the bottom edge** (safe-area padding), and text scrolls out under its top edge,
+    which cannot be avoided on a phone without making the viewport shorter. Only
+    the open list may cover text, and it closes on a link tap, Escape, a tap
+    outside, or when the pill hides. **It only shows while reading:** from when the
+    article body top reaches the upper half of the screen until `endId` (the FAQ
+    section when the post has one, else the article body) has scrolled away, then
+    fades and becomes `inert`. One list in the DOM, plain `#hash` anchors, closed
+    items are `tabIndex -1`, the "On this page" label is hidden at `xl` so the
+    section title has room. The page passes it `endId="faq"` or `"article-body"`.
+    Current section and visibility come from one passive rAF-throttled scroll
+    listener (gotcha #5), the progress line is written to the DOM directly.
+    **Anchors:** `buildToc()` in `src/lib/blog-toc.ts` makes a unique ASCII id per
+    H2 (`-2`, `-3` on a repeat, never `faq` or `article-body`), `ArticleBody` puts
+    the id and `scroll-mt-28` on each `h2` (it no longer takes a `toc` prop), the
+    FAQ section has `id="faq"`, and a jump lands the heading at 112px, just under
+    the floating header. Sampled in a real browser at 1440, 1280 and 390: hidden
+    and inert at the top, shown from the first section, the title changed at each
+    heading, a link jumped and closed it, hidden again at the page bottom. The top
+    `ReadingProgress` bar (gotcha #52) stays. 9 new unit tests across the toc
+    files.
 
 ## Repository structure
 
@@ -2325,7 +2332,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (199 across 39 files as of 2026-10-23)
+                          (200 across 39 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 

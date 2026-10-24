@@ -143,9 +143,10 @@ export default async function BlogPostPage({
 
       <ReadingProgress targetId="article-body" />
       <BlogPostHeader post={post} />
-      <ArticleBody
-        blocks={post.body}
-        toc={<TableOfContents items={tocItems} />}
+      <ArticleBody blocks={post.body} />
+      <TableOfContents
+        items={tocItems}
+        endId={post.faqs && post.faqs.length > 0 ? "faq" : "article-body"}
       />
 
       {post.faqs && post.faqs.length > 0 && (
