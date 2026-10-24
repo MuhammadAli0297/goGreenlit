@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { ctaVariants } from "@/components/brand/cta-variants";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
+import { BlogCategoryHeader } from "@/components/marketing/blog-category-header";
 import { BlogFeaturedPost } from "@/components/marketing/blog-featured-post";
 import { BlogFilterPills } from "@/components/marketing/blog-filter-pills";
 import { BlogHero } from "@/components/marketing/blog-hero";
@@ -10,7 +11,7 @@ import { BlogPagination } from "@/components/marketing/blog-pagination";
 import { BlogSearch } from "@/components/marketing/blog-search";
 import { BlogPostCard } from "@/components/marketing/blog-post-card";
 import { CtaSection } from "@/components/marketing/cta-section";
-import { getBlogIndexView } from "@/lib/blog-data";
+import { getBlogIndexView, getPostsByCategory } from "@/lib/blog-data";
 import { buildBlogHref } from "@/lib/blog-href";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { siteConfig } from "@/lib/site-config";
@@ -138,12 +139,10 @@ export default async function BlogPage({
 
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
         {category && (
-          <div className="mx-auto mb-10 max-w-2xl text-center">
-            <h2 className="text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
-              {category.label} articles
-            </h2>
-            <p className="text-muted-foreground mt-3">{category.description}</p>
-          </div>
+          <BlogCategoryHeader
+            category={category}
+            postCount={getPostsByCategory(category.slug).length}
+          />
         )}
 
         <BlogSearch query={query} category={category?.slug} />

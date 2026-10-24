@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog) is in progress (b-tile, b-hero, b-filters, b-featured done).
+(Blog) is in progress (b-tile, b-hero, b-filters, b-featured, b-category done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1873,6 +1873,19 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
     for both the page and `generateMetadata`, so they cannot disagree (the
     duplicated filter logic gotcha #23 warned about is gone). 6 new unit tests.
 
+50. **Category view header (2026-10-23), task b-category.** `BlogCategoryHeader`
+    (`blog-category-header.tsx`, server) replaces the plain heading and paragraph
+    that gotcha #29 added: a non-interactive sticker banner in the category's own
+    `coverClass` swatch with two decorative rings, a mono "Category" pill, the
+    same `h2` ("{label} articles"), the category's real `description` (still the
+    same string as its meta description, so the visible copy and the metadata
+    cannot drift), the category's total article count (not narrowed by a search)
+    and an "All articles" link back to `/blog`. Pills use the light surface so they
+    read on every swatch, including dark Case Studies (viewed on that one and on
+    Sandy Brown at 1440 and 390). **Metadata, canonicals and the H2 text are
+    unchanged**, so the self-canonical and unique title from gotcha #29 still
+    hold. 6 new unit tests (every category, singular count).
+
 ## Repository structure
 
 ```
@@ -2242,7 +2255,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (181 across 34 files as of 2026-10-23)
+                          (187 across 35 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 
