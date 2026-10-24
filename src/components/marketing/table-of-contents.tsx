@@ -6,12 +6,15 @@ import { useEffect, useRef, useState } from "react";
 import type { TocItem } from "@/lib/blog-toc";
 import { cn } from "@/lib/utils";
 
+const pad = (n: number) => String(n).padStart(2, "0");
+
 /** A heading counts as "current" once its top has scrolled above this line. */
 const READING_LINE = 160;
 
 /**
- * "On this page" as a floating reading pill: a dark pill showing the section
- * you are in with a thin progress line, and tapping it opens the full list
+ * "On this page" as a floating reading pill: a dark pill showing which section
+ * you are in as a number out of the total ("03 / 09", never a title, which
+ * would be cut off) with a thin progress line, and tapping it opens the full list
  * upward. It is placed so it never covers the article text while collapsed:
  * from `xl` (1280px) it sits in the empty margin to the right of the
  * article column, below that there is no free space, so it becomes a solid
@@ -88,6 +91,14 @@ export function TableOfContents({
     };
   }, [items, bodyId, endId]);
 
+  // Opening scrolls the list so the current section is fully in view.
+  useEffect(() => {
+    if (!open) return;
+    root.current
+      ?.querySelector<HTMLElement>('a[aria-current="location"]')
+      ?.scrollIntoView({ block: "nearest" });
+  }, [open]);
+
   useEffect(() => {
     if (!open) return;
     const onPointer = (e: PointerEvent) => {
@@ -108,7 +119,8 @@ export function TableOfContents({
 
   if (items.length < 2) return null;
 
-  const current = items.find((item) => item.id === active);
+  const currentIndex = items.findIndex((item) => item.id === active);
+  const current = currentIndex >= 0 ? items[currentIndex] : undefined;
 
   return (
     <nav
@@ -132,7 +144,7 @@ export function TableOfContents({
             : "max-h-0 overflow-hidden",
         )}
       >
-        {items.map((item) => {
+        {items.map((item, index) => {
           const isActive = item.id === active;
           return (
             <li key={item.id}>
@@ -142,12 +154,21 @@ export function TableOfContents({
                 onClick={() => setOpen(false)}
                 tabIndex={open ? undefined : -1}
                 className={cn(
-                  "block rounded-lg px-3 py-2.5 text-[15px] leading-snug transition-colors motion-reduce:transition-none xl:py-2 xl:text-sm",
+                  "flex gap-3 rounded-lg px-3 py-2.5 text-[15px] leading-snug transition-colors motion-reduce:transition-none xl:py-2 xl:text-sm",
                   isActive
                     ? "bg-paper/12 font-semibold"
                     : "text-paper/80 hover:bg-paper/10 hover:text-paper",
                 )}
               >
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    "font-label shrink-0 pt-[3px] text-[11px] tabular-nums",
+                    isActive ? "text-sandy" : "text-paper/50",
+                  )}
+                >
+                  {pad(index + 1)}
+                </span>
                 {item.text}
               </a>
             </li>
@@ -161,11 +182,28 @@ export function TableOfContents({
         onClick={() => setOpen((o) => !o)}
         className="flex min-h-12 w-full items-center gap-3 px-4 text-left"
       >
-        <span className="font-label text-paper/60 text-[10.5px] tracking-widest uppercase xl:hidden">
+        <span
+          aria-hidden="true"
+          className="font-label flex items-baseline gap-1.5 tabular-nums"
+        >
+          <span className="text-sandy text-lg leading-none">
+            {pad(currentIndex + 1)}
+          </span>
+          <span className="text-paper/50 text-[11px]">
+            / {pad(items.length)}
+          </span>
+        </span>
+        <span
+          aria-hidden="true"
+          className="font-label text-paper/60 min-w-0 flex-1 truncate text-[10.5px] tracking-widest uppercase"
+        >
           On this page
         </span>
-        <span className="min-w-0 flex-1 truncate text-[15px] xl:text-sm">
-          {current?.text ?? "Introduction"}
+        <span className="sr-only">
+          On this page.{" "}
+          {current
+            ? `Section ${currentIndex + 1} of ${items.length}: ${current.text}`
+            : "Introduction"}
         </span>
         <ChevronUp
           aria-hidden="true"

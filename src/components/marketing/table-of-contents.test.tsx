@@ -19,6 +19,27 @@ describe("TableOfContents", () => {
     ).toHaveAttribute("href", "#two");
   });
 
+  it("shows a section number out of the total, never a title, when closed", () => {
+    render(<TableOfContents items={items} />);
+    const button = screen.getByRole("button", {
+      name: /On this page/,
+      hidden: true,
+    });
+    expect(button).toHaveTextContent("00");
+    expect(button).toHaveTextContent("/ 02");
+    expect(button).not.toHaveTextContent("First section");
+  });
+
+  it("numbers every section in the open list", () => {
+    render(<TableOfContents items={items} />);
+    expect(
+      screen.getByText("First section", { selector: "a" }),
+    ).toHaveTextContent("01");
+    expect(
+      screen.getByText("Second section", { selector: "a" }),
+    ).toHaveTextContent("02");
+  });
+
   it("is inert (unreachable) until the article is being read", () => {
     render(<TableOfContents items={items} />);
     expect(screen.getByRole("navigation", { hidden: true })).toHaveAttribute(

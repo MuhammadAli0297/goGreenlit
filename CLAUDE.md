@@ -1949,8 +1949,13 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
     article body top reaches the upper half of the screen until `endId` (the FAQ
     section when the post has one, else the article body) has scrolled away, then
     fades and becomes `inert`. One list in the DOM, plain `#hash` anchors, closed
-    items are `tabIndex -1`, the "On this page" label is hidden at `xl` so the
-    section title has room. The page passes it `endId="faq"` or `"article-body"`.
+    items are `tabIndex -1`. **The closed pill shows a number, never a title**
+    (titles were cut off on every post): the current section as a Sandy Brown mono
+    number out of the total ("04 / 10", "00" in the introduction) beside a muted
+    "On this page" label, with the full title and position in an `sr-only` span for
+    screen readers. The open list keeps the full titles, each prefixed with the same
+    mono number (the current one in Sandy Brown), and opening scrolls the current
+    section into view. The page passes it `endId="faq"` or `"article-body"`.
     Current section and visibility come from one passive rAF-throttled scroll
     listener (gotcha #5), the progress line is written to the DOM directly.
     **Anchors:** `buildToc()` in `src/lib/blog-toc.ts` makes a unique ASCII id per
@@ -2332,7 +2337,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (200 across 39 files as of 2026-10-23)
+                          (202 across 39 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 
