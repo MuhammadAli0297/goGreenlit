@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog) is in progress (b-tile, b-hero, b-filters, b-featured, b-category, b-pagination, b-post, b-toc, b-callouts, b-related, b-seo, b-og done).
+(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is next.
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -2110,6 +2110,31 @@ follow` with a canonical on `/blog` (gotcha #48). **Pre-existing, not caused by
     90 post image routes (45 posts times two) return `200 image/png`, the Twitter
     image is the same renderer, and the longest title (47 characters) and each
     category color were viewed. 3 new unit tests.
+
+59. **Blog phone check (2026-10-23), task b-mobile, ends Phase 7.** Checked at
+    390 and 360 wide with touch emulation (`isMobile`, `hasTouch`, real taps) on the
+    index, page 2, a category view, a search with results and one with none, and
+    three posts. **No horizontal overflow on any of them.** Real taps worked on a
+    category filter (landed the category header at 112px), typing in the search
+    (results after the pause, focus kept in the box, Clear emptied it), a page
+    number (landed the list at 112px), a post tile, the contents pill (docked bar
+    appears only while reading, tap opened the numbered list, a section tap jumped
+    the heading to 112px and closed it, a tap outside closed it, one history entry
+    stayed), the answer box, stat callout and red flags card (all inside the 16px
+    gutters), a FAQ question, and the related block's "All ... articles" link and
+    "Back to the blog". The bar is inert at the top of a post, shown from the first
+    section through the FAQ, and hidden at the related block. **What the audit
+    changed:** the post header's back link (40px), author link (36px) and category
+    pill (43px) were under 44px even with their invisible `after:` layers, now
+    `-inset-y-3.5`, `-inset-y-3` and `-inset-y-2.5`, so each is about 44px. Every
+    other target under 44px in the audit was shared chrome already handled in
+    gotcha #45, plus the footer link rows left at their natural size on purpose.
+    **Probe gotcha:** hit-testing a tap layer on a phone can land on the next flex
+    row (the post date wraps 8px under the category pill), which is not a failure,
+    count the layer's real reach up to the next row. **Known and accepted:** on a
+    phone the open contents list covers about 60 percent of the screen (it is the
+    only time it may cover text, gotcha #53), and Next's dev indicator sits over the
+    docked bar's number in `next dev` only.
 
 ## Repository structure
 

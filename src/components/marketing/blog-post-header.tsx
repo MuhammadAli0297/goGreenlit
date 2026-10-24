@@ -38,7 +38,7 @@ export function BlogPostHeader({ post }: { post: BlogPost }) {
                 <Link
                   href={`/blog?category=${category.slug}`}
                   className={cn(
-                    "font-label border-ink relative rounded-full border-[1.5px] px-3 py-1 text-[11px] tracking-wide uppercase after:absolute after:inset-x-0 after:-inset-y-2",
+                    "font-label border-ink relative rounded-full border-[1.5px] px-3 py-1 text-[11px] tracking-wide uppercase after:absolute after:inset-x-0 after:-inset-y-2.5",
                     category.coverClass,
                   )}
                 >
@@ -81,7 +81,7 @@ export function BlogPostHeader({ post }: { post: BlogPost }) {
           <div className="min-w-0">
             <Link
               href={`/about#${author.slug}`}
-              className="relative font-semibold after:absolute after:inset-x-0 after:-inset-y-2 hover:underline"
+              className="relative font-semibold after:absolute after:inset-x-0 after:-inset-y-3 hover:underline"
             >
               {post.author}
             </Link>
