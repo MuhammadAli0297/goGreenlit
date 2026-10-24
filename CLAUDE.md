@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog) is in progress (b-tile done).
+(Blog) is in progress (b-tile, b-hero done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1806,6 +1806,28 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
     hex map for the five old tokens, handled in b-og) and the filter pills (their
     new look is b-filters). 4 new unit tests.
 
+47. **Blog hero (2026-10-23), task b-hero.** `BlogHero` is now the deep hero
+    with the italic accent: the page's H1 words are unchanged ("Straight talk
+    on shipping quality software", the old highlight chip became `<em>` in Sandy
+    Brown), the badge is the mono pill (32 characters, one line), the button is
+    the `ctaVariants` pill with its press edge. **It is still its own component
+    and still the one translate-based scroll effect** (gotcha #5): the heading
+    block drifts up and fades (sampled opacity 0.77, 0.55, 0.32 at 150, 300,
+    450px of scroll), and five category chips drift sideways and fade at
+    different rates and directions, reversing on the way back. **What is new is
+    the chips themselves:** each is the category's own swatch with an ink outline
+    in the mono label style, tilted at rest, and floats on its own `lb-float`
+    loop (sampled 0 to -14px over about 3s) with a different delay each. The
+    float lives on an **inner** span and the scroll transform on the **outer**
+    one, so the two never overwrite each other's `transform`. **Case Studies
+    would vanish** (Dark Slate Grey chip on a Dark Slate Grey hero), so that one
+    chip uses surface and ink, a unit test guards it. Reduced motion drops the
+    float (`animation-name: none`) and the scroll effect, and the chips stay
+    `aria-hidden` and are hidden below `sm`, as before. The hero's own section is
+    not one viewport tall (it never was). **Test gotcha:** `pointer-events-none`
+    is also on the aurora layer, so select the chips by `.lb-float`, not by that
+    class. 3 new unit tests.
+
 ## Repository structure
 
 ```
@@ -2175,7 +2197,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (165 across 31 files as of 2026-10-23)
+                          (168 across 32 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 
