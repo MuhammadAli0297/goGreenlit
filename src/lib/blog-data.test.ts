@@ -94,6 +94,25 @@ describe("getRelatedPosts", () => {
     const post = getPostBySlug("playwright-vs-selenium-2026")!;
     expect(getRelatedPosts(post, 1)).toHaveLength(1);
   });
+
+  it("gives neighbours, wrapping around, so siblings do not all share the same three", () => {
+    const first = blogPosts.find((p) => p.category === "qa-strategy")!;
+    const same = blogPosts.filter((p) => p.category === first.category);
+    expect(getRelatedPosts(first).map((p) => p.slug)).toEqual(
+      same.slice(1, 4).map((p) => p.slug),
+    );
+    const last = same[same.length - 1]!;
+    expect(getRelatedPosts(last).map((p) => p.slug)).toEqual(
+      same.slice(0, 3).map((p) => p.slug),
+    );
+  });
+
+  it("every post is linked from at least one other post in its category", () => {
+    const linkedTo = new Set(
+      blogPosts.flatMap((p) => getRelatedPosts(p).map((r) => r.slug)),
+    );
+    for (const post of blogPosts) expect(linkedTo.has(post.slug)).toBe(true);
+  });
 });
 
 describe("pagination helpers", () => {

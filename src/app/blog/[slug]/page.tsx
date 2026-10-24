@@ -11,7 +11,12 @@ import { BlogRelatedPosts } from "@/components/marketing/blog-related-posts";
 import { CtaSection } from "@/components/marketing/cta-section";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { stripInlineLinks } from "@/components/marketing/inline-links";
-import { blogPosts, getPostBySlug, getRelatedPosts } from "@/lib/blog-data";
+import {
+  blogPosts,
+  getCategoryBySlug,
+  getPostBySlug,
+  getRelatedPosts,
+} from "@/lib/blog-data";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { buildFounderPersonSchema, getFounderByName } from "@/lib/founders";
 import { siteConfig } from "@/lib/site-config";
@@ -163,7 +168,10 @@ export default async function BlogPostPage({
         </section>
       )}
 
-      <BlogRelatedPosts posts={relatedPosts} />
+      <BlogRelatedPosts
+        posts={relatedPosts}
+        category={getCategoryBySlug(post.category)}
+      />
 
       <CtaSection
         title="Ready to put this into practice?"

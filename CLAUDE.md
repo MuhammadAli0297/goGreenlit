@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog) is in progress (b-tile, b-hero, b-filters, b-featured, b-category, b-pagination, b-post, b-toc, b-callouts done).
+(Blog) is in progress (b-tile, b-hero, b-filters, b-featured, b-category, b-pagination, b-post, b-toc, b-callouts, b-related done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -2033,6 +2033,22 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
       gotcha #15's unique-angle rule. Checked in a real browser at 1440 and 390, no
       overflow, one `h1`. 9 new unit tests.
 
+56. **Related posts block (2026-10-23), task b-related.** `BlogRelatedPosts`
+    is restyled in place and takes the post's `category`: a full-width band in the
+    **category's own tint** (`tintClass`, so it ties to the cover colors on the
+    tiles inside it), a mono "Keep reading" label, the **same H2, "More on this
+    topic"**, an "All {category} articles" pill linking to
+    `/blog?category=slug#blog-top` (gotcha #54), and the same `BlogPostCard`
+    tiles, three across from `sm`, one column on a phone. It sits between the FAQ
+    and the closing call to action. **The selection changed:**
+    `getRelatedPosts()` used to return the first three siblings in catalog order
+    for every post, so in each category the same three got the inbound links and
+    the rest got none from their own category. It now starts at the post after the
+    current one and wraps around, still deterministic and still the same category
+    only, so each post points at its own neighbours and every post is linked from
+    at least one other (a unit test checks all 45). Viewed on an Outsourcing post
+    and a Case Studies post at 1440 and 390, no overflow. 4 new unit tests.
+
 ## Repository structure
 
 ```
@@ -2404,7 +2420,7 @@ e2e/                      Playwright specs: home.spec.ts (8 tests),
                           blog-post.spec.ts (2) and blog-index.spec.ts (2),
                           both added 2026-10-23
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (211 across 40 files as of 2026-10-23)
+                          (215 across 41 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 

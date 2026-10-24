@@ -6187,12 +6187,20 @@ export function interleaveByCategory(posts: BlogPost[]): BlogPost[] {
   return result;
 }
 
+/**
+ * Up to `limit` other posts from the same category. They start at the post
+ * after this one in the catalog and wrap around, so each post points at its
+ * own neighbours. (Taking the first siblings every time sent every post in
+ * a category to the same three and left the rest with no inbound link from
+ * their own category.) Deterministic, so builds are stable.
+ */
 export function getRelatedPosts(post: BlogPost, limit = 3): BlogPost[] {
-  return blogPosts
-    .filter(
-      (other) => other.category === post.category && other.slug !== post.slug,
-    )
-    .slice(0, limit);
+  const siblings = blogPosts.filter(
+    (other) => other.category === post.category,
+  );
+  const start = siblings.findIndex((other) => other.slug === post.slug);
+  const ordered = [...siblings.slice(start + 1), ...siblings.slice(0, start)];
+  return ordered.slice(0, limit);
 }
 
 export function getTotalPages(postCount: number): number {
