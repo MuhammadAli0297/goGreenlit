@@ -37,9 +37,9 @@ export function BackToBlogLink() {
     <Link
       href="/blog"
       onClick={handleClick}
-      className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm font-medium"
+      className="text-deep hover:text-ink font-label relative inline-flex items-center gap-1.5 text-xs tracking-wide uppercase after:absolute after:-inset-x-1 after:-inset-y-3"
     >
-      <ArrowLeft className="size-4" />
+      <ArrowLeft aria-hidden="true" className="size-4" />
       Back to the blog
     </Link>
   );

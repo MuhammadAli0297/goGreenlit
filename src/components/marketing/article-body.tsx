@@ -4,7 +4,7 @@ import type { BlogContentBlock } from "@/lib/blog-data";
 export function ArticleBody({ blocks }: { blocks: BlogContentBlock[] }) {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="space-y-6">
+      <div id="article-body" className="space-y-6">
         {blocks.map((block, index) => {
           if (block.type === "heading") {
             return (

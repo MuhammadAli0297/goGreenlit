@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ArticleBody } from "@/components/marketing/article-body";
+import { ReadingProgress } from "@/components/marketing/reading-progress";
 import { BlogPostHeader } from "@/components/marketing/blog-post-header";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { BlogRelatedPosts } from "@/components/marketing/blog-related-posts";
@@ -131,6 +132,7 @@ export default async function BlogPostPage({
 
       <Breadcrumbs items={breadcrumbItems} />
 
+      <ReadingProgress targetId="article-body" />
       <BlogPostHeader post={post} />
       <ArticleBody blocks={post.body} />
 

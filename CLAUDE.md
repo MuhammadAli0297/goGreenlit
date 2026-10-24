@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog) is in progress (b-tile, b-hero, b-filters, b-featured, b-category, b-pagination done).
+(Blog) is in progress (b-tile, b-hero, b-filters, b-featured, b-category, b-pagination, b-post done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1906,6 +1906,30 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
     untouched, links come from `buildBlogHref` in the order `category`, `q`,
     `page`, so gotchas #23 and #29 still match every link. 3 new unit tests.
 
+52. **Post header and reading progress (2026-10-23), task b-post.**
+    `BlogPostHeader` stays the calm light reading header (gotcha #9, no dark
+    hero on posts) but is restyled: mono back link, the category as a link pill in
+    its `coverClass` swatch to that category's view, the date (a real `<time>`)
+    and read time in mono, a larger serif `h1`, the post's own icon in a swatch
+    tile beside the title from `sm`, and a byline with the founder's initials
+    whose name links to **`/about#slug`** (their card, which is also the `Person`
+    schema's url) with the one-line bio under it. Tap areas on the back link,
+    category pill and author link are stretched with `after:` layers (hit-tested
+    9px above and below on a phone). **`ReadingProgress`** (`reading-progress.tsx`,
+    client leaf) is a 4px Sandy Brown bar fixed to the top of the screen
+    (`z-[60]`, above the header pill), tracking **the article body only**
+    (`#article-body`, an id added to `ArticleBody`'s inner div), not the whole
+    page: empty while the header is in view, full when the end of the article
+    reaches the bottom of the screen, still full over the FAQ and footer. It
+    writes `scaleX` straight to the DOM from a passive rAF-throttled scroll
+    listener (gotcha #5), no state, no re-render. The CSS `lb-progress` utility
+    was not used because `scroll(root)` would count the FAQ, related posts and
+    footer. It is a position indicator, not motion, so reduced motion keeps it,
+    and it is `aria-hidden` (decorative). Sampled in a real browser at 1440 and
+    390: 0, 0.25, 0.5, 0.75, 1 at the matching scroll positions, 1 at the page
+    bottom, no overflow, one `h1`. The table of contents is the next task and will
+    reuse `#article-body`. Metadata and JSON-LD untouched. 3 new unit tests.
+
 ## Repository structure
 
 ```
@@ -2275,7 +2299,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (190 across 36 files as of 2026-10-23)
+                          (193 across 37 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 
