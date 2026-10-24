@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is in progress (a-about, a-404 and a-og done).
+(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is in progress (a-about, a-404, a-og and a-favicon done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -2219,6 +2219,15 @@ follow` with a canonical on `/blog` (gotcha #48). **Pre-existing, not caused by
     `twitter-image.tsx` (edit both). Rendered all four routes: 200 `image/png`, the
     Twitter image is byte-identical to the Open Graph one, and the homepage head now
     lists `/opengraph-image?hash` and `/twitter-image?hash`. 2 new unit tests.
+63. **Favicon and app icons confirmed unchanged (2026-10-23), task a-favicon.**
+    No code change. Checked the live head and the three assets against the
+    redesign: `/favicon.ico` (200, 16 and 32 px RGBA PNG frames), `/icon` (200,
+    32 px RGBA) and `/apple-icon` (200, 180 px RGBA) all render, the head carries
+    the three `<link>` tags, and the mark is still the Sandy Brown dot with its
+    Navajo halo on Dark Slate Grey, which is the same dot-and-halo as the new
+    wordmark (Sandy dot, DSG ground in the footer, hero and OG cards). No new
+    swatch or shape entered the redesign, so the set still fits. Viewed beside
+    the wordmark at 180, 128, 32 and 16 px, the dot stays readable at 16.
 
 ## Repository structure
 
