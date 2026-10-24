@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useId, useRef, useState, type KeyboardEvent } from "react";
+import { useId } from "react";
 
 import { ctaVariants } from "@/components/brand/cta-variants";
+import { useTabs } from "@/lib/use-tabs";
 import { cn } from "@/lib/utils";
 
 type CodeTone = "plain" | "pass" | "assert";
@@ -109,26 +110,8 @@ const toneClass: Record<CodeTone, string> = {
  * the inactive one `hidden`, so the copy and links stay crawlable.
  */
 export function FrameworkPicker() {
-  const [active, setActive] = useState(0);
+  const { active, setActive, tabRef, onKeyDown } = useTabs(frameworks.length);
   const base = useId();
-  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
-
-  function focusTab(index: number) {
-    const next = (index + frameworks.length) % frameworks.length;
-    setActive(next);
-    tabs.current[next]?.focus();
-  }
-
-  function onKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
-    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-      focusTab(index + 1);
-    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-      focusTab(index - 1);
-    } else if (event.key === "Home") focusTab(0);
-    else if (event.key === "End") focusTab(frameworks.length - 1);
-    else return;
-    event.preventDefault();
-  }
 
   return (
     <div>
@@ -142,9 +125,7 @@ export function FrameworkPicker() {
           return (
             <button
               key={fw.id}
-              ref={(node) => {
-                tabs.current[index] = node;
-              }}
+              ref={tabRef(index)}
               type="button"
               role="tab"
               id={`${base}-tab-${fw.id}`}
@@ -152,7 +133,7 @@ export function FrameworkPicker() {
               aria-controls={`${base}-panel-${fw.id}`}
               tabIndex={selected ? 0 : -1}
               onClick={() => setActive(index)}
-              onKeyDown={(event) => onKeyDown(event, index)}
+              onKeyDown={onKeyDown(index)}
               className={cn(
                 "h-11 rounded-full px-6 text-base font-semibold transition-colors duration-200",
                 selected ? "bg-sandy text-ink" : "text-ink hover:bg-ink/10",

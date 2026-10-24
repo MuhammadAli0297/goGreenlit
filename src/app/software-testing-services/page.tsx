@@ -20,6 +20,7 @@ import { AuroraBackground } from "@/components/marketing/aurora-background";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { CtaSection } from "@/components/marketing/cta-section";
 import { CoverageRing } from "@/components/marketing/coverage-ring";
+import { DevicePicker } from "@/components/marketing/device-picker";
 import { FrameworkPicker } from "@/components/marketing/framework-picker";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { PageHero } from "@/components/marketing/page-hero";
@@ -442,6 +443,22 @@ export default function SoftwareTestingServicesPage() {
                 .
               </p>
             </div>
+          </StickerCard>
+        </Reveal>
+
+        <Reveal className="mt-8">
+          <StickerCard
+            tone="surface"
+            interactive={false}
+            className="p-7 sm:p-10"
+          >
+            <p className="font-label text-deep text-xs tracking-widest uppercase">
+              Mobile app testing
+            </p>
+            <h3 className="mt-3 mb-8 text-3xl leading-[1.1] font-medium tracking-[-0.025em] sm:text-4xl">
+              Pick a device. See the checks.
+            </h3>
+            <DevicePicker />
           </StickerCard>
         </Reveal>
       </section>

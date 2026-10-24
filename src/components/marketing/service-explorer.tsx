@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useId, useRef, useState, type KeyboardEvent } from "react";
+import { useId } from "react";
 
 import { ctaVariants } from "@/components/brand/cta-variants";
+import { useTabs } from "@/lib/use-tabs";
 import { cn } from "@/lib/utils";
 
 type LogTone = "pass" | "bug" | "note";
@@ -129,24 +130,8 @@ const toneClass: Record<LogTone, string> = {
  * Home and End move between tabs, as the tabs pattern expects.
  */
 export function ServiceExplorer() {
-  const [active, setActive] = useState(0);
+  const { active, setActive, tabRef, onKeyDown } = useTabs(services.length);
   const base = useId();
-  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
-
-  function focusTab(index: number) {
-    const next = (index + services.length) % services.length;
-    setActive(next);
-    tabs.current[next]?.focus();
-  }
-
-  function onKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
-    if (event.key === "ArrowRight") focusTab(index + 1);
-    else if (event.key === "ArrowLeft") focusTab(index - 1);
-    else if (event.key === "Home") focusTab(0);
-    else if (event.key === "End") focusTab(services.length - 1);
-    else return;
-    event.preventDefault();
-  }
 
   return (
     <div>
@@ -160,9 +145,7 @@ export function ServiceExplorer() {
           return (
             <button
               key={service.id}
-              ref={(node) => {
-                tabs.current[index] = node;
-              }}
+              ref={tabRef(index)}
               type="button"
               role="tab"
               id={`${base}-tab-${service.id}`}
@@ -170,7 +153,7 @@ export function ServiceExplorer() {
               aria-controls={`${base}-panel-${service.id}`}
               tabIndex={selected ? 0 : -1}
               onClick={() => setActive(index)}
-              onKeyDown={(event) => onKeyDown(event, index)}
+              onKeyDown={onKeyDown(index)}
               className={cn(
                 "h-11 rounded-full border-[1.5px] px-5 text-[15px] font-semibold transition-[transform,background-color,color] duration-200 hover:-translate-y-0.5",
                 selected
