@@ -98,7 +98,7 @@ every page, the menus, the shared pieces and phone widths) and the
 progress tracker (https://claude.ai/artifact/MkU75tfmdu3vVt69E9WBiZ, 10
 phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
-Services family) are built and pushed, Phase 6 (QA Consulting family) is in progress (q-overview, the quality gate demo, the compare switch, the maturity check, the carousel and all six subpages done).
+Services family) are built and pushed, Phase 6 (QA Consulting family) is in progress (q-overview, the quality gate demo, the compare switch, the maturity check, the carousel, all six subpages and the OG images done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1724,12 +1724,31 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     meant a **gotcha for the CI/CD page**: the platforms block (label plus detail
     with no icon) became ruled `dl` rows like the Services stack list, not
     cards. FAQ questions and answers lost their contractions, so their FAQPage
-    JSON-LD text changed, as before. **Existing numbers not among the four
-    verified stats**, left as they were: "two-week audit" and its day ranges,
-    "under ten minutes" for pre-merge checks, "ten to fifteen initiatives",
-    "90-day roadmap", "three to four weeks" for a strategy, "two to four pages".
-    8 new unit tests across the five widgets. Still to come in Phase 6: q-og,
+    JSON-LD text changed, as before. **Illustrative figures stay (confirmed 2026-10-23):** only the four
+    verified stats are track-record claims, other figures in service copy
+    ("two-week audit" and its day ranges, "under ten minutes" for pre-merge
+    checks, "90-day roadmap", "three to four weeks", "two to four pages",
+    "30 days notice") are examples of how an engagement can run and depend on
+    client needs, so they are kept and not flagged again. Never invent a result
+    or a new track-record number, and see BRAND_GUIDELINES.md section 2. 8 new unit tests across the five widgets. Still to come in Phase 6: q-og,
     q-mobile.
+
+44. **QA Consulting family OG and Twitter images (2026-10-23), task q-og.** All
+    7 pages, 14 files, use a new `buildConsultingOgElement` inside
+    `marketing-og-image.tsx` (the `qa-consulting` family now routes to it, the
+    About and blog-index families keep the old layout until their own phases).
+    Muted Olive ground with navajo and palm leaf radial glows (Satori cannot
+    blur), the wordmark and a "QA consulting" pill, the page's real H1 with its
+    accent phrase as a **navajo sticker chip** (ink border, hard ink shadow)
+    instead of a colored word, so it reads clearly different from the Services
+    card, and a small five-node release pipeline at the bottom with one Sandy
+    Brown gate, the family's signature idea. Every `opengraph-image.tsx` and
+    `twitter-image.tsx` passes the page's real H1 and its accent as the third
+    argument of `buildMarketingOgElement`, so a changed H1 needs both files
+    edited by hand (there is no shared source). Rendered and viewed all 7: each
+    returns 200 `image/png` at 1200 by 630, the Twitter image is byte-identical
+    to the Open Graph one, the longest H1 ("Release readiness reviews that mean
+    more than a passing test run") fits with no clipping.
 
 ## Repository structure
 

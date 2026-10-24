@@ -15,6 +15,7 @@ export default async function Image() {
     buildMarketingOgElement(
       "CI/CD quality gates that stop bugs before they ship",
       "qa-consulting",
+      "before they ship",
     ),
     { ...size, fonts },
   );

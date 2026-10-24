@@ -35,7 +35,12 @@ choice below should reinforce _earned confidence_, not generic
 
 **Supporting proof points** (use real, current numbers, update these as
 the business updates its own claims; never invent a stat that isn't
-backed by something the company can stand behind):
+backed by something the company can stand behind). **Scope of that rule
+(confirmed 2026-10-23):** the four stats below are the only track-record
+claims. Other figures in service copy, such as a two-week audit, a 90-day
+roadmap or a ten-minute pre-merge check, are illustrative examples of how an
+engagement can run and depend on each client's needs, so they are fine to
+keep. Never invent a result, a client story or a new improvement figure:
 
 - 18+ years combined QA experience
 - 45% reduction in escaped defects

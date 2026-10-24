@@ -198,6 +198,171 @@ function buildServicesOgElement(title: string, accent?: string) {
   );
 }
 
+/**
+ * The Live Build card for the QA Consulting family: Muted Olive ground with
+ * soft navajo and palm leaf glows, the wordmark and a family pill on top, the
+ * page's real H1 large with its accent phrase set on a navajo "sticker" chip
+ * (Satori has no italic instance of the font, and a chip keeps the accent
+ * clearly different from the Services card, which colors it), and a small
+ * release pipeline at the bottom with one Sandy Brown gate, the family's
+ * signature idea.
+ */
+function buildConsultingOgElement(title: string, accent?: string) {
+  const index = accent ? title.indexOf(accent) : -1;
+  const parts =
+    accent && index >= 0
+      ? [title.slice(0, index), accent, title.slice(index + accent.length)]
+      : [title, "", ""];
+  const ink = "#1c2820";
+  const line = {
+    width: 26,
+    height: 4,
+    background: ink,
+    display: "flex",
+  } as const;
+  const cell = (background: string, size = 34, border = 2) => (
+    <div
+      style={{
+        width: size,
+        height: size,
+        borderRadius: 10,
+        background,
+        border: `${border}px solid ${ink}`,
+        display: "flex",
+      }}
+    />
+  );
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        padding: "56px 64px",
+        position: "relative",
+        background: "#b1c680",
+        backgroundImage:
+          "radial-gradient(circle at 100% 0%, rgba(255,224,173,0.7) 0%, rgba(255,224,173,0) 42%), radial-gradient(circle at 0% 108%, rgba(143,161,117,0.9) 0%, rgba(143,161,117,0) 46%)",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div
+            style={{
+              width: 20,
+              height: 20,
+              borderRadius: 999,
+              background: "#ee9e58",
+              border: `2px solid ${ink}`,
+              display: "flex",
+            }}
+          />
+          <div
+            style={{
+              fontFamily: "Bespoke Serif",
+              fontWeight: 600,
+              fontSize: 32,
+              color: ink,
+              display: "flex",
+            }}
+          >
+            GoGreenlit
+          </div>
+        </div>
+        <div
+          style={{
+            fontFamily: "Bespoke Serif",
+            fontWeight: 400,
+            fontSize: 20,
+            letterSpacing: 2,
+            textTransform: "uppercase",
+            color: ink,
+            background: "#fffaf0",
+            border: `2px solid ${ink}`,
+            borderRadius: 999,
+            padding: "10px 22px",
+            display: "flex",
+          }}
+        >
+          QA consulting
+        </div>
+      </div>
+
+      <div
+        style={{
+          fontFamily: "Bespoke Serif",
+          fontWeight: 600,
+          fontSize: 70,
+          lineHeight: 1.12,
+          letterSpacing: -2,
+          color: ink,
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          columnGap: 16,
+          maxWidth: 1040,
+        }}
+      >
+        <span>{parts[0]}</span>
+        {parts[1] ? (
+          <span
+            style={{
+              background: "#ffe0ad",
+              border: `3px solid ${ink}`,
+              borderRadius: 18,
+              padding: "0 18px 4px",
+              boxShadow: `6px 6px 0 ${ink}`,
+              display: "flex",
+            }}
+          >
+            {parts[1]}
+          </span>
+        ) : null}
+        {parts[2] ? <span>{parts[2]}</span> : null}
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            fontFamily: "Bespoke Serif",
+            fontWeight: 400,
+            fontSize: 24,
+            color: ink,
+            display: "flex",
+          }}
+        >
+          gogreenlit.com
+        </div>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {cell("#fffaf0")}
+          <div style={line} />
+          {cell("#fffaf0")}
+          <div style={line} />
+          {cell("#fffaf0")}
+          <div style={line} />
+          {cell("#ee9e58", 44, 3)}
+          <div style={line} />
+          {cell("#fffaf0")}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function buildMarketingOgElement(
   title: string,
   family: MarketingOgFamily,
@@ -205,6 +370,9 @@ export function buildMarketingOgElement(
 ) {
   if (family === "software-testing-services") {
     return buildServicesOgElement(title, accent);
+  }
+  if (family === "qa-consulting") {
+    return buildConsultingOgElement(title, accent);
   }
   const style = FAMILY_STYLES[family];
   const isDark = family === "about" || family === "blog-index";
