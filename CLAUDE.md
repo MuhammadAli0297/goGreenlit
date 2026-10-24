@@ -1473,7 +1473,12 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     percentage bar, the mockup's 88% and 64% were invented numbers; a unit test
     fails on any percentage). **Gotcha:** `<pre><code>` inherits `font-mono`,
     which still aliases the serif, so set `font-label` on the `code` element
-    too. Still to come in
+    too. `CoverageRing`
+    (client, a proof card before the stack list) fills to the verified 95%
+    over 1.8s as it enters and replays, time-based like `CountUp` (not
+    scroll-scrubbed, per the stat-card feedback), sampled in a real browser:
+    339, 156, 67, 35, 23, 18, 17 offset values over time, reset to empty off
+    screen, final 17. Still to come in
     Phase 5: coverage ring,
     device picker, the subpage template and the family OG images.
 
@@ -1846,7 +1851,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (7 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (117 across 20 files as of 2026-10-23)
+                          (119 across 21 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 

@@ -19,6 +19,7 @@ import { StickerCard } from "@/components/brand/sticker-card";
 import { AuroraBackground } from "@/components/marketing/aurora-background";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { CtaSection } from "@/components/marketing/cta-section";
+import { CoverageRing } from "@/components/marketing/coverage-ring";
 import { FrameworkPicker } from "@/components/marketing/framework-picker";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { PageHero } from "@/components/marketing/page-hero";
@@ -412,6 +413,37 @@ export default function SoftwareTestingServicesPage() {
             )}
           </div>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 pt-24 sm:px-6 lg:px-8">
+        <Reveal>
+          <StickerCard
+            tone="olive"
+            interactive={false}
+            className="grid items-center gap-8 p-7 sm:p-10 md:grid-cols-[auto_1fr] md:gap-14"
+          >
+            <CoverageRing value={95} />
+            <div>
+              <p className="font-label text-xs tracking-widest uppercase">
+                Proof
+              </p>
+              <h3 className="mt-3 text-3xl leading-[1.1] font-medium tracking-[-0.025em] text-balance sm:text-4xl">
+                Release coverage achieved on a real engagement.
+              </h3>
+              <p className="mt-4 max-w-xl text-lg">
+                Coverage is a number you can read, not a feeling. See how an
+                embedded engagement got there in{" "}
+                <Link
+                  href="/blog/how-we-reached-95-percent-coverage"
+                  className="decoration-deep underline decoration-2 underline-offset-4"
+                >
+                  the 95 percent coverage case study
+                </Link>
+                .
+              </p>
+            </div>
+          </StickerCard>
+        </Reveal>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
