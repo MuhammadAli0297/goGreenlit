@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ArticleBody } from "@/components/marketing/article-body";
+import { TableOfContents } from "@/components/marketing/table-of-contents";
+import { buildToc } from "@/lib/blog-toc";
 import { ReadingProgress } from "@/components/marketing/reading-progress";
 import { BlogPostHeader } from "@/components/marketing/blog-post-header";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
@@ -111,6 +113,13 @@ export default async function BlogPostPage({
       }
     : null;
 
+  const tocItems = [
+    ...buildToc(post.body).values(),
+    ...(post.faqs && post.faqs.length > 0
+      ? [{ id: "faq", text: "Frequently asked questions" }]
+      : []),
+  ];
+
   return (
     <>
       <script
@@ -134,10 +143,16 @@ export default async function BlogPostPage({
 
       <ReadingProgress targetId="article-body" />
       <BlogPostHeader post={post} />
-      <ArticleBody blocks={post.body} />
+      <ArticleBody
+        blocks={post.body}
+        toc={<TableOfContents items={tocItems} />}
+      />
 
       {post.faqs && post.faqs.length > 0 && (
-        <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+        <section
+          id="faq"
+          className="mx-auto max-w-3xl scroll-mt-28 px-4 py-16 sm:px-6 lg:px-8"
+        >
           <h2 className="text-center text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
             Frequently asked questions
           </h2>
