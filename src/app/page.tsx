@@ -74,13 +74,13 @@ export default function Home() {
         </div>
         <div className="relative mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
           <Reveal>
-            <p className="font-label text-olive text-xs tracking-widest uppercase">
+            <p className="font-label text-navajo text-xs tracking-widest uppercase">
               Services
             </p>
             <SectionHeading className="text-paper [&_em]:text-sandy mt-4 max-w-3xl">
               Software testing services built for *shipping teams*
             </SectionHeading>
-            <p className="text-navajo/90 mt-5 max-w-2xl text-lg">
+            <p className="text-navajo mt-5 max-w-2xl text-lg">
               Our QA engineers cover the full testing pyramid, from hands-on
               manual sessions to automated regression suites, so nothing slips
               through before a release. Pick one and watch an example run.

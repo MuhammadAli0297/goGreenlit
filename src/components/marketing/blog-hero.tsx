@@ -25,12 +25,14 @@ export function BlogHero({
 }) {
   return (
     <section className="on-dark bg-deep text-navajo relative overflow-hidden">
-      <AuroraBackground />
+      <div className="opacity-75">
+        <AuroraBackground />
+      </div>
 
       <div className="relative mx-auto flex max-w-6xl flex-col items-center justify-center px-4 py-24 text-center sm:px-6 lg:px-8 lg:py-32">
         <BlogHeroScroll>
           {badge ? (
-            <span className="font-label border-navajo/40 bg-navajo/10 text-navajo mb-6 inline-flex max-w-full items-center gap-2 rounded-full border-[1.5px] px-3.5 py-1.5 text-xs tracking-wide whitespace-nowrap uppercase">
+            <span className="font-label border-navajo/40 bg-ink/30 text-navajo mb-6 inline-flex max-w-full items-center gap-2 rounded-full border-[1.5px] px-3.5 py-1.5 text-xs tracking-wide whitespace-nowrap uppercase">
               <span className="lb-pulse bg-sandy border-ink/60 inline-block size-2 shrink-0 rounded-full border" />
               <span className="truncate">{badge}</span>
             </span>
@@ -40,7 +42,7 @@ export function BlogHero({
             {children}
           </h1>
 
-          <p className="text-navajo/85 mx-auto mt-6 max-w-2xl text-lg text-balance">
+          <p className="text-navajo mx-auto mt-6 max-w-2xl text-lg text-balance">
             {description}
           </p>
         </BlogHeroScroll>

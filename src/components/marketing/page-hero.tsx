@@ -20,8 +20,8 @@ const tones: Record<
 > = {
   deep: {
     section: "bg-deep text-navajo on-dark",
-    badge: "border-navajo/40 bg-navajo/10 text-navajo",
-    description: "text-navajo/85",
+    badge: "border-navajo/40 bg-ink/30 text-navajo",
+    description: "text-navajo",
     accent: "[&_em]:text-sandy",
   },
   leaf: {

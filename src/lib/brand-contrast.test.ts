@@ -85,4 +85,46 @@ describe("Live Build color pairings", () => {
     expect(ratio("olive", "paper")).toBeLessThan(3);
     expect(ratio("leaf", "paper")).toBeLessThan(3);
   });
+
+  describe("aurora blobs on Dark Slate Grey", () => {
+    // Text sits over these blurred blobs on every dark section. Each blob is
+    // checked alone at its nominal alpha (blur only lowers the peak), so a
+    // later bump to an alpha fails here before text over it stops passing.
+    // Overlaps of two blobs are not covered, the pixel scan in gotcha #68
+    // is the check for those.
+    const source = readFileSync(
+      join(process.cwd(), "src/components/marketing/aurora-background.tsx"),
+      "utf8",
+    );
+    const blobs = [...source.matchAll(/bg-\[(#[0-9a-fA-F]{6})\]\/(\d+)/g)];
+
+    function mix(base: string, over: string, alpha: number): string {
+      const a = base.replace("#", "");
+      const b = over.replace("#", "");
+      const out = [0, 2, 4].map((i) => {
+        const x = parseInt(a.slice(i, i + 2), 16);
+        const y = parseInt(b.slice(i, i + 2), 16);
+        return Math.round(x * (1 - alpha) + y * alpha)
+          .toString(16)
+          .padStart(2, "0");
+      });
+      return `#${out.join("")}`;
+    }
+
+    function contrast(a: string, b: string): number {
+      const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+      return (hi! + 0.05) / (lo! + 0.05);
+    }
+
+    it("finds each blob at its desktop and phone alpha", () => {
+      expect(blobs).toHaveLength(8);
+    });
+
+    it("keeps Navajo White body text at 4.5:1 over any one blob, on desktop and phone", () => {
+      for (const [, hex, alpha] of blobs) {
+        const bg = mix(token("deep"), hex!, Number(alpha) / 100);
+        expect(contrast(token("navajo"), bg)).toBeGreaterThanOrEqual(4.5);
+      }
+    });
+  });
 });

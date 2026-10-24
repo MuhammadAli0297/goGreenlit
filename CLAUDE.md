@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is built and pushed. Phase 9 (hardening) is in progress (z-devices, z-lh and z-keys done).
+(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is built and pushed. Phase 9 (hardening) is in progress (z-devices, z-lh, z-keys and z-contrast done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -2347,6 +2347,43 @@ JetBrainsMono-Latin-Variable.woff2`: basic Latin and Latin-1, weight axis cut
     leaving it on a link that has collapsed (`e.detail === 0` tells a keyboard
     activation from a click). 3 new e2e tests in `e2e/keyboard.spec.ts`, the drawer
     one fails on the old code.
+68. **Final contrast audit (2026-10-24), task z-contrast.** The token tests
+    (`brand-contrast.test.ts`) only cover flat grounds, and axe could not score
+    the 168 text nodes that sit over the aurora blobs ("background could not be
+    determined because it is overlapped"), so the audit measures pixels. **Method
+    (reusable):** for every sitemap page plus the 404, at 1280 and 390 wide, scroll
+    in viewport slices with `behavior: "instant"` (the page has smooth scroll, a
+    screenshot taken mid-scroll mismatches the rects), collect every visible text
+    element's client rects and computed color (converted to RGBA through a 1px
+    canvas, `oklab()` colors do not parse by hand) times its ancestors' opacity,
+    then inject `color: transparent !important` and screenshot with the fixed and
+    sticky elements hidden (the floating header covers the top 80px and was a false
+    failure on every slice), draw the PNG on a canvas, and take the worst contrast
+    between the text color (alpha-blended) and every sampled background pixel under
+    each rect, 4.5 for normal text and 3 for 24px or larger (or 18.66px bold).
+    Elements that fail only on the first slice of a mobile page or are `aria-hidden`
+    are skipped. **Findings, desktop:** olive mono eyebrows on Dark Slate Grey
+    dropped to 3.8 (2.8 on About) where a blob sat behind them, the home hero badge
+    to 3.7, the Navajo White hero and About descriptions at 80 to 90 percent to 3.8,
+    the CTA description at 85 percent ink on Palm Leaf to 4.2, large Sandy Brown
+    accents on the blob to 2.8. **On a phone it was worse** (badge 2.5, "Explore
+    services" 3.6, About eyebrow 3.4) because the same fixed-size blobs cover most of
+    a 390px section. **Fixes:** blob alphas lowered (sandy 40 to 30, olive 35 to 28,
+    leaf 40 to 32, navajo 25 to 18, and `max-sm:` 16, 14, 18, 10), dark section
+    eyebrows (`SectionIntro dark`, home Services, About founders) olive to Navajo
+    White, descriptions on dark and on the CTA to full opacity, the three hero badges
+    on `bg-ink/30` instead of `bg-navajo/10`, the blog hero's aurora at 75 percent,
+    the 404's links to full Navajo White. **After:** no real failure on any page at
+    either width. What still prints in the scan is artifact: the sr-only skip link,
+    the disabled "Merge blocked" button (inactive controls are exempt), and a few
+    mobile slices that mismatch their screenshot. **Guard:** `brand-contrast.test.ts`
+    now reads the blob alphas out of `aurora-background.tsx` and asserts Navajo
+    White stays at 4.5:1 over each blob alone, desktop and phone alpha. Overlaps of
+    two blobs and large Sandy Brown accents are only covered by rerunning the scan.
+    Olive text on a blob cannot be made to pass (olive on Dark Slate Grey is 5.4 and
+    any sandy blob under it drops it), so olive stays for text on flat deep grounds
+    only. **Not checked by this scan:** hover and open states (the pairings are
+    token-covered), text inside the OG images, and dark mode (there is none).
 
 ## Repository structure
 
@@ -2717,7 +2754,7 @@ e2e/                      Playwright specs: home.spec.ts (8 tests),
                           blog-post.spec.ts (2) and blog-index.spec.ts (2),
                           both added 2026-10-23
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (227 across 45 files as of 2026-10-23)
+                          (229 across 45 files as of 2026-10-24)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 

@@ -41,7 +41,7 @@ export function Hero() {
 
       <div className="relative mx-auto grid min-h-dvh max-w-6xl items-center gap-14 px-4 py-24 sm:px-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:px-8 [@media(max-height:700px)]:pt-(--header-clearance) [@media(max-height:700px)]:pb-10">
         <div className="text-center lg:text-left">
-          <StatusPill className="bg-navajo/10 text-navajo border-navajo/50 mb-6 normal-case [@media(max-height:700px)]:hidden">
+          <StatusPill className="bg-ink/30 text-navajo border-navajo/50 mb-6 normal-case [@media(max-height:700px)]:hidden">
             <span className="lb-pulse bg-sandy inline-block size-2 rounded-full" />
             No long-term contracts, founder-embedded from day one
           </StatusPill>
@@ -50,7 +50,7 @@ export function Hero() {
             Embedded QA teams for startups that <em>ship fast</em>
           </h1>
 
-          <p className="text-navajo/90 mx-auto mt-6 max-w-2xl text-lg text-balance lg:mx-0 [@media(max-height:700px)]:mt-3">
+          <p className="text-navajo mx-auto mt-6 max-w-2xl text-lg text-balance lg:mx-0 [@media(max-height:700px)]:mt-3">
             {siteConfig.description}
           </p>
 

@@ -195,13 +195,13 @@ export default function AboutPage() {
         <AuroraBackground />
         <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
           <div className="max-w-2xl">
-            <p className="font-label text-olive text-xs tracking-widest uppercase">
+            <p className="font-label text-navajo text-xs tracking-widest uppercase">
               The founders
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
               Meet the founders
             </h2>
-            <p className="text-navajo/80 mt-4 text-lg">
+            <p className="text-navajo mt-4 text-lg">
               Two people, no account managers in between, and a founder on every
               engagement.
             </p>

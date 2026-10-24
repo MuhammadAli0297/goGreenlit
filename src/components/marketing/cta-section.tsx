@@ -45,7 +45,7 @@ export function CtaSection({
           <h2 className="text-4xl leading-[1.04] font-medium tracking-[-0.035em] text-balance sm:text-6xl [&_em]:font-normal [&_em]:italic">
             {renderWithEmphasis(title)}
           </h2>
-          <p className="text-ink/85 mx-auto mt-6 max-w-xl text-lg text-balance">
+          <p className="text-ink mx-auto mt-6 max-w-xl text-lg text-balance">
             {description}
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4">

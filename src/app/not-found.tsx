@@ -66,7 +66,7 @@ export default function NotFound() {
             </Link>
           </div>
 
-          <ul className="font-label text-navajo/80 mt-8 flex flex-wrap justify-center gap-x-6 gap-y-1 text-xs tracking-widest uppercase lg:justify-start">
+          <ul className="font-label text-navajo mt-8 flex flex-wrap justify-center gap-x-6 gap-y-1 text-xs tracking-widest uppercase lg:justify-start">
             {otherLinks.map((link) => (
               <li key={link.href}>
                 <Link

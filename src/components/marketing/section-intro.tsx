@@ -36,7 +36,7 @@ export function SectionIntro({
       <p
         className={cn(
           "font-label text-xs tracking-widest uppercase",
-          dark ? "text-olive" : "text-deep",
+          dark ? "text-navajo" : "text-deep",
         )}
       >
         {eyebrow}
@@ -47,7 +47,7 @@ export function SectionIntro({
         {title}
       </SectionHeading>
       {description ? (
-        <p className={cn("mt-5 text-lg", dark && "text-navajo/90")}>
+        <p className={cn("mt-5 text-lg", dark && "text-navajo")}>
           {description}
         </p>
       ) : null}
