@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is in progress (a-about done).
+(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is in progress (a-about and a-404 done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -2183,6 +2183,20 @@ follow` with a canonical on `/blog` (gotcha #48). **Pre-existing, not caused by
     come in Phase 8: the 404, the homepage and About OG images, the favicon check
     and the sitemap, robots and redirects check.
 
+61. **404 page rebuilt (2026-10-23), task a-404.** `not-found.tsx` is a deep
+    `on-dark` section (with a navajo hairline under it so it does not merge into
+    the deep footer) with the aurora: a giant Sandy Brown "404" whose zero
+    wobbles (`lb-wobble`, 4s, off under reduced motion, sampled rotating about
+    plus and minus 6 degrees), the H1 "This test _failed._ The page is not here."
+    with an `sr-only` "Error 404." lead, the board's lead sentence, a cta "Back to
+    home" and an outline "Browse the blog", three small text links (services,
+    consulting, About, each with an `after:` tap layer) and a `TestRunTerminal`
+    titled `route-check` ending on a FAIL line. The big number is `aria-hidden`
+    and the terminal is decorative, so the real content is the heading, sentence
+    and links. Metadata title "Page not found" (Next adds noindex on a 404).
+    `error.tsx` is not restyled. Checked at 1440 and 390, no overflow. 2 new unit
+    tests.
+
 ## Repository structure
 
 ```
@@ -2555,7 +2569,7 @@ e2e/                      Playwright specs: home.spec.ts (8 tests),
                           blog-post.spec.ts (2) and blog-index.spec.ts (2),
                           both added 2026-10-23
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (223 across 43 files as of 2026-10-23)
+                          (225 across 44 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 
