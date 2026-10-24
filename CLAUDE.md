@@ -1968,6 +1968,21 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
     `ReadingProgress` bar (gotcha #52) stays. 9 new unit tests across the toc
     files.
 
+    **History gotcha (fixed 2026-10-23):** the pill's links were plain `#hash`
+    anchors, and every hash click pushes a history entry, so after jumping through
+    two or three sections the browser Back button and the "Back to the blog" link
+    (`BackToBlogLink` calls `router.back()`) only walked back through the sections
+    instead of leaving the post. The links now scroll with `scrollIntoView`
+    (smooth, instant under reduced motion) and update the address bar with
+    `history.replaceState(history.state, ...)`, keeping Next's own state, so a post
+    is one history entry however many sections you visit. The `href` stays for
+    no-JS, and a modified click (cmd, ctrl, shift, alt) still opens normally. The
+    `blog-post.spec.ts` e2e opens a post from the index, jumps through three
+    sections, and checks both browser Back and the link return to the blog (it
+    fails on the old behavior). Back to the same category, page and scroll
+    position was checked at 1440 and 390. **Any future in-page jump control on a
+    post must use `replaceState`, not a plain hash link.**
+
 ## Repository structure
 
 ```
@@ -2334,8 +2349,9 @@ src/lib/
                            each page still renders its own <script> tag.
   utils.ts                `cn()` class-merging helper
 
-e2e/                      Playwright specs: home.spec.ts (8 tests) and
-                          navigation.spec.ts (15, added 2026-10-18)
+e2e/                      Playwright specs: home.spec.ts (8 tests),
+                          navigation.spec.ts (15, added 2026-10-18) and
+                          blog-post.spec.ts (2, added 2026-10-23)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
                           (202 across 39 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and

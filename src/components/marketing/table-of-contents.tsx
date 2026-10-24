@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronUp } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 
 import type { TocItem } from "@/lib/blog-toc";
 import { cn } from "@/lib/utils";
@@ -119,6 +119,29 @@ export function TableOfContents({
 
   if (items.length < 2) return null;
 
+  /**
+   * Scrolls to a section without adding a history entry. A plain `#hash`
+   * link pushes one per click, so after a few jumps Back (and the "Back to
+   * the blog" link, which goes back in history) only walked through the
+   * sections instead of leaving the post. The `href` stays for no-JS and
+   * for modified clicks (new tab), and the address bar hash is updated in
+   * place with `replaceState`, keeping Next's own history state.
+   */
+  const jumpTo = (e: MouseEvent<HTMLAnchorElement>, id: string) => {
+    setOpen(false);
+    const target = document.getElementById(id);
+    if (!target || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    target.scrollIntoView({
+      behavior: reduce ? "auto" : "smooth",
+      block: "start",
+    });
+    window.history.replaceState(window.history.state, "", `#${id}`);
+  };
+
   const currentIndex = items.findIndex((item) => item.id === active);
   const current = currentIndex >= 0 ? items[currentIndex] : undefined;
 
@@ -151,7 +174,7 @@ export function TableOfContents({
               <a
                 href={`#${item.id}`}
                 aria-current={isActive ? "location" : undefined}
-                onClick={() => setOpen(false)}
+                onClick={(e) => jumpTo(e, item.id)}
                 tabIndex={open ? undefined : -1}
                 className={cn(
                   "flex gap-3 rounded-lg px-3 py-2.5 text-[15px] leading-snug transition-colors motion-reduce:transition-none xl:py-2 xl:text-sm",
