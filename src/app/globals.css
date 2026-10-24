@@ -575,6 +575,36 @@
   }
 }
 
+/* A headline word that rises into place on load, set --lb-i to its index so
+   the words land one after another. Ends on the resting state. */
+.lb-word {
+  display: inline-block;
+  animation: lb-word 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--lb-i, 0) * 60ms);
+}
+@keyframes lb-word {
+  from {
+    opacity: 0;
+    transform: translateY(55%) rotate(3deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* A Sandy Brown marker stroke behind the lower part of the text, for an
+   accent word on a light ground (Sandy Brown text fails contrast on paper,
+   so the word stays ink and the marker carries the accent). */
+.lb-marker {
+  background: linear-gradient(
+    transparent 60%,
+    var(--sandy) 60% 90%,
+    transparent 90%
+  );
+  padding: 0 0.06em;
+}
+
 /* Scroll-driven moves. */
 @supports (animation-timeline: view()) {
   /* Enter: rise and settle (or slide in from a side) as the element
@@ -744,6 +774,7 @@
   .lb-zoom-out,
   .lb-draw,
   .lb-wipe,
+  .lb-word,
   .lb-progress,
   .lb-term-line {
     animation: none;

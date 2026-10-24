@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is next.
+(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is in progress (a-about done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -2136,6 +2136,45 @@ follow` with a canonical on `/blog` (gotcha #48). **Pre-existing, not caused by
     only time it may cover text, gotcha #53), and Next's dev indicator sits over the
     docked bar's number in `next dev` only.
 
+60. **About page rebuilt (2026-10-23), first task of Phase 8 (a-about).** Still
+    the one **icon-free** page (a unit test fails on any `svg` in its content) with
+    the Dark Slate Grey founders section, now in the board's typographic style.
+    Order: a **big-type hero on paper** (not `PageHero`), the story, the DSG
+    founders section with aurora, a giant italic pull quote, the manifesto, the
+    Chicago section, an olive `CtaSection`. **Hero:** the H1 keeps its words ("Two
+    QA engineers who got tired of watching bugs ship", the board's "Two founders.
+    One standard." was not used so the headline, the founders' story and the H1
+    stay in step with the meta description), set at up to 112px with each word
+    rising in one after another on load (`lb-word`, `--lb-i` is the index, 0.7s
+    each, 60ms apart, ends on the resting state, off under reduced motion). The
+    accent is `lb-marker`, a Sandy Brown marker stroke behind ink text, **because
+    Sandy Brown text fails contrast on paper** (the italic-accent-word rule of gotcha
+    #34 uses ink or Sandy depending on the ground). Two decorative circles
+    (`lb-parallax`) show **only from 1400px**, below that they touched the headline
+    (checked at 1440, 1399, 1280, 1100, 1024 by intersecting real text ranges, not
+    boxes). The hero keeps the two CTAs the page already had. **Founders:** two
+    white sticker cards (28px radius, hard Ink shadow, the shared `StickerCard` was
+    not used because its shadow vanishes on this ground), a 96 to 112px initials
+    avatar that spins on hover (not under reduced motion), name as `h3`, job title in
+    mono, the bio and **a LinkedIn link** (new, from `founders.ts`, opens in a new
+    tab with `rel="noopener noreferrer"`, an `after:` layer makes it 48px tall). All
+    founder data still comes from `founders.ts`. **The four-card `StatBand` left
+    this page** (the board shows only the 18+ years figure, a `CountUp` from
+    `verifiedStats` under the cards); put it back if you want all four stats here.
+    **Pull quote:** the real founders' quote, not the board's "Founder-embedded
+    from day one." placeholder, as a 60px italic with `lb-wipe` and a marker on
+    "cannot afford to hire yet". **Manifesto:** the four existing statements (not
+    the board's five, whose extra lines were new claims), numbered, each with a
+    colored left rule that fills on hover and slides 10px (not under reduced
+    motion). **Copy:** metadata, breadcrumb and `Person` JSON-LD are unchanged and
+    every contraction in body copy was removed ("We are not a testing factory",
+    "do not", "cannot", "had each spent"), with a unit test that fails on any
+    contraction or em dash. The CTA title is the same words with the accent on "QA".
+    Checked at 1440, 390 and 360: no overflow, no text under the circles, word rise
+    sampled opacity 0, 0.3, 0.7, 0.9 over about 900ms. 5 new unit tests. Still to
+    come in Phase 8: the 404, the homepage and About OG images, the favicon check
+    and the sitemap, robots and redirects check.
+
 ## Repository structure
 
 ```
@@ -2508,7 +2547,7 @@ e2e/                      Playwright specs: home.spec.ts (8 tests),
                           blog-post.spec.ts (2) and blog-index.spec.ts (2),
                           both added 2026-10-23
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (218 across 42 files as of 2026-10-23)
+                          (223 across 43 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 
