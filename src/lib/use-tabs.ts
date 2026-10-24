@@ -7,11 +7,12 @@ import { useRef, useState, type KeyboardEvent } from "react";
  * homepage service explorer, the Playwright or Selenium picker, the device
  * picker). Arrow keys, Home and End move between tabs and wrap around, the
  * active tab takes focus, and only it is in the tab order (roving tabindex,
- * set by the caller from `active`). Left and right always work, up and down
+ * set by the caller from `active`). `initial` picks the starting tab (the
+ * first by default). Left and right always work, up and down
  * too, since the tablists are short.
  */
-export function useTabs(count: number) {
-  const [active, setActive] = useState(0);
+export function useTabs(count: number, initial = 0) {
+  const [active, setActive] = useState(initial);
   const nodes = useRef<(HTMLButtonElement | null)[]>([]);
 
   function focusTab(index: number) {

@@ -12,7 +12,7 @@ import {
 
 import { ctaVariants } from "@/components/brand/cta-variants";
 import { StickerCard } from "@/components/brand/sticker-card";
-import { CompareColumns } from "@/components/marketing/compare-columns";
+import { CompareSwitch } from "@/components/marketing/compare-switch";
 import { CtaSection } from "@/components/marketing/cta-section";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
@@ -50,17 +50,33 @@ export const metadata: Metadata = {
   },
 };
 
-const staffAugmentation = [
-  "Adds a person to your existing testing queue",
-  "Inherits whatever process already exists, gaps included",
-  "Value ends when the contract does",
-];
+const usualWay = {
+  label: "The usual way",
+  summary:
+    "Staff augmentation adds a person to your existing testing queue and inherits whatever process is already there, gaps included. The value ends when the contract does.",
+  status: "Defects escape",
+  tone: "bug",
+  rows: [
+    { label: "Testing happens", value: "The night before release" },
+    { label: "Who owns quality", value: "Whoever has time" },
+    { label: "A bug is found", value: "By a customer, then a scramble" },
+    { label: "Release decision", value: "A gut feeling" },
+  ],
+} as const;
 
-const consultingModel = [
-  "Assesses where defects are actually escaping to production",
-  "Redesigns the process, then embeds it inside your sprint",
-  "Your team owns the process after the engagement ends",
-];
+const ourWay = {
+  label: "The GoGreenlit way",
+  summary:
+    "Consulting assesses where defects are actually escaping to production, redesigns the process, then embeds it inside your sprint. Your team owns the process after the engagement ends.",
+  status: "Defects caught",
+  tone: "pass",
+  rows: [
+    { label: "Testing happens", value: "Inside every sprint" },
+    { label: "Who owns quality", value: "A named, embedded QA lead" },
+    { label: "A bug is found", value: "Before launch, with repro steps" },
+    { label: "Release decision", value: "A gate with evidence" },
+  ],
+} as const;
 
 const auditAreas = [
   { name: "Test strategy" },
@@ -256,12 +272,7 @@ export default function QaConsultingPage() {
           description="Staff augmentation adds a person to your existing process. Consulting changes the process itself, then hands you the ability to run it without us."
         />
 
-        <CompareColumns
-          leftTitle="Staff augmentation"
-          leftItems={staffAugmentation}
-          rightTitle="GoGreenlit QA consulting"
-          rightItems={consultingModel}
-        />
+        <CompareSwitch usual={usualWay} ours={ourWay} />
       </section>
 
       <section id="model" className="bg-olive border-ink border-y-[1.5px]">

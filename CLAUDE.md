@@ -98,7 +98,7 @@ every page, the menus, the shared pieces and phone widths) and the
 progress tracker (https://claude.ai/artifact/MkU75tfmdu3vVt69E9WBiZ, 10
 phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
-Services family) are built and pushed, Phase 6 (QA Consulting family) is in progress (q-overview and the quality gate demo done).
+Services family) are built and pushed, Phase 6 (QA Consulting family) is in progress (q-overview, the quality gate demo and the compare switch done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1588,6 +1588,30 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     at 600ms steps, the packet moved 770 to 1017px then held, the button was
     hit-tested, no horizontal overflow. 5 new unit tests.
 
+39. **`CompareSwitch` (2026-10-23), the usual-way versus GoGreenlit-way switch,
+    task q-compare.** A client component (`compare-switch.tsx`) on the QA
+    Consulting overview in place of the static `CompareColumns` (which stays on
+    the Embedded QA team and Test strategy subpages). A two-tab ARIA segmented
+    control flips one card between the two sides on the same four questions
+    (when testing happens, who owns quality, how a bug is found, how the release
+    decision is made). **It opens on the GoGreenlit way**, so the page at rest
+    and with scripts off shows the recommended answer, which needed an optional
+    `initial` argument on `useTabs` (default 0, every other consumer unchanged).
+    Both panels are in the server HTML, the inactive one `hidden`, so all copy
+    stays crawlable. The old three-bullet lists became one summary sentence per
+    side, keeping their facts (adds a person to the existing queue, inherits
+    the gaps, value ends with the contract; assesses, redesigns, embeds, your
+    team owns it after). A `StatusPill` marks each side, bug for "Defects
+    escape", pass for "Defects caught", so the contrast never rests on color.
+    The four row values come from the canvas and are generic, no numbers. The
+    panel fades up each time it un-hides (`tw-animate-css`, sampled opacity 0,
+    0.41, 0.8, 0.95, 0.99 over about 280ms, off under reduced motion). **Phone
+    gotcha:** the two labels did not fit one row at 390px and wrapped into
+    stacked pills, fixed with `px-3.5 text-[15px] whitespace-nowrap` below `sm`,
+    verified single row (54px tall) at 360 and 390 with no overflow. 4 new unit
+    tests (default side, both panels in the DOM, flip with its status pill,
+    arrow keys with wrap).
+
 ## Repository structure
 
 ```
@@ -1957,7 +1981,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (137 across 25 files as of 2026-10-23)
+                          (141 across 26 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 
