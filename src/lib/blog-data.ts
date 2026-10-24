@@ -6225,3 +6225,47 @@ export function searchPosts(posts: BlogPost[], query: string): BlogPost[] {
 }
 
 export { MAX_SEARCH_LENGTH, normalizeSearchQuery } from "@/lib/blog-href";
+
+/**
+ * The post shown in the featured block above the grid. Chosen by hand, not
+ * "newest", because several posts share a publish date. Change this one
+ * line to feature a different post.
+ */
+export const FEATURED_POST_SLUG = "how-to-outsource-qa-testing";
+
+export function getFeaturedPost(): BlogPost | undefined {
+  return getPostBySlug(FEATURED_POST_SLUG);
+}
+
+/**
+ * Everything the blog index needs for one URL, computed in one place so the
+ * page and `generateMetadata` can never disagree about the clamped page
+ * number or the list. The featured post only appears in the plain index
+ * (no category, no search) and, so it is not shown twice, is taken out of
+ * the grid there; it is featured on page 1 only.
+ */
+export function getBlogIndexView(params: {
+  category?: string;
+  q?: string;
+  page?: string;
+}) {
+  const category = getCategoryBySlug(params.category);
+  const query = normalizeSearchQuery(params.q);
+  const isPlainIndex = !category && !query;
+  const featured = isPlainIndex ? getFeaturedPost() : undefined;
+  const matches = searchPosts(getPostsByCategory(category?.slug), query).filter(
+    (post) => post !== featured,
+  );
+  const displayPosts = category ? matches : interleaveByCategory(matches);
+  const totalPages = getTotalPages(displayPosts.length);
+  const currentPage = clampPage(Number(params.page ?? 1), totalPages);
+  return {
+    category,
+    query,
+    featured: currentPage === 1 ? featured : undefined,
+    displayPosts,
+    totalPages,
+    currentPage,
+    pagePosts: paginatePosts(displayPosts, currentPage),
+  };
+}

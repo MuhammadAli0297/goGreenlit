@@ -4,7 +4,9 @@ import {
   POSTS_PER_PAGE,
   blogCategories,
   blogPosts,
+  FEATURED_POST_SLUG,
   clampPage,
+  getBlogIndexView,
   getCategoryBySlug,
   getPostBySlug,
   getPostsByCategory,
@@ -143,5 +145,35 @@ describe("search", () => {
 
   it("requires every word to match", () => {
     expect(searchPosts(blogPosts, "playwright zzzznotaword")).toHaveLength(0);
+  });
+});
+
+describe("getBlogIndexView", () => {
+  it("features one post on the plain index and does not repeat it in the grid", () => {
+    const view = getBlogIndexView({});
+    expect(view.featured?.slug).toBe(FEATURED_POST_SLUG);
+    expect(view.displayPosts.some((p) => p.slug === FEATURED_POST_SLUG)).toBe(
+      false,
+    );
+    expect(view.displayPosts).toHaveLength(blogPosts.length - 1);
+  });
+
+  it("features only on page 1", () => {
+    expect(getBlogIndexView({ page: "2" }).featured).toBeUndefined();
+  });
+
+  it("has no featured post in a category or search view, and keeps it in the list", () => {
+    const featured = blogPosts.find((p) => p.slug === FEATURED_POST_SLUG)!;
+    const cat = getBlogIndexView({ category: featured.category });
+    expect(cat.featured).toBeUndefined();
+    expect(cat.displayPosts.some((p) => p.slug === FEATURED_POST_SLUG)).toBe(
+      true,
+    );
+    expect(getBlogIndexView({ q: "outsource" }).featured).toBeUndefined();
+  });
+
+  it("clamps an out of range page", () => {
+    const view = getBlogIndexView({ page: "999" });
+    expect(view.currentPage).toBe(view.totalPages);
   });
 });

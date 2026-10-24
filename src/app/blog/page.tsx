@@ -3,22 +3,14 @@ import Link from "next/link";
 
 import { ctaVariants } from "@/components/brand/cta-variants";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
+import { BlogFeaturedPost } from "@/components/marketing/blog-featured-post";
 import { BlogFilterPills } from "@/components/marketing/blog-filter-pills";
 import { BlogHero } from "@/components/marketing/blog-hero";
 import { BlogPagination } from "@/components/marketing/blog-pagination";
 import { BlogSearch } from "@/components/marketing/blog-search";
 import { BlogPostCard } from "@/components/marketing/blog-post-card";
 import { CtaSection } from "@/components/marketing/cta-section";
-import {
-  clampPage,
-  getCategoryBySlug,
-  getPostsByCategory,
-  getTotalPages,
-  interleaveByCategory,
-  normalizeSearchQuery,
-  paginatePosts,
-  searchPosts,
-} from "@/lib/blog-data";
+import { getBlogIndexView } from "@/lib/blog-data";
 import { buildBlogHref } from "@/lib/blog-href";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { siteConfig } from "@/lib/site-config";
@@ -32,13 +24,7 @@ export async function generateMetadata({
 }: {
   searchParams: Promise<{ category?: string; page?: string; q?: string }>;
 }): Promise<Metadata> {
-  const params = await searchParams;
-  const category = getCategoryBySlug(params.category);
-  const query = normalizeSearchQuery(params.q);
-  const posts = searchPosts(getPostsByCategory(category?.slug), query);
-  const displayPosts = category ? posts : interleaveByCategory(posts);
-  const totalPages = getTotalPages(displayPosts.length);
-  const currentPage = clampPage(Number(params.page ?? 1), totalPages);
+  const { category, query, currentPage } = getBlogIndexView(await searchParams);
 
   // Search results are thin, endless URL variants, so they stay out of the
   // index and point their canonical at the page they narrow (the category
@@ -112,16 +98,15 @@ export default async function BlogPage({
 }: {
   searchParams: Promise<{ category?: string; page?: string; q?: string }>;
 }) {
-  const params = await searchParams;
-  const category = getCategoryBySlug(params.category);
-  const query = normalizeSearchQuery(params.q);
-  const posts = searchPosts(getPostsByCategory(category?.slug), query);
-  // Only the unfiltered "all categories" view mixes categories, a
-  // filtered view is already single-category throughout.
-  const displayPosts = category ? posts : interleaveByCategory(posts);
-  const totalPages = getTotalPages(displayPosts.length);
-  const currentPage = clampPage(Number(params.page ?? 1), totalPages);
-  const pagePosts = paginatePosts(displayPosts, currentPage);
+  const {
+    category,
+    query,
+    featured,
+    displayPosts,
+    totalPages,
+    currentPage,
+    pagePosts,
+  } = getBlogIndexView(await searchParams);
 
   return (
     <>
@@ -178,6 +163,12 @@ export default async function BlogPage({
             ? `${displayPosts.length} ${displayPosts.length === 1 ? "article" : "articles"} for "${query}"`
             : ""}
         </p>
+
+        {featured && (
+          <div className="mt-12">
+            <BlogFeaturedPost post={featured} />
+          </div>
+        )}
 
         {pagePosts.length > 0 ? (
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

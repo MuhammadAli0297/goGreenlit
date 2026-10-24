@@ -149,7 +149,7 @@ family. See `CLAUDE.md` (gotchas 32 to 36) for how each piece works.
 - **17** hand-built page templates across 4 distinct page families, plus
   a blog engine generating **45** long-form posts, **62** total indexed
   routes
-- **175** unit tests and a **23**-scenario Playwright end-to-end suite,
+- **181** unit tests and a **23**-scenario Playwright end-to-end suite,
   both required to pass in CI before merge, including a test that reads
   the real color tokens and fails if a pairing drops below WCAG contrast
 - **Zero** runtime animation dependencies, every motion effect is pure

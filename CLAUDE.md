@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog) is in progress (b-tile, b-hero, b-filters done).
+(Blog) is in progress (b-tile, b-hero, b-filters, b-featured done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1855,6 +1855,24 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
     phone) and carry the active query. Pagination only gained a `query` prop here,
     its restyle is b-pagination. 7 new unit tests.
 
+49. **Featured post block (2026-10-23), task b-featured.** `BlogFeaturedPost`
+    (`blog-featured-post.tsx`, server) is one wide sticker card above the grid:
+    a category-colored cover (rings, the post's own icon, a Sandy Brown "Featured
+    article" pill and the category pill) beside the date, title, full excerpt,
+    byline and a "Read the article" pill; it stacks on a phone. The whole card is
+    one link and its title is the page's first `h2`. **The featured post is
+    chosen by hand**, `FEATURED_POST_SLUG` in `blog-data.ts` (currently
+    `how-to-outsource-qa-testing`), not "newest", because five posts share
+    2026-09-15; change that one line to feature another. It shows only on page 1
+    of the plain index (no category, no search), and there it is **taken out of
+    the grid so it is not shown twice**, which makes the plain index 44 posts
+    over 5 pages. On page 2 and later the featured post is not listed, it stays
+    in its category view, in search, in the sitemap and in related links.
+    **`getBlogIndexView({category, q, page})`** in `blog-data.ts` now computes
+    category, query, featured, the display list, clamped page and the page's posts
+    for both the page and `generateMetadata`, so they cannot disagree (the
+    duplicated filter logic gotcha #23 warned about is gone). 6 new unit tests.
+
 ## Repository structure
 
 ```
@@ -2224,7 +2242,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (175 across 33 files as of 2026-10-23)
+                          (181 across 34 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 
