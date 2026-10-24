@@ -35,4 +35,15 @@ describe("StatBand", () => {
       screen.getByRole("region", { name: "Track record" }),
     ).toBeInTheDocument();
   });
+
+  it("compact renders the same four cards as a labelled group, not a region", () => {
+    render(<StatBand compact />);
+    expect(
+      screen.getByRole("group", { name: "Track record" }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("region")).toBeNull();
+    expect(
+      screen.getByText("Reduction in escaped defects"),
+    ).toBeInTheDocument();
+  });
 });

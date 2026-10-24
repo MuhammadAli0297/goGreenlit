@@ -47,11 +47,26 @@ const STAGGER_MS = 80;
  * up from 0 as its card arrives (CountUp, started with the same delay as
  * the card's Reveal) and replaying each time the band scrolls back into
  * view. The final values are in the server-rendered HTML.
+ *
+ * `compact` drops the full-width section chrome and keeps a two-column grid
+ * of the same cards, to sit inside another section (the QA Consulting
+ * overview's "signs you need this").
  */
-export function StatBand() {
+export function StatBand({ compact = false }: { compact?: boolean }) {
+  const Wrapper = compact ? "div" : "section";
   return (
-    <section aria-label="Track record" className="py-14">
-      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-5 px-4 sm:px-6 lg:grid-cols-4 lg:gap-6 lg:px-8">
+    <Wrapper
+      {...(compact ? { role: "group" } : {})}
+      aria-label="Track record"
+      className={compact ? undefined : "py-14"}
+    >
+      <div
+        className={cn(
+          "grid grid-cols-2 gap-5",
+          !compact &&
+            "mx-auto max-w-6xl px-4 sm:px-6 lg:grid-cols-4 lg:gap-6 lg:px-8",
+        )}
+      >
         {stats.map((stat, index) => (
           <Reveal key={stat.label} delay={index * STAGGER_MS}>
             <StickerCard
@@ -61,7 +76,8 @@ export function StatBand() {
             >
               <p
                 className={cn(
-                  "text-5xl leading-none font-medium tracking-[-0.04em] tabular-nums sm:text-6xl lg:text-7xl",
+                  "text-5xl leading-none font-medium tracking-[-0.04em] tabular-nums sm:text-6xl",
+                  !compact && "lg:text-7xl",
                   stat.tone === "deep" && "text-sandy",
                 )}
               >
@@ -84,6 +100,6 @@ export function StatBand() {
           </Reveal>
         ))}
       </div>
-    </section>
+    </Wrapper>
   );
 }

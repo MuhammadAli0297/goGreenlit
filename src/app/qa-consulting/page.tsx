@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  Check,
   Radar,
   ShieldCheck,
   Target,
@@ -22,6 +21,9 @@ import { Reveal } from "@/components/marketing/reveal";
 import { SectionHeading } from "@/components/marketing/section-heading";
 import { SectionIntro } from "@/components/marketing/section-intro";
 import { ServiceCard } from "@/components/marketing/service-card";
+import { CheckGrid } from "@/components/marketing/check-grid";
+import { MaturityCheck } from "@/components/marketing/maturity-check";
+import { StatBand } from "@/components/marketing/stat-band";
 import { QualityGateDemo } from "@/components/marketing/quality-gate-demo";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { siteConfig } from "@/lib/site-config";
@@ -85,6 +87,61 @@ const auditAreas = [
   { name: "Bug triage" },
   { name: "Coverage visibility", gap: true },
 ];
+
+const checkQuestions = [
+  {
+    text: "We have a written test strategy",
+    advice: {
+      title: "Start with a strategy.",
+      body: "A short test strategy decides what matters, so every later choice is easier.",
+      cta: "Test strategy consulting",
+      href: "/qa-consulting/test-strategy-consulting",
+    },
+  },
+  {
+    text: "Automated tests run on every merge",
+    advice: {
+      title: "Put tests in the pipeline.",
+      body: "Automated checks on every merge catch problems while they are cheap to fix.",
+      cta: "CI/CD quality gates",
+      href: "/qa-consulting/cicd-quality-gates",
+    },
+  },
+  {
+    text: "Every release has a clear go or no-go",
+    advice: {
+      title: "Define the release call.",
+      body: "A clear go or no-go replaces the gut feeling at the finish line.",
+      cta: "Release readiness",
+      href: "/qa-consulting/release-readiness",
+    },
+  },
+  {
+    text: "Bugs are triaged by severity, not volume",
+    advice: {
+      title: "Fix the bug process.",
+      body: "Severity-based triage keeps the team on what actually hurts users.",
+      cta: "QA process design",
+      href: "/qa-consulting/qa-process-design",
+    },
+  },
+  {
+    text: "QA joins planning, not just testing",
+    advice: {
+      title: "Bring QA to planning.",
+      body: "Earlier involvement prevents the bugs that testing can only catch late.",
+      cta: "Embedded QA team",
+      href: "/qa-consulting/embedded-qa-team",
+    },
+  },
+];
+
+const checkAllGood = {
+  title: "You are in strong shape.",
+  body: "A QA audit can confirm it and point at the last few gaps.",
+  cta: "QA audit and assessment",
+  href: "/qa-consulting/qa-audit-assessment",
+};
 
 const phases = [
   {
@@ -275,6 +332,20 @@ export default function QaConsultingPage() {
         <CompareSwitch usual={usualWay} ours={ourWay} />
       </section>
 
+      <section id="check" className="on-dark bg-deep text-navajo">
+        <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+          <SectionIntro
+            tone="dark"
+            eyebrow="The one-minute check"
+            title="Where does your QA *really* stand?"
+            description="Tick what is true today. No email required. The check points to the best place to start."
+          />
+          <div className="mt-12">
+            <MaturityCheck questions={checkQuestions} allGood={checkAllGood} />
+          </div>
+        </div>
+      </section>
+
       <section id="model" className="bg-olive border-ink border-y-[1.5px]">
         <div className="mx-auto max-w-3xl px-4 py-24 sm:px-6 lg:px-8">
           <Reveal className="text-center">
@@ -294,33 +365,16 @@ export default function QaConsultingPage() {
         </div>
       </section>
 
-      <section className="on-dark bg-deep text-navajo">
-        <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
-          <SectionIntro
-            tone="dark"
-            eyebrow="Signs you need this"
-            title="Who typically brings in a *QA consultant*"
-          />
-
-          <ul className="mt-12 grid gap-6 sm:grid-cols-2">
-            {whoNeedsIt.map((item, index) => (
-              <Reveal as="li" key={item} delay={index * 80}>
-                <StickerCard
-                  tone="navajo"
-                  interactive={false}
-                  className="flex h-full items-start gap-4 p-5 shadow-[6px_6px_0_var(--ink)]"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="border-ink bg-olive mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-full border-[1.5px]"
-                  >
-                    <Check className="size-4" />
-                  </span>
-                  <span className="text-[17px] leading-snug">{item}</span>
-                </StickerCard>
-              </Reveal>
-            ))}
-          </ul>
+      <section className="bg-navajo border-ink border-y-[1.5px]">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-24 sm:px-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-16 lg:px-8">
+          <div>
+            <SectionIntro
+              eyebrow="Signs you need this"
+              title="Who typically brings in a *QA consultant*"
+            />
+            <CheckGrid items={whoNeedsIt} columns={1} className="mt-10" />
+          </div>
+          <StatBand compact />
         </div>
       </section>
 

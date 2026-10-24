@@ -98,7 +98,7 @@ every page, the menus, the shared pieces and phone widths) and the
 progress tracker (https://claude.ai/artifact/MkU75tfmdu3vVt69E9WBiZ, 10
 phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
-Services family) are built and pushed, Phase 6 (QA Consulting family) is in progress (q-overview, the quality gate demo and the compare switch done).
+Services family) are built and pushed, Phase 6 (QA Consulting family) is in progress (q-overview, the quality gate demo, the compare switch and the maturity check done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1612,6 +1612,34 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     tests (default side, both panels in the DOM, flip with its status pill,
     arrow keys with wrap).
 
+40. **`MaturityCheck` and the stats back as cards (2026-10-23), task q-check.**
+    `maturity-check.tsx` (client) is the one-minute check on the QA Consulting
+    overview, in a deep section with `id="check"` after the compare switch. Five
+    statements, each a real `<input type="checkbox">` inside a `<label>` (the
+    input is `sr-only` with a `peer` box, so keyboard and screen readers work,
+    Space toggles, the focus ring shows on the label via `has-[:focus-visible]`).
+    **The first statement still unticked decides the advice**, so the order of
+    `questions` is the priority order, and each points at a real subpage:
+    strategy to test-strategy-consulting, CI to cicd-quality-gates, go or no-go
+    to release-readiness, triage to qa-process-design, QA in planning to
+    embedded-qa-team, and all five true to qa-audit-assessment. The tally card
+    (navajo, ink shadow, sticky on `lg`) sits after the statements in the DOM so
+    a phone reads statements first, and the tally and advice sit in a polite live
+    region. The "n of 5 true" is the visitor's own count of their answers, not a
+    claim, so the no-digits rule for demo widgets does not apply to it. Nothing
+    is stored or sent. Sampled in a real browser at 1440 and 390: ticking the
+    first two moved the advice to release readiness, Space on the third moved it
+    to process design, all five gave the audit link, bar width 0, 40, 60, 100
+    percent. **Section order** is now hero (olive), quality gate demo, compare
+    switch, check (deep), model (olive), signs (navajo), services, FAQ, CTA
+    (olive), so no two same-colored bands touch. **The four verified stats are
+    back on the page** as `StatBand compact` (a new prop on the shared band, a
+    `role="group"` two-column grid of the same four `CountUp` cards with no
+    section chrome) beside the "signs you need this" list, which became a
+    one-column `CheckGrid` on the navajo band. The homepage's full-width
+    `StatBand` is unchanged. 5 new unit tests (4 for the check, 1 for compact).
+    Still to come in Phase 6: q-carousel, q-sub, q-sub-rest, q-og, q-mobile.
+
 ## Repository structure
 
 ```
@@ -1981,7 +2009,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (141 across 26 files as of 2026-10-23)
+                          (146 across 27 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 
