@@ -206,7 +206,7 @@ export function FrameworkPicker() {
             <pre
               tabIndex={0}
               aria-label={`Example ${fw.label} test`}
-              className="font-label overflow-x-auto p-5 text-[13px] leading-[1.9] sm:p-7"
+              className="font-label overflow-x-auto p-5 text-[13px] leading-[1.9] break-words whitespace-pre-wrap sm:p-7 sm:break-normal sm:whitespace-pre"
             >
               <code className="font-label">
                 {fw.code.map((line, lineIndex) => (

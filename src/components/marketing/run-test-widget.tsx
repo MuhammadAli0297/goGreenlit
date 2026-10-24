@@ -96,7 +96,7 @@ export function RunTestWidget({
       </div>
 
       <div className="px-5 py-4">
-        <pre className="font-label overflow-x-auto">
+        <pre className="font-label overflow-x-auto break-words whitespace-pre-wrap sm:break-normal sm:whitespace-pre">
           <code className="font-label">
             {code.map((line, index) => (
               <span

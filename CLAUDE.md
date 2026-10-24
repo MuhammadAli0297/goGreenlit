@@ -1526,7 +1526,13 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     instance and sandy fails on leaf), and a six-cell result strip with one bug.
     The QA Consulting, About and blog-index families still use the old layout
     until their own phases. Rendered and viewed all 14 (each returns 200
-    `image/png`, the longest H1 fits). Still to come in
+    `image/png`, the longest H1 fits). **Phone check (390px) of the overview and Playwright page, done:** every
+    section reviewed from screenshots; no horizontal overflow, the coverage ring
+    fills on a phone (sampled 339 to 17), and the code windows in the framework
+    picker and run widget now wrap below `sm` (`whitespace-pre-wrap`, they
+    clipped their long lines before) and keep `whitespace-pre` with scrolling
+    from `sm`. Remaining small tap targets are inline text links only. Still to
+    come in
     Phase 5: coverage ring,
     device picker, the subpage template and the family OG images.
 
