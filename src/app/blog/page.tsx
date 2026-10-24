@@ -138,14 +138,18 @@ export default async function BlogPage({
       </BlogHero>
 
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        {category && (
-          <BlogCategoryHeader
-            category={category}
-            postCount={getPostsByCategory(category.slug).length}
-          />
-        )}
+        {/* Filter links scroll here, so the category header (or the search box
+            on the plain index) lands at the top of the screen, not the hero. */}
+        <div id="blog-top" className="scroll-mt-28">
+          {category && (
+            <BlogCategoryHeader
+              category={category}
+              postCount={getPostsByCategory(category.slug).length}
+            />
+          )}
 
-        <BlogSearch query={query} category={category?.slug} />
+          <BlogSearch query={query} category={category?.slug} />
+        </div>
         <div className="mt-6">
           <BlogFilterPills activeCategory={category?.slug} query={query} />
         </div>
@@ -164,13 +168,16 @@ export default async function BlogPage({
         </p>
 
         {featured && (
-          <div className="mt-12">
+          <div id="blog-list" className="mt-12 scroll-mt-28">
             <BlogFeaturedPost post={featured} />
           </div>
         )}
 
         {pagePosts.length > 0 ? (
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div
+            id={featured ? undefined : "blog-list"}
+            className="mt-12 grid scroll-mt-28 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          >
             {pagePosts.map((post, index) => (
               <BlogPostCard key={post.slug} post={post} index={index} />
             ))}

@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { StickerCard } from "@/components/brand/sticker-card";
 import type { BlogCategory } from "@/lib/blog-data";
+import { buildBlogHref } from "@/lib/blog-href";
 import { cn } from "@/lib/utils";
 
 /**
@@ -53,7 +54,7 @@ export function BlogCategoryHeader({
             {postCount} {postCount === 1 ? "article" : "articles"}
           </span>
           <Link
-            href="/blog"
+            href={buildBlogHref({ hash: "blog-top" })}
             className="font-label border-ink bg-surface text-ink hover:bg-paper relative inline-flex items-center gap-2 rounded-full border-[1.5px] px-4 py-2 text-xs tracking-wide uppercase transition-colors after:absolute after:inset-x-0 after:-inset-y-1.5"
           >
             <ArrowLeft aria-hidden="true" className="size-3.5" />

@@ -1983,6 +1983,27 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
     position was checked at 1440 and 390. **Any future in-page jump control on a
     post must use `replaceState`, not a plain hash link.**
 
+54. **Blog filter and pagination clicks scroll to the content, not the hero
+    (2026-10-23).** Next scrolls a same-page search-param navigation to the top of
+    the page, which threw readers back up past the hero on every filter or page
+    click. Fixed with anchors: filter links (`BlogFilterPills`, the category
+    header's "All articles") end in **`#blog-top`**, which sits on a wrapper
+    around the category header (when a category is active) and the search box, so
+    the category header (or the search box on the plain index) lands at the top of
+    the screen; pagination links end in **`#blog-list`**, which is the featured
+    article on page 1 of the plain index and the first row of cards everywhere
+    else (only one element carries the id). Both have `scroll-mt-28`, so the target
+    lands 112px down, just under the floating header (sampled at 1440 and 390,
+    including a second filter click with the same hash, the All articles link, and
+    pages 1, 2 and 3). `buildBlogHref` got an optional `hash`; **never pass it when
+    building a canonical** (canonicals in `generateMetadata` use `buildBlogHref`
+    without it, checked: still `/blog`). The live search's `router.replace`
+    deliberately has no hash and `scroll: false`. **The featured article stays on
+    page 1 only:** repeating one wide card above every page would cost 360px
+    (desktop) to 620px (phone) per page, repeat the same article on every
+    paginated URL, and push the older posts down, so later pages begin at the
+    first row. 2 new e2e tests (`blog-index.spec.ts`).
+
 ## Repository structure
 
 ```
@@ -2351,7 +2372,8 @@ src/lib/
 
 e2e/                      Playwright specs: home.spec.ts (8 tests),
                           navigation.spec.ts (15, added 2026-10-18) and
-                          blog-post.spec.ts (2, added 2026-10-23)
+                          blog-post.spec.ts (2) and blog-index.spec.ts (2),
+                          both added 2026-10-23
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
                           (202 across 39 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and

@@ -19,7 +19,7 @@ describe("BlogCategoryHeader", () => {
       expect(screen.getByText("9 articles")).toBeInTheDocument();
       expect(
         screen.getByRole("link", { name: "All articles" }),
-      ).toHaveAttribute("href", "/blog");
+      ).toHaveAttribute("href", "/blog#blog-top");
     },
   );
 

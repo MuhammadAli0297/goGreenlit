@@ -31,7 +31,8 @@ export function BlogPagination({
 }) {
   if (totalPages <= 1) return null;
 
-  const hrefFor = (page: number) => buildBlogHref({ category, q: query, page });
+  const hrefFor = (page: number) =>
+    buildBlogHref({ category, q: query, page, hash: "blog-list" });
 
   const isFirst = currentPage === 1;
   const isLast = currentPage === totalPages;

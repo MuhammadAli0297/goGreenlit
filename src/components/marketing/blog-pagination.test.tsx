@@ -26,11 +26,11 @@ describe("BlogPagination", () => {
     );
     expect(screen.getByRole("link", { name: "Page 1" })).toHaveAttribute(
       "href",
-      "/blog?category=test-automation&q=flaky",
+      "/blog?category=test-automation&q=flaky#blog-list",
     );
     expect(screen.getByRole("link", { name: /Next page/ })).toHaveAttribute(
       "href",
-      "/blog?category=test-automation&q=flaky&page=3",
+      "/blog?category=test-automation&q=flaky&page=3#blog-list",
     );
     expect(screen.getByRole("link", { name: /Previous page/ })).toHaveAttribute(
       "rel",
@@ -54,7 +54,7 @@ describe("BlogPagination", () => {
     ).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Previous page/ })).toHaveAttribute(
       "href",
-      "/blog?page=2",
+      "/blog?page=2#blog-list",
     );
   });
 });

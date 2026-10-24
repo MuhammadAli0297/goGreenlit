@@ -28,7 +28,7 @@ export function BlogFilterPills({
       className="flex flex-wrap items-center justify-center gap-2.5"
     >
       <Link
-        href={buildBlogHref({ q: query })}
+        href={buildBlogHref({ q: query, hash: "blog-top" })}
         aria-current={!activeCategory ? "page" : undefined}
         className={cn(pillClass, activeCategory ? "bg-ink/8" : allActiveClass)}
       >
@@ -39,7 +39,11 @@ export function BlogFilterPills({
         return (
           <Link
             key={category.slug}
-            href={buildBlogHref({ category: category.slug, q: query })}
+            href={buildBlogHref({
+              category: category.slug,
+              q: query,
+              hash: "blog-top",
+            })}
             aria-current={isActive ? "page" : undefined}
             className={cn(
               pillClass,
