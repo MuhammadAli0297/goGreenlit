@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is built (about, 404, OG cards, favicon check, sitemap check), its last commits not yet pushed.
+(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is built and pushed. Phase 9 (hardening) is in progress (z-lh done, z-devices waiting on a real phone).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -118,7 +118,7 @@ components), each later phase converts its own pages.
   (`@base-ui/react`), not Radix. See the Base UI gotcha below before you use
   `asChild` out of habit.
 - **Fonts**: Bespoke Serif (self-hosted, `next/font/local`) for everything, plus
-  JetBrains Mono (`next/font/google`, self-hosted at build time) for small
+  JetBrains Mono (a self-hosted 12KB subset through `next/font/local`, gotcha #66) for small
   uppercase labels only (`font-label`), see gotcha #32
 - **Testing**: Vitest + React Testing Library (unit), Playwright (e2e)
 - **Tooling**: ESLint (flat config), Prettier (+ `prettier-plugin-tailwindcss`),
@@ -1253,10 +1253,10 @@ signature wOF2` immediately, before variable-font support even
       switch, so the new tokens have no `.dark` values. Olive means a check
       passed, Sandy Brown means a bug was found, in every widget, and never
       by color alone (see `StatusPill`).
-    - **`font-label`** is JetBrains Mono (`next/font/google`, weights 400
-      and 500, self-hosted at build time so there is no request to Google
-      and the CSP needs no change, `preload: false` so Bespoke Serif keeps
-      the early bandwidth). Small uppercase labels, statuses and numbers
+    - **`font-label`** is JetBrains Mono (a 12KB subset self-hosted through
+      `next/font/local`, weights 400 to 500, so there is no request to Google
+      and the CSP needs no change, and it is preloaded, see gotchas #65 and
+      #66 for why). Small uppercase labels, statuses and numbers
       only. `font-mono` still points at the serif on purpose: three
       existing call sites use it (404, a homepage line, the old stat
       value), and they migrate with their pages.
@@ -2279,6 +2279,43 @@ follow` with a canonical on `/blog` (gotcha #48). **Pre-existing, not caused by
     ticker tape (`#ffe0ad` on `#777b5d`); the real stack under it is `bg-ink`
     (13:1), so it reads as a false positive from the hero's overlapping layers, but
     it was not proven, so say if you want it chased.
+66. **LCP gap closed (2026-10-23), follow-up to gotcha #65.** The redesign
+    was 0.3s slower than `main` in mobile Lighthouse (LCP 3.5s against 3.2s, FCP
+    1.2s against 0.9s) and about 240ms slower in a real throttled browser (150ms
+    RTT, 1.6Mbps, 4x CPU, FCP 1032ms against 776ms; the hero paragraph is the LCP
+    element on every page and is painted at FCP, so the gap is all render-blocking
+    bytes). Measured with five-run medians (`lhmed`, a script that runs Lighthouse
+    five times and takes the median) and a Playwright script reading paint
+    entries. **Causes found and fixed:** (1) **two stylesheets instead of one.**
+    `next/font/google` for JetBrains Mono made Turbopack split the font CSS into
+    its own file (an extra render-blocking request, Lighthouse's estimate for
+    render-blocking went from 153ms to 410ms), and the Google loader also emitted
+    12 `@font-face` rules for every script although only latin ever downloads. The
+    mono font is now self-hosted with `localFont` like Bespoke Serif, and the page
+    is back to **one** CSS file. (2) **The mono font file was 31KB**, preloaded in
+    parallel with the CSS. It is now a 12KB subset (`src/app/fonts/
+JetBrainsMono-Latin-Variable.woff2`: basic Latin and Latin-1, weight axis cut
+    to 400 to 500, no code ligatures, made with `fontTools` `subset` then
+    `instancer`, in that order, instancing first crashes the subsetter on
+    `.notdef`). The file the Google loader served had no check mark or arrow
+    glyphs either, so nothing is lost. The font has no adjusted fallback
+    (`adjustFontFallback: false`, there is no mono option), CLS was re-measured and
+    is still 0.0000 on 14 pages at 412 and 360 wide. (3) **Three unused generated
+    shadcn files** (`badge.tsx`, `card.tsx`, `navigation-menu.tsx`, nothing
+    imported them since the chrome rebuild) were still scanned by Tailwind and
+    added about 15KB of CSS (117KB to 102KB raw, 18.6KB to 17.1KB gzip); they are
+    deleted, per the rule to remove unused primitives. **Result against `main`,
+    same machine:** Lighthouse FCP 903ms equal, LCP 3205ms equal on the homepage
+    (score 0.93 both), 3359ms against 3206ms on QA Consulting (0.92 against 0.93);
+    real throttled FCP 948ms against 788ms, so about 160ms is left, from 4.7KB more
+    gzipped CSS (a 70 percent larger utility layer is the redesign itself) and
+    1.4KB more HTML, with a local server sharing bandwidth between the CSS and
+    five other downloads, which is harsher than HTTP/2 priorities on Vercel.
+    **Tried and rejected:** `experimental.inlineCss` (CSS is inlined into the HTML
+    and again into the RSC payload, the compressed page went from 19KB to 82KB and
+    LCP got worse, 3.6s); dropping the italic Bespoke preload (saves 28ms, risks a
+    font swap in the hero `<em>`); dropping the mono preload (saves about 50ms but
+    brings back the 0.19 breadcrumb shift of gotcha #65).
 
 ## Repository structure
 
@@ -2455,12 +2492,8 @@ src/components/
                           accordion.tsx is Base UI's, its Header part
                           renders an `<h3>` around the trigger button by
                           default, don't add a separate heading yourself.
-                          navigation-menu.tsx is Base UI's too, used for
-                          the header's Services dropdown, its Link part
-                          takes a `render` prop the same as other Base UI
-                          polymorphic components, safe to point at
-                          `next/link` directly (see gotcha #2, that only
-                          warns about Button, not Link-to-Link).
+                          (badge, card and navigation-menu were removed 2026-10-23, gotcha #66,
+                          nothing imported them.)
   brand/                  Live Build primitives (added 2026-10-18, gotcha
                            #32), outside ui/ because ui/ is shadcn-generated:
                            cta-variants.ts (`ctaVariants`, pill buttons with

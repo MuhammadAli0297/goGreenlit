@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
 
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -27,16 +26,28 @@ const bespokeSerif = localFont({
 });
 
 // The one new typeface of the Live Build redesign, used only for small
-// uppercase labels, statuses and numbers (the `font-label` utility).
-// next/font self-hosts it at build time, so there is no request to Google
-// and the CSP needs no change. Preloaded on purpose: the breadcrumb row is
-// mono and wraps differently in the fallback font, so a late swap shifted
-// every page below it (CLS 0.19 on the QA Consulting subpages, gotcha #65).
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
+// uppercase labels, statuses and numbers (the `font-label` utility). It is
+// a 12KB subset of JetBrains Mono (basic and Latin-1 characters, arrows,
+// the weight axis cut to 400 to 500, no code ligatures, OFL licence) self-hosted next to Bespoke Serif instead of loaded through
+// `next/font/google`: the Google loader emitted a face for every script
+// (cyrillic, greek and more, about 3KB of CSS for files that never load) and
+// put the font CSS in a second stylesheet, an extra render-blocking request.
+// Preloaded on purpose: the breadcrumb row is mono and wraps differently in
+// the fallback font, so a late swap shifted every page below it (gotcha #65).
+const jetbrainsMono = localFont({
+  src: "./fonts/JetBrainsMono-Latin-Variable.woff2",
+  weight: "400 500",
+  style: "normal",
   variable: "--font-jetbrains-mono",
   display: "swap",
+  adjustFontFallback: false,
+  fallback: [
+    "ui-monospace",
+    "SFMono-Regular",
+    "Menlo",
+    "Consolas",
+    "monospace",
+  ],
 });
 
 export const metadata: Metadata = {
