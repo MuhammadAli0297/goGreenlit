@@ -1828,26 +1828,32 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
     is also on the aurora layer, so select the chips by `.lb-float`, not by that
     class. 3 new unit tests.
 
-48. **Blog search and filter pills (2026-10-23), task b-filters.** Search is a
-    **`?q=` query param on a plain GET form**, not a client component:
-    `BlogSearch` (`blog-search.tsx`, a Server Component) is a `role="search"`
-    form to `/blog` with a labelled `q` field, a hidden `category` field when a
-    category is active, and a Clear link. It works with scripts off, every
-    result is a shareable URL, and it matches how filters and pagination
-    already work. `searchPosts()` and `normalizeSearchQuery()` in `blog-data.ts`
-    match every word (case-insensitive) against title, excerpt, category label
-    and section headings (not whole bodies, to avoid stray-word noise); input is
-    trimmed and capped at 80 characters. **`buildBlogHref({category, q, page})`**
-    (`src/lib/blog-href.ts`) is now the one place that builds blog index URLs, in
-    fixed param order, used by the pills, the pagination and the search.
-    **SEO:** a search view is `noindex, follow` with its canonical pointing at
-    the bare `/blog` or the category view it narrows, so endless query URLs never
-    enter the index; category and page canonicals (gotchas #23, #29) are
-    unchanged. A polite `role="status"` line reports the result count. The
-    filter pills were restyled (mono label, ink outline, active pill ink fill with
-    a sandy offset edge, the category's swatch as a dot, 44px tall on a phone) and
-    carry the active query. Pagination only gained a `query` prop here, its
-    restyle is b-pagination. 6 new unit tests.
+48. **Blog live search and filter pills (2026-10-23), task b-filters.** Search
+    is a **`?q=` query param kept as the source of truth**, with a small client
+    component on top: `BlogSearch` (`blog-search.tsx`) updates the URL as you type
+    (250ms debounce, then `router.replace(buildBlogHref({category, q}))`,
+    `scroll: false`) and the server re-renders the matching posts, so there is no
+    client copy of the post data and every result is a shareable URL. `replace`,
+    not `push`, so typing does not add a history entry per letter (sampled: history
+    stayed at 2 after ten keystrokes). The input is controlled, follows the URL
+    only when it changes from outside (back button, a pill that dropped the
+    search) via `lastSent`, and keeps focus while the page re-renders. It is still
+    a real `role="search"` GET form, so Enter works with scripts off, and there is
+    no Search button. Clear is a button that empties the box and keeps focus.
+    `searchPosts()` and `normalizeSearchQuery()` match every word
+    (case-insensitive) against title, excerpt, category label and section
+    headings, not whole bodies. **Gotcha:** the client component must not import
+    `blog-data.ts` (45 post bodies would ship to the browser), so
+    `normalizeSearchQuery`, `MAX_SEARCH_LENGTH` and **`buildBlogHref`**
+    live in `src/lib/blog-href.ts` (pure, used by the pills, pagination and
+    search) and `blog-data.ts` re-exports them. **SEO:** a search view is
+    `noindex, follow` with its canonical on the bare `/blog` or the category view
+    it narrows, so query URLs never enter the index; category and page canonicals
+    (gotchas #23, #29) are unchanged. A polite `role="status"` line reports the
+    result count. The filter pills were restyled (mono label, ink outline, active
+    pill ink fill with a sandy offset edge, the category swatch as a dot, 44px on a
+    phone) and carry the active query. Pagination only gained a `query` prop here,
+    its restyle is b-pagination. 7 new unit tests.
 
 ## Repository structure
 
@@ -2218,7 +2224,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (174 across 33 files as of 2026-10-23)
+                          (175 across 33 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 

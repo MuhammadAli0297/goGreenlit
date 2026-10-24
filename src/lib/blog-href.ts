@@ -19,3 +19,11 @@ export function buildBlogHref({
   const qs = params.toString();
   return qs ? `/blog?${qs}` : "/blog";
 }
+
+export const MAX_SEARCH_LENGTH = 80;
+
+/** Trim, collapse whitespace and cap the length of a raw `?q=` value. */
+export function normalizeSearchQuery(raw: string | undefined): string {
+  if (!raw) return "";
+  return raw.replace(/\s+/g, " ").trim().slice(0, MAX_SEARCH_LENGTH);
+}

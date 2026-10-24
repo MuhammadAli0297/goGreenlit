@@ -1,3 +1,4 @@
+import { normalizeSearchQuery } from "@/lib/blog-href";
 import type { LucideIcon } from "lucide-react";
 import {
   Accessibility,
@@ -6196,14 +6197,6 @@ export function paginatePosts(posts: BlogPost[], page: number): BlogPost[] {
   return posts.slice(start, start + POSTS_PER_PAGE);
 }
 
-export const MAX_SEARCH_LENGTH = 80;
-
-/** Trim, collapse whitespace and cap the length of a raw `?q=` value. */
-export function normalizeSearchQuery(raw: string | undefined): string {
-  if (!raw) return "";
-  return raw.replace(/\s+/g, " ").trim().slice(0, MAX_SEARCH_LENGTH);
-}
-
 /**
  * Keeps the posts that match every word of the query (case-insensitive) in
  * the title, excerpt, category label or any section heading. Post bodies
@@ -6230,3 +6223,5 @@ export function searchPosts(posts: BlogPost[], query: string): BlogPost[] {
     return terms.every((term) => haystack.includes(term));
   });
 }
+
+export { MAX_SEARCH_LENGTH, normalizeSearchQuery } from "@/lib/blog-href";
