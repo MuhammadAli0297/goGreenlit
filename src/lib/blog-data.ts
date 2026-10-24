@@ -1,3 +1,4 @@
+import type { VerifiedStatKey } from "@/lib/verified-stats";
 import { normalizeSearchQuery } from "@/lib/blog-href";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -134,6 +135,12 @@ export const blogCategories: BlogCategory[] = [
 
 export type BlogContentBlock =
   | { type: "paragraph"; text: string }
+  /** The post's direct answer, shown in a highlighted box. Put it right under the question heading (gotcha #15), same words as the plain paragraph it replaces. */
+  | { type: "answer"; text: string }
+  /** A callout for one of the four verified stats, by key (never a free-typed number). `note` says where it comes from and may carry `[label](/path)` links. */
+  | { type: "stat"; stat: VerifiedStatKey; note: string }
+  /** A flagged list of warning signs, shown as a bug-toned card. */
+  | { type: "redflags"; items: string[]; title?: string }
   | { type: "heading"; text: string }
   | { type: "subheading"; text: string }
   | { type: "list"; items: string[] };
@@ -194,7 +201,7 @@ export const blogPosts: BlogPost[] = [
         text: "What does outsourcing QA testing actually mean?",
       },
       {
-        type: "paragraph",
+        type: "answer",
         text: "Outsourcing QA testing means hiring an outside engineer or team to plan, execute, and report on the testing your product needs, instead of building that function in-house. It ranges from a single contractor testing one release to an embedded team that joins your sprints and owns the process end to end, and the model you choose matters more than the label attached to it.",
       },
       {
@@ -234,6 +241,11 @@ export const blogPosts: BlogPost[] = [
         text: "The engagements that pay for themselves are the ones that reduce what reaches production, since a bug caught in a sprint costs a conversation and a bug caught by a customer costs a support ticket, an engineer's context switch, and a slower release cycle while the team second-guesses itself. Across the embedded engagements we have run, teams have seen escaped defects drop by 45%, which is a reasonable number to model against if you do not yet have a baseline of your own. Track your current escape rate for a release or two before you outsource anything, so you have a real before-and-after number instead of someone else's average standing in for your product.",
       },
       {
+        type: "stat",
+        stat: "escapedDefects",
+        note: "The result across the embedded engagements we have run, written up in [how we reduced escaped defects](/blog/how-we-reduced-escaped-defects).",
+      },
+      {
         type: "heading",
         text: "In-house, outsourced, or a hybrid: which fits your stage?",
       },
@@ -270,7 +282,7 @@ export const blogPosts: BlogPost[] = [
       },
       { type: "heading", text: "Red flags that predict a bad engagement" },
       {
-        type: "list",
+        type: "redflags",
         items: [
           "Reporting arrives as a summary at the end of the sprint instead of visible in real time",
           "The engagement requires a 6 or 12 month contract before either side has proven anything works",

@@ -1,3 +1,8 @@
+import {
+  AnswerBox,
+  RedFlags,
+  StatCallout,
+} from "@/components/marketing/blog-callouts";
 import { renderWithInlineLinks } from "@/components/marketing/inline-links";
 import type { BlogContentBlock } from "@/lib/blog-data";
 import { buildToc } from "@/lib/blog-toc";
@@ -28,6 +33,22 @@ export function ArticleBody({ blocks }: { blocks: BlogContentBlock[] }) {
               >
                 {block.text}
               </h3>
+            );
+          }
+
+          if (block.type === "answer") {
+            return <AnswerBox key={index} text={block.text} />;
+          }
+
+          if (block.type === "stat") {
+            return (
+              <StatCallout key={index} stat={block.stat} note={block.note} />
+            );
+          }
+
+          if (block.type === "redflags") {
+            return (
+              <RedFlags key={index} items={block.items} title={block.title} />
             );
           }
 

@@ -1,43 +1,10 @@
 import { StickerCard } from "@/components/brand/sticker-card";
 import { CountUp } from "@/components/marketing/count-up";
 import { Reveal } from "@/components/marketing/reveal";
+import { verifiedStats } from "@/lib/verified-stats";
 import { cn } from "@/lib/utils";
 
-type Stat = {
-  value: number;
-  prefix?: string;
-  suffix?: string;
-  label: string;
-  tone: "surface" | "sandy" | "olive" | "deep";
-};
-
-/**
- * The site's verified track-record numbers. These four and no others, see
- * BRAND_GUIDELINES.md section 2 and CLAUDE.md gotcha #16: a new number needs
- * a real source before it goes here.
- */
-const stats: Stat[] = [
-  {
-    value: 18,
-    suffix: "+",
-    label: "Years combined QA experience",
-    tone: "surface",
-  },
-  {
-    value: 45,
-    suffix: "%",
-    label: "Reduction in escaped defects",
-    tone: "sandy",
-  },
-  { value: 95, suffix: "%", label: "Release coverage achieved", tone: "olive" },
-  {
-    value: 1,
-    prefix: "$",
-    suffix: "B+",
-    label: "In revenue supported",
-    tone: "deep",
-  },
-];
+const stats = Object.values(verifiedStats);
 
 /** Stagger between cards, the site's usual Reveal step. */
 const STAGGER_MS = 80;

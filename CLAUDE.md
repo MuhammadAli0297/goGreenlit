@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog) is in progress (b-tile, b-hero, b-filters, b-featured, b-category, b-pagination, b-post, b-toc done).
+(Blog) is in progress (b-tile, b-hero, b-filters, b-featured, b-category, b-pagination, b-post, b-toc, b-callouts done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -395,7 +395,7 @@ sheet.tsx`, Base UI's `Dialog` under the hood, added via
    state, both deliberate.** MDX was tried and removed earlier in this
    project (see the memory record if curious), so post bodies are plain
    data in `src/lib/blog-data.ts`: a `BlogContentBlock` union (paragraph/
-   heading/subheading/list) rendered by the dumb `ArticleBody` mapper,
+   heading/subheading/list, plus the answer/stat/redflags callouts of gotcha #55) rendered by the dumb `ArticleBody` mapper,
    keeping every post a Server Component. `heading` renders as `<h2>`,
    `subheading` as `<h3>` (added 2026-08-16 alongside gotcha #15's SEO
    structure, use it for sub-topics inside a long section rather than
@@ -2004,6 +2004,35 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
     paginated URL, and push the older posts down, so later pages begin at the
     first row. 2 new e2e tests (`blog-index.spec.ts`).
 
+55. **Article callouts (2026-10-23), task b-callouts.** Three new
+    `BlogContentBlock` types, still plain data in a post's `body` (no MDX, gotcha
+    #9), rendered by `ArticleBody` through `blog-callouts.tsx` (server
+    components, no motion):
+    - **`{ type: "answer", text }` renders `AnswerBox`**: the post's direct answer
+      (gotcha #15) in a Navajo White sticker with a mono "The short answer" label.
+      It replaces the plain paragraph directly under the question H2 with the
+      **same words**, so the snippet-shaped answer stays right there in the markup.
+      A unit test fails if an `answer` block is not directly under a `heading`.
+    - **`{ type: "stat", stat, note }` renders `StatCallout`**: `stat` is a
+      `VerifiedStatKey` (`experience`, `escapedDefects`, `coverage`, `revenue`),
+      **never a typed number**, so an invented figure will not type-check. The four
+      stats moved to **`src/lib/verified-stats.ts`** (with `formatVerifiedStat`),
+      shared with `StatBand`, which now maps over them. The card uses the stat's
+      own band color, the `note` says where it comes from and takes `[label](/path)`
+      links (link it to the real case study post, gotcha #17).
+    - **`{ type: "redflags", items, title? }` renders `RedFlags`**: a Sandy Brown
+      tinted card with the bug `StatusPill` ("Red flags", an icon and a word, never
+      color alone) and a flag marker per item, still a real `ul` with inline links.
+      **Shown on one post, `how-to-outsource-qa-testing`:** the answer under its
+      first H2, the 45% stat callout after the escaped defects paragraph (linking
+      `/blog/how-we-reduced-escaped-defects`, the claim was already in that
+      paragraph), and its red flags list. **No post copy, heading, title, excerpt or
+      JSON-LD changed** (the 45% claim was already in the post, the callout only
+      repeats it with its source). The other 44 posts are untouched and can adopt a
+      block by editing their data; a post that earns a callout should follow
+      gotcha #15's unique-angle rule. Checked in a real browser at 1440 and 390, no
+      overflow, one `h1`. 9 new unit tests.
+
 ## Repository structure
 
 ```
@@ -2375,7 +2404,7 @@ e2e/                      Playwright specs: home.spec.ts (8 tests),
                           blog-post.spec.ts (2) and blog-index.spec.ts (2),
                           both added 2026-10-23
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (202 across 39 files as of 2026-10-23)
+                          (211 across 40 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 
