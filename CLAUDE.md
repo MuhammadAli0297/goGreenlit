@@ -1420,10 +1420,13 @@ slide-in-from-right-8`, staggered by index) each time it opens.
       stickers, **below `lg` they are not rendered** so the hero stays
       exactly one viewport on a phone (gotcha #20 still holds, re-measured
       at 1440x900 and 390x844). Terminal lines carry no numbers.
-    - **`WhatWeTestMarquee`**: one `lb-marquee-track` holding two identical
-      rows, the track slides by 50% so each row must carry its own spacing
-      (`gap-0! pr-0!` on the track, `gap-3.5 pr-3.5` on the rows), otherwise
-      the loop jumps. The second row is `aria-hidden`.
+    - **`WhatWeTestMarquee`**: an ink ticker tape (mono capitals, an olive
+      tick or a sandy flag before each topic, no pills; chosen from five
+      options, the first pill version read as a widget and not premium). One
+      `lb-marquee-track` holds two identical rows, the track slides by 50%
+      so each row must carry its own spacing (`gap-0! pr-0!` on the track,
+      `pr-7` on rows and items), otherwise the loop jumps. The second row is
+      `aria-hidden`.
     - **`ServiceExplorer`** (client): ARIA tabs for Manual, Playwright, API
       and data, Regression, with arrow/Home/End keys and a roving tabindex.
       **All four panels are in the server HTML**, inactive ones only
