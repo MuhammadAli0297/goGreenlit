@@ -98,7 +98,7 @@ every page, the menus, the shared pieces and phone widths) and the
 progress tracker (https://claude.ai/artifact/MkU75tfmdu3vVt69E9WBiZ, 10
 phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
-Services family) are built and pushed, Phase 6 (QA Consulting family) is in progress (q-overview, the quality gate demo, the compare switch, the maturity check and the carousel done).
+Services family) are built and pushed, Phase 6 (QA Consulting family) is in progress (q-overview, the quality gate demo, the compare switch, the maturity check, the carousel and the first subpage done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1667,6 +1667,37 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     unit tests. `ServiceCard` is unchanged and still used by the subpages.
     Still to come in Phase 6: q-sub, q-sub-rest, q-og, q-mobile.
 
+42. **QA Consulting subpage template, set on Embedded QA team (2026-10-23),
+    task q-sub. The other five subpages copy it next (q-sub-rest).** Same shape
+    as the Services template (gotcha #36) in the Muted Olive family: olive
+    `PageHero` with a widget `aside`, `SectionIntro` eyebrows, `CheckGrid`,
+    static `CompareColumns` (the switch is overview only, gotcha #39), an olive
+    `PhaseTimeline` band with a `border-y` ink rule, a `DeepBand` for the
+    three engagement models, FAQ via `SectionIntro align="center"`,
+    `RelatedLinks`, `CtaSection tone="olive"`. Every heading's words are
+    unchanged (the asterisks only mark the italic accent), metadata and badge
+    (33 characters, one line) too. **The week widget is the hero aside, not its
+    own section as in the canvas**, to match how the Services subpages carry a
+    hero widget; say so if it should move below the hero. **`WeekPicker`**
+    (`week-picker.tsx`, client): five ARIA day tabs (full day names as
+    `aria-label`, arrow keys, Home and End through `useTabs`) swapping what an
+    embedded engineer does that day. **All five panels are in the server HTML,
+    stacked in one grid cell** with the inactive ones `invisible opacity-0` and
+    `aria-hidden`, so the card keeps the height of the tallest day (sampled 476px
+    on every day at 1440, 478 at 390) and the hero never jumps, which a plain
+    `hidden` panel would cause. The panel cross-fades in about 200ms (sampled
+    opacity 0, 0.34, 0.86, 0.99). It is an example rhythm with no numbers or
+    times (a unit test fails on any digit). **The mockup's "first 30 days"
+    timeline was not used**: its schedule (week one, weeks two and three, week
+    four's first release gate) is new claims, the real discovery call, week one
+    ramp and sprint participation phases stay. Contractions removed from body
+    copy and from the FAQ answer ("We do not introduce"), which changes that
+    FAQPage answer text, as before. **Screenshot gotcha:** a full-page capture
+    without scrolling shows every `Reveal` section blank, set
+    `emulateMedia({ reducedMotion: "reduce" })` first. 4 new unit tests. Copy
+    already on the page that is not one of the four verified stats: "a 30
+    minute conversation", "under about 30 engineers", "30 days notice".
+
 ## Repository structure
 
 ```
@@ -2036,7 +2067,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (149 across 28 files as of 2026-10-23)
+                          (153 across 29 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 

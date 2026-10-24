@@ -1,21 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CalendarCheck, CheckCircle2, Clock, Milestone } from "lucide-react";
+import { CalendarCheck, Clock, Milestone } from "lucide-react";
 
+import { ctaVariants } from "@/components/brand/cta-variants";
+import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
+import { CheckGrid } from "@/components/marketing/check-grid";
 import { CompareColumns } from "@/components/marketing/compare-columns";
 import { CtaSection } from "@/components/marketing/cta-section";
+import { DeepBand } from "@/components/marketing/deep-band";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
-import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PhaseTimeline } from "@/components/marketing/phase-timeline";
 import { RelatedLinks } from "@/components/marketing/related-links";
 import { Reveal } from "@/components/marketing/reveal";
-import { ServiceCard } from "@/components/marketing/service-card";
-import { buttonVariants } from "@/components/ui/button";
+import { SectionIntro } from "@/components/marketing/section-intro";
+import { WeekPicker } from "@/components/marketing/week-picker";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
-import { cn } from "@/lib/utils";
 
 const title = "Embedded QA Team";
 const description =
@@ -41,6 +43,65 @@ export const metadata: Metadata = {
   },
 };
 
+const week = [
+  {
+    label: "Mon",
+    name: "Monday",
+    kicker: "Plan",
+    title: "Sprint planning",
+    body: "QA reads every ticket before work starts and flags what could go wrong.",
+    items: [
+      "Acceptance rules clarified",
+      "Risks flagged early",
+      "Test approach agreed",
+    ],
+  },
+  {
+    label: "Tue",
+    name: "Tuesday",
+    kicker: "Test",
+    title: "Testing as features land",
+    body: "Features are tested the day they are ready, not the night before release.",
+    items: [
+      "Exploratory sessions",
+      "Bugs with repro steps",
+      "Fast feedback to developers",
+    ],
+  },
+  {
+    label: "Wed",
+    name: "Wednesday",
+    kicker: "Automate",
+    title: "Protect what matters",
+    body: "Stable flows become automated checks that run in your pipeline.",
+    items: [
+      "New regression checks",
+      "Flaky tests repaired",
+      "CI results reviewed",
+    ],
+  },
+  {
+    label: "Thu",
+    name: "Thursday",
+    kicker: "Triage",
+    title: "Bug triage",
+    body: "Together we decide what blocks, what waits, and what to ignore.",
+    items: [
+      "Severity set with evidence",
+      "Blockers named",
+      "Backlog kept honest",
+    ],
+  },
+  {
+    label: "Fri",
+    name: "Friday",
+    kicker: "Release",
+    title: "Go or no-go",
+    body: "A short, plain report tells you whether the release is ready.",
+    items: ["Coverage summary", "Open risks listed", "Clear recommendation"],
+  },
+] as const;
+
 const inPractice = [
   "Joins sprint planning, standup, review, and retro like any other engineer on the team",
   "Gets the same tool access as your developers: repo, CI, and issue tracker, from day one",
@@ -56,7 +117,7 @@ const testingFactory = [
 ];
 
 const embeddedEngineer = [
-  "Exercises judgment on what's actually worth testing and why",
+  "Exercises judgment on what is actually worth testing and why",
   "Sits in planning, so testing reflects real product context",
   "Flags process gaps, not just failed test cases",
 ];
@@ -119,7 +180,7 @@ const faqs = [
   {
     question: "Will an embedded engineer work inside our existing tools?",
     answer:
-      "Yes. Jira, Linear, Slack, GitHub, whatever your team already uses. We don't introduce a separate system you have to check.",
+      "Yes. Jira, Linear, Slack, GitHub, whatever your team already uses. We do not introduce a separate system you have to check.",
   },
   {
     question: "What happens if we need to pause or end the engagement?",
@@ -163,77 +224,49 @@ export default function EmbeddedQaTeamPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
+        tone="olive"
         badge="A QA engineer who joins your team"
-        description="Most outsourced QA sits outside your sprint and hands defects back on its own schedule. GoGreenlit embeds a QA engineer directly into your ceremonies, standups, planning, and retros, so testing runs on your team's clock, not a vendor's."
+        description="Most outsourced QA sits outside your sprint and hands defects back on its own schedule. GoGreenlit embeds a QA engineer directly into your ceremonies, standups, planning, and retros, so testing runs on your team’s clock, not a vendor’s."
+        aside={<WeekPicker days={week} className="lg:rotate-[1.5deg]" />}
         ctas={
           <>
             <Link
               href={siteConfig.links.calendar}
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "bg-[#ee9e58] text-[#354639] hover:bg-[#ee9e58]/85",
-              )}
+              className={ctaVariants({ variant: "cta", size: "xl" })}
             >
-              Book a call
+              Book a call <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
               href="#in-practice"
-              className={cn(
-                buttonVariants({ size: "lg", variant: "outline" }),
-                "border-[#ffe0ad]/30 bg-transparent text-[#ffe0ad] hover:bg-[#ffe0ad]/10 hover:text-[#ffe0ad]",
-              )}
+              className={ctaVariants({ variant: "outline", size: "xl" })}
             >
               See how it works
             </Link>
           </>
         }
       >
-        Embedded QA teams that work{" "}
-        <span className="aurora-glow inline-block animate-[glow-pulse_3.5s_ease-in-out_infinite] rounded-md bg-[#ee9e58] px-2 py-2 leading-[1.2] text-[#354639]">
-          inside your sprint
-        </span>
+        Embedded QA teams that work <em>inside your sprint</em>
       </PageHero>
 
       <section
         id="in-practice"
-        className="mx-auto max-w-6xl scroll-mt-16 px-4 py-20 sm:px-6 lg:px-8"
+        className="mx-auto max-w-6xl scroll-mt-16 px-4 py-24 sm:px-6 lg:px-8"
       >
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            What embedded QA looks like in practice
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            Not a vendor waiting on a status update, a member of the team who
-            happens to specialize in testing.
-          </p>
-        </div>
-
-        <Reveal
-          as="div"
-          className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-2"
-        >
-          <ul className="col-span-full grid gap-4 sm:grid-cols-2">
-            {inPractice.map((item) => (
-              <li key={item} className="flex gap-3">
-                <CheckCircle2 className="text-primary mt-0.5 size-5 shrink-0" />
-                <span className="text-foreground/90 text-sm">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+        <SectionIntro
+          eyebrow="In practice"
+          title="What embedded QA looks like in *practice*"
+          description="Not a vendor waiting on a status update, a member of the team who happens to specialize in testing."
+        />
+        <CheckGrid items={inPractice} className="mt-12" />
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            Embedded QA vs a testing factory
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            The difference isn&rsquo;t effort, it&rsquo;s whether the person
-            testing your product understands why it was built that way.
-          </p>
-        </div>
-
+      <section className="mx-auto max-w-6xl px-4 pb-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          align="center"
+          eyebrow="The difference"
+          title="Embedded QA vs a *testing factory*"
+          description="The difference is not effort, it is whether the person testing your product understands why it was built that way."
+        />
         <CompareColumns
           leftTitle="A testing factory"
           leftItems={testingFactory}
@@ -244,41 +277,35 @@ export default function EmbeddedQaTeamPage() {
 
       <section
         id="how-it-works"
-        className="border-border/60 scroll-mt-16 border-t bg-[#b1c680]"
+        className="bg-olive border-ink scroll-mt-16 border-y-[1.5px]"
       >
-        <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-foreground text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              How an embedded engagement starts
+        <div className="mx-auto max-w-3xl px-4 py-24 sm:px-6 lg:px-8">
+          <Reveal className="text-center">
+            <p className="font-label text-xs tracking-widest uppercase">
+              How it starts
+            </p>
+            <h2 className="mt-4 text-4xl leading-[1.05] font-medium tracking-[-0.03em] text-balance sm:text-5xl [&_em]:font-normal [&_em]:italic">
+              How an embedded engagement <em>starts</em>
             </h2>
-          </div>
+          </Reveal>
 
           <PhaseTimeline phases={phases} />
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            Engagement models
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            Determined on the discovery call, based on your team size and
-            release cadence, not a fixed package.
-          </p>
-        </div>
+      <DeepBand
+        eyebrow="Engagement models"
+        title="Engagement *models*"
+        description="Determined on the discovery call, based on your team size and release cadence, not a fixed package."
+        items={engagementModels}
+      />
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-3">
-          {engagementModels.map((model, index) => (
-            <ServiceCard key={model.title} {...model} index={index} />
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <h2 className="text-center text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Frequently asked questions
-        </h2>
+      <section className="mx-auto max-w-3xl px-4 py-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          align="center"
+          eyebrow="Questions"
+          title="Frequently asked *questions*"
+        />
 
         <div className="mt-12">
           <FaqAccordion faqs={faqs} />
@@ -290,8 +317,9 @@ export default function EmbeddedQaTeamPage() {
       />
 
       <CtaSection
-        title="Ready to add a QA engineer to your actual sprint?"
-        description="Tell us about your team size and release cadence. We'll scope an embedded engagement in one call."
+        tone="olive"
+        title="Ready to add a QA engineer to *your actual sprint?*"
+        description="Tell us about your team size and release cadence. We will scope an embedded engagement in one call."
       />
     </>
   );
