@@ -55,25 +55,11 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.metaDescription,
     siteName: siteConfig.name,
-    images: [
-      {
-        url: siteConfig.ogImage,
-        width: siteConfig.ogImageWidth,
-        height: siteConfig.ogImageHeight,
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.metaDescription,
-    images: [
-      {
-        url: siteConfig.ogImage,
-        width: siteConfig.ogImageWidth,
-        height: siteConfig.ogImageHeight,
-      },
-    ],
   },
 };
 

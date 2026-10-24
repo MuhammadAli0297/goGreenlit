@@ -141,8 +141,8 @@ image file) plus a regenerated `src/app/favicon.ico`: a Dark Slate Grey
 section already use, with a Sandy Brown (`#ee9e58`) circle and a soft
 Navajo-White-tinted halo at its center, the same ring device as the header
 wordmark's dot, just without the wordmark text (illegible at 16-32px).
-Generated the same way as `og-image.png` (see the codebase engineering
-guide's OG image gotcha), code-rendered from the real brand tokens rather
+Generated in code like the OG cards (see the codebase engineering
+guide's OG image gotchas), code-rendered from the real brand tokens rather
 than exported from a design tool. This is still an interim, code-first
 mark, not the "when a real logo is commissioned" deliverable below, a
 professional pass should still revisit it, but the icon set is no longer

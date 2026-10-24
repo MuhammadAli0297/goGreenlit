@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is in progress (a-about and a-404 done).
+(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is in progress (a-about, a-404 and a-og done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -523,8 +523,9 @@ sheet.tsx`, Base UI's `Dialog` under the hood, added via
     should follow the same shape: a module-level (or in-body, for
     `[slug]`-style dynamic routes) `breadcrumbItems` array feeding both
     calls, never a bespoke visible trail.
-13. **`public/og-image.png` is generated, not designed in an external
-    tool.** It's a screenshot of real HTML/CSS styled to match the
+13. **(Superseded 2026-10-23 by gotcha #62: `public/og-image.png` is deleted and
+    the homepage card is code-rendered.) `public/og-image.png` was generated, not
+    designed in an external tool.** It's a screenshot of real HTML/CSS styled to match the
     homepage hero exactly (same `#354639` background, the same static
     aurora blob composition, the real wordmark, the real `ship fast`
     highlight chip, and the actual self-hosted Bespoke Serif variable
@@ -2196,6 +2197,28 @@ follow` with a canonical on `/blog` (gotcha #48). **Pre-existing, not caused by
     and links. Metadata title "Page not found" (Next adds noindex on a 404).
     `error.tsx` is not restyled. Checked at 1440 and 390, no overflow. 2 new unit
     tests.
+62. **Homepage and About OG cards (2026-10-23), task a-og.** The static
+    `public/og-image.png` (and `siteConfig.ogImage`, `ogImageWidth`,
+    `ogImageHeight`, and the `images` arrays in `layout.tsx`'s `openGraph` and
+    `twitter`) are **gone**: the homepage card is now code-rendered like every
+    other, `src/app/opengraph-image.tsx` and `twitter-image.tsx` (Next's file
+    convention emits the tags, with an `alt`). Both cards live in
+    `src/lib/brand-og-cards.tsx`: **home** is Dark Slate Grey with the hero's
+    glows, the real H1 ("Embedded QA teams for startups that ship fast", "ship
+    fast" in Sandy Brown; the mockup's "Ship fast. Skip the escaped bugs." was not
+    used, same reason as the hero), a top-right label and a Green pill; **About**
+    (the `about` family in `buildMarketingOgElement` now routes there, the old
+    generic fallback and `FAMILY_STYLES` were deleted) is Paper with ink type, a
+    Sandy Brown underline under "watching bugs ship" (a border under each word,
+    Satori has no text-decoration on flex items), both founders' initials from
+    `founders.ts` and "Chicago-based, remote-first, founder-led". **Gotcha:**
+    Satori returned an empty reply (a crash, curl exit 52) when the helpers were
+    React function components that return arrays; call them as plain functions
+    (`{words(...)}`), as the blog cards do. Every family OG card now uses the new
+    layout. The H1 and accent are passed in each `opengraph-image.tsx` and
+    `twitter-image.tsx` (edit both). Rendered all four routes: 200 `image/png`, the
+    Twitter image is byte-identical to the Open Graph one, and the homepage head now
+    lists `/opengraph-image?hash` and `/twitter-image?hash`. 2 new unit tests.
 
 ## Repository structure
 
@@ -2569,17 +2592,14 @@ e2e/                      Playwright specs: home.spec.ts (8 tests),
                           blog-post.spec.ts (2) and blog-index.spec.ts (2),
                           both added 2026-10-23
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (225 across 44 files as of 2026-10-23)
+                          (227 across 45 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 
-public/                   Static assets served as-is. og-image.png (1200x630,
-                           the sitewide OG/Twitter card image referenced by
-                           siteConfig.ogImage) is generated, not hand-designed,
-                           see gotcha #13 before touching it. That's the only
-                           file here, favicon.ico and the icon/apple-icon
-                           generators live in src/app/ instead (Next's app
-                           icon convention requires it, see gotcha #14).
+public/                   Static assets served as-is. Empty of images now: the
+                           homepage OG card is `src/app/opengraph-image.tsx`
+                           (gotcha #62), and favicon.ico and the icon/apple-icon
+                           generators live in src/app/ (gotcha #14).
 ```
 
 ## Coding standards
