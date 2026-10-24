@@ -98,7 +98,7 @@ every page, the menus, the shared pieces and phone widths) and the
 progress tracker (https://claude.ai/artifact/MkU75tfmdu3vVt69E9WBiZ, 10
 phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
-Services family) are built and pushed, Phase 6 (QA Consulting family) is next.
+Services family) are built and pushed, Phase 6 (QA Consulting family) is in progress (q-overview done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1535,6 +1535,29 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     come in
     Phase 5: coverage ring,
     device picker, the subpage template and the family OG images.
+
+37. **QA Consulting overview rebuilt (2026-10-23), task q-overview of Phase 6.**
+    `qa-consulting/page.tsx` now reads: Muted Olive `PageHero` (`tone="olive"`,
+    `<em>` accent in ink, no `aside` yet) / `StatBand` / "Two ways to run QA"
+    via `SectionIntro` plus `CompareColumns` / olive `#model` band with
+    `PhaseTimeline` / a deep "signs you need this" section (navajo sticker
+    cards on an ink shadow, the same trick as `DeepBand`, written inline
+    because it has one call site) / `ServiceCard` grid (subtle) / FAQ /
+    `CtaSection tone="olive"`. Grounds alternate so the olive hero and olive
+    model band never touch. Metadata, H1 and heading text are unchanged
+    (asterisks in `title` props are stripped to the same words). Body copy and
+    FAQ answers lost their contractions ("what's", "don't", "shouldn't",
+    "We'll"), which also changes the matching FAQPage JSON-LD answer text, the
+    same trade-off gotcha #36 accepted. **Deliberately not built yet, each is
+    its own tracker task that slots into this page:** the pipeline widget
+    (q-pipeline, goes under the hero), the usual-way versus GoGreenlit-way
+    switch (q-compare, replaces the static `CompareColumns`), the one-minute
+    maturity check (q-check, new deep section), and the six-ways carousel
+    (q-carousel, replaces the services grid). The mockup's "1-minute check"
+    advice text must point only at real subpages. Verified: no horizontal
+    overflow at 1440 and 390, badge one line at 37 characters, the hero
+    "See the consulting model" link lands on `#model`, 132 unit tests and 23
+    e2e pass, lint, format and typecheck clean.
 
 ## Repository structure
 
