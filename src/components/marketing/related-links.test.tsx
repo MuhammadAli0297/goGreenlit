@@ -47,13 +47,19 @@ describe("RelatedLinks", () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  it("colors the first group's hover olive and later groups navajo", () => {
+  it("shows the cross-family pairing as a feature and the siblings as pills", () => {
     render(<RelatedLinks groups={groups} />);
+    const feature = screen.getByRole("link", { name: "Release Readiness" });
+    expect(feature.className).toContain("after:absolute");
+    expect(feature.closest("[class*='bg-ink']")).not.toBeNull();
     expect(
       screen.getByRole("link", { name: "Manual Testing" }).className,
     ).toContain("hover:bg-olive");
-    expect(
-      screen.getByRole("link", { name: "Release Readiness" }).className,
-    ).toContain("hover:bg-navajo");
+  });
+
+  it("lets the siblings take the full width when there is no pairing", () => {
+    render(<RelatedLinks groups={[groups[0]!]} />);
+    expect(screen.getAllByRole("heading", { level: 2 })).toHaveLength(1);
+    expect(screen.getAllByRole("link")).toHaveLength(2);
   });
 });

@@ -1478,7 +1478,12 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     over 1.8s as it enters and replays, time-based like `CountUp` (not
     scroll-scrubbed, per the stat-card feedback), sampled in a real browser:
     339, 156, 67, 35, 23, 18, 17 offset values over time, reset to empty off
-    screen, final 17. Still to come in
+    screen, final 17. `RelatedLinks` (all 12
+    subpages) was reshaped from two stacked lists to a feature card plus pills:
+    the cross-family pairing is a dark ink card (whole card clickable through an
+    `after:` overlay on its link, hit-tested) beside the siblings as two-column
+    pills, 325px tall on desktop instead of about 440px. Same `groups` props,
+    both headings still h2. Still to come in
     Phase 5: coverage ring,
     device picker, the subpage template and the family OG images.
 
@@ -1851,7 +1856,7 @@ src/lib/
 e2e/                      Playwright specs: home.spec.ts (7 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (119 across 21 files as of 2026-10-23)
+                          (120 across 21 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 
