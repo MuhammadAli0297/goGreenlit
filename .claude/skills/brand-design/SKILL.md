@@ -141,6 +141,13 @@ unchanged. Status colors are `StatusPill` (olive pass, sandy bug, always
 with an icon and a label) and cards are `StickerCard`, both in
 `src/components/brand/`.
 
+Family pages share section pieces in `src/components/marketing/`:
+`SectionIntro` (eyebrow, headline with `*accent*`, lead), `DeepBand` (dark band
+with cream cards), `CheckGrid` (statements, `tone="bug"` for problems),
+`ServiceCard` (`bold` leaf, `subtle` surface), `RelatedLinks`, and
+`CtaSection tone`. Hero badges must stay one line (38 characters or fewer).
+Interactive widgets use `useTabs` and never invent numbers.
+
 Also don't nest a full `<Button>` inside another Base UI component's
 `render` prop (e.g. `<SheetTrigger render={<Button ... />}>`), both
 stamp their own `data-slot` on the same element and disagree between

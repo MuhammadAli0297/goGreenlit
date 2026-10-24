@@ -127,7 +127,9 @@ approved, so what you see in production is the previous design. Done so
 far on the branch: the foundation (tokens, motion utilities, focus
 styles, brand components), the site chrome (a floating header with mega
 menus, a new mobile drawer, footer, breadcrumbs) and the shared page
-components. See `CLAUDE.md` (gotchas 32 to 34) for how each piece works.
+components, the homepage, and the whole Software Testing Services family
+(overview, six subpages and their social images). Next is the QA Consulting
+family. See `CLAUDE.md` (gotchas 32 to 36) for how each piece works.
 
 ## Stack
 

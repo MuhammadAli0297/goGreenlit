@@ -582,6 +582,20 @@ friendly. They add to `Reveal`, they do not replace it.
   shows the finished page, keyframes always end on the resting state), and
   every class drops to that resting state under
   `prefers-reduced-motion: reduce`.
+- **Interactive widgets (tabs, pickers, the run widget)** are real controls:
+  ARIA tabs with arrow, Home and End keys and a roving tabindex (shared
+  `useTabs` hook), every panel present in the server HTML with the inactive
+  ones `hidden`, results in a polite live region, reduced motion shows
+  everything at once. Time-based reveals (count-up, the coverage ring) replay
+  on re-entry and are never tied to scroll position. A widget never shows a
+  made-up score, percentage or timing, only generic lines.
+- **Hero badges stay on one line**, 38 characters or fewer, on every page and
+  every screen width. They are labels, the H1 and the section headings carry
+  the keywords.
+- **Section rhythm on a family page:** eyebrow plus headline with one italic
+  accent word (`SectionIntro`), cards on the paper ground, one dark
+  Slate Grey band with cream cards (`DeepBand`) to break it up, a leaf or
+  olive hero and closing CTA in the family color.
 - **Use motion to show the work, once per scroll.** A looping demo
   (terminal, run matrix) is the page's one moving moment in its section,
   not decoration scattered everywhere. Decorative widgets are

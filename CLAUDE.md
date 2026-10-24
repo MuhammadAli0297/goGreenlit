@@ -96,12 +96,12 @@ truth while it is in flight: the Live Build design canvas artifact
 (https://claude.ai/artifact/EZczMG9LP1hscifNEaFLU3, 20 boards covering
 every page, the menus, the shared pieces and phone widths) and the
 progress tracker (https://claude.ai/artifact/MkU75tfmdu3vVt69E9WBiZ, 10
-phases, 87 tasks). **Status as of 2026-10-18:** Phase 0 (decisions) is
-open, Phases 1 to 3 (foundation, site chrome, shared components) are
-built and pushed, Phase 4 (homepage) is built (committed on the branch,
-the savings calculator is deliberately not built, see gotcha #35), Phase 5
-(Services family) is next. See gotchas #32 to #35 for what each finished
-phase established. Pages not yet redone still look
+phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
+open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
+Services family) are built and pushed, Phase 6 (QA Consulting family) is next.
+The savings calculator is deliberately not built (Phase 0 never approved it,
+gotcha #35). See gotchas #32 to #36 for what each finished phase established.
+Pages not yet redone still look
 mixed on purpose (old highlight chips, old CTA buttons inside new
 components), each later phase converts its own pages.
 
