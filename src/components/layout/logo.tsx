@@ -19,7 +19,7 @@ export function Logo({
       href="/"
       onClick={onClick}
       className={cn(
-        "inline-flex items-center gap-2 text-lg font-semibold tracking-tight",
+        "relative inline-flex items-center gap-2 text-lg font-semibold tracking-tight after:absolute after:inset-x-0 after:-inset-y-2.5",
         className,
       )}
     >

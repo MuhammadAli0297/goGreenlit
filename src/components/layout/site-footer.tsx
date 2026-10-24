@@ -60,7 +60,10 @@ export function SiteFooter() {
           {footerNavGroups.map((group) => (
             <nav key={group.href} aria-label={group.label}>
               <h3 className={headingClass}>
-                <Link href={group.href} className="hover:text-sandy">
+                <Link
+                  href={group.href}
+                  className="hover:text-sandy relative after:absolute after:inset-x-0 after:-inset-y-3.5"
+                >
                   {group.label}
                 </Link>
               </h3>

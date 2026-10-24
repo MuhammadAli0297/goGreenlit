@@ -13,7 +13,9 @@ import type { BreadcrumbItem } from "@/lib/breadcrumbs";
  * It is the first element on every page except the homepage, which is why
  * it carries the top clearance for the floating pill header (the header
  * takes no layout space, see SiteHeader). Set in the mono label style so
- * it reads as page furniture rather than content.
+ * it reads as page furniture rather than content. Each link's tap area is
+ * stretched to about 44px tall with an invisible `after:` layer, so the
+ * small mono text is still easy to hit on a phone without moving anything.
  */
 export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
   return (
@@ -31,7 +33,7 @@ export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
               ) : (
                 <Link
                   href={item.href}
-                  className="hover:text-ink underline-offset-4 transition-colors hover:underline"
+                  className="hover:text-ink relative underline-offset-4 transition-colors after:absolute after:-inset-x-1 after:-inset-y-3.5 hover:underline"
                 >
                   {item.name}
                 </Link>

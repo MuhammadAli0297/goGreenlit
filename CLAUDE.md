@@ -98,7 +98,9 @@ every page, the menus, the shared pieces and phone widths) and the
 progress tracker (https://claude.ai/artifact/MkU75tfmdu3vVt69E9WBiZ, 10
 phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
-Services family) are built and pushed, Phase 6 (QA Consulting family) is in progress (q-overview, the quality gate demo, the compare switch, the maturity check, the carousel, all six subpages and the OG images done).
+Services family) are built and pushed, Phase 6 (QA Consulting family:
+overview, six subpages, OG images, phone check) is built and committed but
+not yet pushed, Phase 7 (Blog) is next.
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -1749,6 +1751,31 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     returns 200 `image/png` at 1200 by 630, the Twitter image is byte-identical
     to the Open Graph one, the longest H1 ("Release readiness reviews that mean
     more than a passing test run") fits with no clipping.
+
+45. **QA Consulting phone check (2026-10-23), task q-mobile, ends Phase 6.**
+    Checked at 390 wide with touch emulation (`isMobile`, `hasTouch`, real
+    taps, a CDP `synthesizeScrollGesture` swipe) on the overview, Embedded QA
+    team and CI/CD quality gates, and every section of the overview was reviewed
+    from screenshots. No horizontal overflow on any of them, the hero badges stay
+    on one line, the page content has no tap target under 44px apart from inline
+    text links. Taps worked on the quality gate demo (Close the gaps, then Run
+    the audit again), the compare tabs, the maturity check statements (tally and
+    advice updated), and a touch swipe moved the carousel from 0 to 344px with
+    Previous enabling. **What the audit found was shared chrome, not Phase 6
+    content, and is fixed for every page:** the breadcrumb links were 16px tall,
+    the footer column heading links 16px, the header and footer logo 28px and
+    the CTA "or email" link 23px. Each now has an invisible `after:` layer that
+    stretches the tap area to about 44px (`relative after:absolute
+after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
+    the text still lands on the link. **Left at their natural size on purpose:**
+    the footer link rows (31px tall with spacing between, past the 24px WCAG 2.5.8
+    minimum) and inline text links inside paragraphs. A note from Phase 5 that
+    "remaining small tap targets are inline text links only" was not quite true
+    for the chrome, this entry is the correction. **A page whose first element is
+    a card and not a link list needs no chrome change,** but audit a new family's
+    phone view with the same script: list every visible `button`, `a[href]`,
+    `[role=tab]` under 44px in either direction and ignore only inline links and
+    cards that are whole-card links through an `after:` overlay.
 
 ## Repository structure
 

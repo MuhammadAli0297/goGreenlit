@@ -57,7 +57,7 @@ export function CtaSection({
             </Link>
             <a
               href={`mailto:${siteConfig.email}`}
-              className="text-ink hover:decoration-sandy text-[15px] underline decoration-2 underline-offset-4"
+              className="text-ink hover:decoration-sandy relative text-[15px] underline decoration-2 underline-offset-4 after:absolute after:inset-x-0 after:-inset-y-3"
             >
               or email {siteConfig.email}
             </a>
