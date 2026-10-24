@@ -1886,20 +1886,25 @@ after:-inset-y-*`), so nothing moves and hit-testing at 18px above and below
     unchanged**, so the self-canonical and unique title from gotcha #29 still
     hold. 6 new unit tests (every category, singular count).
 
-51. **Blog pagination (2026-10-23), task b-pagination.** `BlogPagination` is
-    restyled in place, same props plus the `query` added with search: mono pill
-    Previous and Next with arrows, numbered pages as 44px rings in an `ol`, the
-    current page ink-filled with a Sandy Brown offset edge and `aria-current`,
-    each numbered link labelled "Page N". **At the ends Previous and Next are no
-    longer links**, they render as dimmed `span`s with `aria-disabled` (the old
-    version kept a link with `pointer-events-none`, still reachable and still
-    crawlable), and the live ones carry `rel="prev"` and `rel="next"`. On a phone
-    the page numbers wrap to their own row below Previous and Next, so nothing
-    overflows. **URLs and canonicals are untouched**: links come from
-    `buildBlogHref` in the same param order (`category`, `q`, `page`), so the
-    self-canonical logic of gotchas #23 and #29 still matches every link. Checked
-    in a real browser at 1440 and 390: no link under 44px, no overflow, Next went
-    from page 2 to 3, page 5 shows no Next. 3 new unit tests.
+51. **Blog filters and pagination style (2026-10-23), tasks b-filters and
+    b-pagination.** Both were first built as outlined mono pills with an offset
+    edge and rejected as cartoony, five calmer options were shown in a scratch
+    artifact and **option C (soft tint chips and quiet square keys) was chosen**.
+    **Filter pills** (`BlogFilterPills`): borderless 10px-radius chips in the
+    serif, each a low-opacity tint of its category swatch (`tintClass`), solid in
+    its `coverClass` with bold text when active (so Case Studies goes Dark Slate
+    Grey with cream text), "All articles" goes ink when active, a faint inset
+    shadow darkens any chip on hover, 44px tall on a phone. No dots (the tint is
+    the color) and the category name is always spelled out. **Pagination**
+    (`BlogPagination`): 44px square keys in a faint ink tint, the current page
+    ink-filled with `aria-current`, each number labelled "Page N", Previous and
+    Next as arrow keys with sr-only "Previous page" and "Next page" text. **At the
+    ends they are not links**, they render as dimmed `span`s with `aria-disabled`
+    (a disabled link stays focusable and crawlable), and the live ones carry
+    `rel="prev"` and `rel="next"`. One row that wraps only if the screen is too
+    narrow (checked at 1440, 390 and 360, no overflow). URLs and canonicals are
+    untouched, links come from `buildBlogHref` in the order `category`, `q`,
+    `page`, so gotchas #23 and #29 still match every link. 3 new unit tests.
 
 ## Repository structure
 

@@ -5,9 +5,8 @@ import { buildBlogHref } from "@/lib/blog-href";
 import { cn } from "@/lib/utils";
 
 const pillClass =
-  "border-ink font-label text-ink hover:bg-ink/10 relative inline-flex min-h-11 items-center gap-2 rounded-full border-[1.5px] px-4 text-xs tracking-wide uppercase transition-colors sm:min-h-10";
-const pillActiveClass =
-  "bg-ink text-paper hover:bg-ink shadow-[3px_3px_0_0_var(--sandy)]";
+  "text-ink relative inline-flex min-h-11 items-center rounded-[10px] px-4 text-[15.5px] transition-colors hover:shadow-[inset_0_0_0_999px_rgba(28,40,32,0.07)] sm:min-h-10";
+const allActiveClass = "bg-ink text-paper font-semibold hover:shadow-none";
 
 /**
  * Category filter pills for the blog index, plain `<Link>`s with a
@@ -31,7 +30,7 @@ export function BlogFilterPills({
       <Link
         href={buildBlogHref({ q: query })}
         aria-current={!activeCategory ? "page" : undefined}
-        className={cn(pillClass, !activeCategory && pillActiveClass)}
+        className={cn(pillClass, activeCategory ? "bg-ink/8" : allActiveClass)}
       >
         All articles
       </Link>
@@ -42,15 +41,13 @@ export function BlogFilterPills({
             key={category.slug}
             href={buildBlogHref({ category: category.slug, q: query })}
             aria-current={isActive ? "page" : undefined}
-            className={cn(pillClass, isActive && pillActiveClass)}
+            className={cn(
+              pillClass,
+              isActive
+                ? cn(category.coverClass, "font-semibold hover:shadow-none")
+                : category.tintClass,
+            )}
           >
-            <span
-              aria-hidden
-              className={cn(
-                "border-ink size-2.5 rounded-full border",
-                category.colorClass,
-              )}
-            />
             {category.label}
           </Link>
         );

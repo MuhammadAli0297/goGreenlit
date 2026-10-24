@@ -28,11 +28,11 @@ describe("BlogPagination", () => {
       "href",
       "/blog?category=test-automation&q=flaky",
     );
-    expect(screen.getByRole("link", { name: /Next/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Next page/ })).toHaveAttribute(
       "href",
       "/blog?category=test-automation&q=flaky&page=3",
     );
-    expect(screen.getByRole("link", { name: /Previous/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Previous page/ })).toHaveAttribute(
       "rel",
       "prev",
     );
@@ -43,17 +43,16 @@ describe("BlogPagination", () => {
       <BlogPagination currentPage={1} totalPages={3} />,
     );
     expect(
-      screen.queryByRole("link", { name: /Previous/ }),
+      screen.queryByRole("link", { name: /Previous page/ }),
     ).not.toBeInTheDocument();
-    expect(screen.getByText("Previous").closest("span")).toHaveAttribute(
-      "aria-disabled",
-      "true",
-    );
+    expect(
+      screen.getByText("Previous page").closest("span.inline-flex"),
+    ).toHaveAttribute("aria-disabled", "true");
     rerender(<BlogPagination currentPage={3} totalPages={3} />);
     expect(
-      screen.queryByRole("link", { name: /Next/ }),
+      screen.queryByRole("link", { name: /Next page/ }),
     ).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /Previous/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Previous page/ })).toHaveAttribute(
       "href",
       "/blog?page=2",
     );
