@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-23:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is built and pushed. Phase 9 (hardening) is in progress (z-devices, z-lh, z-keys, z-contrast, z-rm and z-csp done).
+(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built, with its last commits not yet pushed. Phase 8 (long tail) is built and pushed. Phase 9 (hardening) is in progress (z-devices, z-lh, z-keys, z-contrast, z-rm, z-csp and z-e2e done).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
@@ -2435,6 +2435,17 @@ ld+json">` only, and the new code-rendered OG images are same-origin routes.
     Any third-party script added later still needs the CSP edited alongside it
     (gotcha #24).
 
+71. **E2E coverage pass (2026-10-24), task z-e2e.** `e2e/widgets.spec.ts`
+    (9 tests, reduced motion on so animations do not race the assertions) covers
+    what had no browser test: live blog search through the URL (focus kept,
+    Clear), the quality gate demo, the compare switch (opens on the GoGreenlit
+    way), the maturity check (first unticked statement picks the link, all five
+    gives the audit), the carousel's six links, the Playwright run widget, the
+    framework picker, the 404 and the icon-free About page with its LinkedIn
+    links. Suite: 39 of 39 pass. **Found along the way:** `DevicePicker`
+    (`device-picker.tsx`) is not imported by any page, so it has no e2e test and
+    gotcha #36's note that it sits under the proof card is out of date.
+
 ## Repository structure
 
 ```
@@ -2802,7 +2813,8 @@ e2e/                      Playwright specs: home.spec.ts (8 tests),
                           navigation.spec.ts (15, added 2026-10-18),
                           keyboard.spec.ts (3, added 2026-10-23) and
                           blog-post.spec.ts (2) and blog-index.spec.ts (2),
-                          both added 2026-10-23
+                          both added 2026-10-23, and widgets.spec.ts (9,
+                          added 2026-10-24, gotcha #71): 39 e2e in all
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
                           (229 across 45 files as of 2026-10-24)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
