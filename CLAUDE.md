@@ -1489,7 +1489,20 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     a unit test fails on any digit. The three tab widgets (service explorer,
     framework picker, device picker) share **`useTabs`** (`src/lib/use-tabs.ts`,
     arrow/Home/End with wrap, roving tabindex), extracted at the third call
-    site. Still to come in
+    site. **The subpage template** was set on the Playwright subpage and is what the
+    other five Services subpages copy next: Palm Leaf `PageHero` with a widget
+    `aside` / eyebrow-led sections via **`SectionIntro`** (`section-intro.tsx`,
+    eyebrow, headline with `*accent*`, lead, `tone` light or dark, `align`) /
+    `ServiceCard` grids (bold first, subtle after) / **`DeepBand`**
+    (`deep-band.tsx`, deep ground, aurora, navajo cards on an ink shadow, also
+    now used by the overview's "how we work") / FAQ / `RelatedLinks` /
+    `CtaSection tone="leaf"`. The Playwright hero widget is
+    **`RunTestWidget`** (`run-test-widget.tsx`, client, generic over spec
+    code and result lines): Run test plays a failure, a trace, a fix and a pass
+    line by line (sampled 0 to 5 lines over about 3s, button Running then Run
+    again), reduced motion shows everything at once, results sit in a polite
+    live region, no numbers or timings. Contractions in this page's copy were
+    removed. Still to come in
     Phase 5: coverage ring,
     device picker, the subpage template and the family OG images.
 
@@ -1859,10 +1872,10 @@ src/lib/
                            each page still renders its own <script> tag.
   utils.ts                `cn()` class-merging helper
 
-e2e/                      Playwright specs: home.spec.ts (7 tests) and
+e2e/                      Playwright specs: home.spec.ts (8 tests) and
                           navigation.spec.ts (15, added 2026-10-18)
 src/**/*.test.ts(x)       Vitest unit/component tests, colocated with source
-                          (126 across 22 files as of 2026-10-23)
+                          (130 across 23 files as of 2026-10-23)
 vitest.setup.ts           jest-dom matchers plus IntersectionObserver and
                           matchMedia stubs for jsdom (gotcha #32)
 

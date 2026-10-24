@@ -16,8 +16,8 @@ import {
 
 import { ctaVariants } from "@/components/brand/cta-variants";
 import { StickerCard } from "@/components/brand/sticker-card";
-import { AuroraBackground } from "@/components/marketing/aurora-background";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
+import { DeepBand } from "@/components/marketing/deep-band";
 import { CtaSection } from "@/components/marketing/cta-section";
 import { CoverageRing } from "@/components/marketing/coverage-ring";
 import { DevicePicker } from "@/components/marketing/device-picker";
@@ -373,48 +373,11 @@ export default function SoftwareTestingServicesPage() {
         </div>
       </section>
 
-      <section className="on-dark bg-deep text-navajo relative overflow-hidden">
-        <div className="opacity-50">
-          <AuroraBackground />
-        </div>
-        <div className="relative mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
-          <Reveal className="max-w-3xl">
-            <p className="font-label text-olive text-xs tracking-widest uppercase">
-              How we work
-            </p>
-            <SectionHeading className="text-paper [&_em]:text-sandy mt-4">
-              How we work inside *your sprint*
-            </SectionHeading>
-          </Reveal>
-
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {approach.map(
-              (
-                { icon: Icon, title: itemTitle, description: itemDescription },
-                index,
-              ) => (
-                <Reveal key={itemTitle} className="h-full" delay={index * 80}>
-                  <StickerCard
-                    tone="navajo"
-                    interactive={false}
-                    className="h-full p-7 shadow-[6px_6px_0_var(--ink)]"
-                  >
-                    <div className="border-ink bg-sandy flex size-11 items-center justify-center rounded-xl border-[1.5px]">
-                      <Icon aria-hidden="true" className="size-5" />
-                    </div>
-                    <h3 className="mt-5 text-xl font-semibold tracking-tight">
-                      {itemTitle}
-                    </h3>
-                    <p className="mt-2 text-[15px] leading-relaxed">
-                      {itemDescription}
-                    </p>
-                  </StickerCard>
-                </Reveal>
-              ),
-            )}
-          </div>
-        </div>
-      </section>
+      <DeepBand
+        eyebrow="How we work"
+        title="How we work inside *your sprint*"
+        items={approach}
+      />
 
       <section className="mx-auto max-w-6xl px-4 pt-24 sm:px-6 lg:px-8">
         <Reveal>

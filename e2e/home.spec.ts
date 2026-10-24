@@ -88,3 +88,16 @@ test("services picker swaps Playwright for Selenium", async ({ page }) => {
     "WebDriver driver",
   );
 });
+
+test("playwright subpage run widget plays a failing run, then a pass", async ({
+  page,
+}) => {
+  await page.goto("/software-testing-services/playwright-automation");
+  await page.getByRole("button", { name: "Run test" }).click();
+  await expect(page.getByRole("button", { name: "Running" })).toBeDisabled();
+  await expect(page.getByText("discount applied twice")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Run again" })).toBeEnabled({
+    timeout: 8000,
+  });
+  await expect(page.getByText("coupon applies once, re-run")).toBeVisible();
+});
