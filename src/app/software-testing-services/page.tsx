@@ -21,6 +21,7 @@ import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { CtaSection } from "@/components/marketing/cta-section";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { PageHero } from "@/components/marketing/page-hero";
+import { RunMatrix } from "@/components/marketing/run-matrix";
 import { Reveal } from "@/components/marketing/reveal";
 import { SectionHeading } from "@/components/marketing/section-heading";
 import { ServiceCard } from "@/components/marketing/service-card";
@@ -229,6 +230,14 @@ export default function SoftwareTestingServicesPage() {
 
       <PageHero
         tone="leaf"
+        aside={
+          <RunMatrix
+            rows={["Chrome", "Firefox", "Safari", "Android", "iOS"]}
+            title="Cross-browser run"
+            label="An example test run sweeping across five browsers and devices, with passes, bugs found and queued checks"
+            className="lg:rotate-[1.5deg]"
+          />
+        }
         badge="Manual and automated testing, embedded in your sprint"
         description="Most QA vendors test after your team ships and hand defects back on their own schedule. GoGreenlit’s QA engineers join your sprint itself: writing test cases in planning, executing them alongside development, and filing defects before a release goes out, not after."
         ctas={

@@ -1463,8 +1463,12 @@ slide-in-from-right-8`, staggered by index) each time it opens.
     first FAQ question text to "What is included in outsourced software testing
     services?". **`SectionHeading`** (`section-heading.tsx`) was extracted for
     this page, it already had two call sites (home and here) and every
-    Services and QA Consulting subpage needs it next. Still to come in Phase 5:
-    the cross-browser `RunMatrix` hero widget, framework picker, coverage ring,
+    Services and QA Consulting subpage needs it next. The hero
+    carries a `RunMatrix` as its `aside` (Chrome, Firefox, Safari, Android,
+    iOS, tilted 1.5 degrees from `lg`), which switches the hero to two
+    left-aligned columns, stacked on a phone. Sampled in a real browser: the
+    cells cycle through several distinct colors over time. Still to come in
+    Phase 5: framework picker, coverage ring,
     device picker, the subpage template and the family OG images.
 
 ## Repository structure
