@@ -1,3 +1,5 @@
+import type { VerifiedStatKey } from "@/lib/verified-stats";
+import { normalizeSearchQuery } from "@/lib/blog-href";
 import type { LucideIcon } from "lucide-react";
 import {
   Accessibility,
@@ -68,12 +70,14 @@ export interface BlogCategory {
    * title and description.
    */
   description: string;
-  /** Literal Tailwind class referencing one of the theme's chart-N tokens, used as a small per-category color dot. Kept literal (not built from a template string) so Tailwind's build-time scan picks it up. */
+  /** Small per-category color dot: a literal Tailwind class for one of the five brand swatches (Live Build, 2026-10-23, replacing the old chart-N tokens so the category colors match the design canvas). Kept literal, not built from a template string, so Tailwind's build-time scan picks it up. */
   colorClass: string;
-  /** Same chart-N token at full saturation, for borders/rings. Chart-2 through chart-5 fail text contrast against the card background (checked: 2.25:1, 1.75:1, 1.51:1, 1.47:1), so this is for decorative strokes only, never text. */
+  /** Same swatch for borders and rings. Decorative strokes only, never text: sandy, olive, leaf and navajo are all under 3:1 on paper. */
   borderClass: string;
-  /** Same chart-N token as a low-opacity background tint, safe under any foreground text since it barely shifts background luminance. */
+  /** Same swatch as a low-opacity background tint, safe under any foreground text. */
   tintClass: string;
+  /** The post tile's cover panel: the full swatch with the text color that reads on it (ink on sandy, olive, leaf and navajo, navajo on deep Dark Slate Grey, all past 5:1). */
+  coverClass: string;
 }
 
 export const blogCategories: BlogCategory[] = [
@@ -82,50 +86,61 @@ export const blogCategories: BlogCategory[] = [
     label: "QA Strategy",
     description:
       "QA strategy articles on test planning, coverage models, shift-left and shift-right testing, and how QA maturity gets built as an engineering team grows.",
-    colorClass: "bg-[var(--chart-1)]",
-    borderClass: "border-[var(--chart-1)]",
-    tintClass: "bg-[var(--chart-1)]/10",
+    colorClass: "bg-sandy",
+    borderClass: "border-sandy",
+    tintClass: "bg-sandy/10",
+    coverClass: "bg-sandy text-ink",
   },
   {
     slug: "test-automation",
     label: "Test Automation",
     description:
       "Test automation articles on Playwright, Selenium, CI/CD pipeline integration, and how to tell whether an automation suite is actually paying for itself.",
-    colorClass: "bg-[var(--chart-2)]",
-    borderClass: "border-[var(--chart-2)]",
-    tintClass: "bg-[var(--chart-2)]/15",
+    colorClass: "bg-olive",
+    borderClass: "border-olive",
+    tintClass: "bg-olive/20",
+    coverClass: "bg-olive text-ink",
   },
   {
     slug: "outsourcing-hiring",
     label: "Outsourcing & Hiring",
     description:
       "Outsourcing and hiring articles on when to bring in QA help, in-house versus outsourced testing, staff augmentation versus an embedded QA team, and real costs.",
-    colorClass: "bg-[var(--chart-3)]",
-    borderClass: "border-[var(--chart-3)]",
-    tintClass: "bg-[var(--chart-3)]/15",
+    colorClass: "bg-leaf",
+    borderClass: "border-leaf",
+    tintClass: "bg-leaf/20",
+    coverClass: "bg-leaf text-ink",
   },
   {
     slug: "testing-practices",
     label: "Testing Practices",
     description:
       "Testing practices articles on manual and exploratory testing, regression checklists, flaky test triage, accessibility testing, and test data management.",
-    colorClass: "bg-[var(--chart-4)]",
-    borderClass: "border-[var(--chart-4)]",
-    tintClass: "bg-[var(--chart-4)]/15",
+    colorClass: "bg-navajo",
+    borderClass: "border-navajo",
+    tintClass: "bg-navajo/20",
+    coverClass: "bg-navajo text-ink",
   },
   {
     slug: "case-studies",
     label: "Case Studies",
     description:
       "Real patterns from GoGreenlit's own embedded QA engagements: escaped defect reduction, release coverage, and what changes when QA gets embedded early.",
-    colorClass: "bg-[var(--chart-5)]",
-    borderClass: "border-[var(--chart-5)]",
-    tintClass: "bg-[var(--chart-5)]/15",
+    colorClass: "bg-deep",
+    borderClass: "border-deep",
+    tintClass: "bg-deep/10",
+    coverClass: "bg-deep text-navajo",
   },
 ];
 
 export type BlogContentBlock =
   | { type: "paragraph"; text: string }
+  /** The post's direct answer, shown in a highlighted box. Put it right under the question heading (gotcha #15), same words as the plain paragraph it replaces. */
+  | { type: "answer"; text: string }
+  /** A callout for one of the four verified stats, by key (never a free-typed number). `note` says where it comes from and may carry `[label](/path)` links. */
+  | { type: "stat"; stat: VerifiedStatKey; note: string }
+  /** A flagged list of warning signs, shown as a bug-toned card. */
+  | { type: "redflags"; items: string[]; title?: string }
   | { type: "heading"; text: string }
   | { type: "subheading"; text: string }
   | { type: "list"; items: string[] };
@@ -186,7 +201,7 @@ export const blogPosts: BlogPost[] = [
         text: "What does outsourcing QA testing actually mean?",
       },
       {
-        type: "paragraph",
+        type: "answer",
         text: "Outsourcing QA testing means hiring an outside engineer or team to plan, execute, and report on the testing your product needs, instead of building that function in-house. It ranges from a single contractor testing one release to an embedded team that joins your sprints and owns the process end to end, and the model you choose matters more than the label attached to it.",
       },
       {
@@ -226,6 +241,11 @@ export const blogPosts: BlogPost[] = [
         text: "The engagements that pay for themselves are the ones that reduce what reaches production, since a bug caught in a sprint costs a conversation and a bug caught by a customer costs a support ticket, an engineer's context switch, and a slower release cycle while the team second-guesses itself. Across the embedded engagements we have run, teams have seen escaped defects drop by 45%, which is a reasonable number to model against if you do not yet have a baseline of your own. Track your current escape rate for a release or two before you outsource anything, so you have a real before-and-after number instead of someone else's average standing in for your product.",
       },
       {
+        type: "stat",
+        stat: "escapedDefects",
+        note: "The result across the embedded engagements we have run, written up in [how we reduced escaped defects](/blog/how-we-reduced-escaped-defects).",
+      },
+      {
         type: "heading",
         text: "In-house, outsourced, or a hybrid: which fits your stage?",
       },
@@ -262,7 +282,7 @@ export const blogPosts: BlogPost[] = [
       },
       { type: "heading", text: "Red flags that predict a bad engagement" },
       {
-        type: "list",
+        type: "redflags",
         items: [
           "Reporting arrives as a summary at the end of the sprint instead of visible in real time",
           "The engagement requires a 6 or 12 month contract before either side has proven anything works",
@@ -6167,12 +6187,20 @@ export function interleaveByCategory(posts: BlogPost[]): BlogPost[] {
   return result;
 }
 
+/**
+ * Up to `limit` other posts from the same category. They start at the post
+ * after this one in the catalog and wrap around, so each post points at its
+ * own neighbours. (Taking the first siblings every time sent every post in
+ * a category to the same three and left the rest with no inbound link from
+ * their own category.) Deterministic, so builds are stable.
+ */
 export function getRelatedPosts(post: BlogPost, limit = 3): BlogPost[] {
-  return blogPosts
-    .filter(
-      (other) => other.category === post.category && other.slug !== post.slug,
-    )
-    .slice(0, limit);
+  const siblings = blogPosts.filter(
+    (other) => other.category === post.category,
+  );
+  const start = siblings.findIndex((other) => other.slug === post.slug);
+  const ordered = [...siblings.slice(start + 1), ...siblings.slice(0, start)];
+  return ordered.slice(0, limit);
 }
 
 export function getTotalPages(postCount: number): number {
@@ -6187,4 +6215,77 @@ export function clampPage(page: number, totalPages: number): number {
 export function paginatePosts(posts: BlogPost[], page: number): BlogPost[] {
   const start = (page - 1) * POSTS_PER_PAGE;
   return posts.slice(start, start + POSTS_PER_PAGE);
+}
+
+/**
+ * Keeps the posts that match every word of the query (case-insensitive) in
+ * the title, excerpt, category label or any section heading. Post bodies
+ * are not searched word for word, headings carry each section's topic
+ * without matching on stray words in long paragraphs. An empty query
+ * returns the posts unchanged.
+ */
+export function searchPosts(posts: BlogPost[], query: string): BlogPost[] {
+  const terms = normalizeSearchQuery(query).toLowerCase().split(" ");
+  if (terms[0] === "") return posts;
+  return posts.filter((post) => {
+    const haystack = [
+      post.title,
+      post.excerpt,
+      getCategoryBySlug(post.category)?.label ?? "",
+      ...post.body
+        .filter((b) => b.type === "heading" || b.type === "subheading")
+        .map((b) =>
+          b.type === "heading" || b.type === "subheading" ? b.text : "",
+        ),
+    ]
+      .join(" ")
+      .toLowerCase();
+    return terms.every((term) => haystack.includes(term));
+  });
+}
+
+export { MAX_SEARCH_LENGTH, normalizeSearchQuery } from "@/lib/blog-href";
+
+/**
+ * The post shown in the featured block above the grid. Chosen by hand, not
+ * "newest", because several posts share a publish date. Change this one
+ * line to feature a different post.
+ */
+export const FEATURED_POST_SLUG = "how-to-outsource-qa-testing";
+
+export function getFeaturedPost(): BlogPost | undefined {
+  return getPostBySlug(FEATURED_POST_SLUG);
+}
+
+/**
+ * Everything the blog index needs for one URL, computed in one place so the
+ * page and `generateMetadata` can never disagree about the clamped page
+ * number or the list. The featured post only appears in the plain index
+ * (no category, no search) and, so it is not shown twice, is taken out of
+ * the grid there; it is featured on page 1 only.
+ */
+export function getBlogIndexView(params: {
+  category?: string;
+  q?: string;
+  page?: string;
+}) {
+  const category = getCategoryBySlug(params.category);
+  const query = normalizeSearchQuery(params.q);
+  const isPlainIndex = !category && !query;
+  const featured = isPlainIndex ? getFeaturedPost() : undefined;
+  const matches = searchPosts(getPostsByCategory(category?.slug), query).filter(
+    (post) => post !== featured,
+  );
+  const displayPosts = category ? matches : interleaveByCategory(matches);
+  const totalPages = getTotalPages(displayPosts.length);
+  const currentPage = clampPage(Number(params.page ?? 1), totalPages);
+  return {
+    category,
+    query,
+    featured: currentPage === 1 ? featured : undefined,
+    displayPosts,
+    totalPages,
+    currentPage,
+    pagePosts: paginatePosts(displayPosts, currentPage),
+  };
 }

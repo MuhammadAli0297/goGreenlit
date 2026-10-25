@@ -4,14 +4,45 @@ import { useEffect, useRef, type ReactNode } from "react";
 
 import { blogCategories } from "@/lib/blog-data";
 
-/** Horizontal drift multiplier and vertical position per decorative chip, one per category. Alternating sign gives chips on opposite sides of the hero visible motion in opposite directions as the user scrolls, the actual "parallax" part of the effect. */
+/**
+ * Per-chip scroll drift and resting position, one per category. Alternating
+ * sign gives chips on opposite sides of the hero visible motion in opposite
+ * directions as the user scrolls, the actual "parallax" part of the effect.
+ * `rot` is each chip's resting tilt and `delay` offsets its ambient float
+ * (the lb-float loop on the inner element) so they never bob in unison.
+ */
 const chipLayout = [
-  { multiplier: 0.55, className: "top-4 left-[6%]" },
-  { multiplier: -0.4, className: "top-10 right-[8%]" },
-  { multiplier: 0.65, className: "bottom-16 left-[12%]" },
-  { multiplier: -0.55, className: "bottom-6 right-[14%]" },
-  { multiplier: 0.4, className: "top-1/2 left-[2%]" },
+  { multiplier: 0.55, className: "top-6 left-[4%]", rot: "-6deg", delay: "0s" },
+  {
+    multiplier: -0.4,
+    className: "top-10 right-[6%]",
+    rot: "5deg",
+    delay: "-1.5s",
+  },
+  {
+    multiplier: 0.65,
+    className: "bottom-14 left-[9%]",
+    rot: "4deg",
+    delay: "-4s",
+  },
+  {
+    multiplier: -0.55,
+    className: "bottom-8 right-[9%]",
+    rot: "-3deg",
+    delay: "-3s",
+  },
+  {
+    multiplier: 0.4,
+    className: "top-1/2 left-[1%]",
+    rot: "-2deg",
+    delay: "-2s",
+  },
 ];
+
+/** A chip's colors: the category's own cover, except Case Studies, whose Dark Slate Grey would vanish into the hero's ground. */
+function chipColors(slug: string, coverClass: string) {
+  return slug === "case-studies" ? "bg-surface text-ink" : coverClass;
+}
 
 /**
  * The blog hero's own scroll-linked technique, deliberately not a reuse of
@@ -20,7 +51,10 @@ const chipLayout = [
  * one is translate-based: the heading/description block drifts upward and
  * fades, while a ring of decorative category-name chips parallax past at
  * different rates and directions, each drifting further and rotating more
- * as the user scrolls, reversing on the way back up. Same technical recipe
+ * as the user scrolls, reversing on the way back up. Each chip is the
+ * category's own swatch with an ink outline and floats gently on its own
+ * (the inner lb-float element, so the loop never fights the scroll
+ * transform on the outer one). Same technical recipe
  * as its siblings otherwise: passive rAF-throttled scrollY listener, direct
  * ref writes (no React state), the hero section's own height as the scroll
  * range, and a prefers-reduced-motion bailout.
@@ -84,17 +118,30 @@ export function BlogHeroScroll({ children }: { children: ReactNode }) {
         aria-hidden
         className="pointer-events-none absolute inset-0 hidden overflow-hidden sm:block"
       >
-        {blogCategories.map((category, index) => (
-          <span
-            key={category.slug}
-            ref={(el) => {
-              chipRefs.current[index] = el;
-            }}
-            className={`absolute rounded-full border border-[#ffe0ad]/15 bg-[#ffe0ad]/10 px-3 py-1 text-xs font-medium whitespace-nowrap text-[#ffe0ad]/70 [will-change:transform,opacity] ${chipLayout[index]!.className}`}
-          >
-            {category.label}
-          </span>
-        ))}
+        {blogCategories.map((category, index) => {
+          const layout = chipLayout[index]!;
+          return (
+            <span
+              key={category.slug}
+              ref={(el) => {
+                chipRefs.current[index] = el;
+              }}
+              className={`absolute [will-change:transform,opacity] ${layout.className}`}
+            >
+              <span
+                className={`lb-float border-ink font-label block rounded-full border-[1.5px] px-4 py-2 text-xs tracking-wide whitespace-nowrap uppercase ${chipColors(category.slug, category.coverClass)}`}
+                style={
+                  {
+                    "--lb-rot": layout.rot,
+                    animationDelay: layout.delay,
+                  } as React.CSSProperties
+                }
+              >
+                {category.label}
+              </span>
+            </span>
+          );
+        })}
       </div>
 
       <div

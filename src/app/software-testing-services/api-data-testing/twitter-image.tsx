@@ -15,6 +15,7 @@ export default async function Image() {
     buildMarketingOgElement(
       "API and data testing services built to catch problems at the source",
       "software-testing-services",
+      "at the source",
     ),
     { ...size, fonts },
   );

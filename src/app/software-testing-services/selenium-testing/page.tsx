@@ -6,7 +6,6 @@ import {
   Archive,
   BarChart3,
   Boxes,
-  CheckCircle2,
   Clock,
   Crosshair,
   Database,
@@ -17,18 +16,19 @@ import {
   Wallet,
 } from "lucide-react";
 
-import { CtaSection } from "@/components/marketing/cta-section";
-import { FaqAccordion } from "@/components/marketing/faq-accordion";
+import { ctaVariants } from "@/components/brand/cta-variants";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
+import { CheckGrid } from "@/components/marketing/check-grid";
+import { CtaSection } from "@/components/marketing/cta-section";
+import { DeepBand } from "@/components/marketing/deep-band";
+import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { PageHero } from "@/components/marketing/page-hero";
 import { RelatedLinks } from "@/components/marketing/related-links";
-import { Reveal } from "@/components/marketing/reveal";
+import { SectionIntro } from "@/components/marketing/section-intro";
 import { ServiceCard } from "@/components/marketing/service-card";
-import { buttonVariants } from "@/components/ui/button";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
-import { cn } from "@/lib/utils";
 
 const title = "Selenium Testing Services";
 const description =
@@ -78,7 +78,7 @@ const frameworkComponents = [
     icon: Database,
     title: "Data-driven testing",
     description:
-      "Test logic separated from test data, so covering a new input case doesn't mean writing a new test.",
+      "Test logic separated from test data, so covering a new input case does not mean writing a new test.",
   },
   {
     icon: Hourglass,
@@ -90,7 +90,7 @@ const frameworkComponents = [
     icon: Grid3x3,
     title: "Selenium Grid at scale",
     description:
-      "Parallel execution across browsers and environments, so a full suite doesn't cost you thirty minutes of pipeline time.",
+      "Parallel execution across browsers and environments, so a full suite does not cost you thirty minutes of pipeline time.",
   },
 ];
 
@@ -138,7 +138,7 @@ const assessment = [
     icon: Percent,
     label: "Flakiness rate measurement",
     description:
-      "A real number, not a guess, for how often tests fail for reasons that aren't bugs.",
+      "A real number, not a guess, for how often tests fail for reasons that are not bugs.",
   },
   {
     icon: ArrowRightLeft,
@@ -152,7 +152,7 @@ const faqs = [
   {
     question: "Should we switch from Selenium to Playwright?",
     answer:
-      "It depends on what you have today. A well-maintained Selenium suite in Java or Python, run by a team that knows it, often isn't worth switching. A brittle suite that's slowing your team down, or a brand new project, usually favors Playwright.",
+      "It depends on what you have today. A well-maintained Selenium suite in Java or Python, run by a team that knows it, often is not worth switching. A brittle suite that is slowing your team down, or a brand new project, usually favors Playwright.",
   },
   {
     question: "How do you handle flaky Selenium tests?",
@@ -167,7 +167,7 @@ const faqs = [
   {
     question: "Can Selenium run in our CI/CD pipeline?",
     answer:
-      "Yes. Headless execution in GitHub Actions, Jenkins, or GitLab CI, with Selenium Grid for parallelization and artifact capture on failure, the same rigor we'd wire up for a Playwright suite.",
+      "Yes. Headless execution in GitHub Actions, Jenkins, or GitLab CI, with Selenium Grid for parallelization and artifact capture on failure, the same rigor we would wire up for a Playwright suite.",
   },
   {
     question:
@@ -212,82 +212,52 @@ export default function SeleniumTestingPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
-        badge="Page Object Model frameworks, wait strategy fixes, and Selenium Grid at scale"
+        tone="leaf"
+        badge="Page Object Model, Grid, stable waits"
         description="Selenium WebDriver has been part of web automation for over a decade, and for teams with an established Java or Python suite, real enterprise infrastructure constraints, or Selenium expertise already on staff, it is still the right tool. GoGreenlit builds and maintains Selenium frameworks that hold up, extending what you already have instead of forcing a rewrite for its own sake."
         ctas={
           <>
             <Link
               href={siteConfig.links.calendar}
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "bg-[#ee9e58] text-[#354639] hover:bg-[#ee9e58]/85",
-              )}
+              className={ctaVariants({ variant: "cta", size: "xl" })}
             >
-              Book a call
+              Book a call <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
               href="#framework"
-              className={cn(
-                buttonVariants({ size: "lg", variant: "outline" }),
-                "border-[#ffe0ad]/30 bg-transparent text-[#ffe0ad] hover:bg-[#ffe0ad]/10 hover:text-[#ffe0ad]",
-              )}
+              className={ctaVariants({ variant: "outline", size: "xl" })}
             >
               See a well-built framework
             </Link>
           </>
         }
       >
-        Selenium automation services that extend{" "}
-        <span className="aurora-glow inline-block animate-[glow-pulse_3.5s_ease-in-out_infinite] rounded-md bg-[#ee9e58] px-2 py-2 leading-[1.2] text-[#354639]">
-          what you already built
-        </span>
+        Selenium automation services that extend <em>what you already built</em>
       </PageHero>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            When Selenium is the right choice
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            Selenium is not the default for new projects anymore, but it is
-            still the right call in specific situations.
-          </p>
-        </div>
-
-        <Reveal
-          as="div"
-          className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-2"
-        >
-          <ul className="col-span-full grid gap-4 sm:grid-cols-2">
-            {whenItFits.map((item) => (
-              <li key={item} className="flex gap-3">
-                <CheckCircle2 className="text-primary mt-0.5 size-5 shrink-0" />
-                <span className="text-foreground/90 text-sm">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+      <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          eyebrow="When it fits"
+          title="When Selenium is the *right choice*"
+          description="Selenium is not the default for new projects anymore, but it is still the right call in specific situations."
+        />
+        <CheckGrid items={whenItFits} className="mt-12" />
       </section>
 
       <section
         id="framework"
-        className="mx-auto max-w-6xl scroll-mt-16 px-4 py-20 sm:px-6 lg:px-8"
+        className="mx-auto max-w-6xl px-4 pb-24 sm:px-6 lg:px-8"
       >
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            What a well-built Selenium framework looks like
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            Most inherited Selenium suites are missing one or more of these,
-            which is exactly why they get flaky within six months.
-          </p>
-        </div>
-
+        <SectionIntro
+          eyebrow="The framework"
+          title="What a well-built Selenium framework *looks like*"
+          description="Most inherited Selenium suites are missing one or more of these, which is exactly why they get flaky within six months."
+        />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {frameworkComponents.map((component, index) => (
+          {frameworkComponents.map((item, index) => (
             <ServiceCard
-              key={component.title}
-              {...component}
+              key={item.title}
+              {...item}
               variant="bold"
               index={index}
             />
@@ -295,82 +265,47 @@ export default function SeleniumTestingPage() {
         </div>
       </section>
 
-      <section className="border-border/60 border-t bg-[#8fa175]">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-foreground text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              Maintaining Selenium suites without the firefighting
-            </h2>
-            <p className="text-foreground/80 mt-4">
-              Once a team stops trusting a red build, the suite has already
-              failed at its job. This is how we keep that from happening.
-            </p>
-          </div>
+      <DeepBand
+        eyebrow="Maintenance"
+        title="Maintaining Selenium suites *without the firefighting*"
+        description="Once a team stops trusting a red build, the suite has already failed at its job. This is how we keep that from happening."
+        items={maintenance}
+      />
 
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {maintenance.map(
-              ({ icon: Icon, title: itemTitle, description }, index) => (
-                <Reveal
-                  key={itemTitle}
-                  className="flex flex-col items-center gap-3 text-center"
-                  delay={index * 80}
-                >
-                  <div className="flex size-10 items-center justify-center rounded-lg bg-[#ee9e58] text-[#354639]">
-                    <Icon className="size-5" />
-                  </div>
-                  <h3 className="text-foreground font-semibold">{itemTitle}</h3>
-                  <p className="text-foreground/80 text-sm">{description}</p>
-                </Reveal>
-              ),
-            )}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            Wondering if it is time to move to Playwright?
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            We run every migration conversation through the same four-part
-            assessment before recommending anything.
-          </p>
-        </div>
-
+      <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          eyebrow="Migration"
+          title="Wondering if it is time to move to *Playwright?*"
+          description="We run every migration conversation through the same four-part assessment before recommending anything."
+        />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {assessment.map(({ icon: Icon, label, description }, index) => (
-            <Reveal
+          {assessment.map(({ icon, label, description }, index) => (
+            <ServiceCard
               key={label}
-              className="border-border/60 rounded-lg border p-5"
-              delay={index * 80}
-            >
-              <div className="bg-accent text-accent-foreground flex size-10 items-center justify-center rounded-lg">
-                <Icon className="size-5" />
-              </div>
-              <h3 className="mt-3 font-semibold">{label}</h3>
-              <p className="text-muted-foreground mt-1 text-sm">
-                {description}
-              </p>
-            </Reveal>
+              icon={icon}
+              title={label}
+              description={description}
+              index={index}
+            />
           ))}
         </div>
-
-        <p className="mt-10 text-center text-sm">
+        <div className="mt-10">
           <Link
             href="/software-testing-services/playwright-automation"
-            className="text-primary font-medium hover:underline"
+            className={ctaVariants({ variant: "outline", size: "md" })}
           >
-            See our Playwright migration approach
+            See our Playwright migration approach{" "}
+            <span aria-hidden="true">&rarr;</span>
           </Link>
-        </p>
+        </div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <h2 className="text-center text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Frequently asked questions
-        </h2>
-
+      <section className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          align="center"
+          eyebrow="Questions"
+          title="Frequently asked *questions*"
+        />
         <div className="mt-12">
           <FaqAccordion faqs={faqs} />
         </div>
@@ -383,8 +318,9 @@ export default function SeleniumTestingPage() {
       />
 
       <CtaSection
-        title="Ready for a Selenium suite that doesn't fight back?"
-        description="Tell us what you're running today and where it's slowing you down. We'll scope an engagement in one call, no long-term contract required."
+        tone="leaf"
+        title="Ready for a Selenium suite that does not *fight back?*"
+        description="Tell us what you are running today and where it is slowing you down. We will scope an engagement in one call, no long-term contract required."
       />
     </>
   );

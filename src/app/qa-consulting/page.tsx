@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  CheckCircle2,
   Radar,
   ShieldCheck,
   Target,
@@ -10,19 +9,24 @@ import {
   Workflow,
 } from "lucide-react";
 
-import { CompareColumns } from "@/components/marketing/compare-columns";
+import { ctaVariants } from "@/components/brand/cta-variants";
+import { StickerCard } from "@/components/brand/sticker-card";
+import { CompareSwitch } from "@/components/marketing/compare-switch";
 import { CtaSection } from "@/components/marketing/cta-section";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PhaseTimeline } from "@/components/marketing/phase-timeline";
 import { Reveal } from "@/components/marketing/reveal";
-import { ServiceCard } from "@/components/marketing/service-card";
+import { SectionHeading } from "@/components/marketing/section-heading";
+import { SectionIntro } from "@/components/marketing/section-intro";
+import { ServiceCarousel } from "@/components/marketing/service-carousel";
+import { CheckGrid } from "@/components/marketing/check-grid";
+import { MaturityCheck } from "@/components/marketing/maturity-check";
 import { StatBand } from "@/components/marketing/stat-band";
-import { buttonVariants } from "@/components/ui/button";
+import { QualityGateDemo } from "@/components/marketing/quality-gate-demo";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { siteConfig } from "@/lib/site-config";
-import { cn } from "@/lib/utils";
 
 const title = "QA Consulting";
 const description =
@@ -48,23 +52,102 @@ export const metadata: Metadata = {
   },
 };
 
-const staffAugmentation = [
-  "Adds a person to your existing testing queue",
-  "Inherits whatever process already exists, gaps included",
-  "Value ends when the contract does",
+const usualWay = {
+  label: "The usual way",
+  summary:
+    "Staff augmentation adds a person to your existing testing queue and inherits whatever process is already there, gaps included. The value ends when the contract does.",
+  status: "Defects escape",
+  tone: "bug",
+  rows: [
+    { label: "Testing happens", value: "The night before release" },
+    { label: "Who owns quality", value: "Whoever has time" },
+    { label: "A bug is found", value: "By a customer, then a scramble" },
+    { label: "Release decision", value: "A gut feeling" },
+  ],
+} as const;
+
+const ourWay = {
+  label: "The GoGreenlit way",
+  summary:
+    "Consulting assesses where defects are actually escaping to production, redesigns the process, then embeds it inside your sprint. Your team owns the process after the engagement ends.",
+  status: "Defects caught",
+  tone: "pass",
+  rows: [
+    { label: "Testing happens", value: "Inside every sprint" },
+    { label: "Who owns quality", value: "A named, embedded QA lead" },
+    { label: "A bug is found", value: "Before launch, with repro steps" },
+    { label: "Release decision", value: "A gate with evidence" },
+  ],
+} as const;
+
+const auditAreas = [
+  { name: "Test strategy" },
+  { name: "Automation in CI" },
+  { name: "Release sign-off", gap: true },
+  { name: "Bug triage" },
+  { name: "Coverage visibility", gap: true },
 ];
 
-const consultingModel = [
-  "Assesses where defects are actually escaping to production",
-  "Redesigns the process, then embeds it inside your sprint",
-  "Your team owns the process after the engagement ends",
+const checkQuestions = [
+  {
+    text: "We have a written test strategy",
+    advice: {
+      title: "Start with a strategy.",
+      body: "A short test strategy decides what matters, so every later choice is easier.",
+      cta: "Test strategy consulting",
+      href: "/qa-consulting/test-strategy-consulting",
+    },
+  },
+  {
+    text: "Automated tests run on every merge",
+    advice: {
+      title: "Put tests in the pipeline.",
+      body: "Automated checks on every merge catch problems while they are cheap to fix.",
+      cta: "CI/CD quality gates",
+      href: "/qa-consulting/cicd-quality-gates",
+    },
+  },
+  {
+    text: "Every release has a clear go or no-go",
+    advice: {
+      title: "Define the release call.",
+      body: "A clear go or no-go replaces the gut feeling at the finish line.",
+      cta: "Release readiness",
+      href: "/qa-consulting/release-readiness",
+    },
+  },
+  {
+    text: "Bugs are triaged by severity, not volume",
+    advice: {
+      title: "Fix the bug process.",
+      body: "Severity-based triage keeps the team on what actually hurts users.",
+      cta: "QA process design",
+      href: "/qa-consulting/qa-process-design",
+    },
+  },
+  {
+    text: "QA joins planning, not just testing",
+    advice: {
+      title: "Bring QA to planning.",
+      body: "Earlier involvement prevents the bugs that testing can only catch late.",
+      cta: "Embedded QA team",
+      href: "/qa-consulting/embedded-qa-team",
+    },
+  },
 ];
+
+const checkAllGood = {
+  title: "You are in strong shape.",
+  body: "A QA audit can confirm it and point at the last few gaps.",
+  cta: "QA audit and assessment",
+  href: "/qa-consulting/qa-audit-assessment",
+};
 
 const phases = [
   {
     title: "Assess",
     description:
-      "A structured audit of your current QA maturity: where defects escape, what's tested versus assumed, and how release decisions actually get made today.",
+      "A structured audit of your current QA maturity: where defects escape, what is tested versus assumed, and how release decisions actually get made today.",
   },
   {
     title: "Design",
@@ -82,7 +165,7 @@ const whoNeedsIt = [
   "Engineering teams scaling past 10 to 15 engineers, where tribal QA knowledge stops working",
   "Teams recovering from a production incident that never should have shipped",
   "Startups preparing for a fundraise or enterprise deal that requires real QA process, not just tests",
-  "Teams that have hired QA engineers but still don't have a repeatable strategy",
+  "Teams that have hired QA engineers but still do not have a repeatable strategy",
   "Leadership that wants an outside audit of QA maturity before deciding what to build in-house",
 ];
 
@@ -91,37 +174,43 @@ const services = [
     icon: Radar,
     title: "QA Audit and Assessment",
     description:
-      "An outside look at your current QA maturity: what's tested, what's assumed, and where the actual risk is hiding.",
+      "An outside look at your current QA maturity: what is tested, what is assumed, and where the actual risk is hiding.",
+    href: "/qa-consulting/qa-audit-assessment",
   },
   {
     icon: Target,
     title: "Test Strategy Consulting",
     description:
       "A risk-based test strategy sized to your actual stack and release cadence, replacing whatever ad hoc testing decisions are happening today.",
+    href: "/qa-consulting/test-strategy-consulting",
   },
   {
     icon: Workflow,
     title: "QA Process Design",
     description:
       "Defect triage, sprint-level test planning, and release sign-off criteria, designed around how your team already works instead of a generic template.",
+    href: "/qa-consulting/qa-process-design",
   },
   {
     icon: Webhook,
     title: "CI/CD Quality Gates",
     description:
       "Automated checks wired into your pipeline so a build that fails quality standards gets blocked before it reaches a release branch.",
+    href: "/qa-consulting/cicd-quality-gates",
   },
   {
     icon: ShieldCheck,
     title: "Release Readiness",
     description:
       "A structured go or no-go review before a release ships, so sign-off reflects real coverage instead of a gut check.",
+    href: "/qa-consulting/release-readiness",
   },
   {
     icon: Users,
     title: "Embedded QA Team",
     description:
       "A QA engineer embedded directly in your sprint to run the new process day to day, not just hand you a document and leave.",
+    href: "/qa-consulting/embedded-qa-team",
   },
 ];
 
@@ -139,7 +228,7 @@ const faqs = [
   {
     question: "When should a startup bring in a QA consultant?",
     answer:
-      "Most engagements start after a production incident that shouldn't have shipped, ahead of a fundraise or enterprise deal that requires real QA process, or once engineering has scaled past the point where tribal knowledge is enough.",
+      "Most engagements start after a production incident that should not have shipped, ahead of a fundraise or enterprise deal that requires real QA process, or once engineering has scaled past the point where tribal knowledge is enough.",
   },
   {
     question: "What happens during the assessment phase?",
@@ -197,25 +286,20 @@ export default function QaConsultingPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
-        badge="Strategy and process, not just extra hands"
-        description="Bringing in another tester treats the symptom. GoGreenlit's QA consulting starts with an assessment of how defects are actually reaching production, then designs and embeds the fix directly into your sprint, with your team owning it long after the engagement ends."
+        tone="olive"
+        badge="Strategy and process, not extra hands"
+        description="Bringing in another tester treats the symptom. GoGreenlit’s QA consulting starts with an assessment of how defects are actually reaching production, then designs and embeds the fix directly into your sprint, with your team owning it long after the engagement ends."
         ctas={
           <>
             <Link
               href={siteConfig.links.calendar}
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "bg-[#ee9e58] text-[#354639] hover:bg-[#ee9e58]/85",
-              )}
+              className={ctaVariants({ variant: "cta", size: "xl" })}
             >
-              Book a call
+              Book a call <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
               href="#model"
-              className={cn(
-                buttonVariants({ size: "lg", variant: "outline" }),
-                "border-[#ffe0ad]/30 bg-transparent text-[#ffe0ad] hover:bg-[#ffe0ad]/10 hover:text-[#ffe0ad]",
-              )}
+              className={ctaVariants({ variant: "outline", size: "xl" })}
             >
               See the consulting model
             </Link>
@@ -223,95 +307,99 @@ export default function QaConsultingPage() {
         }
       >
         QA consulting built around how your team actually{" "}
-        <span className="aurora-glow inline-block animate-[glow-pulse_3.5s_ease-in-out_infinite] rounded-md bg-[#ee9e58] px-2 py-2 leading-[1.2] text-[#354639]">
-          ships software
-        </span>
+        <em>ships software</em>
       </PageHero>
 
-      <StatBand />
-
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            Consulting is not extra headcount
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            Staff augmentation adds a person to your existing process.
-            Consulting changes the process itself, then hands you the ability to
-            run it without us.
-          </p>
-        </div>
-
-        <CompareColumns
-          leftTitle="Staff augmentation"
-          leftItems={staffAugmentation}
-          rightTitle="GoGreenlit QA consulting"
-          rightItems={consultingModel}
+      <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          eyebrow="How a quality gate works"
+          title="The audit finds the gaps, the gate *holds the release*"
+          description="An example engagement in miniature. The audit reads each area of a QA setup, and what it finds decides whether a release is allowed to ship."
         />
+        <Reveal className="mt-12">
+          <StickerCard
+            tone="surface"
+            interactive={false}
+            className="p-6 sm:p-10"
+          >
+            <QualityGateDemo areas={auditAreas} />
+          </StickerCard>
+        </Reveal>
       </section>
 
-      <section
-        id="model"
-        className="border-border/60 scroll-mt-16 border-t bg-[#b1c680]"
-      >
-        <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-foreground text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              The GoGreenlit consulting model
-            </h2>
-            <p className="text-foreground/80 mt-4">
+      <section className="mx-auto max-w-6xl px-4 pb-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          align="center"
+          eyebrow="Two ways to run QA"
+          title="Consulting is not *extra headcount*"
+          description="Staff augmentation adds a person to your existing process. Consulting changes the process itself, then hands you the ability to run it without us."
+        />
+
+        <CompareSwitch usual={usualWay} ours={ourWay} />
+      </section>
+
+      <section id="check" className="on-dark bg-deep text-navajo">
+        <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+          <SectionIntro
+            tone="dark"
+            eyebrow="The one-minute check"
+            title="Where does your QA *really* stand?"
+            description="Tick what is true today. No email required. The check points to the best place to start."
+          />
+          <div className="mt-12">
+            <MaturityCheck questions={checkQuestions} allGood={checkAllGood} />
+          </div>
+        </div>
+      </section>
+
+      <section id="model" className="bg-olive border-ink border-y-[1.5px]">
+        <div className="mx-auto max-w-3xl px-4 py-24 sm:px-6 lg:px-8">
+          <Reveal className="text-center">
+            <p className="font-label text-xs tracking-widest uppercase">
+              Assess, design, embed
+            </p>
+            <SectionHeading className="mt-4">
+              The GoGreenlit *consulting model*
+            </SectionHeading>
+            <p className="mx-auto mt-5 max-w-2xl text-lg">
               Three phases, each one handed off deliberately so the next phase
               has something real to build on.
             </p>
-          </div>
+          </Reveal>
 
           <PhaseTimeline phases={phases} />
         </div>
       </section>
 
-      <section className="bg-[#354639]">
-        <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-semibold tracking-tight text-balance text-[#f9f4eb] sm:text-4xl">
-              Who typically brings in a QA consultant
-            </h2>
+      <section className="bg-navajo border-ink border-y-[1.5px]">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-24 sm:px-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-16 lg:px-8">
+          <div>
+            <SectionIntro
+              eyebrow="Signs you need this"
+              title="Who typically brings in a *QA consultant*"
+            />
+            <CheckGrid items={whoNeedsIt} columns={1} className="mt-10" />
           </div>
-
-          <Reveal as="div" className="mx-auto mt-12 max-w-2xl">
-            <ul className="space-y-4">
-              {whoNeedsIt.map((item) => (
-                <li key={item} className="flex gap-3">
-                  <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-[#ffe0ad]" />
-                  <span className="text-sm text-[#f9f4eb]/85">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
+          <StatBand compact />
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            QA consulting services
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            Each engagement starts with the audit and scopes down from there,
-            not a fixed package.
-          </p>
-        </div>
+      <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          eyebrow="Six ways in"
+          title="QA consulting *services*"
+          description="Each engagement starts with the audit and scopes down from there, not a fixed package."
+        />
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, index) => (
-            <ServiceCard key={service.title} {...service} index={index} />
-          ))}
-        </div>
+        <Reveal className="mt-12">
+          <ServiceCarousel services={services} label="QA consulting services" />
+        </Reveal>
       </section>
 
-      <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <h2 className="text-center text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Frequently asked questions
-        </h2>
+      <section className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 lg:px-8">
+        <SectionHeading className="text-center">
+          Frequently asked *questions*
+        </SectionHeading>
 
         <div className="mt-12">
           <FaqAccordion faqs={faqs} />
@@ -319,8 +407,9 @@ export default function QaConsultingPage() {
       </section>
 
       <CtaSection
-        title="Ready for an outside look at your QA process?"
-        description="Tell us where a defect last slipped through, and what your release process actually looks like today. We'll scope an assessment in one call."
+        tone="olive"
+        title="Ready for an outside *look at your QA process?*"
+        description="Tell us where a defect last slipped through, and what your release process actually looks like today. We will scope an assessment in one call."
       />
     </>
   );

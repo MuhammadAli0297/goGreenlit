@@ -15,6 +15,7 @@ export default async function Image() {
     buildMarketingOgElement(
       "Selenium automation services that extend what you already built",
       "software-testing-services",
+      "what you already built",
     ),
     { ...size, fonts },
   );

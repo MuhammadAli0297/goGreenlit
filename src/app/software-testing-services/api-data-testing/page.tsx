@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  CheckCircle2,
   CheckSquare,
   FileJson2,
   FileSignature,
@@ -16,18 +15,19 @@ import {
   Terminal,
 } from "lucide-react";
 
-import { CtaSection } from "@/components/marketing/cta-section";
-import { FaqAccordion } from "@/components/marketing/faq-accordion";
+import { ctaVariants } from "@/components/brand/cta-variants";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
+import { CheckGrid } from "@/components/marketing/check-grid";
+import { CtaSection } from "@/components/marketing/cta-section";
+import { DeepBand } from "@/components/marketing/deep-band";
+import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { PageHero } from "@/components/marketing/page-hero";
 import { RelatedLinks } from "@/components/marketing/related-links";
-import { Reveal } from "@/components/marketing/reveal";
+import { SectionIntro } from "@/components/marketing/section-intro";
 import { ServiceCard } from "@/components/marketing/service-card";
-import { buttonVariants } from "@/components/ui/button";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
-import { cn } from "@/lib/utils";
 
 const title = "API and Data Testing Services";
 const description =
@@ -155,7 +155,7 @@ const pipelineStages = [
 const faqs = [
   {
     question:
-      "What's the difference between API testing and integration testing?",
+      "What is the difference between API testing and integration testing?",
     answer:
       "API testing validates the behavior of a single endpoint. Integration testing validates how multiple services behave together. Most real API testing engagements include some of both, since the two overlap more than the labels suggest.",
   },
@@ -216,25 +216,20 @@ export default function ApiDataTestingPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
-        badge="Functional, contract, schema, and security testing for REST and GraphQL"
+        tone="leaf"
+        badge="REST, GraphQL, contract and security"
         description="A bug caught at the API layer is cheap to fix. The same bug caught in a UI test, or by a user, is not. GoGreenlit tests the layer underneath your interface: endpoints, contracts, schemas, and the data integrity checks that never show up on a screen but break production just as often."
         ctas={
           <>
             <Link
               href={siteConfig.links.calendar}
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "bg-[#ee9e58] text-[#354639] hover:bg-[#ee9e58]/85",
-              )}
+              className={ctaVariants({ variant: "cta", size: "xl" })}
             >
-              Book a call
+              Book a call <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
               href="#layers"
-              className={cn(
-                buttonVariants({ size: "lg", variant: "outline" }),
-                "border-[#ffe0ad]/30 bg-transparent text-[#ffe0ad] hover:bg-[#ffe0ad]/10 hover:text-[#ffe0ad]",
-              )}
+              className={ctaVariants({ variant: "outline", size: "xl" })}
             >
               See what we test
             </Link>
@@ -242,30 +237,23 @@ export default function ApiDataTestingPage() {
         }
       >
         API and data testing services built to catch problems{" "}
-        <span className="aurora-glow inline-block animate-[glow-pulse_3.5s_ease-in-out_infinite] rounded-md bg-[#ee9e58] px-2 py-2 leading-[1.2] text-[#354639]">
-          at the source
-        </span>
+        <em>at the source</em>
       </PageHero>
 
       <section
         id="layers"
-        className="mx-auto max-w-6xl scroll-mt-16 px-4 py-20 sm:px-6 lg:px-8"
+        className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8"
       >
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            What API testing actually covers
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            Real API testing goes well past checking for a 200 status code.
-            These are the layers we actually test.
-          </p>
-        </div>
-
+        <SectionIntro
+          eyebrow="Layers"
+          title="What API testing *actually* covers"
+          description="Real API testing goes well past checking for a 200 status code. These are the layers we actually test."
+        />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {layers.map((layer, index) => (
+          {layers.map((item, index) => (
             <ServiceCard
-              key={layer.title}
-              {...layer}
+              key={item.title}
+              {...item}
               variant="bold"
               index={index}
             />
@@ -273,96 +261,47 @@ export default function ApiDataTestingPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            Tools we use, matched to your stack
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            Which tool we reach for depends on what your team already runs, not
-            a fixed toolkit applied everywhere.
-          </p>
-        </div>
-
+      <section className="mx-auto max-w-6xl px-4 pb-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          eyebrow="Tools"
+          title="Tools we use, matched to your *stack*"
+          description="Which tool we reach for depends on what your team already runs, not a fixed toolkit applied everywhere."
+        />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {tools.map(({ icon: Icon, label, description }, index) => (
-            <Reveal
+          {tools.map(({ icon, label, description }, index) => (
+            <ServiceCard
               key={label}
-              className="border-border/60 rounded-lg border p-5"
-              delay={index * 80}
-            >
-              <div className="bg-accent text-accent-foreground flex size-10 items-center justify-center rounded-lg">
-                <Icon className="size-5" />
-              </div>
-              <h3 className="mt-3 font-semibold">{label}</h3>
-              <p className="text-muted-foreground mt-1 text-sm">
-                {description}
-              </p>
-            </Reveal>
+              icon={icon}
+              title={label}
+              description={description}
+              index={index}
+            />
           ))}
         </div>
       </section>
 
-      <section className="border-border/60 border-t bg-[#8fa175]">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-foreground text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              Data integrity testing
-            </h2>
-            <p className="text-foreground/80 mt-4">
-              The checks that never show up in an API response but break
-              production just as often.
-            </p>
-          </div>
+      <DeepBand
+        eyebrow="Data"
+        title="Data *integrity* testing"
+        description="The checks that never show up in an API response but break production just as often."
+        items={dataIntegrity}
+      />
 
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {dataIntegrity.map(
-              ({ icon: Icon, title: itemTitle, description }, index) => (
-                <Reveal
-                  key={itemTitle}
-                  className="flex flex-col items-center gap-3 text-center"
-                  delay={index * 80}
-                >
-                  <div className="flex size-10 items-center justify-center rounded-lg bg-[#ee9e58] text-[#354639]">
-                    <Icon className="size-5" />
-                  </div>
-                  <h3 className="text-foreground font-semibold">{itemTitle}</h3>
-                  <p className="text-foreground/80 text-sm">{description}</p>
-                </Reveal>
-              ),
-            )}
-          </div>
-        </div>
+      <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          eyebrow="CI/CD"
+          title="API tests in your *CI/CD* pipeline"
+          description="A suite that only runs on demand catches problems too late. This is how it stays continuous."
+        />
+        <CheckGrid items={pipelineStages} className="mt-12" />
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            API tests in your CI/CD pipeline
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            A suite that only runs on demand catches problems too late. This is
-            how it stays continuous.
-          </p>
-        </div>
-
-        <Reveal as="div" className="mx-auto mt-12 max-w-2xl">
-          <ul className="grid gap-4">
-            {pipelineStages.map((stage) => (
-              <li key={stage} className="flex gap-3">
-                <CheckCircle2 className="text-primary mt-0.5 size-5 shrink-0" />
-                <span className="text-foreground/90 text-sm">{stage}</span>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-      </section>
-
-      <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <h2 className="text-center text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Frequently asked questions
-        </h2>
-
+      <section className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          align="center"
+          eyebrow="Questions"
+          title="Frequently asked *questions*"
+        />
         <div className="mt-12">
           <FaqAccordion faqs={faqs} />
         </div>
@@ -375,8 +314,9 @@ export default function ApiDataTestingPage() {
       />
 
       <CtaSection
-        title="Ready to test the layer underneath your UI?"
-        description="Tell us what your API and data layer looks like today. We'll scope an engagement in one call, no long-term contract required."
+        tone="leaf"
+        title="Ready to test the layer underneath *your UI?*"
+        description="Tell us what your API and data layer looks like today. We will scope an engagement in one call, no long-term contract required."
       />
     </>
   );

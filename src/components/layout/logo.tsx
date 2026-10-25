@@ -4,8 +4,11 @@ import { cn } from "@/lib/utils";
 export function Logo({
   className,
   variant = "default",
+  onClick,
 }: {
   className?: string;
+  /** Lets a surface that stays open across navigation (the mobile drawer) close itself when the logo is used. */
+  onClick?: () => void;
   /** "onDark" swaps the mark for use inside a bold, dark-background section (see CLAUDE.md gotcha #7). */
   variant?: "default" | "onDark";
 }) {
@@ -14,8 +17,9 @@ export function Logo({
   return (
     <Link
       href="/"
+      onClick={onClick}
       className={cn(
-        "inline-flex items-center gap-2 text-lg font-semibold tracking-tight",
+        "relative inline-flex items-center gap-2 text-lg font-semibold tracking-tight after:absolute after:inset-x-0 after:-inset-y-2.5",
         className,
       )}
     >

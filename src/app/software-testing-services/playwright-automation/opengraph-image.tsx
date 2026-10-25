@@ -15,6 +15,7 @@ export default async function Image() {
     buildMarketingOgElement(
       "Playwright automation services that live in your codebase",
       "software-testing-services",
+      "your codebase",
     ),
     { ...size, fonts },
   );

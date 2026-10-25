@@ -18,18 +18,19 @@ import {
   Zap,
 } from "lucide-react";
 
-import { CtaSection } from "@/components/marketing/cta-section";
-import { FaqAccordion } from "@/components/marketing/faq-accordion";
+import { ctaVariants } from "@/components/brand/cta-variants";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
+import { CtaSection } from "@/components/marketing/cta-section";
+import { DeepBand } from "@/components/marketing/deep-band";
+import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { PageHero } from "@/components/marketing/page-hero";
 import { RelatedLinks } from "@/components/marketing/related-links";
-import { Reveal } from "@/components/marketing/reveal";
+import { RunTestWidget } from "@/components/marketing/run-test-widget";
+import { SectionIntro } from "@/components/marketing/section-intro";
 import { ServiceCard } from "@/components/marketing/service-card";
-import { buttonVariants } from "@/components/ui/button";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
-import { cn } from "@/lib/utils";
 
 const title = "Playwright Automation Services";
 const description =
@@ -78,7 +79,7 @@ const advantages = [
     icon: Waypoints,
     title: "Network interception",
     description:
-      "Requests can be mocked, modified, or inspected directly, so a test can cover an edge case your backend doesn't need to actually produce.",
+      "Requests can be mocked, modified, or inspected directly, so a test can cover an edge case your backend does not need to actually produce.",
   },
   {
     icon: AppWindow,
@@ -147,13 +148,13 @@ const pipeline = [
     icon: PlayCircle,
     title: "Parallel runs in CI",
     description:
-      "The same sharding that speeds up local runs carries over to your pipeline, so coverage doesn't cost you build time.",
+      "The same sharding that speeds up local runs carries over to your pipeline, so coverage does not cost you build time.",
   },
   {
     icon: Camera,
     title: "Artifact capture",
     description:
-      "Screenshots and trace files on every failure, so debugging a CI run doesn't mean reproducing it locally first.",
+      "Screenshots and trace files on every failure, so debugging a CI run does not mean reproducing it locally first.",
   },
   {
     icon: ListChecks,
@@ -177,7 +178,7 @@ const faqs = [
   {
     question: "Can Playwright test our mobile app?",
     answer:
-      "It can emulate mobile browsers for responsive web testing, but it can't drive a native iOS or Android app. For that, we bring in Appium as part of our mobile testing engagements.",
+      "It can emulate mobile browsers for responsive web testing, but it cannot drive a native iOS or Android app. For that, we bring in Appium as part of our mobile testing engagements.",
   },
   {
     question: "What browsers does Playwright actually support?",
@@ -211,6 +212,23 @@ const faqStructuredData = {
   })),
 };
 
+const specCode = [
+  'test("applies coupon once", async ({ page }) => {',
+  '  await page.goto("/cart");',
+  '  await page.getByLabel("Coupon").fill("WELCOME");',
+  '  const tag = page.getByTestId("discount");',
+  "  await expect(tag).toHaveCount(1);",
+  "});",
+];
+
+const runResults = [
+  { tag: "RUN ", tone: "pass", text: "chromium, firefox, webkit" },
+  { tag: "FAIL", tone: "bug", text: "discount applied twice, expected once" },
+  { tag: "TRC ", tone: "note", text: "trace saved, second apply highlighted" },
+  { tag: "FIX ", tone: "pass", text: "coupon applies once, re-run" },
+  { tag: "PASS", tone: "pass", text: "chromium, firefox, webkit" },
+] as const;
+
 export default function PlaywrightAutomationPage() {
   return (
     <>
@@ -226,51 +244,45 @@ export default function PlaywrightAutomationPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <PageHero
-        badge="TypeScript suites, CI/CD wiring, and phased Selenium or Cypress migrations"
+        tone="leaf"
+        badge="TypeScript suites and CI/CD wiring"
         description="Playwright is the default choice for new end-to-end suites for good reason: real cross-browser coverage, parallel execution out of the box, and less flake than the tools it replaced. GoGreenlit builds and maintains Playwright suites in TypeScript, checked into your repository and wired into CI, so a failing test blocks a bad merge instead of getting discovered after a release."
+        aside={
+          <RunTestWidget
+            file="checkout.spec.ts"
+            code={specCode}
+            results={runResults}
+          />
+        }
         ctas={
           <>
             <Link
               href={siteConfig.links.calendar}
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "bg-[#ee9e58] text-[#354639] hover:bg-[#ee9e58]/85",
-              )}
+              className={ctaVariants({ variant: "cta", size: "xl" })}
             >
-              Book a call
+              Book a call <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
               href="#capabilities"
-              className={cn(
-                buttonVariants({ size: "lg", variant: "outline" }),
-                "border-[#ffe0ad]/30 bg-transparent text-[#ffe0ad] hover:bg-[#ffe0ad]/10 hover:text-[#ffe0ad]",
-              )}
+              className={ctaVariants({ variant: "outline", size: "xl" })}
             >
               See what we build
             </Link>
           </>
         }
       >
-        Playwright automation services that live in{" "}
-        <span className="aurora-glow inline-block animate-[glow-pulse_3.5s_ease-in-out_infinite] rounded-md bg-[#ee9e58] px-2 py-2 leading-[1.2] text-[#354639]">
-          your codebase
-        </span>
+        Playwright automation services that live in <em>your codebase</em>
       </PageHero>
 
       <section
         id="capabilities"
-        className="mx-auto max-w-6xl scroll-mt-16 px-4 py-20 sm:px-6 lg:px-8"
+        className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8"
       >
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            Why Playwright is the default now
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            Most new end-to-end suites start on Playwright instead of Selenium
-            or Cypress. These are the reasons why.
-          </p>
-        </div>
-
+        <SectionIntro
+          eyebrow="Why Playwright"
+          title="Why Playwright is the *default* now"
+          description="Most new end-to-end suites start on Playwright instead of Selenium or Cypress. These are the reasons why."
+        />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {advantages.map((advantage, index) => (
             <ServiceCard
@@ -283,82 +295,32 @@ export default function PlaywrightAutomationPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            What we build with Playwright
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            A suite that holds up as your app grows, not a pile of scripts that
-            gets slower and flakier every sprint.
-          </p>
-        </div>
-
+      <section className="mx-auto max-w-6xl px-4 pb-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          eyebrow="What we build"
+          title="What we build with *Playwright*"
+          description="A suite that holds up as your app grows, not a pile of scripts that gets slower and flakier every sprint."
+        />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {whatWeBuild.map(
-            ({ icon: Icon, title: itemTitle, description }, index) => (
-              <Reveal
-                key={itemTitle}
-                className="border-border/60 rounded-lg border p-5"
-                delay={index * 80}
-              >
-                <div className="bg-accent text-accent-foreground flex size-10 items-center justify-center rounded-lg">
-                  <Icon className="size-5" />
-                </div>
-                <h3 className="mt-3 font-semibold">{itemTitle}</h3>
-                <p className="text-muted-foreground mt-1 text-sm">
-                  {description}
-                </p>
-              </Reveal>
-            ),
-          )}
+          {whatWeBuild.map((item, index) => (
+            <ServiceCard key={item.title} {...item} index={index} />
+          ))}
         </div>
       </section>
 
-      <section className="border-border/60 border-t bg-[#8fa175]">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-foreground text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              Migrating from Selenium or Cypress
-            </h2>
-            <p className="text-foreground/80 mt-4">
-              We do not recommend a rewrite. A phased migration keeps your
-              existing coverage in place while Playwright takes over one area at
-              a time.
-            </p>
-          </div>
+      <DeepBand
+        eyebrow="Migration"
+        title="Migrating from Selenium or *Cypress*"
+        description="We do not recommend a rewrite. A phased migration keeps your existing coverage in place while Playwright takes over one area at a time."
+        items={migration}
+      />
 
-          <div className="mt-12 grid gap-8 sm:grid-cols-3">
-            {migration.map(
-              ({ icon: Icon, title: itemTitle, description }, index) => (
-                <Reveal
-                  key={itemTitle}
-                  className="flex flex-col items-center gap-3 text-center"
-                  delay={index * 80}
-                >
-                  <div className="flex size-10 items-center justify-center rounded-lg bg-[#ee9e58] text-[#354639]">
-                    <Icon className="size-5" />
-                  </div>
-                  <h3 className="text-foreground font-semibold">{itemTitle}</h3>
-                  <p className="text-foreground/80 text-sm">{description}</p>
-                </Reveal>
-              ),
-            )}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-            Playwright in your CI/CD pipeline
-          </h2>
-          <p className="text-muted-foreground mt-4">
-            A suite that only runs locally does not protect a release. This is
-            where it earns its keep.
-          </p>
-        </div>
-
+      <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          eyebrow="CI/CD"
+          title="Playwright in your *CI/CD* pipeline"
+          description="A suite that only runs locally does not protect a release. This is where it earns its keep."
+        />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {pipeline.map((item, index) => (
             <ServiceCard key={item.title} {...item} index={index} />
@@ -366,11 +328,12 @@ export default function PlaywrightAutomationPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <h2 className="text-center text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Frequently asked questions
-        </h2>
-
+      <section className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 lg:px-8">
+        <SectionIntro
+          align="center"
+          eyebrow="Questions"
+          title="Frequently asked *questions*"
+        />
         <div className="mt-12">
           <FaqAccordion faqs={faqs} />
         </div>
@@ -383,8 +346,9 @@ export default function PlaywrightAutomationPage() {
       />
 
       <CtaSection
-        title="Ready for a Playwright suite that lives in your repo?"
-        description="Tell us about your app and whatever automation you already have, or don't. We'll scope an engagement in one call, no long-term contract required."
+        tone="leaf"
+        title="Ready for a Playwright suite that lives in *your repo?*"
+        description="Tell us about your app and whatever automation you already have, or do not. We will scope an engagement in one call, no long-term contract required."
       />
     </>
   );

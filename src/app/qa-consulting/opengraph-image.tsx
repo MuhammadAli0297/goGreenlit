@@ -15,6 +15,7 @@ export default async function Image() {
     buildMarketingOgElement(
       "QA consulting built around how your team actually ships software",
       "qa-consulting",
+      "ships software",
     ),
     { ...size, fonts },
   );

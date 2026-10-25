@@ -1,34 +1,38 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-import { buttonVariants } from "@/components/ui/button";
+import { buildBlogHref } from "@/lib/blog-href";
 import { cn } from "@/lib/utils";
+
+const keyClass =
+  "text-ink font-label relative inline-flex size-11 items-center justify-center rounded-[10px] bg-ink/7 text-[13px] transition-colors";
+const keyLiveClass = "hover:bg-ink/14";
+const keyActiveClass = "bg-ink text-paper hover:bg-ink";
 
 /**
  * Prev/Next plus numbered page links, all plain `<Link>`s (no client
- * state), always carrying the current `category` filter along with the
- * `page` param. This is the pagination half of "filters work on every
- * page": since every link here is built from the current category, moving
- * between pages never drops the active filter.
+ * state), always carrying the current `category` and search `query` along
+ * with the `page` param, so moving between pages never drops a filter. At
+ * the ends, Previous and Next are not links at all (a disabled control that
+ * is still a link is a trap for keyboards and crawlers), they render as
+ * dimmed keys marked `aria-disabled`. Quiet square keys in one row that
+ * wraps if the screen is too narrow for all of them.
  */
 export function BlogPagination({
   currentPage,
   totalPages,
   category,
+  query,
 }: {
   currentPage: number;
   totalPages: number;
   category?: string;
+  query?: string;
 }) {
   if (totalPages <= 1) return null;
 
-  const hrefFor = (page: number) => {
-    const params = new URLSearchParams();
-    if (category) params.set("category", category);
-    if (page > 1) params.set("page", String(page));
-    const qs = params.toString();
-    return qs ? `/blog?${qs}` : "/blog";
-  };
+  const hrefFor = (page: number) =>
+    buildBlogHref({ category, q: query, page, hash: "blog-list" });
 
   const isFirst = currentPage === 1;
   const isLast = currentPage === totalPages;
@@ -36,51 +40,57 @@ export function BlogPagination({
   return (
     <nav
       aria-label="Blog pagination"
-      className="mt-12 flex items-center justify-center gap-2"
+      className="mt-14 flex flex-wrap items-center justify-center gap-2"
     >
-      <Link
-        href={hrefFor(Math.max(1, currentPage - 1))}
-        aria-disabled={isFirst}
-        tabIndex={isFirst ? -1 : undefined}
-        className={cn(
-          buttonVariants({ variant: "outline", size: "sm" }),
-          isFirst && "pointer-events-none opacity-40",
-        )}
-      >
-        <ChevronLeft />
-        Previous
-      </Link>
+      {isFirst ? (
+        <span aria-disabled="true" className={cn(keyClass, "opacity-35")}>
+          <ArrowLeft aria-hidden="true" className="size-4" />
+          <span className="sr-only">Previous page</span>
+        </span>
+      ) : (
+        <Link
+          href={hrefFor(currentPage - 1)}
+          rel="prev"
+          className={cn(keyClass, keyLiveClass)}
+        >
+          <ArrowLeft aria-hidden="true" className="size-4" />
+          <span className="sr-only">Previous page</span>
+        </Link>
+      )}
 
-      <div className="flex items-center gap-1">
+      <ol className="flex items-center gap-2">
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-          <Link
-            key={page}
-            href={hrefFor(page)}
-            aria-current={page === currentPage ? "page" : undefined}
-            className={cn(
-              "flex size-9 items-center justify-center rounded-lg text-sm font-medium transition-colors",
-              page === currentPage
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground",
-            )}
-          >
-            {page}
-          </Link>
+          <li key={page}>
+            <Link
+              href={hrefFor(page)}
+              aria-current={page === currentPage ? "page" : undefined}
+              aria-label={`Page ${page}`}
+              className={cn(
+                keyClass,
+                page === currentPage ? keyActiveClass : keyLiveClass,
+              )}
+            >
+              {page}
+            </Link>
+          </li>
         ))}
-      </div>
+      </ol>
 
-      <Link
-        href={hrefFor(Math.min(totalPages, currentPage + 1))}
-        aria-disabled={isLast}
-        tabIndex={isLast ? -1 : undefined}
-        className={cn(
-          buttonVariants({ variant: "outline", size: "sm" }),
-          isLast && "pointer-events-none opacity-40",
-        )}
-      >
-        Next
-        <ChevronRight />
-      </Link>
+      {isLast ? (
+        <span aria-disabled="true" className={cn(keyClass, "opacity-35")}>
+          <ArrowRight aria-hidden="true" className="size-4" />
+          <span className="sr-only">Next page</span>
+        </span>
+      ) : (
+        <Link
+          href={hrefFor(currentPage + 1)}
+          rel="next"
+          className={cn(keyClass, keyLiveClass)}
+        >
+          <ArrowRight aria-hidden="true" className="size-4" />
+          <span className="sr-only">Next page</span>
+        </Link>
+      )}
     </nav>
   );
 }

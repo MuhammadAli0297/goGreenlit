@@ -15,6 +15,7 @@ export default async function Image() {
     buildMarketingOgElement(
       "Embedded QA teams that work inside your sprint",
       "qa-consulting",
+      "inside your sprint",
     ),
     { ...size, fonts },
   );

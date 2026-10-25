@@ -15,6 +15,7 @@ export default async function Image() {
     buildMarketingOgElement(
       "Release readiness reviews that mean more than a passing test run",
       "qa-consulting",
+      "a passing test run",
     ),
     { ...size, fonts },
   );

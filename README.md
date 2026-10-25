@@ -18,7 +18,7 @@ a production build, and end-to-end tests.
 <p align="center">
   <img src="public/readme/home-hero.png" width="100%" alt="Homepage hero with animated aurora background" />
   <br />
-  <sub>Homepage hero: animated aurora background, always fills exactly one viewport</sub>
+  <sub>Homepage hero: aurora background and a live test-run terminal, always exactly one viewport</sub>
 </p>
 
 <p align="center">
@@ -117,6 +117,20 @@ engineering spec I maintain: every non-obvious decision and every bug
 hit along the way gets documented there so it doesn't get relitigated or
 reintroduced later.
 
+## Redesign in progress
+
+The site is mid-redesign (a motion-forward direction called "Live Build":
+pill buttons, sticker-style cards, live test-run demos, scroll-driven
+animation, all pure CSS). It is being built phase by phase on one
+long-lived branch and ships to `main` only once the whole thing is
+approved, so what you see in production is the previous design. Every
+phase of the build is done on the branch (foundation, site chrome, shared
+components, homepage, Services and QA Consulting families, the blog, About,
+404 and social images) and it is now in the hardening and sign-off phase:
+Lighthouse and layout-shift fixes, a keyboard pass, a pixel-level contrast
+audit, reduced-motion and CSP checks, and the end-to-end suite. See
+`CLAUDE.md` (gotchas 32 to 71) for how each piece works.
+
 ## Stack
 
 | Layer      | Choice                                                           |
@@ -125,6 +139,7 @@ reintroduced later.
 | Language   | TypeScript, `strict` plus extra strictness flags                 |
 | Styling    | Tailwind CSS v4 (CSS-first config, no `tailwind.config.ts`)      |
 | Components | shadcn/ui on [Base UI](https://base-ui.com) (not Radix)          |
+| Fonts      | Bespoke Serif (self-hosted) plus JetBrains Mono for labels       |
 | Testing    | Vitest + React Testing Library (unit), Playwright (e2e)          |
 | Tooling    | ESLint (flat config), Prettier, Husky + lint-staged + commitlint |
 | Deploy     | Vercel, auto-deployed from `main`                                |
@@ -134,11 +149,12 @@ reintroduced later.
 - **17** hand-built page templates across 4 distinct page families, plus
   a blog engine generating **45** long-form posts, **62** total indexed
   routes
-- **20** unit tests and a **3**-scenario Playwright end-to-end suite,
-  both required to pass in CI before merge
+- **229** unit tests and a **40**-scenario Playwright end-to-end suite,
+  both required to pass in CI before merge, including a test that reads
+  the real color tokens and fails if a pairing drops below WCAG contrast
 - **Zero** runtime animation dependencies, every motion effect is pure
   CSS or a native browser API
-- **~72KB** internal engineering doc (`CLAUDE.md`) documenting every
+- **~128KB** internal engineering doc (`CLAUDE.md`) documenting every
   non-obvious architectural decision and gotcha hit along the way, kept
   current as the source of truth for how the codebase actually works
 
@@ -178,7 +194,8 @@ npx playwright install chromium
 src/app/            Routes (App Router): home, software-testing-services/
                      and its six subpages, qa-consulting/ and its six
                      subpages, about/, and blog/ (index + [slug] posts)
-src/components/      ui/ (shadcn, generated) · layout/ · marketing/
+src/components/      ui/ (shadcn, generated) · brand/ (button, pill and
+                     card primitives) · layout/ · marketing/
 src/lib/             Site config, blog content/data, cross-link and
                      breadcrumb schema helpers, utilities
 next.config.ts       Redirects for dead URLs from the pre-rebuild site

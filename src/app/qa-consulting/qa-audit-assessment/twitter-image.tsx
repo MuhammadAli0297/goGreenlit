@@ -15,6 +15,7 @@ export default async function Image() {
     buildMarketingOgElement(
       "QA audits that show you exactly where quality breaks down",
       "qa-consulting",
+      "where quality breaks down",
     ),
     { ...size, fonts },
   );

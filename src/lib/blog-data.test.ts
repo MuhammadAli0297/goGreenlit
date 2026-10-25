@@ -4,14 +4,18 @@ import {
   POSTS_PER_PAGE,
   blogCategories,
   blogPosts,
+  FEATURED_POST_SLUG,
   clampPage,
+  getBlogIndexView,
   getCategoryBySlug,
   getPostBySlug,
   getPostsByCategory,
   getRelatedPosts,
   getTotalPages,
   interleaveByCategory,
+  normalizeSearchQuery,
   paginatePosts,
+  searchPosts,
 } from "@/lib/blog-data";
 
 describe("getPostBySlug", () => {
@@ -90,6 +94,25 @@ describe("getRelatedPosts", () => {
     const post = getPostBySlug("playwright-vs-selenium-2026")!;
     expect(getRelatedPosts(post, 1)).toHaveLength(1);
   });
+
+  it("gives neighbours, wrapping around, so siblings do not all share the same three", () => {
+    const first = blogPosts.find((p) => p.category === "qa-strategy")!;
+    const same = blogPosts.filter((p) => p.category === first.category);
+    expect(getRelatedPosts(first).map((p) => p.slug)).toEqual(
+      same.slice(1, 4).map((p) => p.slug),
+    );
+    const last = same[same.length - 1]!;
+    expect(getRelatedPosts(last).map((p) => p.slug)).toEqual(
+      same.slice(0, 3).map((p) => p.slug),
+    );
+  });
+
+  it("every post is linked from at least one other post in its category", () => {
+    const linkedTo = new Set(
+      blogPosts.flatMap((p) => getRelatedPosts(p).map((r) => r.slug)),
+    );
+    for (const post of blogPosts) expect(linkedTo.has(post.slug)).toBe(true);
+  });
 });
 
 describe("pagination helpers", () => {
@@ -120,5 +143,56 @@ describe("pagination helpers", () => {
     const firstPage = paginatePosts(blogPosts, 1);
     expect(firstPage).toHaveLength(Math.min(POSTS_PER_PAGE, blogPosts.length));
     expect(firstPage[0]).toBe(blogPosts[0]);
+  });
+});
+
+describe("search", () => {
+  it("normalizes whitespace and caps the length", () => {
+    expect(normalizeSearchQuery("  playwright   vs  ")).toBe("playwright vs");
+    expect(normalizeSearchQuery(undefined)).toBe("");
+    expect(normalizeSearchQuery("a".repeat(200))).toHaveLength(80);
+  });
+
+  it("returns every post for an empty query", () => {
+    expect(searchPosts(blogPosts, "   ")).toHaveLength(blogPosts.length);
+  });
+
+  it("matches title words case-insensitively", () => {
+    const hits = searchPosts(blogPosts, "PLAYWRIGHT selenium");
+    expect(hits.map((p) => p.slug)).toContain("playwright-vs-selenium-2026");
+  });
+
+  it("requires every word to match", () => {
+    expect(searchPosts(blogPosts, "playwright zzzznotaword")).toHaveLength(0);
+  });
+});
+
+describe("getBlogIndexView", () => {
+  it("features one post on the plain index and does not repeat it in the grid", () => {
+    const view = getBlogIndexView({});
+    expect(view.featured?.slug).toBe(FEATURED_POST_SLUG);
+    expect(view.displayPosts.some((p) => p.slug === FEATURED_POST_SLUG)).toBe(
+      false,
+    );
+    expect(view.displayPosts).toHaveLength(blogPosts.length - 1);
+  });
+
+  it("features only on page 1", () => {
+    expect(getBlogIndexView({ page: "2" }).featured).toBeUndefined();
+  });
+
+  it("has no featured post in a category or search view, and keeps it in the list", () => {
+    const featured = blogPosts.find((p) => p.slug === FEATURED_POST_SLUG)!;
+    const cat = getBlogIndexView({ category: featured.category });
+    expect(cat.featured).toBeUndefined();
+    expect(cat.displayPosts.some((p) => p.slug === FEATURED_POST_SLUG)).toBe(
+      true,
+    );
+    expect(getBlogIndexView({ q: "outsource" }).featured).toBeUndefined();
+  });
+
+  it("clamps an out of range page", () => {
+    const view = getBlogIndexView({ page: "999" });
+    expect(view.currentPage).toBe(view.totalPages);
   });
 });

@@ -9,22 +9,32 @@ import type { BreadcrumbItem } from "@/lib/breadcrumbs";
  * #7's "zero icons anywhere" rule). Sits on the page's plain background
  * above the hero, not inside any one family's bold section, so its
  * styling doesn't need to vary per family.
+ *
+ * It is the first element on every page except the homepage, which is why
+ * it carries the top clearance for the floating pill header (the header
+ * takes no layout space, see SiteHeader). Set in the mono label style so
+ * it reads as page furniture rather than content. Each link's tap area is
+ * stretched to about 44px tall with an invisible `after:` layer, so the
+ * small mono text is still easy to hit on a phone without moving anything.
  */
 export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
   return (
-    <nav aria-label="Breadcrumb" className="border-border/60 border-b">
-      <ol className="text-muted-foreground mx-auto flex max-w-6xl flex-wrap items-center gap-1.5 px-4 py-3 text-sm sm:px-6 lg:px-8">
+    <nav aria-label="Breadcrumb" className="pt-(--header-clearance)">
+      <ol className="font-label text-deep mx-auto flex max-w-6xl flex-wrap items-center gap-x-2 gap-y-1 px-4 pt-4 pb-3 text-xs tracking-widest uppercase sm:px-6 lg:px-8">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
           return (
-            <li key={item.href} className="flex items-center gap-1.5">
+            <li key={item.href} className="flex items-center gap-2">
               {index > 0 && <span aria-hidden>/</span>}
               {isLast ? (
-                <span aria-current="page" className="text-foreground">
+                <span aria-current="page" className="text-ink font-medium">
                   {item.name}
                 </span>
               ) : (
-                <Link href={item.href} className="hover:text-foreground">
+                <Link
+                  href={item.href}
+                  className="hover:text-ink relative underline-offset-4 transition-colors after:absolute after:-inset-x-1 after:-inset-y-3.5 hover:underline"
+                >
                   {item.name}
                 </Link>
               )}

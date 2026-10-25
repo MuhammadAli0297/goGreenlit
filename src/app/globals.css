@@ -7,8 +7,21 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  /* Live Build brand layer (2026 redesign): the five swatches plus ink,
+     paper and surface, usable as bg-ink, text-ink, bg-paper, bg-sandy etc. */
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-deep: var(--deep);
+  --color-leaf: var(--leaf);
+  --color-olive: var(--olive);
+  --color-navajo: var(--navajo);
+  --color-sandy: var(--sandy);
+  --color-pass: var(--pass);
+  --color-bug: var(--bug);
   --font-sans: var(--font-serif);
   --font-mono: var(--font-serif);
+  --font-label: var(--font-jetbrains-mono), ui-monospace, monospace;
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -86,6 +99,30 @@
   --sidebar-accent-foreground: #33411f;
   --sidebar-border: #e1cbb7;
   --sidebar-ring: #354639;
+
+  /* Live Build brand layer. Additive: the shadcn tokens above are untouched
+     so pages not yet redesigned look exactly as before. Ink and paper are
+     tints/shades of the five swatches (never pure black or white). The
+     site has no dark mode switch, so these have no .dark counterpart.
+     - ink: text and 1.5px outlines. paper: the new page ground. surface:
+       cards that sit on paper.
+     - pass / bug: the status language used by every widget, Olive means a
+       check passed, Sandy Brown means a bug was found. Never rely on the
+       color alone, pair it with a shape or label. */
+  --ink: #1c2820;
+  --paper: #fbf3e2;
+  --surface: #fffaf0;
+  --deep: #354639;
+  --leaf: #8fa175;
+  --olive: #b1c680;
+  --navajo: #ffe0ad;
+  --sandy: #ee9e58;
+  --pass: var(--olive);
+  --bug: var(--sandy);
+  /* The floating pill header takes no layout space (it sits over the page),
+     so the first thing on every page needs this much top padding to clear
+     it: pill height plus its top margin plus a little air. */
+  --header-clearance: 5.5rem;
 }
 
 .dark {
@@ -135,6 +172,31 @@
   }
   html {
     @apply font-sans;
+  }
+  /* Global keyboard focus ring. Zero specificity (:where) so a component
+     that draws its own ring with outline-none, like Button, keeps it.
+     Ink on the light grounds, Navajo White inside a dark section (add
+     the on-dark class to that section). Sandy Brown is deliberately not
+     used: it fails the 3:1 non-text contrast minimum on the paper
+     ground. */
+  :root {
+    --focus-ring: var(--ink);
+  }
+  .on-dark {
+    --focus-ring: var(--navajo);
+  }
+  :where(
+    a,
+    button,
+    summary,
+    input,
+    select,
+    textarea,
+    [role="button"],
+    [tabindex]:not([tabindex="-1"])
+  ):focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
   }
 }
 
@@ -186,36 +248,513 @@
   }
 }
 
-/* Hover glow for grid tiles (service cards): a blurred halo behind the
-   tile that fades from Sandy Brown into Dark Slate Grey, breathing
-   in and out only while the tile is actually hovered. */
-.tile-glow-halo {
-  opacity: 0;
-  transform: scale(0.96);
-  transition:
-    opacity 0.4s ease,
-    transform 0.4s ease;
-}
-.group\/tile:hover .tile-glow-halo {
-  opacity: 0.35;
-  animation: glow-pulse-duo 2.8s ease-in-out infinite;
-}
-@keyframes glow-pulse-duo {
-  0%,
-  100% {
-    opacity: 0.22;
-    transform: scale(0.98);
-  }
-  50% {
-    opacity: 0.4;
-    transform: scale(1.03);
-  }
-}
-
 /* FAQ accordion panel, a plain height transition on top of the generated
    Base UI primitive so open/close reads as a smooth expand, not a snap. */
 .faq-panel {
   transition: height 0.3s ease-out;
+}
+
+/* ---------------------------------------------------------------------
+   Live Build motion utilities (2026 redesign). Pure CSS, no library, so
+   every consumer stays a Server Component. Two rules hold for all of
+   them:
+   1. Content is visible without them. Scroll-driven animations only
+      exist inside @supports (animation-timeline: view()), and every
+      keyframe ends on the element's natural resting state, so a browser
+      without support, a screenshot, or reduced motion simply shows the
+      finished page.
+   2. They do not replace Reveal. Reveal (reveal.tsx) is still the
+      default for a calm fade-up that replays; the lb-* classes below
+      are the scroll-linked and ambient moves the redesign adds.
+   --------------------------------------------------------------------- */
+/* Ambient loops. */
+.lb-float {
+  animation: lb-float 6s ease-in-out infinite;
+}
+.lb-pulse {
+  animation: lb-pulse 2s ease-in-out infinite;
+}
+.lb-wobble {
+  transform-origin: 50% 60%;
+  animation: lb-wobble 4s ease-in-out infinite;
+}
+.lb-caret {
+  animation: lb-caret 1s steps(2) infinite;
+}
+/* The release packet in QualityGateDemo. Node centers sit at 10, 30, 50, 70
+   and 90 percent of the track, the gate is the fourth, and a held packet waits just in front of it. The base `left` is
+   the resting position (end of the line, or stopped at the gate), which is
+   what reduced motion shows. */
+.lb-packet {
+  left: calc(90% - 11px);
+  animation: lb-packet 4s linear infinite;
+}
+.lb-packet-held {
+  left: calc(70% - 52px);
+  animation: lb-packet-held 4s linear infinite;
+}
+@keyframes lb-packet {
+  from {
+    left: calc(10% - 11px);
+  }
+  to {
+    left: calc(90% - 11px);
+  }
+}
+@keyframes lb-packet-held {
+  from {
+    left: calc(10% - 11px);
+  }
+  70%,
+  to {
+    left: calc(70% - 52px);
+  }
+}
+.lb-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+.lb-marquee-track {
+  display: inline-flex;
+  gap: 0.875rem;
+  padding-right: 0.875rem;
+  animation: lb-marquee 38s linear infinite;
+}
+.lb-marquee:hover .lb-marquee-track {
+  animation-play-state: paused;
+}
+/* A test-run sweep: set --lb-i (0, 1, 2 ...) on each cell. Cells go
+   idle, to a bug (Sandy Brown), then to pass (Olive), then idle again. */
+.lb-sweep {
+  animation: lb-sweep 7s infinite;
+  animation-delay: calc(var(--lb-i, 0) * 0.13s);
+}
+
+@keyframes lb-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--lb-rot, 0deg));
+  }
+  50% {
+    transform: translateY(-14px) rotate(var(--lb-rot, 0deg));
+  }
+}
+@keyframes lb-wobble {
+  0%,
+  100% {
+    transform: rotate(-6deg);
+  }
+  50% {
+    transform: rotate(6deg) translateY(-12px);
+  }
+}
+@keyframes lb-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.14);
+  }
+}
+@keyframes lb-caret {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes lb-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes lb-sweep {
+  0%,
+  6% {
+    background-color: var(--surface);
+  }
+  12% {
+    background-color: var(--sandy);
+  }
+  26%,
+  80% {
+    background-color: var(--olive);
+  }
+  92%,
+  100% {
+    background-color: var(--surface);
+  }
+}
+/* Test-run terminal: each line fades in after the one before it, then the
+   whole log clears and loops. Every line needs its own keyframes because a
+   shared animation-delay only offsets the first pass, later loops would
+   drift out of sequence. Ten lines is the supported maximum. */
+.lb-term-line {
+  opacity: 0;
+  animation: lb-term-1 14s infinite;
+}
+.lb-term-line:nth-child(2) {
+  animation-name: lb-term-2;
+}
+.lb-term-line:nth-child(3) {
+  animation-name: lb-term-3;
+}
+.lb-term-line:nth-child(4) {
+  animation-name: lb-term-4;
+}
+.lb-term-line:nth-child(5) {
+  animation-name: lb-term-5;
+}
+.lb-term-line:nth-child(6) {
+  animation-name: lb-term-6;
+}
+.lb-term-line:nth-child(7) {
+  animation-name: lb-term-7;
+}
+.lb-term-line:nth-child(8) {
+  animation-name: lb-term-8;
+}
+.lb-term-line:nth-child(9) {
+  animation-name: lb-term-9;
+}
+.lb-term-line:nth-child(10) {
+  animation-name: lb-term-10;
+}
+
+@keyframes lb-term-1 {
+  0%,
+  3% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  6%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes lb-term-2 {
+  0%,
+  11% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  14%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes lb-term-3 {
+  0%,
+  19% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  22%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes lb-term-4 {
+  0%,
+  27% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  30%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes lb-term-5 {
+  0%,
+  35% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  38%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes lb-term-6 {
+  0%,
+  43% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  46%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes lb-term-7 {
+  0%,
+  51% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  54%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes lb-term-8 {
+  0%,
+  59% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  62%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes lb-term-9 {
+  0%,
+  67% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  70%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes lb-term-10 {
+  0%,
+  75% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  78%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* A headline word that rises into place on load, set --lb-i to its index so
+   the words land one after another. Ends on the resting state. */
+.lb-word {
+  display: inline-block;
+  animation: lb-word 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--lb-i, 0) * 60ms);
+}
+@keyframes lb-word {
+  from {
+    opacity: 0;
+    transform: translateY(55%) rotate(3deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* A thick Sandy Brown underline under an accent phrase on a light ground. It
+   is a real text-decoration, so it follows the letters and repeats on every
+   wrapped line (a painted background bar landed at the wrong height and only
+   covered part of a wrapped phrase). The phrase stays ink, because Sandy Brown
+   text fails contrast on paper. */
+.lb-marker {
+  text-decoration: underline;
+  text-decoration-color: var(--sandy);
+  text-decoration-thickness: 0.075em;
+  text-underline-offset: 0.11em;
+  text-decoration-skip-ink: none;
+}
+
+/* Scroll-driven moves. */
+@supports (animation-timeline: view()) {
+  /* Enter: rise and settle (or slide in from a side) as the element
+     crosses into the viewport, scrubbed to scroll position. */
+  .lb-rise {
+    animation: lb-rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 42%;
+  }
+  .lb-slide-l {
+    animation: lb-slide-l linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 50%;
+  }
+  .lb-slide-r {
+    animation: lb-slide-r linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 50%;
+  }
+  /* Parallax at two strengths, for decorative shapes only. */
+  .lb-parallax {
+    animation: lb-parallax linear both;
+    animation-timeline: view();
+    animation-range: cover;
+  }
+  .lb-parallax-soft {
+    animation: lb-parallax-soft linear both;
+    animation-timeline: view();
+    animation-range: cover;
+  }
+  /* Hero exit: shrinks and fades as the hero scrolls out the top. */
+  .lb-zoom-out {
+    animation: lb-zoom-out linear both;
+    animation-timeline: view();
+    animation-range: exit 0% exit 100%;
+  }
+  /* A line that draws downward as its section scrolls through. */
+  .lb-draw {
+    transform-origin: top;
+    animation: lb-draw linear both;
+    animation-timeline: view();
+    animation-range: entry 30% exit 70%;
+  }
+  /* Text or block uncovered left to right. */
+  .lb-wipe {
+    animation: lb-wipe linear both;
+    animation-timeline: view();
+    animation-range: entry 5% entry 55%;
+  }
+  /* Reading progress for a page: put on a fixed or sticky bar. */
+  .lb-progress {
+    transform-origin: left;
+    animation: lb-progress linear both;
+    animation-timeline: scroll(root);
+  }
+
+  @keyframes lb-rise {
+    from {
+      opacity: 0;
+      transform: translateY(44px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes lb-slide-l {
+    from {
+      opacity: 0;
+      transform: translateX(-60px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes lb-slide-r {
+    from {
+      opacity: 0;
+      transform: translateX(60px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes lb-parallax {
+    from {
+      transform: translateY(70px);
+    }
+    to {
+      transform: translateY(-70px);
+    }
+  }
+  @keyframes lb-parallax-soft {
+    from {
+      transform: translateY(30px);
+    }
+    to {
+      transform: translateY(-30px);
+    }
+  }
+  @keyframes lb-zoom-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0.2;
+      transform: scale(0.9);
+    }
+  }
+  @keyframes lb-draw {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+  @keyframes lb-wipe {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  @keyframes lb-progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -226,17 +765,62 @@
   .aurora-glow {
     animation: none;
   }
-  .group\/tile:hover .tile-glow-halo {
-    animation: none;
-    opacity: 0.3;
-    transform: none;
-  }
   .reveal-on-scroll {
     transition: none;
     transform: none;
     opacity: 1;
   }
+  /* Live Build: every lb-* move drops to its resting state. The loops
+     stop, scroll-linked ones never run, and the count shows its final
+     value because the keyframes are what animate it. */
+  .lb-float,
+  .lb-pulse,
+  .lb-wobble,
+  .lb-caret,
+  .lb-packet,
+  .lb-packet-held,
+  .lb-marquee-track,
+  .lb-sweep,
+  .lb-rise,
+  .lb-slide-l,
+  .lb-slide-r,
+  .lb-parallax,
+  .lb-parallax-soft,
+  .lb-zoom-out,
+  .lb-draw,
+  .lb-wipe,
+  .lb-word,
+  .lb-progress,
+  .lb-term-line {
+    animation: none;
+  }
+  .lb-term-line {
+    opacity: 1;
+    transform: none;
+  }
   .faq-panel {
     transition: none;
+  }
+  /* Catch-all for keyframe animations that nothing above names (the
+     generated accordion's height animation, tw-animate-css enter classes):
+     they finish at once, on their last frame, and never repeat. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+  }
+  /* Catch-all for transitions: only color feedback (and a plain fade) may
+     still animate. Anything that moves, resizes or rotates, such as hover
+     lifts, chevron turns, popup slides, panel growth and device morphs,
+     changes instantly. Elements that already say motion-reduce:transition-none
+     are unaffected. State changes still happen, they just do not travel. */
+  *,
+  *::before,
+  *::after {
+    transition-property:
+      color, background-color, border-color, text-decoration-color, fill,
+      stroke, box-shadow, outline-color, opacity !important;
   }
 }

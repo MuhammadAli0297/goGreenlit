@@ -15,6 +15,7 @@ export default async function Image() {
     buildMarketingOgElement(
       "Straight talk on shipping quality software",
       "blog-index",
+      "shipping quality software",
     ),
     { ...size, fonts },
   );
