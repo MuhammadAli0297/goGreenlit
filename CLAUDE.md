@@ -2446,6 +2446,29 @@ ld+json">` only, and the new code-rendered OG images are same-origin routes.
     40). An earlier draft of this note wrongly called `DevicePicker` unused, it
     is rendered on `/software-testing-services`.
 
+72. **Full SEO regression against `main` (2026-10-25), task z-checks follow-up.**
+    Method as in gotcha #57, over all 62 sitemap URLs plus the 404 (JavaScript
+    off, `main` as a webpack dev worktree on 3100, both sites on the same URL).
+    **Identical to `main`:** status, `<title>`, meta description, canonical,
+    robots and `lang` on every URL (all titles 60 characters or fewer, all
+    descriptions 120 to 160, every canonical self-referencing), every JSON-LD
+    block except the 13 FAQPage blocks on the Services and QA Consulting pages
+    (same question counts, only the contraction fixes and one `we'd`, fixed in
+    this pass), the sitemap and robots, and one `h1` per page. **Expected
+    differences:** `og:image` and `twitter:image` now point at the code-rendered
+    routes on all 63 pages (gotcha #62), the 404 has its own title and H1
+    (it used the homepage title before), blog related links rotate (gotcha #56).
+    **Changes a reviewer should know about:** the manual testing H1 is "...what
+    automation cannot" (was "can't", a contraction fix); the homepage lost the
+    H3s "Selenium testing" and "QA strategy" and the H2 "Built different from
+    other QA shops" (the Services explorer and bento replaced them); the Services
+    overview's six stack H3s (Frontend ... CI/CD) and the CI/CD page's platform
+    H3s (GitHub Actions, Jenkins, GitLab CI) became ruled `dl` rows, so those
+    keyword phrases are still on the page as text but no longer headings; and the
+    QA Consulting overview's compare column H3s were replaced by the switch.
+    Word counts rose on every page (home 636 to 783, Services 725 to 978,
+    QA Consulting 664 to 896).
+
 ## Repository structure
 
 ```

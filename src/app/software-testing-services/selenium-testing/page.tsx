@@ -167,7 +167,7 @@ const faqs = [
   {
     question: "Can Selenium run in our CI/CD pipeline?",
     answer:
-      "Yes. Headless execution in GitHub Actions, Jenkins, or GitLab CI, with Selenium Grid for parallelization and artifact capture on failure, the same rigor we'd wire up for a Playwright suite.",
+      "Yes. Headless execution in GitHub Actions, Jenkins, or GitLab CI, with Selenium Grid for parallelization and artifact capture on failure, the same rigor we would wire up for a Playwright suite.",
   },
   {
     question:
