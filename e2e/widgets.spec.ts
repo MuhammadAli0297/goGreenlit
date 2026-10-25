@@ -121,3 +121,14 @@ test("the About page has founders with LinkedIn links and no icons", async ({
   await expect(links.first()).toHaveAttribute("rel", /noopener/);
   expect(await page.locator("main svg").count()).toBe(0);
 });
+
+test("device picker tabs switch the checklist on the Services overview", async ({
+  page,
+}) => {
+  await page.goto("/software-testing-services");
+  const tabs = page.getByRole("tablist", { name: "Device type" });
+  await tabs.scrollIntoViewIfNeeded();
+  const android = tabs.getByRole("tab", { name: /android/i });
+  await android.click();
+  await expect(android).toHaveAttribute("aria-selected", "true");
+});

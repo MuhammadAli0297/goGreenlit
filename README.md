@@ -18,7 +18,7 @@ a production build, and end-to-end tests.
 <p align="center">
   <img src="public/readme/home-hero.png" width="100%" alt="Homepage hero with animated aurora background" />
   <br />
-  <sub>Homepage hero: animated aurora background, always fills exactly one viewport</sub>
+  <sub>Homepage hero: aurora background and a live test-run terminal, always exactly one viewport</sub>
 </p>
 
 <p align="center">
@@ -123,13 +123,13 @@ The site is mid-redesign (a motion-forward direction called "Live Build":
 pill buttons, sticker-style cards, live test-run demos, scroll-driven
 animation, all pure CSS). It is being built phase by phase on one
 long-lived branch and ships to `main` only once the whole thing is
-approved, so what you see in production is the previous design. Done so
-far on the branch: the foundation (tokens, motion utilities, focus
-styles, brand components), the site chrome (a floating header with mega
-menus, a new mobile drawer, footer, breadcrumbs) and the shared page
-components, the homepage, and the whole Software Testing Services family
-(overview, six subpages and their social images). Next is the QA Consulting
-family. See `CLAUDE.md` (gotchas 32 to 36) for how each piece works.
+approved, so what you see in production is the previous design. Every
+phase of the build is done on the branch (foundation, site chrome, shared
+components, homepage, Services and QA Consulting families, the blog, About,
+404 and social images) and it is now in the hardening and sign-off phase:
+Lighthouse and layout-shift fixes, a keyboard pass, a pixel-level contrast
+audit, reduced-motion and CSP checks, and the end-to-end suite. See
+`CLAUDE.md` (gotchas 32 to 71) for how each piece works.
 
 ## Stack
 
@@ -149,7 +149,7 @@ family. See `CLAUDE.md` (gotchas 32 to 36) for how each piece works.
 - **17** hand-built page templates across 4 distinct page families, plus
   a blog engine generating **45** long-form posts, **62** total indexed
   routes
-- **229** unit tests and a **30**-scenario Playwright end-to-end suite,
+- **229** unit tests and a **40**-scenario Playwright end-to-end suite,
   both required to pass in CI before merge, including a test that reads
   the real color tokens and fails if a pairing drops below WCAG contrast
 - **Zero** runtime animation dependencies, every motion effect is pure
