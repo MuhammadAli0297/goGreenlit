@@ -100,7 +100,7 @@ phases, 87 tasks). **Status as of 2026-10-25:** Phase 0 (decisions) is
 open, Phases 1 to 5 (foundation, site chrome, shared components, homepage,
 Services family) are built and pushed, Phase 6 (QA Consulting family:
 overview, six subpages, OG images, phone check) is built and pushed, Phase 7
-(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built and pushed. Phase 8 (long tail) is built and pushed. Phase 9 (hardening) is in progress (z-devices, z-lh, z-keys, z-contrast, z-rm, z-csp, z-e2e and z-checks done, z-docs in progress).
+(Blog: tile, hero, filters and search, featured post, category header, pagination, post header, contents pill, callouts, related, SEO check, OG images, phone check) is built and pushed. Phase 8 (long tail) is built and pushed. Phase 9 (hardening) is in progress (z-devices, z-lh, z-keys, z-contrast, z-rm, z-csp, z-e2e, z-checks and z-docs done, z-sync in progress).
 The savings calculator is deliberately not built (Phase 0 never approved it,
 gotcha #35). See gotchas #32 to #36 for what each finished phase established.
 Pages not yet redone still look
