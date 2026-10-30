@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 
 import { ctaVariants } from "@/components/brand/cta-variants";
+import { stripInlineLinks } from "@/components/marketing/inline-links";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { AuditReportPreview } from "@/components/marketing/audit-report-preview";
 import { CheckGrid } from "@/components/marketing/check-grid";
@@ -161,7 +162,7 @@ const faqs = [
   {
     question: "What is actually in the audit report?",
     answer:
-      "An executive summary, detailed findings by domain with severity ratings, a coverage gap analysis, and a prioritized 90-day roadmap.",
+      "An executive summary, detailed findings by domain with severity ratings, a coverage gap analysis, and a prioritized 90-day roadmap. For a preview of the patterns an audit tends to surface, read [what a QA audit usually finds](/blog/what-a-qa-audit-usually-finds).",
   },
   {
     question: "What is the difference between an audit and an assessment?",
@@ -195,7 +196,7 @@ const faqStructuredData = {
     name: question,
     acceptedAnswer: {
       "@type": "Answer",
-      text: answer,
+      text: stripInlineLinks(answer),
     },
   })),
 };

@@ -196,3 +196,59 @@ describe("getBlogIndexView", () => {
     expect(view.currentPage).toBe(view.totalPages);
   });
 });
+
+describe("internal linking between posts", () => {
+  const linkPattern = /\[[^\]]+\]\(\/blog\/([a-z0-9-]+)\)/g;
+  const textOf = (block: (typeof blogPosts)[number]["body"][number]) => {
+    const b = block as { text?: string; note?: string; items?: unknown[] };
+    return [b.text, b.note, ...(b.items ?? []).map(String)].join(" ");
+  };
+  const bodyText = (slug: string) =>
+    blogPosts
+      .find((p) => p.slug === slug)!
+      .body.map(textOf)
+      .join(" ");
+  const faqText = (slug: string) =>
+    (blogPosts.find((p) => p.slug === slug)!.faqs ?? [])
+      .map((f) => f.answer)
+      .join(" ");
+
+  it("links to a real post every time it links to a post", () => {
+    const slugs = new Set(blogPosts.map((p) => p.slug));
+    for (const p of blogPosts) {
+      for (const m of (bodyText(p.slug) + " " + faqText(p.slug)).matchAll(
+        linkPattern,
+      )) {
+        expect(slugs.has(m[1]!), `${p.slug} links to ${m[1]}`).toBe(true);
+      }
+    }
+  });
+
+  it("keeps every post at 8 or fewer body links", () => {
+    for (const p of blogPosts) {
+      const count = [...bodyText(p.slug).matchAll(/\]\(\//g)].length;
+      expect(count, p.slug).toBeLessThanOrEqual(8);
+    }
+  });
+
+  // The SDET post merges into the hiring post later (see seo/decisions-1.1.md),
+  // so it is deliberately not linked to yet. Remove this exception at the merge.
+  it("gives every other post at least one inbound link from another post", () => {
+    const inbound = new Map<string, Set<string>>();
+    for (const p of blogPosts) {
+      for (const m of (bodyText(p.slug) + " " + faqText(p.slug)).matchAll(
+        linkPattern,
+      )) {
+        if (m[1] !== p.slug) {
+          (inbound.get(m[1]!) ?? inbound.set(m[1]!, new Set()).get(m[1]!)!).add(
+            p.slug,
+          );
+        }
+      }
+    }
+    for (const p of blogPosts) {
+      if (p.slug === "the-rise-of-the-ai-testing-sdet") continue;
+      expect(inbound.get(p.slug)?.size ?? 0, p.slug).toBeGreaterThan(0);
+    }
+  });
+});

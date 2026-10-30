@@ -15,6 +15,7 @@ import {
 
 import { ctaVariants } from "@/components/brand/cta-variants";
 import { StickerCard } from "@/components/brand/sticker-card";
+import { stripInlineLinks } from "@/components/marketing/inline-links";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { DeepBand } from "@/components/marketing/deep-band";
 import { CtaSection } from "@/components/marketing/cta-section";
@@ -179,7 +180,7 @@ const faqs = [
   {
     question: "Can you test APIs and microservices, not just the UI?",
     answer:
-      "Yes. REST and GraphQL contract testing, and coverage at the service boundary, so a change in one microservice gets caught before it breaks another.",
+      "Yes. REST and GraphQL contract testing, and coverage at the service boundary, so a change in one microservice gets caught before it breaks another. For the load side of that question, see [performance and load testing for startups](/blog/performance-and-load-testing-for-startups).",
   },
   {
     question: "How often should regression testing run?",
@@ -206,7 +207,7 @@ const faqStructuredData = {
     name: question,
     acceptedAnswer: {
       "@type": "Answer",
-      text: answer,
+      text: stripInlineLinks(answer),
     },
   })),
 };
