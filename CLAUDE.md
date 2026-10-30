@@ -2469,6 +2469,27 @@ ld+json">` only, and the new code-rendered OG images are same-origin routes.
     Word counts rose on every page (home 636 to 783, Services 725 to 978,
     QA Consulting 664 to 896).
 
+73. **GA4 analytics (2026-10-29), branch `feat/ga4-tracking`.**
+    `GoogleAnalytics` (`src/components/analytics/google-analytics.tsx`, a
+    client component rendered last in `layout.tsx`) loads gtag only when
+    `NEXT_PUBLIC_GA_MEASUREMENT_ID` is set and the build is production, so
+    development, tests and Vercel previews send nothing. The ID is set for
+    Production only in Vercel and read at build time, so changing it needs a
+    redeploy. `next.config.ts` adds Google's origins to `script-src`,
+    `img-src` and `connect-src` only when the same variable is set at build,
+    which keeps the policy from gotcha #24 unchanged otherwise (checked: a
+    build without the variable has the identical CSP). Three custom events
+    come from one document click listener and the pure `classifyLinkClick()`
+    in `src/lib/analytics.ts`: `book_call_click` (any Calendly link),
+    `email_click` (any mailto link, the address is never sent) and
+    `internal_link_click` (a move between two pages, not a same-page anchor
+    jump), each with `link_url`, `link_text` and `page_path`. Page views need
+    no code, GA4 enhanced measurement records one on every route change.
+    In GA4, mark the first two events as key events and register `link_url`
+    and `link_text` as event-scoped custom dimensions or they will not show
+    in reports. An older, unmerged attempt using `@next/third-parties` sits
+    on the `add-ga4-analytics` branch and is not used. 12 new unit tests.
+
 ## Repository structure
 
 ```
