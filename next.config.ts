@@ -11,13 +11,26 @@ const isDev = process.env.NODE_ENV === "development";
 // is low, and this is Next's own documented path for sites that don't need
 // nonces (see node_modules/next/dist/docs/.../content-security-policy.md,
 // "Without Nonces" section).
+// GA4 (added when NEXT_PUBLIC_GA_MEASUREMENT_ID is set at build time). The
+// extra origins are only added when analytics is on, so the policy stays
+// tight otherwise. Origins follow Google's own CSP guidance for gtag.js:
+// the script itself, the collection endpoints, and the tracking pixel.
+const gaEnabled = Boolean(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID);
+const gaScript = gaEnabled ? " https://www.googletagmanager.com" : "";
+const gaImg = gaEnabled
+  ? " https://*.google-analytics.com https://*.googletagmanager.com"
+  : "";
+const gaConnect = gaEnabled
+  ? " https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com"
+  : "";
+
 const cspHeader = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""};
+  script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}${gaScript};
   style-src 'self' 'unsafe-inline';
-  img-src 'self' data: blob:;
+  img-src 'self' data: blob:${gaImg};
   font-src 'self';
-  connect-src 'self';
+  connect-src 'self'${gaConnect};
   object-src 'none';
   base-uri 'self';
   form-action 'self';
