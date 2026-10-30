@@ -28,9 +28,12 @@ import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
 
-const title = "QA Process Design";
+const title = "QA Process Design and Consulting";
+// Short label for the visible and JSON-LD breadcrumb, kept apart from the
+// longer SEO title above.
+const breadcrumbLabel = "QA Process Design";
 const description =
-  "QA process design that builds testing into sprint planning, defect triage, and release sign-off, instead of bolting it onto the end of a sprint.";
+  "QA process design and consulting that builds testing into sprint planning, defect triage, and release sign-off, not bolted onto the end of a sprint.";
 
 export const metadata: Metadata = {
   title,
@@ -163,7 +166,7 @@ const faqs = [
 const breadcrumbItems = [
   { name: "Home", href: "/" },
   { name: "QA Consulting", href: "/qa-consulting" },
-  { name: title, href: "/qa-consulting/qa-process-design" },
+  { name: breadcrumbLabel, href: "/qa-consulting/qa-process-design" },
 ];
 const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 

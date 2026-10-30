@@ -29,9 +29,12 @@ import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
 
-const title = "Release Readiness";
+const title = "Release Readiness Review: Go or No-Go";
+// Short label for the visible and JSON-LD breadcrumb, kept apart from the
+// longer SEO title above.
+const breadcrumbLabel = "Release Readiness";
 const description =
-  "Release readiness reviews covering coverage, critical paths, rollback plans, and monitoring, so a go or no-go decision means more than a passing regression run.";
+  "A release readiness review gives you a real go or no-go call: coverage, critical paths, rollback plans, and monitoring checked before you ship, not after.";
 
 export const metadata: Metadata = {
   title,
@@ -181,7 +184,7 @@ const faqs = [
 const breadcrumbItems = [
   { name: "Home", href: "/" },
   { name: "QA Consulting", href: "/qa-consulting" },
-  { name: title, href: "/qa-consulting/release-readiness" },
+  { name: breadcrumbLabel, href: "/qa-consulting/release-readiness" },
 ];
 const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 

@@ -28,9 +28,12 @@ import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
 
-const title = "Test Strategy Consulting";
+const title = "Test Strategy Consulting for Software Teams";
+// Short label for the visible and JSON-LD breadcrumb, kept apart from the
+// longer SEO title above.
+const breadcrumbLabel = "Test Strategy Consulting";
 const description =
-  "Test strategy consulting that turns ad hoc testing decisions into a documented, risk-based strategy your whole team can actually follow.";
+  "Test strategy consulting services that replace ad hoc testing with a documented, risk-based strategy your whole team can follow and keep using.";
 
 export const metadata: Metadata = {
   title,
@@ -179,7 +182,7 @@ const faqs = [
 const breadcrumbItems = [
   { name: "Home", href: "/" },
   { name: "QA Consulting", href: "/qa-consulting" },
-  { name: title, href: "/qa-consulting/test-strategy-consulting" },
+  { name: breadcrumbLabel, href: "/qa-consulting/test-strategy-consulting" },
 ];
 const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 

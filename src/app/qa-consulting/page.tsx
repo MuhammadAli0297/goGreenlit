@@ -30,7 +30,7 @@ import { siteConfig } from "@/lib/site-config";
 
 const title = "QA Consulting";
 const description =
-  "QA consulting for scaling engineering teams: process audits, test strategy, CI/CD quality gates, and embedded QA leadership, not just extra headcount.";
+  "Software QA consulting from two Chicago QA engineers: audits, test strategy, release readiness, and embedded QA your team keeps owning after we leave.";
 
 export const metadata: Metadata = {
   title,

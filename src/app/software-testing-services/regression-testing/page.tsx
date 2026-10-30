@@ -27,7 +27,10 @@ import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
 
-const title = "Regression Testing Services";
+const title = "Automated Regression Testing Services";
+// Short label for the visible and JSON-LD breadcrumb, kept apart from the
+// longer SEO title above.
+const breadcrumbLabel = "Regression Testing Services";
 const description =
   "Automated regression testing services that stay fast and trustworthy: risk-prioritized suites, CI/CD gates, and quarterly pruning, not endless bloat.";
 
@@ -137,7 +140,10 @@ const faqs = [
 const breadcrumbItems = [
   { name: "Home", href: "/" },
   { name: "Software Testing Services", href: "/software-testing-services" },
-  { name: title, href: "/software-testing-services/regression-testing" },
+  {
+    name: breadcrumbLabel,
+    href: "/software-testing-services/regression-testing",
+  },
 ];
 const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 

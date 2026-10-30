@@ -183,9 +183,9 @@ export const POSTS_PER_PAGE = 9;
 export const blogPosts: BlogPost[] = [
   {
     slug: "how-to-outsource-qa-testing",
-    title: "How to Outsource QA Testing: A Practical Guide",
+    title: "Outsourcing QA Testing: Costs, Risks, Ramp-Up",
     excerpt:
-      "What outsourcing QA testing actually means, what a fair engagement costs, the red flags to watch for, and the realistic 30 to 90 day ramp before you sign.",
+      "How to outsource QA testing effectively: what it means, what a fair engagement costs, the red flags to watch for, and the realistic 30 to 90 day ramp.",
     category: "outsourcing-hiring",
     author: "Muhammad Ali",
     date: "2026-08-24",
@@ -514,7 +514,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "regression-testing-checklist",
-    title: "Regression Testing Checklist for Every Release",
+    title: "Regression Testing Checklist: What to Include",
     excerpt:
       "What actually belongs on a regression testing checklist, the mistake most teams make writing one, and how often to run the full pass before release.",
     category: "testing-practices",
@@ -712,7 +712,7 @@ export const blogPosts: BlogPost[] = [
     slug: "test-automation-roi",
     title: "How to Calculate the ROI of Test Automation",
     excerpt:
-      "Test automation ROI is not just time saved on manual testing. The fuller math, what to include, and where the calculation actually breaks down.",
+      "How to calculate the ROI of test automation: the fuller math beyond manual hours saved, what to include in the calculation, and where it breaks down.",
     category: "test-automation",
     author: "Mohammad Khan",
     date: "2026-08-24",
@@ -818,9 +818,9 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "qa-maturity-model",
-    title: "QA Maturity Model: Where Does Your Team Sit?",
+    title: "QA Maturity Assessment: A Five-Stage Model",
     excerpt:
-      "A five-stage QA maturity model to place your team honestly, how to self-assess without the usual blind spots, and what moving up a stage takes.",
+      "A QA maturity assessment built on a five-stage model: where your team really sits, how to self-assess without blind spots, and what moving up a stage takes.",
     category: "qa-strategy",
     author: "Muhammad Ali",
     date: "2026-08-24",
@@ -1428,7 +1428,7 @@ export const blogPosts: BlogPost[] = [
     slug: "playwright-vs-selenium-2026",
     title: "Playwright vs Selenium: Choosing in 2026",
     excerpt:
-      "Playwright vs Selenium in 2026: where Playwright wins clearly, when an existing Selenium suite still makes sense, and how migration works.",
+      "Playwright vs Selenium in 2026: where Playwright wins clearly, when an existing Selenium suite is still worth keeping, and how a migration actually works.",
     category: "test-automation",
     author: "Muhammad Ali",
     date: "2026-08-24",
@@ -3477,9 +3477,9 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "agentic-testing-how-autonomous-test-agents-work",
-    title: "Agentic Testing: How Autonomous Test Agents",
+    title: "Agentic Testing: How Test Agents Work",
     excerpt:
-      "Agentic testing decides what to test, not just how to run it. What that autonomy loop actually looks like, where it earns trust, and where it does not.",
+      "Agentic testing decides what to test, not just how to run it. What the autonomy loop looks like, where test agents earn trust, and where they do not.",
     category: "test-automation",
     author: "Mohammad Khan",
     date: "2026-08-31",
@@ -4165,9 +4165,9 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "how-to-qa-an-ai-testing-agents-own-work",
-    title: "How to QA an AI Testing Agent's Own Work",
+    title: "QA for AI Testing Agents: Check Their Work",
     excerpt:
-      "When an AI agent decides what to test, something still has to test the agent. A practical routine for validating what a testing agent actually got right.",
+      "QA for AI testing agents: a practical routine to validate what an autonomous testing agent got right, wrong, or skipped, before you trust its green results.",
     category: "testing-practices",
     author: "Mohammad Khan",
     date: "2026-08-31",
@@ -4926,9 +4926,9 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "flaky-tests-fix-quarantine-or-delete",
-    title: "Flaky Tests: Fix, Quarantine, or Delete",
+    title: "How to Handle Flaky Tests: Fix or Delete",
     excerpt:
-      "A decision framework for what to do with a flaky test, when to fix the root cause, when to quarantine it, and when it no longer earns its place in the suite.",
+      "A flaky test decision framework: when to fix the root cause, when to quarantine the test, and when to delete it because it no longer earns its place.",
     category: "test-automation",
     author: "Mohammad Khan",
     date: "2026-09-04",
