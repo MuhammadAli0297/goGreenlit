@@ -9,10 +9,10 @@ import { siteConfig } from "@/lib/site-config";
  * upkeep blog posts already require via their own `date` field.
  */
 const staticRouteLastModified: Record<string, string> = {
-  "": "2026-08-05",
+  "": "2026-10-29",
   "/software-testing-services": "2026-10-29",
   "/software-testing-services/manual-testing": "2026-08-16",
-  "/software-testing-services/playwright-automation": "2026-08-16",
+  "/software-testing-services/playwright-automation": "2026-10-29",
   "/software-testing-services/selenium-testing": "2026-10-29",
   "/software-testing-services/api-data-testing": "2026-08-16",
   "/software-testing-services/regression-testing": "2026-10-29",

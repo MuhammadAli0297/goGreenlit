@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 
 import { ctaVariants } from "@/components/brand/cta-variants";
+import { stripInlineLinks } from "@/components/marketing/inline-links";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { CtaSection } from "@/components/marketing/cta-section";
 import { DeepBand } from "@/components/marketing/deep-band";
@@ -158,7 +159,7 @@ const faqs = [
   {
     question: "What tests should actually run before a merge?",
     answer:
-      "Fast, focused checks: unit tests, linting, and API tests scoped to under ten minutes. Full regression and end-to-end suites run post-merge so they do not block a developer's flow.",
+      "Fast, focused checks: unit tests, linting, and API tests scoped to under ten minutes. Full regression and end-to-end suites run post-merge so they do not block a developer's flow. If your suite is Playwright, [Playwright CI/CD integration](/blog/playwright-cicd-integration) shows how to wire it into the pipeline.",
   },
   {
     question: "How do you stop flaky tests from blocking every merge?",
@@ -194,7 +195,7 @@ const faqStructuredData = {
     name: question,
     acceptedAnswer: {
       "@type": "Answer",
-      text: answer,
+      text: stripInlineLinks(answer),
     },
   })),
 };

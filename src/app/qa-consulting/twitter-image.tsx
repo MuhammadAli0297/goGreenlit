@@ -13,7 +13,7 @@ export default async function Image() {
   const fonts = await loadMarketingOgFonts();
   return new ImageResponse(
     buildMarketingOgElement(
-      "QA consulting built around how your team actually ships software",
+      "Software QA consulting built around how your team actually ships software",
       "qa-consulting",
       "ships software",
     ),

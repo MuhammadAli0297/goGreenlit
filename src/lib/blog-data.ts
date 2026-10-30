@@ -558,7 +558,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "A checklist that lives in a shared document nobody opens during a release is not a process, it is an artifact. The most common failure is not an incomplete list, it is a complete one that never gets checked against a real release because nobody owns running it. Assign the checklist to a person or a [required CI check](/qa-consulting/cicd-quality-gates), not a folder, or it will quietly stop being followed within a month of being written.",
+        text: "A checklist that lives in a shared document nobody opens during a release is not a process, it is an artifact. The most common failure is not an incomplete list, it is a complete one that never gets checked against a real release because nobody owns running it. Assign the checklist to a person or a [required CI check](/qa-consulting/cicd-quality-gates), not a folder, or it will quietly stop being followed within a month of being written. If those runs live in a Playwright pipeline, [Playwright CI/CD integration](/blog/playwright-cicd-integration) covers wiring them into the release gate.",
       },
       { type: "heading", text: "Automate the boring parts, not all of it" },
       {
@@ -876,7 +876,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "Rating maturity by what the team intends to do is the single most common way a [self-assessment](/qa-consulting/qa-audit-assessment) ends up wrong. A documented process that exists but is not followed under deadline pressure is not stage 3 behavior, it is stage 2 behavior with better paperwork. Score the process by what happened on the last release that shipped under real pressure, not the release that went smoothly enough for the process to hold.",
+        text: "Rating maturity by what the team intends to do is the single most common way a [self-assessment](/qa-consulting/qa-audit-assessment) ends up wrong. A documented process that exists but is not followed under deadline pressure is not stage 3 behavior, it is stage 2 behavior with better paperwork. Score the process by what happened on the last release that shipped under real pressure, not the release that went smoothly enough for the process to hold. If you want a faster read first, the [one-minute QA maturity check](/qa-consulting#check) scores your team against five statements.",
       },
       { type: "heading", text: "What moving up a stage actually takes" },
       {
@@ -5042,7 +5042,7 @@ export const blogPosts: BlogPost[] = [
       {
         question: "Should a flaky test just be retried automatically instead?",
         answer:
-          "Automatic retries hide the symptom without triaging it, and a test that needs two or three attempts to pass is still telling you something is wrong, even if the pipeline goes green eventually. Retries are a reasonable short-term buffer while a test is actively being triaged, not a permanent substitute for fixing, quarantining, or deleting it.",
+          "Automatic retries hide the symptom without triaging it, and a test that needs two or three attempts to pass is still telling you something is wrong, even if the pipeline goes green eventually. Retries are a reasonable short-term buffer while a test is actively being triaged, not a permanent substitute for fixing, quarantining, or deleting it. For a Playwright pipeline specifically, see [Playwright CI/CD integration](/blog/playwright-cicd-integration).",
       },
       {
         question: "How do flaky tests affect the ROI of test automation?",
