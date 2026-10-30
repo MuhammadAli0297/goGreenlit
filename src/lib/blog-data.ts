@@ -222,7 +222,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "There is no single honest number here, since rates vary by region, seniority, and whether you are buying a contractor's hours or an embedded team's outcomes. What matters more than the hourly rate is the total cost of the engagement, which includes every defect it fails to catch.",
+        text: "There is no single honest number here, since rates vary by region, seniority, and whether you are buying a contractor's hours or an embedded team's outcomes. What matters more than the hourly rate is the total cost of the engagement, which includes every defect it fails to catch. Some providers now go a step further and price on results through [outcome-based contracts](/blog/outcome-based-qa-outsourcing-explained), which is worth understanding before you compare quotes.",
       },
       {
         type: "subheading",
@@ -403,7 +403,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "A Series A startup should build a [risk-based test plan](/qa-consulting/test-strategy-consulting) for its critical paths first, then layer in manual exploratory testing, automated regression, defect triage, and release sign-off criteria in that order. Full coverage everywhere at once is not the goal at this stage, catching what would actually hurt the business is.",
+        text: "A Series A startup should build a [risk-based test plan](/qa-consulting/test-strategy-consulting) for its critical paths first, then layer in manual exploratory testing, automated regression, defect triage, and release sign-off criteria in that order. Full coverage everywhere at once is not the goal at this stage, catching what would actually hurt the business is. Wiring those steps into the delivery pipeline, rather than running them beside it, is the idea behind [QAOps](/blog/what-is-qaops).",
       },
       { type: "heading", text: "Why Series A is the inflection point" },
       {
@@ -955,7 +955,7 @@ export const blogPosts: BlogPost[] = [
           "Status code and error handling for every documented failure mode, not just the happy path",
           "Authentication and authorization checks at the endpoint level, not assumed from the UI",
           "Data validation on both request and response payloads",
-          "Load and performance checks on endpoints that sit in a critical path",
+          "[Load and performance checks](/blog/performance-and-load-testing-for-startups) on endpoints that sit in a critical path",
         ],
       },
       {
@@ -1630,7 +1630,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "The specific failure mode here has a name: automation blindness, a team's false sense of safety when every script is green while the actual user experience has quietly broken around it. A suite checking that a page loads and a status code returns will happily stay green through a layout regression or a confusing new flow, since it was never built to notice either. A [regression testing](/software-testing-services/regression-testing) suite catches what it was written to catch, nothing more, which is exactly why it needs a human pass alongside it, not instead of it.",
+        text: "The specific failure mode here has a name: automation blindness, a team's false sense of safety when every script is green while the actual user experience has quietly broken around it. A suite checking that a page loads and a status code returns will happily stay green through a layout regression or a confusing new flow, since it was never built to notice either. A [regression testing](/software-testing-services/regression-testing) suite catches what it was written to catch, nothing more, which is exactly why it needs a human pass alongside it, not instead of it. The same goes for [accessibility testing](/blog/accessibility-testing-checklist-startups), where a green script says nothing about whether a screen reader user can finish a flow.",
       },
       {
         type: "list",
@@ -2099,7 +2099,7 @@ export const blogPosts: BlogPost[] = [
       { type: "subheading", text: "Shift-right after release" },
       {
         type: "paragraph",
-        text: "Canary rollouts to a small percentage of traffic before a full release, monitoring wired to the specific user flows most likely to break under real load, and a rehearsed rollback path that does not get improvised for the first time during an actual incident.",
+        text: "Canary rollouts to a small percentage of traffic before a full release, monitoring wired to the specific user flows most likely to break under real load, and a rehearsed rollback path that does not get improvised for the first time during an actual incident. Teams that run both halves as one continuous loop are practicing what is often called [QAOps](/blog/what-is-qaops).",
       },
       {
         type: "heading",
@@ -2175,7 +2175,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "AI-powered test generation automates the mechanical work of turning a described behavior into runnable test code: selectors, assertions, boilerplate setup and teardown. It does not automate deciding what is worth testing in the first place, which is still a judgment call that depends on knowing where your specific product actually breaks, the same judgment a real [QA strategy](/qa-consulting/test-strategy-consulting) is built around.",
+        text: "AI-powered test generation automates the mechanical work of turning a described behavior into runnable test code: selectors, assertions, boilerplate setup and teardown. It does not automate deciding what is worth testing in the first place, which is still a judgment call that depends on knowing where your specific product actually breaks, the same judgment a real [QA strategy](/qa-consulting/test-strategy-consulting) is built around. Codeless tools make a similar promise from a different direction, and [codeless test automation](/blog/what-codeless-test-automation-cannot-replace) runs into the same limit around judgment.",
       },
       { type: "heading", text: "Where the speed gain is real" },
       {
@@ -2289,7 +2289,7 @@ export const blogPosts: BlogPost[] = [
     body: [
       {
         type: "paragraph",
-        text: "A UI element moves, an id changes, a button gets restyled, and a self-healing test framework quietly updates its own selector instead of failing the build. That sounds like the end of flaky UI tests. It is closer to a tool that trades one kind of failure for a quieter, harder to notice one.",
+        text: "A UI element moves, an id changes, a button gets restyled, and a self-healing test framework quietly updates its own selector instead of failing the build. That sounds like the end of flaky UI tests. It is closer to a tool that trades one kind of failure for a quieter, harder to notice one. It is also one of the main promises of [codeless test automation](/blog/what-codeless-test-automation-cannot-replace), which has its own limits worth knowing before you rely on it.",
       },
       {
         type: "heading",
@@ -3201,7 +3201,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "Splitting review into narrower, specialist lenses, one pass specifically for logic correctness and edge cases, a separate pass specifically for security and authorization, another for performance, each looking for a narrower thing, keeps any single reviewer from having to hold the entire surface area in their head at once. A credible [quality gate for AI-generated code](/blog/quality-gates-for-ai-generated-code) is built independently from whatever generated the code in the first place, and splitting review by concern is one concrete way to keep that independence real rather than nominal.",
+        text: "Splitting review into narrower, specialist lenses, one pass specifically for logic correctness and edge cases, a separate pass specifically for security and authorization, another for [performance](/blog/performance-and-load-testing-for-startups), each looking for a narrower thing, keeps any single reviewer from having to hold the entire surface area in their head at once. A credible [quality gate for AI-generated code](/blog/quality-gates-for-ai-generated-code) is built independently from whatever generated the code in the first place, and splitting review by concern is one concrete way to keep that independence real rather than nominal.",
       },
       {
         type: "subheading",
@@ -3820,7 +3820,7 @@ export const blogPosts: BlogPost[] = [
     body: [
       {
         type: "paragraph",
-        text: "Nearly every QA outsourcing pitch now leads with AI somewhere in the first slide, autonomous agents, self-healing suites, coverage generated in minutes instead of weeks. Some of that is genuinely real and genuinely useful. Some of it is the same service being repackaged with a more exciting word attached. As a Chicago-based embedded QA team that gets pitched by other AI testing tools ourselves, the questions that actually separate the two are rarely the ones a sales deck answers first.",
+        text: "Nearly every QA outsourcing pitch now leads with AI somewhere in the first slide, autonomous agents, self-healing suites, coverage generated in minutes instead of weeks. Some of that is genuinely real and genuinely useful. Some of it is the same service being repackaged with a more exciting word attached. As a Chicago-based embedded QA team that gets pitched by other AI testing tools ourselves, the questions that actually separate the two are rarely the ones a sales deck answers first. Many of those pitches also lean on [codeless tools](/blog/what-codeless-test-automation-cannot-replace), which have real limits worth understanding before you take the claim at face value.",
       },
       {
         type: "heading",
@@ -3886,7 +3886,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "If a vendor's AI tooling is genuinely reducing the human hours needed to deliver the same coverage, that should show up in pricing that reflects outcomes and risk reduction, not a straight hourly rate for a person nominally supervising an AI tool. The market itself is shifting this direction, the more credible providers increasingly price against coverage delivered rather than hours billed, precisely because AI tooling is supposed to decouple cost from raw headcount. A vendor still pricing purely by the hour while pitching AI-driven efficiency has not actually passed that efficiency through to you.",
+        text: "If a vendor's AI tooling is genuinely reducing the human hours needed to deliver the same coverage, that should show up in [pricing that reflects outcomes](/blog/outcome-based-qa-outsourcing-explained) and risk reduction, not a straight hourly rate for a person nominally supervising an AI tool. The market itself is shifting this direction, the more credible providers increasingly price against coverage delivered rather than hours billed, precisely because AI tooling is supposed to decouple cost from raw headcount. A vendor still pricing purely by the hour while pitching AI-driven efficiency has not actually passed that efficiency through to you.",
       },
       {
         type: "heading",
@@ -4256,7 +4256,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "A single audit finds whatever pattern exists at that moment. It does not catch a new blind spot that emerges three months later as the product grows into new territory the agent has no history with, the same way the currency example above only surfaced through a repeated, standing check. This needs to be a real cadence built into [QA process design](/qa-consulting/qa-process-design), reviewed on a schedule, not a project completed once when the tool was first adopted and never revisited.",
+        text: "A [single audit](/blog/what-a-qa-audit-usually-finds) finds whatever pattern exists at that moment. It does not catch a new blind spot that emerges three months later as the product grows into new territory the agent has no history with, the same way the currency example above only surfaced through a repeated, standing check. This needs to be a real cadence built into [QA process design](/qa-consulting/qa-process-design), reviewed on a schedule, not a project completed once when the tool was first adopted and never revisited.",
       },
       {
         type: "heading",
@@ -4392,7 +4392,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "A layout can look identical to a sighted reviewer while a markup change breaks screen reader navigation entirely. Visual testing checks what a screenshot shows, not what the underlying structure communicates to assistive technology, which means it needs a dedicated accessibility check alongside it, not instead of it.",
+        text: "A layout can look identical to a sighted reviewer while a markup change breaks screen reader navigation entirely. Visual testing checks what a screenshot shows, not what the underlying structure communicates to assistive technology, which means it needs a [dedicated accessibility check](/blog/accessibility-testing-checklist-startups) alongside it, not instead of it.",
       },
       {
         type: "heading",
@@ -4997,7 +4997,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "A typical suite audit turns up flaky tests that look similar on the surface but resolve very differently once triaged:",
+        text: "A typical [suite audit](/blog/what-a-qa-audit-usually-finds) turns up flaky tests that look similar on the surface but resolve very differently once triaged:",
       },
       {
         type: "list",
@@ -5006,7 +5006,7 @@ export const blogPosts: BlogPost[] = [
           "A search results test that fails only in CI, never locally: traced to shared test data another suite mutates during a parallel run. Root cause is understood but the fix, isolating test data per run, is a bigger change. Quarantine it with an owner and a two-sprint deadline.",
           "A notification badge count test that fails unpredictably with no clear pattern after a day of investigation: root cause still unclear, and the badge count is already covered indirectly by two other stable tests. Delete it, the coverage it duplicates is not worth the ongoing investigation cost.",
           "A third-party integration test that fails whenever a sandbox environment is slow: root cause is external and outside the team's control. Quarantine it permanently as a known-external-dependency case, but keep a lighter mocked version in the required suite so the integration point still has coverage.",
-          "A visual regression test that fails on font-rendering differences between CI and local runs: traced to a missing font in the CI image. Fix it, a one-line CI configuration change resolves the whole class of failure.",
+          "A [visual regression test](/blog/ai-assisted-visual-regression-testing) that fails on font-rendering differences between CI and local runs: traced to a missing font in the CI image. Fix it, a one-line CI configuration change resolves the whole class of failure.",
         ],
       },
       {
@@ -5110,7 +5110,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "The pricing structure signals what you are actually buying. An hourly staff-aug rate buys execution time. A retainer for embedded QA buys a seat that both executes and helps design how testing works, which is why comparing the two purely on hourly rate misses the point of either one.",
+        text: "The pricing structure signals what you are actually buying. An hourly staff-aug rate buys execution time. A retainer for embedded QA buys a seat that both executes and helps design how testing works, which is why comparing the two purely on hourly rate misses the point of either one. A third structure, [outcome-based pricing](/blog/outcome-based-qa-outsourcing-explained), ties the fee to coverage delivered rather than to hours or a seat.",
       },
       {
         type: "heading",
@@ -5231,7 +5231,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "Accessibility testing checks whether a product can actually be used by people relying on assistive technology or working around a visual, motor, or cognitive difference, measured against the WCAG standard's four principles: content must be perceivable, the interface must be operable, information must be understandable, and the implementation must be robust enough for assistive technology to interpret correctly.",
+        text: "Accessibility testing checks whether a product can actually be used by people relying on assistive technology or working around a visual, motor, or cognitive difference, measured against the WCAG standard's four principles: content must be perceivable, the interface must be operable, information must be understandable, and the implementation must be robust enough for assistive technology to interpret correctly. Visual diffs alone cannot confirm any of this, which is why [visual regression testing](/blog/ai-assisted-visual-regression-testing) needs an accessibility pass beside it.",
       },
       {
         type: "heading",
