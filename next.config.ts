@@ -73,6 +73,11 @@ const nextConfig: NextConfig = {
         destination: "/software-testing-services",
         permanent: true,
       },
+      {
+        source: "/blog/agile-agile-sprint-cycles",
+        destination: "/blog/agile-qa-sprint-cycles",
+        permanent: true,
+      },
     ];
   },
 };
