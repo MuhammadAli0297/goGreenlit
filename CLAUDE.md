@@ -450,6 +450,11 @@ sheet.tsx`, Base UI's `Dialog` under the hood, added via
     URL, check it against the old site's file list the same way before
     guessing a target.
 
+    **Not every 404 is an old-site URL (2026-10-29).** Search Console also
+    showed a click on `/blog/agile-agile-sprint-cycles`, a mistyped link to
+    the real post `agile-qa-sprint-cycles`. It has a permanent redirect too,
+    covered by `src/lib/redirects.test.ts`.
+
     **The other 25 of the old site's 27 pages need no redirect entry at
     all**, because their slug is unchanged, only the old site's Eleventy
     trailing-slash convention (`/about/`, `/qa-consulting/embedded-qa-team/`)
@@ -2946,6 +2951,9 @@ repo already handle well.
   see `siteConfig.sameAs`), and every `BlogPosting` block carries
   `publisher.logo` and `dateModified` (same date, since there is no
   separate last-edited field to distinguish it from `datePublished`).
+  The block's `areaServed` comes from `serviceAreaSchema` in
+  `src/lib/service-area.ts` (Chicago, Illinois plus the United States, changed
+  2026-10-29 from the vague "Remote"), keep it there, not inline.
 - **Author and founder identity uses real `Person` schema, not a bare
   name string.** Added 2026-09-11 (gotcha #28). `src/lib/founders.ts` is
   the single source of truth (`buildFounderPersonSchema()`), consumed by

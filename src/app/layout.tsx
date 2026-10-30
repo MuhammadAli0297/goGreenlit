@@ -5,6 +5,7 @@ import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { buildFounderPersonSchema, founders } from "@/lib/founders";
+import { serviceAreaSchema } from "@/lib/service-area";
 import { siteConfig } from "@/lib/site-config";
 
 import "./globals.css";
@@ -85,7 +86,7 @@ const structuredData = {
   logo: `${siteConfig.url}/apple-icon`,
   sameAs: siteConfig.sameAs,
   founder: founders.map(buildFounderPersonSchema),
-  areaServed: "Remote",
+  areaServed: serviceAreaSchema,
   address: {
     "@type": "PostalAddress",
     addressLocality: siteConfig.location.locality,
