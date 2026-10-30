@@ -118,10 +118,10 @@ export const siteConfig = {
   tagline: "Embedded QA teams for startups that ship fast",
   /** Short, keyword-led copy for <meta name="description"> and social previews. Keep this near 155 characters so search engines don't truncate it. */
   metaDescription:
-    "GoGreenlit embeds QA engineers in startup sprints: manual testing, Playwright/Selenium automation, API testing, CI/CD quality gates. No long-term contracts.",
+    "Embedded QA agency and consulting for startups: manual testing, Playwright automation, API testing, and CI/CD quality gates. No long-term contracts.",
   /** Longer, on-page copy for the hero paragraph. Room to breathe since it is read, not indexed as a snippet. */
   description:
-    "Most startups do not find out they have a QA problem until a bug hits production. GoGreenlit embeds manual and automation QA engineers directly into your sprint cycle, so you catch problems before your users do.",
+    "Most startups do not find out they have a QA problem until a bug hits production. GoGreenlit is a QA agency that embeds manual and automation QA engineers directly into your sprint cycle, so you catch problems before your users do.",
   footerDescription:
     "Embedded QA for startups and growing companies. Chicago-based and remote-ready.",
   founders: "Muhammad and Mohammad",

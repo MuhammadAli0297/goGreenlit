@@ -28,7 +28,10 @@ import { QualityGateDemo } from "@/components/marketing/quality-gate-demo";
 import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { siteConfig } from "@/lib/site-config";
 
-const title = "QA Consulting";
+const title = "Software QA Consulting for Scaling Teams";
+// Short label for the visible and JSON-LD breadcrumb, kept apart from the
+// longer SEO title above.
+const breadcrumbLabel = "QA Consulting";
 const description =
   "Software QA consulting from two Chicago QA engineers: audits, test strategy, release readiness, and embedded QA your team keeps owning after we leave.";
 
@@ -267,7 +270,7 @@ const faqStructuredData = {
 
 const breadcrumbItems = [
   { name: "Home", href: "/" },
-  { name: title, href: "/qa-consulting" },
+  { name: breadcrumbLabel, href: "/qa-consulting" },
 ];
 const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 
@@ -306,7 +309,7 @@ export default function QaConsultingPage() {
           </>
         }
       >
-        QA consulting built around how your team actually{" "}
+        Software QA consulting built around how your team actually{" "}
         <em>ships software</em>
       </PageHero>
 
@@ -349,6 +352,16 @@ export default function QaConsultingPage() {
           <div className="mt-12">
             <MaturityCheck questions={checkQuestions} allGood={checkAllGood} />
           </div>
+          <p className="text-navajo mt-10 text-center text-lg">
+            Want the full five-stage model behind the check? Read the{" "}
+            <Link
+              href="/blog/qa-maturity-model"
+              className="underline underline-offset-4"
+            >
+              QA maturity model
+            </Link>
+            .
+          </p>
         </div>
       </section>
 

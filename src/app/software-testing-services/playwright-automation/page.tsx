@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 
 import { ctaVariants } from "@/components/brand/cta-variants";
+import { stripInlineLinks } from "@/components/marketing/inline-links";
 import { Breadcrumbs } from "@/components/marketing/breadcrumbs";
 import { CtaSection } from "@/components/marketing/cta-section";
 import { DeepBand } from "@/components/marketing/deep-band";
@@ -173,7 +174,7 @@ const faqs = [
   {
     question: "How long does it take to set up Playwright for a new project?",
     answer:
-      "A basic setup takes one to two days. A production-quality suite with fixtures, page objects, and CI wiring takes two to four weeks, depending on how much of your app there is to cover.",
+      "A basic setup takes one to two days. A production-quality suite with fixtures, page objects, and CI wiring takes two to four weeks, depending on how much of your app there is to cover. For the CI side in detail, see [Playwright CI/CD integration](/blog/playwright-cicd-integration).",
   },
   {
     question: "Can Playwright test our mobile app?",
@@ -207,7 +208,7 @@ const faqStructuredData = {
     name: question,
     acceptedAnswer: {
       "@type": "Answer",
-      text: answer,
+      text: stripInlineLinks(answer),
     },
   })),
 };
