@@ -19,9 +19,12 @@ import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
 
-const title = "Embedded QA Team";
+const title = "Embedded QA Team for Startups";
+// Short label for the visible and JSON-LD breadcrumb, kept apart from the
+// longer SEO title above.
+const breadcrumbLabel = "Embedded QA Team";
 const description =
-  "Embedded QA engineers who join your sprint like any other teammate: same ceremonies, same tools, same standups, not a vendor queue waiting on a status update.";
+  "An embedded QA team for startups: QA engineers who join your sprint like any other teammate, with the same ceremonies, tools, and standups, not a vendor queue.";
 
 export const metadata: Metadata = {
   title,
@@ -192,7 +195,7 @@ const faqs = [
 const breadcrumbItems = [
   { name: "Home", href: "/" },
   { name: "QA Consulting", href: "/qa-consulting" },
-  { name: title, href: "/qa-consulting/embedded-qa-team" },
+  { name: breadcrumbLabel, href: "/qa-consulting/embedded-qa-team" },
 ];
 const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 

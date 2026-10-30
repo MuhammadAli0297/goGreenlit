@@ -27,9 +27,12 @@ import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
 
-const title = "CI/CD Quality Gates";
+const title = "CI/CD Quality Gates Consulting";
+// Short label for the visible and JSON-LD breadcrumb, kept apart from the
+// longer SEO title above.
+const breadcrumbLabel = "CI/CD Quality Gates";
 const description =
-  "CI/CD quality gates wired into GitHub Actions, Jenkins, or GitLab CI so a build that fails quality standards gets blocked before it ships.";
+  "CI/CD quality gates consulting: we wire checks into GitHub Actions, Jenkins, or GitLab CI so a build that fails your quality bar is blocked before it ships.";
 
 export const metadata: Metadata = {
   title,
@@ -179,7 +182,7 @@ const faqs = [
 const breadcrumbItems = [
   { name: "Home", href: "/" },
   { name: "QA Consulting", href: "/qa-consulting" },
-  { name: title, href: "/qa-consulting/cicd-quality-gates" },
+  { name: breadcrumbLabel, href: "/qa-consulting/cicd-quality-gates" },
 ];
 const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 

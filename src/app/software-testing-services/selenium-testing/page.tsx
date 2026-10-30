@@ -30,9 +30,12 @@ import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
 
-const title = "Selenium Testing Services";
+const title = "Selenium Automation Testing Services";
+// Short label for the visible and JSON-LD breadcrumb, kept apart from the
+// longer SEO title above.
+const breadcrumbLabel = "Selenium Testing Services";
 const description =
-  "Selenium test automation services from GoGreenlit: Page Object Model frameworks, wait strategy fixes, Selenium Grid, and CI integration that lasts.";
+  "Selenium automation testing services: Page Object Model frameworks, wait strategy fixes, Selenium Grid, and CI integration that lasts past the first sprint.";
 
 export const metadata: Metadata = {
   title,
@@ -180,7 +183,10 @@ const faqs = [
 const breadcrumbItems = [
   { name: "Home", href: "/" },
   { name: "Software Testing Services", href: "/software-testing-services" },
-  { name: title, href: "/software-testing-services/selenium-testing" },
+  {
+    name: breadcrumbLabel,
+    href: "/software-testing-services/selenium-testing",
+  },
 ];
 const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 

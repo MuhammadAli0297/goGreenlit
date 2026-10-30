@@ -28,9 +28,12 @@ import { buildBreadcrumbSchema } from "@/lib/breadcrumbs";
 import { getRelatedLinkGroups } from "@/lib/related-pages";
 import { siteConfig } from "@/lib/site-config";
 
-const title = "QA Audit and Assessment";
+const title = "QA Audit Services for Software Teams";
+// Short label for the visible and JSON-LD breadcrumb, kept apart from the
+// longer SEO title above.
+const breadcrumbLabel = "QA Audit and Assessment";
 const description =
-  "A two-week QA audit covering process, tooling, coverage, and documentation, ending in a prioritized 90-day improvement roadmap.";
+  "QA audit services for software teams: a two-week review of process, tooling, coverage, and documentation, ending in a prioritized 90-day roadmap.";
 
 export const metadata: Metadata = {
   title,
@@ -180,7 +183,7 @@ const faqs = [
 const breadcrumbItems = [
   { name: "Home", href: "/" },
   { name: "QA Consulting", href: "/qa-consulting" },
-  { name: title, href: "/qa-consulting/qa-audit-assessment" },
+  { name: breadcrumbLabel, href: "/qa-consulting/qa-audit-assessment" },
 ];
 const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 
